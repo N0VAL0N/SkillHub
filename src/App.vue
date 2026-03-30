@@ -4,10 +4,9 @@
 
 <script setup>
 import { onMounted } from 'vue';
-import { auth } from './services/firebase';
+import { auth } from './core/services/firebase';  // ← изменён путь
 
 onMounted(() => {
-  // Следим за состоянием авторизации
   auth.onAuthStateChanged((user) => {
     console.log('Auth state changed:', user?.email || 'No user');
   });

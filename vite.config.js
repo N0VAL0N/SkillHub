@@ -6,7 +6,15 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
+      // Основной алиас для src
       '@': path.resolve(__dirname, './src'),
+      
+      // Новая архитектура
+      '@core': path.resolve(__dirname, './src/core'),
+      '@modules': path.resolve(__dirname, './src/modules'),
+      '@shared': path.resolve(__dirname, './src/shared'),
+      
+      // Старые алиасы оставляем для обратной совместимости (постепенно уберём)
       '@stores': path.resolve(__dirname, './src/stores'),
       '@components': path.resolve(__dirname, './src/components'),
       '@views': path.resolve(__dirname, './src/views'),

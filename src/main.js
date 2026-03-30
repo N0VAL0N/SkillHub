@@ -1,9 +1,8 @@
-// src/main.js
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
-import router from './router';
-import './assets/main.css'; // ← добавляем глобальные стили
+import router from './core/router';  // ← изменён путь
+import './main.css';
 
 const pinia = createPinia();
 const app = createApp(App);
