@@ -1,0 +1,62 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ========== КОЛЛЕКЦИЯ users ==========
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+    }
+    
+    // ========== КОЛЛЕКЦИЯ classes ==========
+    match /classes/{classId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+    
+    // ========== КОЛЛЕКЦИЯ submissions ==========
+    match /submissions/{submissionId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if false;
+    }
+    
+    // ========== КОЛЛЕКЦИЯ exams ==========
+    match /exams/{examId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+    
+    // ========== КОЛЛЕКЦИЯ aggregatedStats ==========
+    match /aggregatedStats/{classId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+    
+    // ========== КОЛЛЕКЦИЯ studentProgress ==========
+    match /studentProgress/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // ========== КОЛЛЕКЦИЯ studentStats ==========
+    match /studentStats/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // ========== КОЛЛЕКЦИЯ weakTopics ==========
+    match /weakTopics/{topicId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+    
+    // ========== КОЛЛЕКЦИЯ anything else ==========
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
