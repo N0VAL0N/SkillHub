@@ -197,7 +197,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { auth, db } from '@core/services/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import StudentLayout from '@core/layouts/StudentLayout.vue';
@@ -209,6 +209,28 @@ const activeTab = ref('theory');
 
 // Статусы тем
 const topicStatus = ref({});
+let isMounted = true;
+
+// Функция для автоматического создания прогресса пользователя
+const ensureStudentProgress = async (userId) => {
+  try {
+    const progressRef = doc(db, 'studentProgress', userId);
+    const progressDoc = await getDoc(progressRef);
+    if (!progressDoc.exists()) {
+      await setDoc(progressRef, {
+        studentId: userId,
+        topics: {},
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      console.log('Created studentProgress for user:', userId);
+    }
+    return true;
+  } catch (error) {
+    console.warn('Не удалось создать studentProgress:', error.message);
+    return false;
+  }
+};
 
 const getStatusText = (status) => {
   const texts = {
@@ -221,28 +243,45 @@ const getStatusText = (status) => {
 
 const loadTopicProgress = async () => {
   const user = auth.currentUser;
-  if (!user) return;
+  if (!user || !isMounted) return;
+  
   try {
+    // Создаем запись прогресса если её нет
+    await ensureStudentProgress(user.uid);
+    
     const progressDoc = await getDoc(doc(db, 'studentProgress', user.uid));
-    if (progressDoc.exists()) {
+    if (progressDoc.exists() && isMounted) {
       topicStatus.value = progressDoc.data().topics || {};
+    } else if (isMounted) {
+      topicStatus.value = {};
     }
   } catch (error) {
-    console.error('Ошибка загрузки прогресса:', error);
+    // Коллекция не существует или ошибка - просто используем пустые значения
+    if (isMounted) {
+      topicStatus.value = {};
+    }
   }
 };
 
 const updateTopicStatus = async (topicId, status) => {
   const user = auth.currentUser;
   if (!user) return;
-  topicStatus.value = { ...topicStatus.value, [topicId]: status };
+  
+  const newStatus = { ...topicStatus.value, [topicId]: status };
+  topicStatus.value = newStatus;
+  
   try {
+    // Сначала убеждаемся, что документ существует
+    await ensureStudentProgress(user.uid);
+    
+    // Сохраняем обновленный статус
     await setDoc(doc(db, 'studentProgress', user.uid), {
-      topics: topicStatus.value,
+      topics: newStatus,
       updatedAt: new Date()
     }, { merge: true });
   } catch (error) {
-    console.error('Ошибка сохранения прогресса:', error);
+    console.warn('Не удалось сохранить прогресс:', error.message);
+    // Не показываем ошибку пользователю
   }
 };
 
@@ -287,7 +326,12 @@ const openTermModal = (def, topicName) => {
 };
 
 onMounted(() => {
+  isMounted = true;
   loadTopicProgress();
+});
+
+onUnmounted(() => {
+  isMounted = false;
 });
 </script>
 

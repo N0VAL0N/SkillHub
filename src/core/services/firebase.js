@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, initializeAuth, indexedDBLocalPersistence } from 'firebase/auth';
+import { getAuth, initializeAuth, indexedDBLocalPersistence, browserLocalPersistence, inMemoryPersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { Capacitor } from '@capacitor/core';
 
@@ -15,7 +15,7 @@ const firebaseConfig = {
 // Инициализация Firebase
 const app = initializeApp(firebaseConfig);
 
-// Адаптация под Capacitor (нативные устройства)
+// Адаптация под Capacitor (нативные устройства) и Web
 let auth;
 if (Capacitor.isNativePlatform()) {
   auth = initializeAuth(app, {
@@ -23,6 +23,16 @@ if (Capacitor.isNativePlatform()) {
   });
 } else {
   auth = getAuth(app);
+  // Устанавливаем persistence для Web сразу после инициализации
+  import('firebase/auth').then(({ setPersistence, browserLocalPersistence }) => {
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        console.log('[Firebase] Persistence set to browserLocalPersistence');
+      })
+      .catch((error) => {
+        console.error('[Firebase] Failed to set persistence:', error);
+      });
+  });
 }
 
 const db = getFirestore(app);

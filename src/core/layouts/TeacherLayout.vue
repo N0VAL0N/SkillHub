@@ -76,7 +76,7 @@
       <div class="sidebar-footer">
         <div class="profile-info" @click="goToProfile">
           <div class="profile-text">
-            <span class="profile-name">{{ teacherLogin }}</span>
+            <span class="profile-name">{{ teacherDisplayName }}</span>
           </div>
         </div>
         <button @click="logout" class="logout-btn-sidebar">
@@ -126,26 +126,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { auth, db } from '@core/services/firebase';
 import { signOut } from 'firebase/auth';
-import { doc, getDoc, collection, query, where, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs, onSnapshot } from 'firebase/firestore';
 import { useSubjectStore } from '@core/stores/subjectStore';
 import CustomSelect from '@shared/components/CustomSelect.vue';
+import { useTheme } from '@core/composables/useTheme';
 
 const router = useRouter();
 const route = useRoute();
 const subjectStore = useSubjectStore();
 
-const teacherLogin = ref('');
+const teacherDisplayName = ref('');
 const teacherEmail = ref('');
 const pendingCount = ref(0);
 const currentSubject = ref(subjectStore.currentSubject);
 
 const showSettingsModal = ref(false);
 const fontSize = ref(parseInt(localStorage.getItem('teacherFontSize') || '16'));
-const currentTheme = ref(localStorage.getItem('theme') || 'light');
+const { currentTheme, setTheme } = useTheme();
 
 const subjectOptions = ref([
   { value: 'social', label: 'Обществознание', icon: '⚖️' },
@@ -153,43 +154,38 @@ const subjectOptions = ref([
 ]);
 
 let unsubscribePending = null;
+let unsubscribeUser = null;
 
-function applySettings() {
+const applySettings = () => {
   document.documentElement.style.fontSize = fontSize.value + 'px';
   if (currentTheme.value === 'dark') {
     document.body.classList.add('dark-theme');
   } else {
     document.body.classList.remove('dark-theme');
   }
-}
+};
 
-function increaseFontSize() {
+const increaseFontSize = () => {
   if (fontSize.value < 24) {
     fontSize.value++;
     localStorage.setItem('teacherFontSize', fontSize.value);
     applySettings();
   }
-}
+};
 
-function decreaseFontSize() {
+const decreaseFontSize = () => {
   if (fontSize.value > 12) {
     fontSize.value--;
     localStorage.setItem('teacherFontSize', fontSize.value);
     applySettings();
   }
-}
+};
 
-function setTheme(theme) {
-  currentTheme.value = theme;
-  localStorage.setItem('theme', theme);
-  applySettings();
-}
-
-function openSettings() {
+const openSettings = () => {
   showSettingsModal.value = true;
-}
+};
 
-function switchSubject(subject) {
+const switchSubject = (subject) => {
   if (subject === currentSubject.value) return;
   subjectStore.setSubject(subject);
   currentSubject.value = subject;
@@ -198,7 +194,21 @@ function switchSubject(subject) {
   } else {
     router.push('/teacher');
   }
-}
+};
+
+const loadPendingCount = async () => {
+  try {
+    const pendingQuery = query(
+      collection(db, 'submissions'), 
+      where('status', '==', 'pending')
+    );
+    const pendingSnapshot = await getDocs(pendingQuery);
+    pendingCount.value = pendingSnapshot.size;
+  } catch (error) {
+    console.error('Ошибка загрузки pending count:', error);
+    pendingCount.value = 0;
+  }
+};
 
 watch(() => route.path, (newPath) => {
   if (newPath.startsWith('/teacher/chinese')) {
@@ -218,27 +228,54 @@ onMounted(async () => {
   const user = auth.currentUser;
   if (user) {
     teacherEmail.value = user.email;
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
-    teacherLogin.value = userDoc.data().login || user.email;
+    
+    const userRef = doc(db, 'users', user.uid);
+    unsubscribeUser = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        teacherDisplayName.value = data.displayName || data.login || user.email;
+      }
+    });
+    
+    const userDoc = await getDoc(userRef);
+    if (userDoc.exists()) {
+      const data = userDoc.data();
+      teacherDisplayName.value = data.displayName || data.login || user.email;
+    } else {
+      teacherDisplayName.value = user.email;
+    }
   }
   applySettings();
 
-  const submissionsRef = collection(db, 'submissions');
-  const q = query(submissionsRef, where('status', '==', 'pending'));
-  unsubscribePending = onSnapshot(q, (snapshot) => {
-    pendingCount.value = snapshot.size;
+  await loadPendingCount();
+  
+  const pendingQuery = query(
+    collection(db, 'submissions'), 
+    where('status', '==', 'pending')
+  );
+  
+  unsubscribePending = onSnapshot(pendingQuery, () => {
+    loadPendingCount();
+  }, (error) => {
+    console.error('Ошибка подписки на pending:', error);
   });
 });
 
-function goToProfile() {
-  router.push('/profile');
-}
-
-async function logout() {
+onUnmounted(() => {
   if (unsubscribePending) unsubscribePending();
+  if (unsubscribeUser) unsubscribeUser();
+});
+
+const goToProfile = () => {
+  router.push('/profile');
+};
+
+const logout = async () => {
+  if (unsubscribePending) unsubscribePending();
+  if (unsubscribeUser) unsubscribeUser();
   await signOut(auth);
   router.push('/');
-}
+};
 </script>
 
 <style scoped>

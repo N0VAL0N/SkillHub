@@ -9,11 +9,11 @@
       ]
     },
     {
-      "collectionGroup": "users",
+      "collectionGroup": "submissions",
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "classId", "order": "ASCENDING" },
-        { "fieldPath": "role", "order": "ASCENDING" }
+        { "fieldPath": "status", "order": "ASCENDING" }
       ]
     }
   ],

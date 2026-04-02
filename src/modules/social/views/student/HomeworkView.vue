@@ -12,7 +12,7 @@
         <button class="tab-btn" :class="{ active: activeTab === 'in_progress' }" @click="activeTab = 'in_progress'">В процессе ({{ inProgressTasks.length }})</button>
         <button class="tab-btn" :class="{ active: activeTab === 'submitted' }" @click="activeTab = 'submitted'">На проверке ({{ submittedTasks.length }})</button>
         <button class="tab-btn" :class="{ active: activeTab === 'completed' }" @click="activeTab = 'completed'">Проверено ({{ completedTasks.length }})</button>
-        <button class="tab-btn" :class="{ active: activeTab === 'archived' }" @click="activeTab = 'archived'">Архив ({{ archivedTasks.length }})</button>
+        <button class="tab-btn" :class="{ active: activeTab === 'archived' }" @click="activeTab = 'archived'">Просрочено ({{ archivedTasks.length }})</button>
       </div>
 
       <div v-if="filteredTasks.length > 0" class="tasks-list">
@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { db, auth } from '@core/services/firebase';
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
@@ -101,6 +101,7 @@ const router = useRouter();
 const activeTab = ref('all');
 const tasks = ref([]);
 const currentUser = auth.currentUser;
+let isMounted = true;
 
 const isExpired = (task) => {
   if (!task.deadline) return false;
@@ -137,18 +138,42 @@ const filteredTasks = computed(() => {
 });
 
 const loadTasks = async () => {
-  if (!currentUser) return;
+  if (!currentUser || !isMounted) return;
 
   try {
+    // Получаем данные ученика
     const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+    if (!userDoc.exists() || !isMounted) return;
+    
     const userData = userDoc.data();
     const studentClass = userData.className;
+    const studentId = currentUser.uid;
 
-    const examsQuery = query(collection(db, 'exams'), where('published', '==', true));
-    const examsSnap = await getDocs(examsQuery);
+    console.log('Student class:', studentClass);
+    console.log('Student ID:', studentId);
 
-    const submissionsQuery = query(collection(db, 'submissions'), where('studentId', '==', currentUser.uid));
-    const submissionsSnap = await getDocs(submissionsQuery);
+    // Загружаем все опубликованные экзамены
+    const examsRef = collection(db, 'exams');
+    const q = query(examsRef, where('published', '==', true));
+    const examsSnap = await getDocs(q);
+    
+    if (!isMounted) return;
+    
+    console.log('All exams loaded:', examsSnap.docs.length);
+
+    // Загружаем отправленные работы ученика
+    let submissionsSnap;
+    try {
+      submissionsSnap = await getDocs(
+        query(collection(db, 'submissions'), where('studentId', '==', studentId))
+      );
+      console.log('Submissions loaded:', submissionsSnap.docs.length);
+    } catch (e) {
+      console.warn('Не удалось загрузить отправленные работы:', e.message);
+      submissionsSnap = { docs: [] };
+    }
+    
+    if (!isMounted) return;
 
     const submissionsMap = new Map();
     submissionsSnap.docs.forEach(doc => {
@@ -156,58 +181,88 @@ const loadTasks = async () => {
       submissionsMap.set(data.examId, { id: doc.id, ...data });
     });
 
-    const loadedTasks = examsSnap.docs.map(doc => {
-      const data = doc.data();
-      const submission = submissionsMap.get(doc.id);
-
-      let isAssigned = false;
-      if (data.publishedForType === 'class') {
-        isAssigned = data.publishedForClassId && studentClass === data.publishedForClassName;
-      } else if (data.publishedForType === 'student') {
-        isAssigned = data.publishedForStudentId === currentUser.uid;
+    const loadedTasks = [];
+    
+    for (const examDoc of examsSnap.docs) {
+      const exam = examDoc.data();
+      const examId = examDoc.id;
+      const submission = submissionsMap.get(examId);
+      
+      // Фильтруем на клиенте: только те, которые опубликованы для ученика
+      let canSee = false;
+      
+      if (exam.publishedForType === 'all') {
+        canSee = true;
+      } else if (exam.publishedForType === 'class') {
+        canSee = exam.publishedForClassName === studentClass;
+      } else if (exam.publishedForType === 'student') {
+        canSee = exam.publishedForStudentId === studentId;
       }
-
-      if (!isAssigned) return null;
-
+      
+      if (!canSee) continue;
+      
+      console.log(`Exam ${exam.title} is for this student`);
+      
+      const isLocallyStarted = localStorage.getItem(`task_started_${examId}`) === 'true';
+      
       let status = 'pending';
+      let grade = null;
+      
       if (submission) {
-        if (submission.graded) {
+        if (submission.status === 'graded') {
           status = 'completed';
+          grade = submission.teacherGrade;
         } else if (submission.submittedAt) {
           status = 'submitted';
         } else {
           status = 'in_progress';
         }
+      } else if (isLocallyStarted && !isExpired({ deadline: exam.deadline })) {
+        status = 'in_progress';
       }
-
-      if (isExpired({ deadline: data.deadline }) && status !== 'completed' && status !== 'submitted') {
+      
+      if (isExpired({ deadline: exam.deadline }) && status !== 'completed' && status !== 'submitted') {
         status = 'archived';
       }
-
-      return {
-        id: doc.id,
-        title: data.title,
-        type: data.type,
-        deadline: data.deadline,
-        timerMinutes: data.timerMinutes || null,
-        questions: data.questions,
+      
+      loadedTasks.push({
+        id: examId,
+        title: exam.title,
+        type: exam.type,
+        deadline: exam.deadline,
+        timerMinutes: exam.timerMinutes || null,
+        questions: exam.questions,
         status,
-        grade: submission?.teacherGrade,
+        grade,
         submissionId: submission?.id,
         answers: submission?.answers
-      };
-    }).filter(t => t !== null);
-
-    tasks.value = loadedTasks;
-    setCachedData(`student_tasks_${currentUser.uid}`, tasks.value);
+      });
+    }
+    
+    console.log('Filtered tasks count:', loadedTasks.length);
+    
+    if (isMounted) {
+      tasks.value = loadedTasks;
+      try {
+        setCachedData(`student_tasks_${currentUser.uid}`, tasks.value);
+      } catch (e) {}
+    }
   } catch (error) {
     console.error('Ошибка загрузки заданий:', error);
+    if (isMounted) {
+      tasks.value = [];
+    }
   }
 };
 
 const continueTask = (task) => {
   if (isExpired(task)) return;
-  router.push({ path: `/student/task/${task.id}`, query: { type: task.type } });
+  
+  // Сохраняем экзамен в localStorage ПЕРЕД переходом
+  localStorage.setItem(`exam_data_${task.id}`, JSON.stringify(task));
+  console.log('[HomeworkView] Сохранён экзамен в localStorage:', task.id);
+  
+  router.push(`/student/task/${task.id}`);
 };
 
 const viewResults = (task) => {
@@ -215,11 +270,16 @@ const viewResults = (task) => {
 };
 
 onMounted(() => {
+  isMounted = true;
   const cached = getCachedData(`student_tasks_${currentUser?.uid}`);
   if (cached) {
     tasks.value = cached;
   }
   loadTasks();
+});
+
+onUnmounted(() => {
+  isMounted = false;
 });
 </script>
 
@@ -233,13 +293,12 @@ onMounted(() => {
   border: none;
   font-size: 0.85rem;
 }
-/* ========== ОСНОВНОЙ КОНТЕЙНЕР ========== */
+
 .homework-view {
   max-width: 1000px;
   margin: 0 auto;
 }
 
-/* ========== ШАПКА ========== */
 .page-header {
   margin-bottom: 2rem;
 }
@@ -253,19 +312,19 @@ onMounted(() => {
   color: var(--gray-500);
 }
 
-/* ========== ТАБЫ ========== */
 .tasks-tabs {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 2rem;
   border-bottom: 1px solid var(--gray-200);
   padding-bottom: 0.5rem;
+  flex-wrap: wrap;
 }
 .tab-btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1rem;
   background: none;
   border: none;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: var(--gray-500);
   cursor: pointer;
@@ -281,7 +340,6 @@ onMounted(() => {
   color: white;
 }
 
-/* ========== КАРТОЧКИ ЗАДАНИЙ ========== */
 .tasks-list {
   display: flex;
   flex-direction: column;
@@ -356,7 +414,6 @@ onMounted(() => {
   color: white;
 }
 
-/* ========== МЕТАДАННЫЕ ========== */
 .task-meta {
   display: flex;
   flex-wrap: wrap;
@@ -379,7 +436,6 @@ onMounted(() => {
   color: var(--success);
 }
 
-/* ========== КНОПКИ ДЕЙСТВИЙ ========== */
 .task-actions {
   display: flex;
   justify-content: flex-end;
@@ -421,7 +477,6 @@ onMounted(() => {
   font-weight: 500;
 }
 
-/* ========== ПУСТОЕ СОСТОЯНИЕ ========== */
 .empty-state {
   text-align: center;
   padding: 3rem;
@@ -441,7 +496,6 @@ onMounted(() => {
   color: var(--gray-500);
 }
 
-/* ========== ТЁМНАЯ ТЕМА ========== */
 body.dark-theme .task-card,
 body.dark-theme .empty-state {
   background: var(--gray-800);

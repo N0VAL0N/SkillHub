@@ -153,7 +153,10 @@ const getTypeLabel = (type) => {
     short: 'Короткий ответ',
     essay: 'Эссе',
     plan: 'План',
-    text_analysis: 'Работа с текстом'
+    text_analysis: 'Работа с текстом',
+    graph_analysis: 'График',
+    task: 'Задача',
+    law_task: 'Правовая задача'
   };
   return labels[type] || type;
 };
@@ -171,7 +174,7 @@ const generateQuestions = () => {
       const type = Math.floor(Math.random() * 3);
       let q = null;
       if (type === 0) q = questionGenerator.generateTask2(selectedTopicId.value);
-      else if (type === 1) q = questionGenerator.generateMatch(3, selectedTopicId.value);
+      else if (type === 1) q = questionGenerator.generateMatch(3);
       else q = questionGenerator.generateShort(selectedTopicId.value);
       if (q) newQuestions.push(q);
     }
@@ -199,14 +202,23 @@ const checkAnswers = () => {
         if (answer === q.correct) correct++;
       }
     } else if (q.type === 'match') {
-      const correctMap = {};
-      q.correctMapping?.forEach(m => { correctMap[m.right] = m.left; });
-      let matchCorrect = 0;
-      let total = Object.keys(answer || {}).length;
-      Object.entries(answer || {}).forEach(([right, left]) => {
-        if (correctMap[right] === left) matchCorrect++;
-      });
-      if (matchCorrect === total && total === (q.correctMapping?.length || 0)) correct++;
+      // Новый формат проверки для match заданий
+      const correctAnswersStr = q.correctAnswers;
+      let userAnswersStr = '';
+      const leftItems = q.leftItems || [];
+      
+      if (Array.isArray(answer) && answer.length === leftItems.length) {
+        userAnswersStr = answer.join('');
+      } else if (typeof answer === 'object' && answer !== null) {
+        const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е'];
+        const result = [];
+        for (let i = 0; i < leftItems.length; i++) {
+          result.push(answer[letters[i]] || '');
+        }
+        userAnswersStr = result.join('');
+      }
+      
+      if (userAnswersStr === correctAnswersStr) correct++;
     } else if (q.type === 'short') {
       if (answer?.toLowerCase().trim() === q.correctAnswer?.toLowerCase().trim()) correct++;
     }
@@ -235,14 +247,22 @@ const isQuestionCorrect = (q) => {
       return answer === q.correct;
     }
   } else if (q.type === 'match') {
-    const correctMap = {};
-    q.correctMapping?.forEach(m => { correctMap[m.right] = m.left; });
-    let matchCorrect = 0;
-    let total = Object.keys(answer || {}).length;
-    Object.entries(answer || {}).forEach(([right, left]) => {
-      if (correctMap[right] === left) matchCorrect++;
-    });
-    return matchCorrect === total && total === (q.correctMapping?.length || 0);
+    const correctAnswersStr = q.correctAnswers;
+    let userAnswersStr = '';
+    const leftItems = q.leftItems || [];
+    
+    if (Array.isArray(answer) && answer.length === leftItems.length) {
+      userAnswersStr = answer.join('');
+    } else if (typeof answer === 'object' && answer !== null) {
+      const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е'];
+      const result = [];
+      for (let i = 0; i < leftItems.length; i++) {
+        result.push(answer[letters[i]] || '');
+      }
+      userAnswersStr = result.join('');
+    }
+    
+    return userAnswersStr === correctAnswersStr;
   } else if (q.type === 'short') {
     return answer?.toLowerCase().trim() === q.correctAnswer?.toLowerCase().trim();
   }
@@ -258,8 +278,23 @@ const formatAnswer = (q, answer) => {
     return q.options[answer];
   }
   if (q.type === 'match') {
+    if (Array.isArray(answer)) {
+      const leftItems = q.leftItems || [];
+      return leftItems.map((left, idx) => `${left} → ${answer[idx] || '?'}`).join('\n');
+    }
     if (typeof answer === 'object') {
-      return Object.entries(answer).map(([right, left]) => `${left} → ${right}`).join('\n');
+      const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е'];
+      const leftItems = q.leftItems || [];
+      return leftItems.map((left, idx) => {
+        const digit = answer[letters[idx]];
+        return `${left} → ${digit ? q.optionsList[parseInt(digit) - 1] || digit : '?'}`;
+      }).join('\n');
+    }
+    return answer;
+  }
+  if (q.type === 'graph_analysis') {
+    if (typeof answer === 'object') {
+      return Object.values(answer).join(', ');
     }
     return answer;
   }
@@ -274,7 +309,15 @@ const getCorrectAnswer = (q) => {
     return q.options[q.correct];
   }
   if (q.type === 'match') {
-    return q.correctMapping.map(m => `${m.left} → ${m.right}`).join('\n');
+    // Новый формат
+    if (q.correctAnswers && q.leftItems && q.optionsList) {
+      const correctNums = q.correctAnswers.split('');
+      return q.leftItems.map((left, idx) => {
+        const num = correctNums[idx];
+        return `${left} → ${q.optionsList[parseInt(num) - 1] || '?'}`;
+      }).join('\n');
+    }
+    return q.correctAnswers || '—';
   }
   if (q.type === 'short') {
     return q.correctAnswer;
@@ -363,7 +406,7 @@ onMounted(() => {
   transition: all 0.2s;
   height: 42px;
   align-self: center;
-  margin-bottom: 0; /* убираем лишний отступ */
+  margin-bottom: 0;
 }
 .btn-generate:hover:not(:disabled) {
   background: var(--primary-dark);
@@ -641,7 +684,6 @@ body.dark-theme .your-answer {
 body.dark-theme .correct-answer {
   background: rgba(16, 185, 129, 0.2);
 }
-/* ========== ТЁМНАЯ ТЕМА (только для этого компонента) ========== */
 body.dark-theme .practice-view .question-container .question-text,
 body.dark-theme .practice-view .question-container .option-text,
 body.dark-theme .practice-view .question-container .match-left-item,
@@ -652,72 +694,33 @@ body.dark-theme .practice-view .question-container .custom-checkbox .option-text
 body.dark-theme .practice-view .question-container .custom-radio .option-text {
   color: #ffffff !important;
 }
-
 body.dark-theme .practice-view .question-container .short-input,
 body.dark-theme .practice-view .question-container .essay-textarea {
   background: var(--gray-700);
   border-color: var(--gray-600);
 }
-
-body.dark-theme .practice-view .question-container .custom-checkbox .custom-checkbox,
-body.dark-theme .practice-view .question-container .custom-radio .custom-radio {
-  background: var(--gray-700);
-  border-color: var(--gray-500);
-}
-/* ========== ТЁМНАЯ ТЕМА ========== */
 body.dark-theme .practice-view .topic-selector {
   background: var(--gray-800);
   border-color: var(--gray-700);
 }
-
 body.dark-theme .practice-view .filter-group label {
   color: var(--gray-400);
 }
-
-/* Текст темы */
 body.dark-theme .practice-view .questions-header h2 {
   color: var(--primary) !important;
 }
-
-/* Кнопки действий */
 body.dark-theme .practice-view .btn-check,
 body.dark-theme .practice-view .btn-regenerate {
   background: var(--primary);
   color: white;
 }
-
 body.dark-theme .practice-view .btn-clear {
   background: none;
   border: 1px solid var(--danger);
   color: var(--danger);
 }
-
 body.dark-theme .practice-view .btn-clear:hover {
   background: rgba(239, 68, 68, 0.2);
-}
-
-/* Текст вопросов и ответов */
-body.dark-theme .practice-view .question-block .question-text,
-body.dark-theme .practice-view .question-block .option-text,
-body.dark-theme .practice-view .question-block .match-left-item,
-body.dark-theme .practice-view .question-block .match-right-item span,
-body.dark-theme .practice-view .question-block .short-input,
-body.dark-theme .practice-view .question-block .essay-textarea,
-body.dark-theme .practice-view .question-block .custom-checkbox .option-text,
-body.dark-theme .practice-view .question-block .custom-radio .option-text {
-  color: #ffffff !important;
-}
-
-body.dark-theme .practice-view .question-block .short-input,
-body.dark-theme .practice-view .question-block .essay-textarea {
-  background: var(--gray-700);
-  border-color: var(--gray-600);
-}
-
-body.dark-theme .practice-view .question-block .custom-checkbox .custom-checkbox,
-body.dark-theme .practice-view .question-block .custom-radio .custom-radio {
-  background: var(--gray-700);
-  border-color: var(--gray-500);
 }
 .q-type {
   font-size: 0.7rem;

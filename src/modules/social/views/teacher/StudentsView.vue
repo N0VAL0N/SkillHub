@@ -82,12 +82,6 @@
       </div>
 
       <div class="add-student-section">
-        <button class="btn-add" @click="openAddModal">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          Добавить ученика
-        </button>
         <button class="btn-add" @click="openCreateClassModal">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M3 9L12 3L21 9L12 15L3 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
@@ -113,38 +107,6 @@
           <div class="modal-actions">
             <button @click="saveDisplayName" class="btn-primary">Сохранить</button>
             <button @click="closeEditNameModal" class="btn-secondary">Отмена</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Модалка добавления ученика -->
-      <div v-if="showAddModal" class="modal" @click.self="closeAddModal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2>Добавить ученика</h2>
-            <button class="modal-close" @click="closeAddModal">✕</button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label>Логин</label>
-              <input v-model="studentForm.login" type="text" class="form-input" placeholder="Логин" />
-            </div>
-            <div class="form-group">
-              <label>Пароль</label>
-              <input v-model="studentForm.password" type="password" class="form-input" placeholder="Пароль" />
-            </div>
-            <div class="form-group">
-              <label>Класс (опционально)</label>
-              <CustomSelect
-                v-model="studentForm.className"
-                :options="classSelectOptions"
-                placeholder="Выберите класс"
-              />
-            </div>
-          </div>
-          <div class="modal-actions">
-            <button @click="saveStudent" class="btn-primary">Сохранить</button>
-            <button @click="closeAddModal" class="btn-secondary">Отмена</button>
           </div>
         </div>
       </div>

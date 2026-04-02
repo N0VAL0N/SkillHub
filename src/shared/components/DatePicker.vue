@@ -32,13 +32,19 @@
 
         <div class="time-selector">
           <span class="time-label">Время:</span>
-          <select v-model="selectedHour" class="time-select">
-            <option v-for="h in 24" :key="h-1" :value="h-1">{{ String(h-1).padStart(2,'0') }}</option>
-          </select>
+          <CustomSelect
+            v-model="selectedHour"
+            :options="hourOptions"
+            placeholder="Час"
+            class="time-select-custom"
+          />
           <span>:</span>
-          <select v-model="selectedMinute" class="time-select">
-            <option v-for="m in 60" :key="m-1" :value="m-1">{{ String(m-1).padStart(2,'0') }}</option>
-          </select>
+          <CustomSelect
+            v-model="selectedMinute"
+            :options="minuteOptions"
+            placeholder="Мин"
+            class="time-select-custom"
+          />
         </div>
 
         <div class="date-actions">
@@ -50,94 +56,110 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import CustomSelect from './CustomSelect.vue';
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
   placeholder: { type: String, default: 'Выберите дату и время' }
-})
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
-const isOpen = ref(false)
-const currentDate = ref(new Date())
-const selectedHour = ref(0)
-const selectedMinute = ref(0)
+const isOpen = ref(false);
+const currentDate = ref(new Date());
+const selectedHour = ref(12);
+const selectedMinute = ref(0);
+
+const hourOptions = computed(() => {
+  const options = [];
+  for (let h = 0; h < 24; h++) {
+    options.push({ value: h, label: String(h).padStart(2, '0') });
+  }
+  return options;
+});
+
+const minuteOptions = computed(() => {
+  const options = [];
+  for (let m = 0; m < 60; m++) {
+    options.push({ value: m, label: String(m).padStart(2, '0') });
+  }
+  return options;
+});
 
 const formatDateTime = (date, hour, minute) => {
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  return `${year}-${month}-${day} ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`
-}
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+};
 
 const displayValue = computed(() => {
-  if (!props.modelValue) return ''
-  const [datePart, timePart] = props.modelValue.split(' ')
-  if (!timePart) return datePart
-  const [year, month, day] = datePart.split('-')
-  return `${day}.${month}.${year} ${timePart}`
-})
+  if (!props.modelValue) return '';
+  const [datePart, timePart] = props.modelValue.split(' ');
+  if (!timePart) return datePart;
+  const [year, month, day] = datePart.split('-');
+  return `${day}.${month}.${year} ${timePart}`;
+});
 
-const currentMonthName = computed(() => currentDate.value.toLocaleDateString('ru-RU', { month: 'long' }))
-const currentYear = computed(() => currentDate.value.getFullYear())
+const currentMonthName = computed(() => currentDate.value.toLocaleDateString('ru-RU', { month: 'long' }));
+const currentYear = computed(() => currentDate.value.getFullYear());
 
 const days = computed(() => {
-  const year = currentDate.value.getFullYear()
-  const month = currentDate.value.getMonth()
-  const firstDay = new Date(year, month, 1)
-  const lastDay = new Date(year, month + 1, 0)
-  const startWeekday = firstDay.getDay() || 7
+  const year = currentDate.value.getFullYear();
+  const month = currentDate.value.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const startWeekday = firstDay.getDay() || 7;
 
-  const daysArray = []
-  for (let i = 1; i < startWeekday; i++) daysArray.push({ day: '', date: null })
-  for (let i = 1; i <= lastDay.getDate(); i++) daysArray.push({ day: i, date: new Date(year, month, i) })
-  while (daysArray.length % 7 !== 0) daysArray.push({ day: '', date: null })
-  return daysArray
-})
+  const daysArray = [];
+  for (let i = 1; i < startWeekday; i++) daysArray.push({ day: '', date: null });
+  for (let i = 1; i <= lastDay.getDate(); i++) daysArray.push({ day: i, date: new Date(year, month, i) });
+  while (daysArray.length % 7 !== 0) daysArray.push({ day: '', date: null });
+  return daysArray;
+});
 
-const toggleOpen = () => { isOpen.value = !isOpen.value }
-const prevMonth = () => { currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1, 1) }
-const nextMonth = () => { currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1) }
+const toggleOpen = () => { isOpen.value = !isOpen.value; };
+const prevMonth = () => { currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1, 1); };
+const nextMonth = () => { currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1); };
 
 const isSelected = (date) => {
-  if (!date || !props.modelValue) return false
-  const selectedDateStr = props.modelValue.split(' ')[0]
-  return formatDateTime(date, 0, 0).split(' ')[0] === selectedDateStr
-}
+  if (!date || !props.modelValue) return false;
+  const selectedDateStr = props.modelValue.split(' ')[0];
+  return formatDateTime(date, 0, 0).split(' ')[0] === selectedDateStr;
+};
 
-const isToday = (date) => date && date.toDateString() === new Date().toDateString()
+const isToday = (date) => date && date.toDateString() === new Date().toDateString();
 
 const selectDate = (date) => {
-  if (date) currentDate.value = new Date(date)
-  // НЕ закрываем модалку
-}
+  if (date) currentDate.value = new Date(date);
+};
 
 const applyDateTime = () => {
-  emit('update:modelValue', formatDateTime(currentDate.value, selectedHour.value, selectedMinute.value))
-  isOpen.value = false
-}
+  emit('update:modelValue', formatDateTime(currentDate.value, selectedHour.value, selectedMinute.value));
+  isOpen.value = false;
+};
 
 const handleClickOutside = (event) => {
-  if (!event.target.closest('.date-time-picker')) isOpen.value = false
-}
+  if (!event.target.closest('.date-time-picker')) isOpen.value = false;
+};
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
+  document.addEventListener('click', handleClickOutside);
   if (props.modelValue) {
-    const parts = props.modelValue.split(' ')
+    const parts = props.modelValue.split(' ');
     if (parts.length === 2) {
-      const [datePart, timePart] = parts
-      const [year, month, day] = datePart.split('-')
-      const [hour, minute] = timePart.split(':')
-      currentDate.value = new Date(year, month-1, day)
-      selectedHour.value = parseInt(hour) || 0
-      selectedMinute.value = parseInt(minute) || 0
+      const [datePart, timePart] = parts;
+      const [year, month, day] = datePart.split('-');
+      const [hour, minute] = timePart.split(':');
+      currentDate.value = new Date(year, month - 1, day);
+      selectedHour.value = parseInt(hour) || 12;
+      selectedMinute.value = parseInt(minute) || 0;
     }
   }
-})
+});
 
-onUnmounted(() => document.removeEventListener('click', handleClickOutside))
+onUnmounted(() => document.removeEventListener('click', handleClickOutside));
 </script>
 
 <style scoped>
@@ -171,7 +193,7 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
   border-radius: 0.75rem;
   padding: 1rem;
   z-index: 100;
-  width: 320px;
+  width: 340px;
   box-shadow: var(--shadow-lg);
 }
 .date-header {
@@ -244,11 +266,8 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
   font-size: 0.8rem;
   color: var(--gray-600);
 }
-.time-select {
-  padding: 0.3rem;
-  border: 1px solid var(--gray-200);
-  border-radius: 0.3rem;
-  background: white;
+.time-select-custom {
+  width: 80px;
 }
 .date-actions {
   margin-top: 0.75rem;
@@ -275,5 +294,26 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
 .dropdown-leave-to {
   opacity: 0;
   transform: translateY(-8px);
+}
+body.dark-theme .date-trigger {
+  background: var(--gray-800);
+  border-color: var(--gray-700);
+  color: var(--gray-300);
+}
+body.dark-theme .date-value {
+  color: var(--gray-300);
+}
+body.dark-theme .date-dropdown {
+  background: var(--gray-800);
+  border-color: var(--gray-700);
+}
+body.dark-theme .day-btn {
+  color: var(--gray-300);
+}
+body.dark-theme .month-nav {
+  color: var(--gray-400);
+}
+body.dark-theme .month-nav:hover {
+  background: var(--gray-700);
 }
 </style>

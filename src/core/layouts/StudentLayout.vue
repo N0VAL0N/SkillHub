@@ -7,82 +7,81 @@
       </div>
 
       <div class="subject-selector">
+        <label class="subject-label">Мои предметы</label>
         <CustomSelect
           v-model="currentSubject"
-          :options="subjectOptions"
+          :options="userSubjectOptions"
           placeholder="Выберите предмет"
           @update:modelValue="switchSubject"
         />
       </div>
 
       <nav class="sidebar-nav">
-        <!-- Обществознание -->
         <template v-if="currentSubject === 'social'">
-          <router-link to="/student" class="nav-item" :class="{ active: $route.path === '/student' }">
+          <router-link to="/student" class="nav-item" :class="{ active: $route.path === '/student' || ($route.path.startsWith('/student/') && !$route.path.includes('/theory') && !$route.path.includes('/practice') && !$route.path.includes('/cards') && !$route.path.includes('/homework') && !$route.path.includes('/stats')) }">
             <span class="nav-icon">📊</span>
-            <span>Главная</span>
+            <span class="nav-text">Главная</span>
           </router-link>
-          <router-link to="/student/theory" class="nav-item" :class="{ active: $route.path === '/student/theory' }">
+          <router-link to="/student/theory" class="nav-item" :class="{ active: $route.path.startsWith('/student/theory') }">
             <span class="nav-icon">📖</span>
-            <span>Теория</span>
+            <span class="nav-text">Теория</span>
           </router-link>
-          <router-link to="/student/practice" class="nav-item" :class="{ active: $route.path === '/student/practice' }">
+          <router-link to="/student/practice" class="nav-item" :class="{ active: $route.path.startsWith('/student/practice') }">
             <span class="nav-icon">✍️</span>
-            <span>Задания</span>
+            <span class="nav-text">Задания</span>
           </router-link>
-          <router-link to="/student/cards" class="nav-item" :class="{ active: $route.path === '/student/cards' }">
+          <router-link to="/student/cards" class="nav-item" :class="{ active: $route.path.startsWith('/student/cards') }">
             <span class="nav-icon">🃏</span>
-            <span>Карточки</span>
+            <span class="nav-text">Карточки</span>
           </router-link>
-          <router-link to="/student/homework" class="nav-item" :class="{ active: $route.path === '/student/homework' }">
+          <router-link to="/student/homework" class="nav-item" :class="{ active: $route.path.startsWith('/student/homework') || $route.path.startsWith('/student/task') || $route.path.startsWith('/student/results') }">
             <span class="nav-icon">🏠</span>
-            <span>ДЗ</span>
+            <span class="nav-text">ДЗ</span>
             <span v-if="homeworkCount" class="badge">{{ homeworkCount }}</span>
           </router-link>
-          <router-link to="/student/stats" class="nav-item" :class="{ active: $route.path === '/student/stats' }">
+          <router-link to="/student/stats" class="nav-item" :class="{ active: $route.path.startsWith('/student/stats') }">
             <span class="nav-icon">📈</span>
-            <span>Статистика</span>
+            <span class="nav-text">Статистика</span>
           </router-link>
         </template>
 
-        <!-- Китайский язык -->
-        <template v-else>
+        <template v-else-if="currentSubject === 'chinese_hsk'">
           <router-link to="/chinese" class="nav-item" :class="{ active: $route.path === '/chinese' }">
             <span class="nav-icon">🏠</span>
-            <span>Главная</span>
+            <span class="nav-text">Главная</span>
           </router-link>
-          <router-link to="/chinese/lessons" class="nav-item" :class="{ active: $route.path === '/chinese/lessons' }">
+          <router-link to="/chinese/lessons" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/lessons') }">
             <span class="nav-icon">📚</span>
-            <span>Уроки</span>
+            <span class="nav-text">Уроки</span>
           </router-link>
-          <router-link to="/chinese/library" class="nav-item" :class="{ active: $route.path === '/chinese/library' }">
+          <router-link to="/chinese/library" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/library') }">
             <span class="nav-icon">📖</span>
-            <span>Библиотека</span>
+            <span class="nav-text">Библиотека</span>
           </router-link>
-          <router-link to="/chinese/packs" class="nav-item" :class="{ active: $route.path === '/chinese/packs' }">
+          <router-link to="/chinese/packs" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/packs') }">
             <span class="nav-icon">🃏</span>
-            <span>Паки</span>
+            <span class="nav-text">Паки</span>
           </router-link>
-          <router-link to="/chinese/practice" class="nav-item" :class="{ active: $route.path === '/chinese/practice' }">
+          <router-link to="/chinese/practice" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/practice') }">
             <span class="nav-icon">✍️</span>
-            <span>Практика</span>
+            <span class="nav-text">Практика</span>
           </router-link>
-          <router-link to="/chinese/stats" class="nav-item" :class="{ active: $route.path === '/chinese/stats' }">
+          <router-link to="/chinese/stats" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/stats') }">
             <span class="nav-icon">📈</span>
-            <span>Статистика</span>
+            <span class="nav-text">Статистика</span>
           </router-link>
         </template>
 
         <button @click="openSettings" class="nav-item settings-nav">
           <span class="nav-icon">⚙️</span>
-          <span>Настройки</span>
+          <span class="nav-text">Настройки</span>
         </button>
       </nav>
 
       <div class="sidebar-footer">
         <div class="profile-info" @click="goToProfile">
           <div class="profile-text">
-            <span class="profile-name">{{ studentLogin }}</span>
+            <span class="profile-name">{{ studentDisplayName }}</span>
           </div>
         </div>
         <button @click="logout" class="logout-btn-sidebar">
@@ -97,7 +96,7 @@
       </div>
       <footer class="footer">
         <div class="footer-content">
-          <p>© 2026 ЕГЭ‑ПРО | Подготовка к ЕГЭ по обществознанию</p>
+          <p>© 2026 ЕГЭ‑ПРО | Подготовка к ЕГЭ</p>
           <div class="footer-links">
             <a href="#">О проекте</a>
             <a href="#">Помощь</a>
@@ -107,10 +106,27 @@
       </footer>
     </main>
 
-    <!-- Настройки -->
+    <!-- Модалка настроек -->
     <div v-if="showSettingsModal" class="modal" @click.self="showSettingsModal = false">
       <div class="modal-content">
         <h2>Настройки</h2>
+        
+        <div class="settings-option">
+          <label>Мои предметы</label>
+          <div class="subjects-select">
+            <div v-for="subject in allSubjects" :key="subject.id" class="subject-check">
+              <label class="checkbox-label">
+                <input type="checkbox" :value="subject.id" v-model="userSubjects" />
+                <span class="subject-icon">{{ subject.icon }}</span>
+                <span class="subject-name">{{ subject.name }}</span>
+              </label>
+            </div>
+          </div>
+          <button @click="saveUserSubjects" class="btn-save-subjects" :disabled="savingSubjects">
+            {{ savingSubjects ? 'Сохранение...' : 'Сохранить' }}
+          </button>
+        </div>
+
         <div class="settings-option">
           <label>Размер шрифта:</label>
           <div class="font-size-controls">
@@ -119,6 +135,7 @@
             <button @click="increaseFontSize" :disabled="fontSize >= 24">A+</button>
           </div>
         </div>
+
         <div class="settings-option">
           <label>Тема:</label>
           <div class="theme-controls">
@@ -130,6 +147,7 @@
             </button>
           </div>
         </div>
+
         <button @click="showSettingsModal = false" class="btn-close">Закрыть</button>
       </div>
     </div>
@@ -137,39 +155,50 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { auth, db } from '@core/services/firebase';
 import { signOut } from 'firebase/auth';
-import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, query, where, getDocs, onSnapshot } from 'firebase/firestore';
 import { useSubjectStore } from '@core/stores/subjectStore';
+import { useAppStore } from '@core/stores/appStore';
+import { useTheme } from '@core/composables/useTheme';
 import CustomSelect from '@shared/components/CustomSelect.vue';
+import { SUBJECTS_LIST } from '@core/constants/subjects';
 
 const router = useRouter();
 const route = useRoute();
 const subjectStore = useSubjectStore();
+const appStore = useAppStore();
 
-const studentLogin = ref('');
+const studentDisplayName = ref('');
 const studentEmail = ref('');
 const homeworkCount = ref(0);
-const currentSubject = ref(subjectStore.currentSubject);
+const currentSubject = computed({
+  get: () => subjectStore.currentSubject,
+  set: (val) => subjectStore.setSubject(val)
+});
+const userSubjects = ref([]);
+const allSubjects = SUBJECTS_LIST;
 
 const showSettingsModal = ref(false);
 const fontSize = ref(parseInt(localStorage.getItem('studentFontSize') || '16'));
-const currentTheme = ref(localStorage.getItem('theme') || 'light');
+const savingSubjects = ref(false);
+const { currentTheme, setTheme } = useTheme();
 
-const subjectOptions = ref([
-  { value: 'social', label: 'Обществознание', icon: '⚖️' },
-  { value: 'chinese', label: 'Китайский', icon: '🐉' }
-]);
+let unsubscribeUser = null;
+let homeworkInterval = null;
+let isMounted = true;
+
+const userSubjectOptions = computed(() => {
+  return userSubjects.value
+    .map(id => allSubjects.find(s => s.id === id))
+    .filter(s => s)
+    .map(s => ({ value: s.id, label: s.name, icon: s.icon }));
+});
 
 const applySettings = () => {
   document.documentElement.style.fontSize = fontSize.value + 'px';
-  if (currentTheme.value === 'dark') {
-    document.body.classList.add('dark-theme');
-  } else {
-    document.body.classList.remove('dark-theme');
-  }
 };
 
 const increaseFontSize = () => {
@@ -188,61 +217,93 @@ const decreaseFontSize = () => {
   }
 };
 
-const setTheme = (theme) => {
-  currentTheme.value = theme;
-  localStorage.setItem('theme', theme);
-  applySettings();
-};
-
 const openSettings = () => {
   showSettingsModal.value = true;
 };
 
-const loadHomeworkCount = async () => {
+const saveUserSubjects = async () => {
   const user = auth.currentUser;
   if (!user) return;
+  
+  savingSubjects.value = true;
   try {
-    const examsSnap = await getDocs(query(collection(db, 'exams'), where('published', '==', true)));
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
-    const userClass = userDoc.data()?.className;
-    const submissionsSnap = await getDocs(query(collection(db, 'submissions'), where('studentId', '==', user.uid)));
-    const submittedIds = new Set(submissionsSnap.docs.map(d => d.data().examId));
-    let count = 0;
-    examsSnap.docs.forEach(doc => {
-      const data = doc.data();
-      if (submittedIds.has(doc.id)) return;
-      if (data.publishedForType === 'class' && data.publishedForClassName === userClass) count++;
-      else if (data.publishedForType === 'student' && data.publishedForStudentId === user.uid) count++;
+    await updateDoc(doc(db, 'users', user.uid), {
+      subjects: userSubjects.value,
+      updatedAt: new Date()
     });
-    homeworkCount.value = count;
-  } catch (error) {
-    console.error('Ошибка загрузки количества домашек:', error);
+    subjectStore.setUserSubjects(userSubjects.value);
+    appStore.showToast('Предметы сохранены', 'success');
+    
+    if (!userSubjects.value.includes(currentSubject.value) && userSubjects.value.length > 0) {
+      subjectStore.setSubject(userSubjects.value[0]);
+    }
+  } catch (err) {
+    console.error('Error saving subjects:', err);
+    appStore.showToast('Ошибка сохранения', 'error');
+  } finally {
+    savingSubjects.value = false;
   }
 };
 
-const updateStreak = () => {
-  const lastLogin = localStorage.getItem('lastLoginDate');
-  const today = new Date().toDateString();
-  let streak = parseInt(localStorage.getItem('streak') || '0');
-  if (lastLogin !== today) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    if (lastLogin === yesterday.toDateString()) {
-      streak++;
-    } else {
-      streak = 1;
+const loadHomeworkCount = async () => {
+  const user = auth.currentUser;
+  if (!user || !isMounted) return;
+  
+  try {
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    if (!userDoc.exists() || !isMounted) return;
+    
+    const userData = userDoc.data();
+    const studentClass = userData.className;
+    const studentSubjects = userData.subjects || [];
+    const studentId = user.uid;
+    
+    const examsSnap = await getDocs(query(collection(db, 'exams'), where('published', '==', true)));
+    if (!isMounted) return;
+    
+    const submissionsSnap = await getDocs(
+      query(collection(db, 'submissions'), where('studentId', '==', user.uid))
+    );
+    if (!isMounted) return;
+    
+    const submittedExamIds = new Set(submissionsSnap.docs.map(doc => doc.data().examId));
+    
+    let count = 0;
+    for (const examDoc of examsSnap.docs) {
+      const exam = examDoc.data();
+      const examId = examDoc.id;
+      
+      let canSee = false;
+      if (exam.publishedForType === 'all') {
+        canSee = true;
+      } else if (exam.publishedForType === 'class') {
+        canSee = exam.publishedForClassName === studentClass;
+      } else if (exam.publishedForType === 'student') {
+        canSee = exam.publishedForStudentId === studentId;
+      }
+      
+      if (!canSee) continue;
+      if (exam.subject && !studentSubjects.includes(exam.subject)) continue;
+      if (!submittedExamIds.has(examId)) {
+        count++;
+      }
     }
-    localStorage.setItem('streak', streak);
-    localStorage.setItem('lastLoginDate', today);
+    
+    if (isMounted) {
+      homeworkCount.value = count;
+    }
+  } catch (error) {
+    console.error('Ошибка загрузки домашек:', error);
+    if (isMounted) {
+      homeworkCount.value = 0;
+    }
   }
-  return streak;
 };
 
 const switchSubject = (subject) => {
   if (subject === currentSubject.value) return;
   subjectStore.setSubject(subject);
-  currentSubject.value = subject;
-  if (subject === 'chinese') {
+  if (subject === 'chinese_hsk') {
     router.push('/chinese');
   } else {
     router.push('/student');
@@ -251,32 +312,75 @@ const switchSubject = (subject) => {
 
 watch(() => route.path, (newPath) => {
   if (newPath.startsWith('/chinese')) {
-    if (currentSubject.value !== 'chinese') {
-      currentSubject.value = 'chinese';
-      subjectStore.setSubject('chinese');
+    if (currentSubject.value !== 'chinese_hsk' && userSubjects.value.includes('chinese_hsk')) {
+      subjectStore.setSubject('chinese_hsk');
     }
   } else if (newPath.startsWith('/student')) {
-    if (currentSubject.value !== 'social') {
-      currentSubject.value = 'social';
+    if (currentSubject.value !== 'social' && userSubjects.value.includes('social')) {
       subjectStore.setSubject('social');
     }
   }
 }, { immediate: true });
 
-onMounted(async () => {
+watch(currentSubject, (newSubject) => {
+  if (!newSubject) return;
+  const currentPath = route.path;
+  if (newSubject === 'chinese_hsk' && !currentPath.startsWith('/chinese')) {
+    router.push('/chinese');
+  } else if (newSubject === 'social' && !currentPath.startsWith('/student')) {
+    router.push('/student');
+  }
+});
+
+onMounted(() => {
+  isMounted = true;
   const user = auth.currentUser;
+  
   if (user) {
     studentEmail.value = user.email;
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
-    if (userDoc.exists()) {
-      studentLogin.value = userDoc.data().login;
-    } else {
-      studentLogin.value = user.email;
-    }
+    
+    const userRef = doc(db, 'users', user.uid);
+    unsubscribeUser = onSnapshot(userRef, (docSnap) => {
+      if (!isMounted) return;
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        studentDisplayName.value = data.displayName || data.login || user.email;
+        userSubjects.value = data.subjects || [];
+        subjectStore.setUserSubjects(userSubjects.value);
+        
+        if (!userSubjects.value.includes(currentSubject.value) && userSubjects.value.length > 0) {
+          subjectStore.setSubject(userSubjects.value[0]);
+        }
+      }
+    });
+    
+    getDoc(userRef).then(userDoc => {
+      if (!isMounted) return;
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        studentDisplayName.value = data.displayName || data.login || user.email;
+        userSubjects.value = data.subjects || [];
+        subjectStore.setUserSubjects(userSubjects.value);
+      } else {
+        studentDisplayName.value = user.email;
+      }
+    }).catch(error => {
+      console.error('Ошибка загрузки пользователя:', error);
+    });
   }
-  await loadHomeworkCount();
+  
   applySettings();
-  updateStreak();
+  loadHomeworkCount().catch(console.error);
+  
+  homeworkInterval = setInterval(() => {
+    loadHomeworkCount().catch(console.error);
+  }, 60000);
+});
+
+onUnmounted(() => {
+  isMounted = false;
+  if (unsubscribeUser) unsubscribeUser();
+  if (homeworkInterval) clearInterval(homeworkInterval);
 });
 
 const goToProfile = () => {
@@ -284,12 +388,16 @@ const goToProfile = () => {
 };
 
 const logout = async () => {
+  isMounted = false;
+  if (unsubscribeUser) unsubscribeUser();
+  if (homeworkInterval) clearInterval(homeworkInterval);
   await signOut(auth);
   router.push('/');
 };
 </script>
 
 <style scoped>
+/* ... стили из предыдущей версии StudentLayout ... */
 .student-layout {
   display: flex;
   min-height: 100vh;
@@ -325,23 +433,34 @@ const logout = async () => {
   margin-top: 0.5rem;
 }
 .subject-selector {
-  padding: 0.75rem 1rem;
+  padding: 1rem;
   border-bottom: 1px solid var(--gray-200);
+}
+.subject-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 .sidebar-nav {
   flex: 1;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 .nav-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 0.9rem 1.5rem;
-  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
   font-weight: 500;
   color: var(--gray-600);
   text-decoration: none;
   transition: all 0.2s;
+  width: 100%;
+  box-sizing: border-box;
 }
 .nav-item:hover {
   background: var(--gray-100);
@@ -353,13 +472,20 @@ const logout = async () => {
   border-right: 3px solid var(--primary);
 }
 .nav-icon {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   width: 28px;
+  flex-shrink: 0;
+}
+.nav-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .badge {
   background: var(--primary);
   color: white;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   padding: 0.15rem 0.5rem;
   border-radius: 12px;
   margin-left: auto;
@@ -395,13 +521,17 @@ const logout = async () => {
   background: var(--gray-100);
 }
 .profile-text {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
 }
 .profile-name {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 .logout-btn-sidebar {
   width: 100%;
@@ -409,7 +539,7 @@ const logout = async () => {
   align-items: center;
   gap: 12px;
   padding: 0.75rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   background: none;
   border: none;
@@ -435,7 +565,7 @@ const logout = async () => {
 .footer {
   background: white;
   border-top: 1px solid var(--gray-200);
-  padding: 1.2rem 2rem;
+  padding: 1rem 2rem;
 }
 .footer-content {
   display: flex;
@@ -443,7 +573,7 @@ const logout = async () => {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--gray-500);
 }
 .footer-links {
@@ -474,10 +604,13 @@ const logout = async () => {
   border-radius: 1.5rem;
   padding: 2rem;
   width: 90%;
-  max-width: 400px;
+  max-width: 450px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 .modal-content h2 {
   margin: 0 0 1rem;
+  font-size: 1.3rem;
   color: var(--secondary);
 }
 .settings-option {
@@ -488,21 +621,70 @@ const logout = async () => {
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: var(--gray-700);
+  font-size: 0.85rem;
+}
+.subjects-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 0.75rem;
+}
+.subject-check {
+  padding: 0.25rem 0;
+}
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.checkbox-label input {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.subject-icon {
+  font-size: 1rem;
+}
+.subject-name {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+.btn-save-subjects {
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+.btn-save-subjects:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+.btn-save-subjects:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 .font-size-controls,
 .theme-controls {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 .font-size-controls button,
 .theme-controls button {
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.8rem;
   border: 1px solid var(--gray-200);
   background: white;
   border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.2s;
+  font-size: 0.85rem;
 }
 .font-size-controls button:hover:not(:disabled),
 .theme-controls button:hover {
@@ -518,29 +700,33 @@ const logout = async () => {
   border-color: var(--primary);
 }
 .font-size-value {
+  min-width: 40px;
+  text-align: center;
   color: var(--gray-700);
 }
 .btn-close {
-  margin-top: 1rem;
-  padding: 0.6rem 1.5rem;
+  width: 100%;
+  padding: 0.6rem;
   background: var(--secondary);
   color: white;
   border: none;
   border-radius: 2rem;
   cursor: pointer;
-  width: 100%;
+  font-size: 0.9rem;
+  margin-top: 1rem;
 }
 .btn-close:hover {
   background: var(--secondary-dark);
 }
 @media (max-width: 768px) {
   .sidebar {
-    width: 80px;
+    width: 70px;
   }
   .sidebar-header h2,
   .sidebar-header .role-badge,
+  .subject-label,
   .profile-text,
-  .nav-item span:last-child:not(.nav-icon) {
+  .nav-text {
     display: none;
   }
   .subject-selector {
@@ -548,22 +734,24 @@ const logout = async () => {
   }
   .nav-item {
     justify-content: center;
-    padding: 0.9rem;
+    padding: 0.75rem;
   }
   .nav-icon {
     margin: 0;
   }
   .main-content {
-    margin-left: 80px;
+    margin-left: 70px;
   }
   .footer-content {
     flex-direction: column;
     text-align: center;
   }
 }
-body.dark-theme .sidebar {
+body.dark-theme .sidebar,
+body.dark-theme .footer,
+body.dark-theme .modal-content {
   background: var(--gray-800);
-  border-right-color: var(--gray-600);
+  border-color: var(--gray-700);
 }
 body.dark-theme .sidebar-header h2 {
   color: #ffffff;
@@ -578,47 +766,27 @@ body.dark-theme .nav-item:hover {
 body.dark-theme .nav-item.active {
   background: rgba(230, 126, 34, 0.2);
   color: var(--primary);
-  border-right-color: var(--primary);
 }
 body.dark-theme .profile-name {
   color: #ffffff;
 }
-body.dark-theme .footer {
-  background: var(--gray-800);
-  border-top-color: var(--gray-700);
-}
-body.dark-theme .modal-content {
-  background: var(--gray-800);
-  border: 1px solid var(--gray-600);
-}
-body.dark-theme .modal-content h2 {
-  color: #ffffff;
-}
 body.dark-theme .settings-option label {
-  color: var(--primary);
+  color: var(--gray-300);
+}
+body.dark-theme .subject-name {
+  color: var(--gray-300);
 }
 body.dark-theme .font-size-controls button,
 body.dark-theme .theme-controls button {
-  background: var(--gray-800);
+  background: var(--gray-700);
   border-color: var(--gray-600);
   color: white;
 }
 body.dark-theme .font-size-controls button:hover:not(:disabled),
 body.dark-theme .theme-controls button:hover {
-  background: var(--gray-700);
+  background: var(--gray-600);
 }
 body.dark-theme .font-size-value {
   color: var(--gray-300);
-}
-body.dark-theme .btn-close {
-  background: var(--primary);
-}
-body.dark-theme .btn-close:hover {
-  background: var(--primary-dark);
-}
-body.dark-theme .theme-controls button.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
 }
 </style>

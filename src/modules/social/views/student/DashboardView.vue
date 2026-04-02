@@ -131,9 +131,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { auth, db } from '@core/services/firebase';
-import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs, setDoc } from 'firebase/firestore';
 import StudentLayout from '@core/layouts/StudentLayout.vue';
 import { getCachedData, setCachedData } from '@core/services/storage';
 import { formatRelativeTime } from '@core/utils/dateHelpers';
@@ -149,8 +149,28 @@ const classmates = ref([]);
 const showClassmatesModal = ref(false);
 const recentActivities = ref([]);
 const refreshing = ref(false);
+let isMounted = true;
 
-const CACHE_TTL = 12 * 60 * 60 * 1000;
+// Функция для автоматического создания прогресса пользователя
+const ensureStudentProgress = async (userId) => {
+  try {
+    const progressRef = doc(db, 'studentProgress', userId);
+    const progressDoc = await getDoc(progressRef);
+    if (!progressDoc.exists()) {
+      await setDoc(progressRef, {
+        studentId: userId,
+        topics: {},
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      console.log('Created studentProgress for user:', userId);
+    }
+    return true;
+  } catch (error) {
+    console.warn('Не удалось создать studentProgress:', error.message);
+    return false;
+  }
+};
 
 const getStreak = () => {
   const lastLogin = localStorage.getItem('lastLoginDate');
@@ -178,90 +198,145 @@ const getStreak = () => {
 
 const refreshFromFirestore = async () => {
   const user = auth.currentUser;
-  if (!user) return;
+  if (!user || !isMounted) return;
 
-  const userDoc = await getDoc(doc(db, 'users', user.uid));
-  studentLogin.value = userDoc.data().login || user.email;
+  try {
+    // Загружаем данные пользователя
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    if (!userDoc.exists() || !isMounted) return;
+    
+    const userData = userDoc.data();
+    studentLogin.value = userData.login || user.email;
 
-  const classId = userDoc.data().classId;
-  if (classId) {
-    const classDoc = await getDoc(doc(db, 'classes', classId));
-    if (classDoc.exists()) {
-      const classData = classDoc.data();
-      let teacherName = '';
-      if (classData.teacherId) {
-        const teacherDoc = await getDoc(doc(db, 'users', classData.teacherId));
-        teacherName = teacherDoc.exists() ? teacherDoc.data().login : '';
+    // Создаем запись прогресса если её нет
+    await ensureStudentProgress(user.uid);
+
+    // Загружаем класс ученика
+    const classId = userData.classId;
+    if (classId && isMounted) {
+      try {
+        const classDoc = await getDoc(doc(db, 'classes', classId));
+        if (classDoc.exists() && isMounted) {
+          const classData = classDoc.data();
+          let teacherName = '';
+          if (classData.teacherId) {
+            try {
+              const teacherDoc = await getDoc(doc(db, 'users', classData.teacherId));
+              teacherName = teacherDoc.exists() ? teacherDoc.data().login : '';
+            } catch (e) {
+              // Игнорируем
+            }
+          }
+
+          try {
+            const studentsSnap = await getDocs(
+              query(collection(db, 'users'), where('classId', '==', classId), where('role', '==', 'student'))
+            );
+            classmates.value = studentsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          } catch (e) {
+            classmates.value = [];
+          }
+
+          myClass.value = {
+            id: classId,
+            name: classData.name,
+            teacherName,
+            studentsCount: classmates.value.length
+          };
+        } else {
+          myClass.value = null;
+        }
+      } catch (e) {
+        myClass.value = null;
       }
-
-      const studentsSnap = await getDocs(query(collection(db, 'users'), where('classId', '==', classId), where('role', '==', 'student')));
-      classmates.value = studentsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-      myClass.value = {
-        id: classId,
-        name: classData.name,
-        teacherName,
-        studentsCount: classmates.value.length
-      };
     } else {
       myClass.value = null;
-      classmates.value = [];
     }
-  } else {
-    myClass.value = null;
-    classmates.value = [];
+
+    // Загружаем прогресс тем из studentProgress
+    try {
+      const progressDoc = await getDoc(doc(db, 'studentProgress', user.uid));
+      if (progressDoc.exists() && isMounted) {
+        const topics = progressDoc.data().topics || {};
+        topicsCompleted.value = Object.values(topics).filter(t => t === 'completed').length;
+      } else {
+        topicsCompleted.value = 0;
+      }
+    } catch (e) {
+      topicsCompleted.value = 0;
+    }
+
+    // Загружаем отправленные работы из submissions
+    try {
+      const submissionsSnap = await getDocs(
+        query(collection(db, 'submissions'), where('studentId', '==', user.uid))
+      );
+      
+      if (!isMounted) return;
+      
+      const gradedSubmissions = submissionsSnap.docs.filter(doc => {
+        const data = doc.data();
+        return data.status === 'graded' && data.teacherGrade !== undefined;
+      });
+      
+      tasksCompleted.value = gradedSubmissions.length;
+      
+      if (gradedSubmissions.length) {
+        const total = gradedSubmissions.reduce((sum, doc) => sum + (doc.data().teacherGrade || 0), 0);
+        avgScore.value = Math.round(total / gradedSubmissions.length);
+      } else {
+        avgScore.value = 0;
+      }
+
+      const allSubmissions = submissionsSnap.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().submittedAt?.toDate?.() || new Date()
+      }));
+      
+      allSubmissions.sort((a, b) => b.createdAt - a.createdAt);
+      const recent = allSubmissions.slice(0, 5);
+      
+      recentActivities.value = recent.map(sub => ({
+        id: sub.id,
+        icon: sub.status === 'pending' ? '📝' : (sub.status === 'graded' ? '✅' : '❌'),
+        text: sub.status === 'pending'
+          ? 'Задание отправлено на проверку'
+          : (sub.status === 'graded'
+            ? `Задание проверено, оценка ${sub.teacherGrade}`
+            : 'Задание отклонено'),
+        time: formatRelativeTime(sub.createdAt)
+      }));
+    } catch (e) {
+      tasksCompleted.value = 0;
+      avgScore.value = 0;
+      recentActivities.value = [];
+    }
+
+    // Рекомендованные темы (статические)
+    const topicsList = [
+      { id: '1.1', title: 'Биосоциальная сущность человека', description: 'Индивид, индивидуальность, личность' },
+      { id: '2.4', title: 'Рыночный механизм', description: 'Спрос, предложение, равновесная цена' },
+      { id: '3.5', title: 'Семья и брак', description: 'Условия заключения брака, права супругов' }
+    ];
+    recommendedTopics.value = topicsList;
+
+    // Кэшируем данные
+    if (isMounted) {
+      setCachedData('student_dashboard', {
+        studentLogin: studentLogin.value,
+        topicsCompleted: topicsCompleted.value,
+        tasksCompleted: tasksCompleted.value,
+        avgScore: avgScore.value,
+        myClass: myClass.value,
+        classmates: classmates.value,
+        recentActivities: recentActivities.value,
+        recommendedTopics: recommendedTopics.value
+      });
+    }
+  } catch (error) {
+    console.error('Ошибка загрузки дашборда:', error);
   }
-
-  const progressDoc = await getDoc(doc(db, 'studentProgress', user.uid));
-  const topics = progressDoc.exists() ? progressDoc.data().topics || {} : {};
-  topicsCompleted.value = Object.values(topics).filter(t => t === 'completed').length;
-
-  const subsSnap = await getDocs(query(collection(db, 'submissions'), where('studentId', '==', user.uid)));
-  const gradedSubs = subsSnap.docs.filter(doc => doc.data().status === 'graded' && doc.data().teacherGrade);
-  tasksCompleted.value = gradedSubs.length;
-  if (gradedSubs.length) {
-    const total = gradedSubs.reduce((sum, doc) => sum + doc.data().teacherGrade, 0);
-    avgScore.value = Math.round(total / gradedSubs.length);
-  } else {
-    avgScore.value = 0;
-  }
-
-  const allSubs = subsSnap.docs
-    .map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-      createdAt: doc.data().submittedAt?.toDate?.() || new Date()
-    }))
-    .sort((a, b) => b.createdAt - a.createdAt)
-    .slice(0, 5);
-  recentActivities.value = allSubs.map(sub => ({
-    id: sub.id,
-    icon: sub.status === 'pending' ? '📝' : (sub.status === 'graded' ? '✅' : '❌'),
-    text: sub.status === 'pending'
-      ? 'Задание отправлено на проверку'
-      : (sub.status === 'graded'
-        ? `Задание проверено, оценка ${sub.teacherGrade}`
-        : 'Задание отклонено'),
-    time: formatRelativeTime(sub.createdAt)
-  }));
-
-  const topicsList = [
-    { id: '1.1', title: 'Биосоциальная сущность человека', description: 'Индивид, индивидуальность, личность' },
-    { id: '2.4', title: 'Рыночный механизм', description: 'Спрос, предложение, равновесная цена' },
-    { id: '3.5', title: 'Семья и брак', description: 'Условия заключения брака, права супругов' }
-  ];
-  recommendedTopics.value = topicsList;
-
-  setCachedData('student_dashboard', {
-    studentLogin: studentLogin.value,
-    topicsCompleted: topicsCompleted.value,
-    tasksCompleted: tasksCompleted.value,
-    avgScore: avgScore.value,
-    myClass: myClass.value,
-    classmates: classmates.value,
-    recentActivities: recentActivities.value,
-    recommendedTopics: recommendedTopics.value
-  });
 };
 
 const loadDashboard = () => {
@@ -286,24 +361,27 @@ const refreshData = async () => {
   } catch (error) {
     console.error('Ошибка обновления:', error);
   } finally {
-    refreshing.value = false;
+    if (isMounted) refreshing.value = false;
   }
 };
 
 onMounted(() => {
+  isMounted = true;
   streak.value = getStreak();
   loadDashboard();
+});
+
+onUnmounted(() => {
+  isMounted = false;
 });
 </script>
 
 <style scoped>
-/* ========== ОСНОВНОЙ КОНТЕЙНЕР ========== */
 .student-dashboard {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* ========== ШАПКА ========== */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -341,7 +419,6 @@ onMounted(() => {
   cursor: not-allowed;
 }
 
-/* ========== КАРТОЧКИ СТАТИСТИКИ ========== */
 .stats-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -377,7 +454,6 @@ onMounted(() => {
   color: var(--gray-500);
 }
 
-/* ========== ИНФОРМАЦИЯ О КЛАССЕ ========== */
 .class-info-section {
   background: white;
   border-radius: 1rem;
@@ -417,7 +493,6 @@ onMounted(() => {
   color: var(--gray-500);
 }
 
-/* ========== МОДАЛКА ОДНОКЛАССНИКОВ ========== */
 .modal {
   position: fixed;
   top: 0;
@@ -495,7 +570,6 @@ onMounted(() => {
   background: var(--secondary-dark);
 }
 
-/* ========== БЫСТРЫЙ СТАРТ ========== */
 .quick-actions {
   margin: 2rem 0;
 }
@@ -539,7 +613,6 @@ onMounted(() => {
   color: var(--gray-500);
 }
 
-/* ========== РЕКОМЕНДАЦИИ И АКТИВНОСТЬ ========== */
 .recent-section {
   background: white;
   border-radius: 1rem;
@@ -623,7 +696,6 @@ onMounted(() => {
   color: var(--gray-500);
 }
 
-/* ========== ТЁМНАЯ ТЕМА ========== */
 body.dark-theme .stat-card,
 body.dark-theme .class-info-section,
 body.dark-theme .action-card,

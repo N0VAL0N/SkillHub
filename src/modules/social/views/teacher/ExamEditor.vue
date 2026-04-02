@@ -11,19 +11,32 @@
         <button class="mode-btn" :class="{ active: mode === 'homework' }" @click="switchMode('homework')">Домашнее задание</button>
       </div>
 
+      <!-- ФОРМА ЭКЗАМЕНА -->
       <div v-if="mode === 'exam'" class="exam-form">
         <div class="form-group">
           <label>Название</label>
           <input v-model="exam.title" placeholder="Например: Итоговый экзамен по блоку 1" class="form-input" />
         </div>
+
+        <div class="form-group">
+          <label>Предмет</label>
+          <CustomSelect
+            v-model="exam.subject"
+            :options="subjectOptions"
+            placeholder="Выберите предмет"
+          />
+        </div>
+
         <div class="form-group">
           <label>Класс (для кого) — опционально</label>
           <CustomSelect v-model="exam.classId" :options="classOptions" placeholder="Выберите класс" />
         </div>
+
         <div class="form-group">
           <label>Блок</label>
           <CustomSelect v-model="exam.blockId" :options="blockOptions" placeholder="Выберите блок" />
         </div>
+
         <div class="form-group">
           <label>Срок сдачи (опционально)</label>
           <DatePicker v-model="exam.deadline" placeholder="Выберите дату и время" />
@@ -118,10 +131,90 @@
         </div>
       </div>
 
+      <!-- ФОРМА ДОМАШНЕГО ЗАДАНИЯ -->
       <div v-if="mode === 'homework'" class="homework-form">
-        <!-- ... домашнее задание без изменений ... -->
+        <div class="form-group">
+          <label>Название</label>
+          <input v-model="homework.title" placeholder="Например: Домашнее задание по теме «Экономика»" class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label>Предмет</label>
+          <CustomSelect
+            v-model="homework.subject"
+            :options="subjectOptions"
+            placeholder="Выберите предмет"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Класс (для кого) — опционально</label>
+          <CustomSelect v-model="homework.classId" :options="classOptions" placeholder="Выберите класс" />
+        </div>
+
+        <div class="form-group">
+          <label>Тема</label>
+          <CustomSelect v-model="homework.topicId" :options="topicOptions" placeholder="Выберите тему" />
+        </div>
+
+        <div class="form-group">
+          <label>Срок сдачи (опционально)</label>
+          <DatePicker v-model="homework.deadline" placeholder="Выберите дату и время" />
+        </div>
+
+        <div class="section-title">Типы заданий</div>
+        
+        <div class="homework-types">
+          <div class="type-item">
+            <label class="custom-checkbox">
+              <input type="checkbox" v-model="homework.types.choice.enabled" />
+              <span class="checkmark"></span>
+              Выбор ответа (задание 2)
+            </label>
+            <QuantitySelector v-if="homework.types.choice.enabled" v-model="homework.types.choice.count" :max="5" />
+          </div>
+          
+          <div class="type-item">
+            <label class="custom-checkbox">
+              <input type="checkbox" v-model="homework.types.match.enabled" />
+              <span class="checkmark"></span>
+              Соответствие (задание 3)
+            </label>
+            <QuantitySelector v-if="homework.types.match.enabled" v-model="homework.types.match.count" :max="3" />
+          </div>
+          
+          <div class="type-item">
+            <label class="custom-checkbox">
+              <input type="checkbox" v-model="homework.types.short.enabled" />
+              <span class="checkmark"></span>
+              Короткий ответ (задание 4)
+            </label>
+            <QuantitySelector v-if="homework.types.short.enabled" v-model="homework.types.short.count" :max="3" />
+          </div>
+          
+          <div class="type-item">
+            <label class="custom-checkbox">
+              <input type="checkbox" v-model="homework.types.essay.enabled" />
+              <span class="checkmark"></span>
+              Эссе (задание 25)
+            </label>
+            <div v-if="homework.types.essay.enabled" class="essay-topic-select">
+              <CustomSelect 
+                v-model="homework.types.essay.topicId" 
+                :options="essayOptions" 
+                placeholder="Выберите тему эссе"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button @click="generateHomework" class="btn-generate">Сгенерировать ДЗ</button>
+          <button @click="regenerateHomework" class="btn-generate" :disabled="!generatedHomework">Сгенерировать заново</button>
+        </div>
       </div>
 
+      <!-- ПРЕДПРОСМОТР ЗАДАНИЙ -->
       <div v-if="currentQuestions.length" class="questions-preview">
         <div class="preview-header">
           <h2>Предпросмотр заданий ({{ currentQuestions.length }})</h2>
@@ -229,26 +322,35 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { db, auth } from '@core/services/firebase'
-import { collection, getDocs, addDoc, updateDoc, doc, getDoc } from 'firebase/firestore'
-import TeacherLayout from '@core/layouts/TeacherLayout.vue'
-import CustomSelect from '@shared/components/CustomSelect.vue'
-import DatePicker from '@shared/components/DatePicker.vue'
-import QuantitySelector from '@shared/components/QuantitySelector.vue'
-import QuestionRenderer from '@/modules/social/components/QuestionRenderer.vue'
-import { useQuestionGenerator } from '@/modules/social/stores/questionGenerator'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { db, auth } from '@core/services/firebase';
+import { collection, getDocs, addDoc, updateDoc, doc, getDoc } from 'firebase/firestore';
+import TeacherLayout from '@core/layouts/TeacherLayout.vue';
+import CustomSelect from '@shared/components/CustomSelect.vue';
+import DatePicker from '@shared/components/DatePicker.vue';
+import QuantitySelector from '@shared/components/QuantitySelector.vue';
+import QuestionRenderer from '@/modules/social/components/QuestionRenderer.vue';
+import { useQuestionGenerator } from '@/modules/social/stores/questionGenerator';
+import { SUBJECTS_LIST } from '@core/constants/subjects';
 
-const router = useRouter()
-const route = useRoute()
-const questionGenerator = useQuestionGenerator()
+const router = useRouter();
+const route = useRoute();
+const questionGenerator = useQuestionGenerator();
 
-const isEditing = ref(false)
-const examId = ref(null)
-const mode = ref(route.query.type === 'homework' ? 'homework' : 'exam')
+const isEditing = ref(false);
+const examId = ref(null);
+const mode = ref(route.query.type === 'homework' ? 'homework' : 'exam');
+const isMounted = ref(true);
 
-const classOptions = ref([])
+// Опции предметов
+const subjectOptions = computed(() => {
+  return SUBJECTS_LIST.map(s => ({ value: s.id, label: s.name, icon: s.icon }));
+});
+
+const classOptions = ref([]);
+const studentsInClass = ref(new Map());
+
 const blockOptions = [
   { value: 1, label: 'Блок 1. Человек и общество' },
   { value: 2, label: 'Блок 2. Экономика' },
@@ -256,7 +358,8 @@ const blockOptions = [
   { value: 4, label: 'Блок 4. Политика' },
   { value: 5, label: 'Блок 5. Право' },
   { value: 'all', label: 'Реальный ЕГЭ (все блоки)' }
-]
+];
+
 const timerOptions = [
   { value: 30, label: '30 минут' },
   { value: 60, label: '1 час' },
@@ -265,17 +368,19 @@ const timerOptions = [
   { value: 150, label: '2.5 часа' },
   { value: 180, label: '3 часа' },
   { value: 210, label: '3.5 часа (ЕГЭ)' }
-]
-const topicOptions = ref([])
-const textOptions = ref([])
-const planOptions = ref([])
-const essayOptions = ref([])
-const taskOptions = ref([])
-const lawTaskOptions = ref([])
-const graphOptions = ref([])
+];
+
+const topicOptions = ref([]);
+const textOptions = ref([]);
+const planOptions = ref([]);
+const essayOptions = ref([]);
+const taskOptions = ref([]);
+const lawTaskOptions = ref([]);
+const graphOptions = ref([]);
 
 const exam = ref({
   title: '',
+  subject: 'social',
   classId: '',
   blockId: 1,
   deadline: null,
@@ -289,10 +394,11 @@ const exam = ref({
     essay: { enabled: false, value: '' },
     graph: { enabled: false, value: '' }
   }
-})
+});
 
 const homework = ref({
   title: '',
+  subject: 'social',
   classId: '',
   topicId: '',
   deadline: null,
@@ -302,20 +408,22 @@ const homework = ref({
     short: { enabled: true, count: 1 },
     essay: { enabled: true, count: 1, topicId: '' }
   }
-})
+});
 
-const currentQuestions = ref([])
-const generatedExam = ref(null)
-const generatedHomework = ref(null)
-const previewQuestion = ref(null)
-const showAddModal = ref(false)
-const manualQuestion = ref({ type: 'choice', topicId: '' })
-const toast = ref({ visible: false, type: 'success', message: '' })
+const currentQuestions = ref([]);
+const generatedExam = ref(null);
+const generatedHomework = ref(null);
+const previewQuestion = ref(null);
+const showAddModal = ref(false);
+const manualQuestion = ref({ type: 'choice', topicId: '' });
+const toast = ref({ visible: false, type: 'success', message: '' });
 
 const showToast = (type, message) => {
-  toast.value = { visible: true, type, message }
-  setTimeout(() => toast.value.visible = false, 3000)
-}
+  toast.value = { visible: true, type, message };
+  setTimeout(() => {
+    if (isMounted.value) toast.value.visible = false;
+  }, 3000);
+};
 
 const getTypeLabel = (type) => {
   const labels = {
@@ -328,42 +436,53 @@ const getTypeLabel = (type) => {
     task: 'Задача',
     law_task: 'Правовая задача',
     graph_analysis: 'График'
-  }
-  return labels[type] || type
-}
+  };
+  return labels[type] || type;
+};
 
 const loadClasses = async () => {
   try {
-    const classesSnap = await getDocs(collection(db, 'classes'))
-    classOptions.value = classesSnap.docs.map(doc => ({ value: doc.id, label: doc.data().name }))
+    const classesSnap = await getDocs(collection(db, 'classes'));
+    classOptions.value = classesSnap.docs.map(doc => ({ value: doc.id, label: doc.data().name }));
   } catch (error) {
-    console.error('Ошибка загрузки классов:', error)
+    console.error('Ошибка загрузки классов:', error);
   }
-}
+};
 
 const loadDynamicOptions = () => {
   if (questionGenerator.topicsMap) {
-    topicOptions.value = Array.from(questionGenerator.topicsMap.values()).map(t => ({ value: t.topic_id, label: t.name }))
+    topicOptions.value = Array.from(questionGenerator.topicsMap.values()).map(t => ({ value: t.topic_id, label: t.name }));
   }
-  textOptions.value = questionGenerator.getTextsList(exam.value.blockId === 'all' ? null : exam.value.blockId)
-  planOptions.value = questionGenerator.getPlanTopicsList(exam.value.blockId === 'all' ? null : exam.value.blockId)
-  essayOptions.value = questionGenerator.getEssayTopicsList(exam.value.blockId === 'all' ? null : exam.value.blockId)
-  taskOptions.value = questionGenerator.getTasksList(exam.value.blockId === 'all' ? null : exam.value.blockId)
-  lawTaskOptions.value = questionGenerator.getLawTasksList()
-  graphOptions.value = (questionGenerator.staticTasks21 || []).map(g => ({ value: g.id, label: g.title }))
-}
+  const currentSubject = mode.value === 'exam' ? exam.value.subject : homework.value.subject;
+  const blockId = currentSubject === 'social' ? (exam.value.blockId === 'all' ? null : exam.value.blockId) : null;
+  
+  textOptions.value = questionGenerator.getTextsList(blockId);
+  planOptions.value = questionGenerator.getPlanTopicsList(blockId);
+  essayOptions.value = questionGenerator.getEssayTopicsList(blockId);
+  taskOptions.value = questionGenerator.getTasksList(blockId);
+  lawTaskOptions.value = questionGenerator.getLawTasksList();
+  graphOptions.value = (questionGenerator.staticTasks21 || []).map(g => ({ value: g.id, label: g.title }));
+};
 
 watch(() => exam.value.blockId, () => {
-  loadDynamicOptions()
-})
+  if (mode.value === 'exam') loadDynamicOptions();
+});
+
+watch(() => exam.value.subject, () => {
+  if (mode.value === 'exam') loadDynamicOptions();
+});
+
+watch(() => homework.value.subject, () => {
+  if (mode.value === 'homework') loadDynamicOptions();
+});
 
 const switchMode = (newMode) => {
-  mode.value = newMode
-  currentQuestions.value = []
-  generatedExam.value = null
-  generatedHomework.value = null
-  if (newMode === 'exam') loadDynamicOptions()
-}
+  mode.value = newMode;
+  currentQuestions.value = [];
+  generatedExam.value = null;
+  generatedHomework.value = null;
+  loadDynamicOptions();
+};
 
 const generateExam = () => {
   const generated = questionGenerator.generateFullExam(
@@ -372,25 +491,25 @@ const generateExam = () => {
     exam.value.classId || null,
     exam.value.deadline || null,
     exam.value.part2
-  )
+  );
   if (generated) {
-    generatedExam.value = generated
-    currentQuestions.value = [...generated.questions]
-    if (!exam.value.title) exam.value.title = generated.title
-    showToast('success', 'Экзамен сгенерирован')
+    generatedExam.value = generated;
+    currentQuestions.value = [...generated.questions];
+    if (!exam.value.title) exam.value.title = generated.title;
+    showToast('success', 'Экзамен сгенерирован');
   } else {
-    showToast('error', 'Не удалось сгенерировать экзамен')
+    showToast('error', 'Не удалось сгенерировать экзамен');
   }
-}
+};
 
 const regenerateExam = () => {
-  generateExam()
-}
+  generateExam();
+};
 
 const generateHomework = () => {
   if (!homework.value.topicId) {
-    showToast('error', 'Выберите тему')
-    return
+    showToast('error', 'Выберите тему');
+    return;
   }
   const types = {
     choice: homework.value.types.choice.enabled ? homework.value.types.choice.count : 0,
@@ -398,275 +517,312 @@ const generateHomework = () => {
     short: homework.value.types.short.enabled ? homework.value.types.short.count : 0,
     essay: homework.value.types.essay.enabled ? homework.value.types.essay.count : 0,
     essayTopicId: homework.value.types.essay.enabled ? homework.value.types.essay.topicId : null
-  }
+  };
   const generated = questionGenerator.generateHomework(
     homework.value.topicId,
     homework.value.title || null,
     homework.value.classId || null,
     types,
     homework.value.deadline || null
-  )
+  );
   if (generated) {
-    generatedHomework.value = generated
-    currentQuestions.value = [...generated.questions]
-    if (!homework.value.title) homework.value.title = generated.title
-    showToast('success', 'Домашнее задание сгенерировано')
+    generatedHomework.value = generated;
+    currentQuestions.value = [...generated.questions];
+    if (!homework.value.title) homework.value.title = generated.title;
+    showToast('success', 'Домашнее задание сгенерировано');
   } else {
-    showToast('error', 'Не удалось сгенерировать домашнее задание')
+    showToast('error', 'Не удалось сгенерировать домашнее задание');
   }
-}
+};
 
 const regenerateHomework = () => {
-  generateHomework()
-}
+  generateHomework();
+};
 
 const clearQuestions = () => {
   if (confirm('Очистить все вопросы?')) {
-    currentQuestions.value = []
-    generatedExam.value = null
-    generatedHomework.value = null
-    showToast('info', 'Все вопросы удалены')
+    currentQuestions.value = [];
+    generatedExam.value = null;
+    generatedHomework.value = null;
+    showToast('info', 'Все вопросы удалены');
   }
-}
+};
 
 const removeQuestion = (idx) => {
   if (confirm('Удалить этот вопрос?')) {
-    currentQuestions.value.splice(idx, 1)
-    showToast('info', 'Вопрос удалён')
+    currentQuestions.value.splice(idx, 1);
+    showToast('info', 'Вопрос удалён');
   }
-}
+};
 
 const openPreview = (question) => {
-  previewQuestion.value = question
-}
+  previewQuestion.value = question;
+};
 
 const closePreview = () => {
-  previewQuestion.value = null
-}
+  previewQuestion.value = null;
+};
 
 const openAddQuestionModal = () => {
-  manualQuestion.value = { type: 'choice', topicId: '' }
-  showAddModal.value = true
-}
+  manualQuestion.value = { type: 'choice', topicId: '' };
+  showAddModal.value = true;
+};
 
 const addManualQuestion = () => {
-  const { type, topicId } = manualQuestion.value
-  let newQuestion = null
+  const { type, topicId } = manualQuestion.value;
+  let newQuestion = null;
 
   if (type === 'choice' && topicId) {
-    newQuestion = questionGenerator.generateTask2(topicId, 2)
+    newQuestion = questionGenerator.generateTask2(topicId, 2);
   } else if (type === 'match' && topicId) {
-    newQuestion = questionGenerator.generateMatch(3, topicId)
+    newQuestion = questionGenerator.generateMatch(3);
   } else if (type === 'short' && topicId) {
-    newQuestion = questionGenerator.generateShort(topicId, 3)
+    newQuestion = questionGenerator.generateShort(topicId, 3);
   } else if (type === 'essay') {
-    const randomTopic = questionGenerator.getRandomEssayTopic()
-    if (randomTopic) newQuestion = randomTopic
+    const randomTopic = questionGenerator.getRandomEssayTopic();
+    if (randomTopic) newQuestion = randomTopic;
   } else if (type === 'plan') {
-    const topics = questionGenerator.getPlanTopicsList()
+    const topics = questionGenerator.getPlanTopicsList();
     if (topics.length) {
-      newQuestion = questionGenerator.getPlanTopicById(topics[0].value)
+      newQuestion = questionGenerator.getPlanTopicById(topics[0].value);
     }
   } else if (type === 'text_analysis') {
-    const texts = questionGenerator.getTextsList()
+    const texts = questionGenerator.getTextsList();
     if (texts.length) {
-      newQuestion = questionGenerator.getTextById(texts[0].value)
+      newQuestion = questionGenerator.getTextById(texts[0].value);
+      if (newQuestion) newQuestion.type = 'text_analysis';
     }
   } else if (type === 'graph_analysis') {
-    const graphs = questionGenerator.staticTasks21 || []
+    const graphs = questionGenerator.staticTasks21 || [];
     if (graphs.length) {
-      newQuestion = graphs[0]
+      newQuestion = { ...graphs[0], type: 'graph_analysis' };
     }
   } else if (type === 'task') {
-    const tasks = questionGenerator.tasks || []
+    const tasks = questionGenerator.tasks || [];
     if (tasks.length) {
-      newQuestion = tasks[0]
+      newQuestion = { ...tasks[0], type: 'task' };
     }
   } else if (type === 'law_task') {
-    const lawTasks = questionGenerator.lawTasks || []
+    const lawTasks = questionGenerator.lawTasks || [];
     if (lawTasks.length) {
-      newQuestion = lawTasks[0]
+      newQuestion = { ...lawTasks[0], type: 'law_task' };
     }
   }
 
   if (newQuestion) {
-    currentQuestions.value.push(newQuestion)
-    showAddModal.value = false
-    showToast('success', 'Задание добавлено')
+    currentQuestions.value.push(newQuestion);
+    showAddModal.value = false;
+    showToast('success', 'Задание добавлено');
   } else {
-    showToast('error', 'Не удалось создать задание')
+    showToast('error', 'Не удалось создать задание');
   }
-}
+};
 
 const loadExam = async () => {
   try {
-    const examDoc = await getDoc(doc(db, 'exams', examId.value))
-    if (examDoc.exists()) {
-      const data = examDoc.data()
-      if (data.type === 'exam') {
-        mode.value = 'exam'
-        exam.value.title = data.title || ''
-        exam.value.classId = data.classId || ''
-        exam.value.blockId = data.blockId || 1
-        exam.value.deadline = data.deadline || null
-        exam.value.enableTimer = data.enableTimer === true
-        exam.value.timerMinutes = data.timerMinutes || 210
-        currentQuestions.value = [...(data.questions || [])]
+    const examDoc = await getDoc(doc(db, 'exams', examId.value));
+    if (!examDoc.exists()) return;
+    
+    const data = examDoc.data();
+    if (data.type === 'exam') {
+      mode.value = 'exam';
+      exam.value.title = data.title || '';
+      exam.value.subject = data.subject || 'social';
+      exam.value.classId = data.classId || '';
+      exam.value.blockId = data.blockId || 1;
+      exam.value.deadline = data.deadline || null;
+      exam.value.enableTimer = data.enableTimer === true;
+      exam.value.timerMinutes = data.timerMinutes || 210;
+      currentQuestions.value = [...(data.questions || [])];
 
-        exam.value.part2 = {
-          text: { enabled: false, value: '' },
-          plan: { enabled: false, value: '' },
-          task: { enabled: false, value: '' },
-          lawTask: { enabled: false, value: '' },
-          essay: { enabled: false, value: '' },
-          graph: { enabled: false, value: '' }
-        }
+      exam.value.part2 = {
+        text: { enabled: false, value: '' },
+        plan: { enabled: false, value: '' },
+        task: { enabled: false, value: '' },
+        lawTask: { enabled: false, value: '' },
+        essay: { enabled: false, value: '' },
+        graph: { enabled: false, value: '' }
+      };
 
-        if (data.questions) {
-          const textQ = data.questions.find(q => q.type === 'text_analysis')
-          if (textQ && textQ.title) {
-            const found = textOptions.value.find(t => t.label === textQ.title)
-            if (found) exam.value.part2.text = { enabled: true, value: found.value }
-          }
-          const planQ = data.questions.find(q => q.type === 'plan')
-          if (planQ && planQ.title) {
-            const found = planOptions.value.find(p => p.label === planQ.title)
-            if (found) exam.value.part2.plan = { enabled: true, value: found.value }
-          }
-          const taskQ = data.questions.find(q => q.type === 'task')
-          if (taskQ && taskQ.title) {
-            const found = taskOptions.value.find(t => t.label === taskQ.title)
-            if (found) exam.value.part2.task = { enabled: true, value: found.value }
-          }
-          const lawTaskQ = data.questions.find(q => q.type === 'law_task')
-          if (lawTaskQ && lawTaskQ.title) {
-            const found = lawTaskOptions.value.find(l => l.label === lawTaskQ.title)
-            if (found) exam.value.part2.lawTask = { enabled: true, value: found.value }
-          }
-          const essayQ = data.questions.find(q => q.type === 'essay')
-          if (essayQ && essayQ.title) {
-            const found = essayOptions.value.find(e => e.label === essayQ.title)
-            if (found) exam.value.part2.essay = { enabled: true, value: found.value }
-          }
-          const graphQ = data.questions.find(q => q.type === 'graph_analysis')
-          if (graphQ && graphQ.title) {
-            const found = graphOptions.value.find(g => g.label === graphQ.title)
-            if (found) exam.value.part2.graph = { enabled: true, value: found.value }
-          }
+      if (data.questions) {
+        const textQ = data.questions.find(q => q.type === 'text_analysis');
+        if (textQ && textQ.title) {
+          const found = textOptions.value.find(t => t.label === textQ.title);
+          if (found) exam.value.part2.text = { enabled: true, value: found.value };
         }
-      } else {
-        mode.value = 'homework'
-        homework.value.title = data.title || ''
-        homework.value.classId = data.classId || ''
-        homework.value.topicId = data.topicId || ''
-        homework.value.deadline = data.deadline || null
-        currentQuestions.value = [...(data.questions || [])]
+        const planQ = data.questions.find(q => q.type === 'plan');
+        if (planQ && planQ.title) {
+          const found = planOptions.value.find(p => p.label === planQ.title);
+          if (found) exam.value.part2.plan = { enabled: true, value: found.value };
+        }
+        const taskQ = data.questions.find(q => q.type === 'task');
+        if (taskQ && taskQ.title) {
+          const found = taskOptions.value.find(t => t.label === taskQ.title);
+          if (found) exam.value.part2.task = { enabled: true, value: found.value };
+        }
+        const lawTaskQ = data.questions.find(q => q.type === 'law_task');
+        if (lawTaskQ && lawTaskQ.title) {
+          const found = lawTaskOptions.value.find(l => l.label === lawTaskQ.title);
+          if (found) exam.value.part2.lawTask = { enabled: true, value: found.value };
+        }
+        const essayQ = data.questions.find(q => q.type === 'essay');
+        if (essayQ && essayQ.title) {
+          const found = essayOptions.value.find(e => e.label === essayQ.title);
+          if (found) exam.value.part2.essay = { enabled: true, value: found.value };
+        }
+        const graphQ = data.questions.find(q => q.type === 'graph_analysis');
+        if (graphQ && graphQ.title) {
+          const found = graphOptions.value.find(g => g.label === graphQ.title);
+          if (found) exam.value.part2.graph = { enabled: true, value: found.value };
+        }
+      }
+    } else {
+      mode.value = 'homework';
+      homework.value.title = data.title || '';
+      homework.value.subject = data.subject || 'social';
+      homework.value.classId = data.classId || '';
+      homework.value.topicId = data.topicId || '';
+      homework.value.deadline = data.deadline || null;
+      currentQuestions.value = [...(data.questions || [])];
 
-        homework.value.types = {
-          choice: { enabled: false, count: 0 },
-          match: { enabled: false, count: 0 },
-          short: { enabled: false, count: 0 },
-          essay: { enabled: false, count: 0, topicId: '' }
-        }
+      homework.value.types = {
+        choice: { enabled: false, count: 0 },
+        match: { enabled: false, count: 0 },
+        short: { enabled: false, count: 0 },
+        essay: { enabled: false, count: 0, topicId: '' }
+      };
 
-        if (data.questions) {
-          const choiceCount = data.questions.filter(q => q.type === 'choice').length
-          const matchCount = data.questions.filter(q => q.type === 'match').length
-          const shortCount = data.questions.filter(q => q.type === 'short').length
-          const essayQ = data.questions.find(q => q.type === 'essay')
-          homework.value.types.choice = { enabled: choiceCount > 0, count: choiceCount }
-          homework.value.types.match = { enabled: matchCount > 0, count: matchCount }
-          homework.value.types.short = { enabled: shortCount > 0, count: shortCount }
-          homework.value.types.essay = {
-            enabled: essayQ !== undefined,
-            count: essayQ ? 1 : 0,
-            topicId: essayQ?.topicId || ''
-          }
-        }
+      if (data.questions) {
+        const choiceCount = data.questions.filter(q => q.type === 'choice').length;
+        const matchCount = data.questions.filter(q => q.type === 'match').length;
+        const shortCount = data.questions.filter(q => q.type === 'short').length;
+        const essayQ = data.questions.find(q => q.type === 'essay');
+        homework.value.types.choice = { enabled: choiceCount > 0, count: choiceCount };
+        homework.value.types.match = { enabled: matchCount > 0, count: matchCount };
+        homework.value.types.short = { enabled: shortCount > 0, count: shortCount };
+        homework.value.types.essay = {
+          enabled: essayQ !== undefined,
+          count: essayQ ? 1 : 0,
+          topicId: essayQ?.topicId || ''
+        };
       }
     }
   } catch (error) {
-    console.error('Ошибка загрузки:', error)
-    showToast('error', 'Не удалось загрузить задание')
+    console.error('Ошибка загрузки:', error);
+    showToast('error', 'Не удалось загрузить задание');
   }
-}
+};
 
 const saveExam = async () => {
   if (currentQuestions.value.length === 0) {
-    showToast('error', 'Нет заданий для сохранения')
-    return
+    showToast('error', 'Нет заданий для сохранения');
+    return;
   }
-  const user = auth.currentUser
+  const user = auth.currentUser;
   if (!user) {
-    showToast('error', 'Вы не авторизованы')
-    return
+    showToast('error', 'Вы не авторизованы');
+    return;
   }
+
+  // Функция для очистки данных от вложенных массивов
+  const sanitizeForFirestore = (data) => {
+    if (data === null || data === undefined) return data;
+    if (Array.isArray(data)) {
+      // Проверяем, есть ли внутри массива другие массивы
+      const hasNestedArray = data.some(item => Array.isArray(item));
+      if (hasNestedArray) {
+        // Преобразуем вложенные массивы в строки JSON
+        return data.map(item => {
+          if (Array.isArray(item)) return JSON.stringify(item);
+          if (typeof item === 'object' && item !== null) return sanitizeForFirestore(item);
+          return item;
+        });
+      }
+      return data;
+    }
+    if (typeof data === 'object' && data !== null) {
+      const cleaned = {};
+      for (const [key, value] of Object.entries(data)) {
+        cleaned[key] = sanitizeForFirestore(value);
+      }
+      return cleaned;
+    }
+    return data;
+  };
 
   const baseData = {
     title: (mode.value === 'exam' ? exam.value.title : homework.value.title) || 'Без названия',
     type: mode.value,
-    questions: currentQuestions.value,
+    subject: mode.value === 'exam' ? exam.value.subject : homework.value.subject,
+    questions: sanitizeForFirestore(JSON.parse(JSON.stringify(currentQuestions.value))),
     published: false,
     createdAt: new Date(),
     updatedAt: new Date(),
     createdBy: user.uid
-  }
+  };
 
-  if (mode.value === 'exam' && exam.value.classId) {
-    baseData.classId = exam.value.classId
-  }
-  if (mode.value === 'homework' && homework.value.classId) {
-    baseData.classId = homework.value.classId
-  }
-  if (mode.value === 'exam' && exam.value.deadline) {
-    baseData.deadline = exam.value.deadline
-  }
-  if (mode.value === 'homework' && homework.value.deadline) {
-    baseData.deadline = homework.value.deadline
-  }
   if (mode.value === 'exam') {
-    baseData.blockId = exam.value.blockId
-    baseData.enableTimer = exam.value.enableTimer === true
-    baseData.timerMinutes = exam.value.enableTimer ? exam.value.timerMinutes : null
-  } else if (homework.value.topicId) {
-    baseData.topicId = homework.value.topicId
+    if (exam.value.classId && exam.value.classId !== '') baseData.classId = exam.value.classId;
+    if (exam.value.deadline && exam.value.deadline !== '') baseData.deadline = exam.value.deadline;
+    if (exam.value.blockId !== undefined && exam.value.blockId !== null) baseData.blockId = exam.value.blockId;
+    baseData.enableTimer = exam.value.enableTimer === true;
+    if (exam.value.enableTimer && exam.value.timerMinutes) baseData.timerMinutes = exam.value.timerMinutes;
+  }
+  
+  if (mode.value === 'homework') {
+    if (homework.value.classId && homework.value.classId !== '') baseData.classId = homework.value.classId;
+    if (homework.value.deadline && homework.value.deadline !== '') baseData.deadline = homework.value.deadline;
+    if (homework.value.topicId && homework.value.topicId !== '') baseData.topicId = homework.value.topicId;
   }
 
-  Object.keys(baseData).forEach(key => {
-    if (baseData[key] === undefined || baseData[key] === null) {
-      delete baseData[key]
+  // Удаляем undefined поля
+  const cleanedData = {};
+  for (const [key, value] of Object.entries(baseData)) {
+    if (value !== undefined && value !== null && value !== '') {
+      cleanedData[key] = value;
     }
-  })
+  }
+
+  if (cleanedData.questions && cleanedData.questions.length === 0) {
+    delete cleanedData.questions;
+  }
+
+  console.log('[saveExam] Saving data:', cleanedData);
 
   try {
     if (isEditing.value && examId.value) {
-      await updateDoc(doc(db, 'exams', examId.value), baseData)
-      showToast('success', 'Задание обновлено')
+      await updateDoc(doc(db, 'exams', examId.value), cleanedData);
+      showToast('success', 'Задание обновлено');
     } else {
-      await addDoc(collection(db, 'exams'), baseData)
-      showToast('success', 'Задание создано')
+      await addDoc(collection(db, 'exams'), cleanedData);
+      showToast('success', 'Задание создано');
     }
-    router.push('/teacher/exams')
+    router.push('/teacher/exams');
   } catch (error) {
-    console.error('Ошибка сохранения:', error)
-    showToast('error', error.message || 'Не удалось сохранить задание')
+    console.error('Ошибка сохранения:', error);
+    showToast('error', error.message || 'Не удалось сохранить задание');
   }
-}
+};
 
 const goBack = () => {
-  router.push('/teacher/exams')
-}
+  router.push('/teacher/exams');
+};
 
 onMounted(async () => {
-  await loadClasses()
-  questionGenerator.initialize()
-  loadDynamicOptions()
+  isMounted.value = true;
+  await loadClasses();
+  questionGenerator.initialize();
+  loadDynamicOptions();
   if (route.params.id) {
-    isEditing.value = true
-    examId.value = route.params.id
-    await loadExam()
+    isEditing.value = true;
+    examId.value = route.params.id;
+    await loadExam();
   }
-})
+});
+
+onUnmounted(() => {
+  isMounted.value = false;
+});
 </script>
 
 <style scoped>
@@ -760,7 +916,6 @@ onMounted(async () => {
 .toast-close { background: none; border: none; cursor: pointer; font-size: 1.2rem; margin-left: 0.5rem; }
 @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-/* Тёмная тема */
 body.dark-theme .form-input { background: var(--gray-800); border-color: var(--gray-600); color: var(--gray-200); }
 body.dark-theme .form-group label { color: var(--gray-300); }
 body.dark-theme .question-card { background: var(--gray-700); }

@@ -1,3 +1,4 @@
+// src/modules/social/stores/questionGenerator.js
 import { defineStore } from 'pinia';
 import topicsData from '@/modules/social/data/topics.json';
 import theoryData from '@/modules/social/data/theory.json';
@@ -8,6 +9,7 @@ import tasksData from '@/modules/social/data/tasks.json';
 import textsData from '@/modules/social/data/texts.json';
 import lawTasksData from '@/modules/social/data/law_tasks.json';
 import staticTasksData from '@/modules/social/data/static_tasks.json';
+import matchPairsData from '@/modules/social/data/match_pairs.json';
 
 export const useQuestionGenerator = defineStore('questionGenerator', {
   state: () => ({
@@ -58,11 +60,13 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
     },
 
     shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
+      if (!array || !array.length) return [];
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
-      return array;
+      return arr;
     },
 
     getTopicsByBlock(blockId) {
@@ -80,6 +84,7 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       return topics;
     },
 
+    // ========== ЗАДАНИЕ 1 ==========
     generateTask1(topicId, egeNum = 1) {
       const topic = this.topicsMap.get(topicId);
       if (!topic?.definitions?.length || topic.definitions.length < 4) return null;
@@ -98,7 +103,7 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       const correctIndices = options.map((opt, idx) => opt === extraTerm ? idx : null).filter(i => i !== null);
 
       return {
-        id: `task1_${topicId}_${Date.now()}_${Math.random()}`,
+        id: `task1_${topicId.replace(/\./g, '_')}_${egeNum}`,
         type: 'choice',
         ege_num: egeNum,
         text: `Ниже приведён перечень терминов. Все они, за исключением двух, относятся к теме "${topic.name}". Найдите два термина, «выпадающих» из общего ряда, и запишите цифры, под которыми они указаны.`,
@@ -110,6 +115,7 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       };
     },
 
+    // ========== ЗАДАНИЕ 2 ==========
     generateTask2(topicId, egeNum = 2) {
       const theory = this.theoryMap.get(topicId);
       if (!theory?.trueStatements?.length || !theory?.falseStatements?.length) {
@@ -130,7 +136,7 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       });
 
       return {
-        id: `task2_${topicId}_${Date.now()}_${Math.random()}`,
+        id: `task2_${topicId.replace(/\./g, '_')}_${egeNum}`,
         type: 'choice',
         ege_num: egeNum,
         text: `Выберите верные суждения и запишите цифры, под которыми они указаны.`,
@@ -151,7 +157,7 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       const options = sentences.slice(0, 4);
       const correctIndices = [0, 2];
       return {
-        id: `task2_${topicId}_${Date.now()}_${Math.random()}`,
+        id: `task2_legacy_${topicId.replace(/\./g, '_')}_${egeNum}`,
         type: 'choice',
         ege_num: egeNum,
         text: `Выберите верные суждения и запишите цифры, под которыми они указаны.`,
@@ -163,159 +169,135 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       };
     },
 
-    generateMatch(egeNum, topicId = null, specificPairs = null) {
-      let pairs = specificPairs;
-      let topicName = '';
+    // ========== СООТВЕТСТВИЕ (3,6,13,15) ==========
+    generateMatch(egeNum) {
+      const egeKey = `ege${egeNum}`;
+      const blocks = matchPairsData[egeKey]?.blocks || [];
+      
+      if (!blocks.length) return null;
 
-      if (!pairs) {
-        const topic = this.topicsMap.get(topicId);
-        if (!topic?.matchPairs?.length) return null;
-        pairs = topic.matchPairs;
-        topicName = topic.name;
+      const selectedBlock = this.getRandomItem(blocks);
+      const options = selectedBlock.options;
+      
+      if (!options || options.length < 2) return null;
+
+      const allPairs = [];
+      options.forEach(opt => {
+        if (opt.terms && opt.terms.length) {
+          opt.terms.forEach(term => {
+            allPairs.push({ term: term, correct: opt.id.toString() });
+          });
+        }
+      });
+
+      if (allPairs.length < 4) return null;
+
+      const totalNeeded = Math.min(6, Math.max(4, allPairs.length));
+      const shuffledPairs = this.shuffleArray([...allPairs]);
+      
+      const selectedPairs = [];
+      const usedOptions = new Map();
+      
+      options.forEach(opt => {
+        usedOptions.set(opt.id, 0);
+      });
+      
+      for (const opt of options) {
+        const pairsFromOpt = shuffledPairs.filter(p => p.correct === opt.id);
+        if (pairsFromOpt.length > 0) {
+          selectedPairs.push(pairsFromOpt[0]);
+          usedOptions.set(opt.id, usedOptions.get(opt.id) + 1);
+        }
       }
-
-      const selectedPairs = this.shuffleArray([...pairs]).slice(0, 4);
-      const leftItems = selectedPairs.map(p => p.term);
-      const rightItems = this.shuffleArray(selectedPairs.map(p => p.definition));
+      
+      if (selectedPairs.length < totalNeeded) {
+        const remaining = shuffledPairs.filter(p => !selectedPairs.includes(p));
+        const toAdd = remaining.slice(0, totalNeeded - selectedPairs.length);
+        selectedPairs.push(...toAdd);
+        toAdd.forEach(p => {
+          usedOptions.set(p.correct, usedOptions.get(p.correct) + 1);
+        });
+      }
+      
+      const finalPairs = this.shuffleArray(selectedPairs.slice(0, totalNeeded));
+      
+      const leftItems = finalPairs.map(p => p.term);
+      const correctAnswers = finalPairs.map(p => p.correct).join('');
+      
+      const optionsList = options.map(opt => opt.name);
 
       return {
-        id: `match_${egeNum}_${Date.now()}_${Math.random()}`,
+        id: `match_${egeNum}_${selectedBlock.name?.replace(/\s/g, '_') || Date.now()}`,
         type: 'match',
         ege_num: egeNum,
-        text: 'Установите соответствие между понятиями и их определениями: к каждой позиции, данной в первом столбце, подберите соответствующую позицию из второго столбца.',
-        pairs: leftItems.map((left, idx) => ({ left, right: rightItems[idx] })),
-        correctMapping: selectedPairs,
-        topicId: topicId || 'mixed',
-        topicName: topicName
+        text: this.getMatchText(egeNum),
+        leftItems: leftItems,
+        optionsList: optionsList,
+        correctAnswers: correctAnswers,
+        topicName: selectedBlock.name || `Задание ${egeNum}`
       };
+    },
+
+    getMatchText(egeNum) {
+      const texts = {
+        3: 'Установите соответствие между характеристиками и формами (видами) культуры: к каждой позиции, данной в первом столбце, подберите соответствующую позицию из второго столбца.',
+        6: 'Установите соответствие между характеристиками и факторами производства: к каждой позиции, данной в первом столбце, подберите соответствующую позицию из второго столбца.',
+        13: 'Установите соответствие между полномочиями и субъектами государственной власти РФ: к каждой позиции, данной в первом столбце, подберите соответствующую позицию из второго столбца.',
+        15: 'Установите соответствие между отраслями права и их институтами (характеристиками): к каждой позиции, данной в первом столбце, подберите соответствующую позицию из второго столбца.'
+      };
+      return texts[egeNum] || 'Установите соответствие между позициями: к каждой позиции, данной в первом столбце, подберите соответствующую позицию из второго столбца.';
     },
 
     generateMatchEge3() {
-      const block1Topics = this.getTopicsByBlock(1);
-      const allPairs = [];
-      for (const topic of block1Topics) {
-        if (topic.matchPairs && topic.matchPairs.length) {
-          allPairs.push(...topic.matchPairs);
-        }
-      }
-      if (allPairs.length < 4) return this.generateMatch(3, '1.8');
-      const selectedPairs = this.shuffleArray([...allPairs]).slice(0, 5);
-      const leftItems = selectedPairs.map(p => p.term);
-      const rightItems = this.shuffleArray(selectedPairs.map(p => p.definition));
-      return {
-        id: `ege3_${Date.now()}_${Math.random()}`,
-        type: 'match',
-        ege_num: 3,
-        text: 'Установите соответствие между понятиями и их определениями: к каждой позиции, данной в первом столбце, подберите соответствующую позицию из второго столбца.',
-        pairs: leftItems.map((left, idx) => ({ left, right: rightItems[idx] })),
-        correctMapping: selectedPairs,
-        topicId: '1',
-        topicName: 'Человек и общество'
-      };
+      return this.generateMatch(3);
     },
 
     generateMatchEge6() {
-      const block2Topics = this.getTopicsByBlock(2);
-      const allPairs = [];
-      for (const topic of block2Topics) {
-        if (topic.matchPairs && topic.matchPairs.length) {
-          allPairs.push(...topic.matchPairs);
-        }
-      }
-      if (allPairs.length < 4) return this.generateMatch(6, '2.5');
-      const selectedPairs = this.shuffleArray([...allPairs]).slice(0, 5);
-      const leftItems = selectedPairs.map(p => p.term);
-      const rightItems = this.shuffleArray(selectedPairs.map(p => p.definition));
-      return {
-        id: `ege6_${Date.now()}_${Math.random()}`,
-        type: 'match',
-        ege_num: 6,
-        text: 'Установите соответствие между понятиями и их определениями: к каждой позиции, данной в первом столбце, подберите соответствующую позицию из второго столбца.',
-        pairs: leftItems.map((left, idx) => ({ left, right: rightItems[idx] })),
-        correctMapping: selectedPairs,
-        topicId: '2',
-        topicName: 'Экономика'
-      };
+      return this.generateMatch(6);
     },
 
     generateMatchEge13() {
-      const constTopic = this.topicsMap.get('5.6');
-      const govTopic = this.topicsMap.get('4.6');
-      const allPairs = [];
-      if (constTopic?.matchPairs) allPairs.push(...constTopic.matchPairs);
-      if (govTopic?.matchPairs) allPairs.push(...govTopic.matchPairs);
-      const specificPairs = [
-        { term: 'Назначение выборов Президента РФ', definition: 'Совет Федерации' },
-        { term: 'Утверждение изменения границ между субъектами РФ', definition: 'Совет Федерации' },
-        { term: 'Разрешение споров о компетенции между высшими органами власти', definition: 'Конституционный Суд РФ' },
-        { term: 'Осуществление мер по поддержке институтов гражданского общества', definition: 'Правительство РФ' },
-        { term: 'Обеспечение исполнения федерального бюджета', definition: 'Правительство РФ' }
-      ];
-      allPairs.push(...specificPairs);
-      if (allPairs.length < 4) return this.generateMatch(13, '5.6');
-      const selectedPairs = this.shuffleArray([...allPairs]).slice(0, 5);
-      const leftItems = selectedPairs.map(p => p.term);
-      const rightItems = this.shuffleArray(selectedPairs.map(p => p.definition));
-      return {
-        id: `ege13_${Date.now()}_${Math.random()}`,
-        type: 'match',
-        ege_num: 13,
-        text: 'Установите соответствие между полномочиями и субъектами государственной власти РФ: к каждой позиции, данной в первом столбце, подберите соответствующую позицию из второго столбца.',
-        pairs: leftItems.map((left, idx) => ({ left, right: rightItems[idx] })),
-        correctMapping: selectedPairs,
-        topicId: '5.6',
-        topicName: 'Конституция РФ и органы власти'
-      };
+      return this.generateMatch(13);
     },
 
     generateMatchEge15() {
-      const block5Topics = this.getTopicsByBlock(5);
-      const allPairs = [];
-      for (const topic of block5Topics) {
-        if (topic.matchPairs && topic.matchPairs.length) {
-          allPairs.push(...topic.matchPairs);
-        }
-      }
-      if (allPairs.length < 4) return this.generateMatch(15, '5.5');
-      const selectedPairs = this.shuffleArray([...allPairs]).slice(0, 5);
-      const leftItems = selectedPairs.map(p => p.term);
-      const rightItems = this.shuffleArray(selectedPairs.map(p => p.definition));
-      return {
-        id: `ege15_${Date.now()}_${Math.random()}`,
-        type: 'match',
-        ege_num: 15,
-        text: 'Установите соответствие между понятиями и их определениями: к каждой позиции, данной в первом столбце, подберите соответствующую позицию из второго столбца.',
-        pairs: leftItems.map((left, idx) => ({ left, right: rightItems[idx] })),
-        correctMapping: selectedPairs,
-        topicId: '5',
-        topicName: 'Право'
-      };
+      return this.generateMatch(15);
     },
 
+    // ========== ХАРАКТЕРИСТИКИ (4,7,11) ==========
     generateCharacteristics(egeNum, characteristicsKey, topicId) {
       const topic = this.topicsMap.get(topicId);
       if (!topic?.characteristics?.[characteristicsKey]) {
         return this.generateTask2(topicId, egeNum);
       }
 
-      const correctChars = topic.characteristics[characteristicsKey];
-      const options = [...correctChars];
+      const allCorrect = topic.characteristics[characteristicsKey];
+      const shuffledCorrect = this.shuffleArray([...allCorrect]);
+      const numCorrect = Math.min(3, Math.max(2, Math.floor(Math.random() * 2) + 2));
+      const selectedCorrect = shuffledCorrect.slice(0, numCorrect);
+      
       const otherKeys = Object.keys(topic.characteristics).filter(k => k !== characteristicsKey);
+      let wrongOptions = [];
       for (const key of otherKeys) {
         const otherChars = topic.characteristics[key];
         if (otherChars && otherChars.length) {
-          options.push(...otherChars.slice(0, 2));
+          wrongOptions.push(...otherChars);
         }
       }
+      const shuffledWrong = this.shuffleArray([...wrongOptions]);
+      const neededWrong = 6 - selectedCorrect.length;
+      const selectedWrong = shuffledWrong.slice(0, neededWrong);
+      
+      const options = [...selectedCorrect, ...selectedWrong];
       this.shuffleArray(options);
 
       const correctIndices = [];
       options.forEach((opt, idx) => {
-        if (correctChars.includes(opt)) correctIndices.push(idx);
+        if (selectedCorrect.includes(opt)) correctIndices.push(idx);
       });
 
       return {
-        id: `char_${egeNum}_${Date.now()}_${Math.random()}`,
+        id: `char_${egeNum}_${topicId.replace(/\./g, '_')}`,
         type: 'choice',
         ege_num: egeNum,
         text: this.getTaskText(egeNum, characteristicsKey),
@@ -347,6 +329,7 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       return texts[egeNum]?.[key] || 'Выберите верные утверждения.';
     },
 
+    // ========== СТАТИЧЕСКИЕ ЗАДАНИЯ 9 ==========
     getStaticTask9() {
       if (!this.staticTasks9.length) return null;
       const task = this.getRandomItem(this.staticTasks9);
@@ -358,10 +341,12 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
         correct: task.correct,
         isMultiple: true,
         data: task.data,
-        explanation: task.explanation
+        explanation: task.explanation,
+        id: task.id || `static9_${Date.now()}`
       };
     },
 
+    // ========== СТАТИЧЕСКИЕ ЗАДАНИЯ 21 ==========
     getStaticTask21() {
       if (!this.staticTasks21.length) return null;
       const task = this.getRandomItem(this.staticTasks21);
@@ -371,10 +356,27 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
         title: task.title,
         data: task.data,
         questions: task.questions,
-        expected: task.expected
+        expected: task.expected,
+        id: task.id || `static21_${Date.now()}`
       };
     },
 
+    getStaticTask21ById(id) {
+      if (!this.staticTasks21.length) return null;
+      const task = this.staticTasks21.find(t => t.id === id);
+      if (!task) return null;
+      return {
+        type: 'graph_analysis',
+        ege_num: 21,
+        title: task.title,
+        data: task.data,
+        questions: task.questions,
+        expected: task.expected,
+        id: task.id || `static21_${Date.now()}`
+      };
+    },
+
+    // ========== ГЕНЕРАЦИЯ ПОЛНОГО ЭКЗАМЕНА ==========
     generateFullExam(blockId, title, classId, deadline = null, part2Selections = {}) {
       this.initialize();
       const topicsInBlock = this.getTopicsByBlock(blockId);
@@ -385,128 +387,169 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       // 1
       let q = this.generateTask1(this.getRandomItem(topicsInBlock).topic_id, 1);
       if (!q) q = this.generateTask2(this.getRandomItem(topicsInBlock).topic_id, 1);
-      part1.push(q);
+      if (q) part1.push(q);
 
       // 2
       q = this.generateTask2(this.getRandomItem(topicsInBlock).topic_id, 2);
-      if (!q) q = this.generateMatch(2, this.getRandomItem(topicsInBlock).topic_id);
-      part1.push(q);
+      if (!q && this.getRandomItem(topicsInBlock)) q = this.generateMatch(2);
+      if (q) part1.push(q);
 
       // 3
       q = this.generateMatchEge3();
-      if (!q) q = this.generateMatch(3, this.getRandomItem(topicsInBlock.filter(t => t.topic_id.startsWith('1.'))).topic_id);
-      part1.push(q);
+      if (q) part1.push(q);
 
       // 4
       q = this.generateCharacteristics(4, 'traditional', '1.8');
       if (!q) q = this.generateTask2('1.8', 4);
-      part1.push(q);
+      if (q) part1.push(q);
 
       // 5
       const ecoTopics = topicsInBlock.filter(t => t.topic_id.startsWith('2.'));
       const topic5 = ecoTopics.length ? this.getRandomItem(ecoTopics) : this.topicsMap.get('2.1');
-      q = this.generateTask2(topic5.topic_id, 5);
-      if (!q) q = this.generateMatch(5, topic5.topic_id);
-      part1.push(q);
+      q = this.generateTask2(topic5?.topic_id, 5);
+      if (!q && topic5) q = this.generateMatch(5);
+      if (q) part1.push(q);
 
       // 6
       q = this.generateMatchEge6();
-      if (!q) q = this.generateMatch(6, this.getRandomItem(ecoTopics).topic_id);
-      part1.push(q);
+      if (q) part1.push(q);
 
       // 7
       q = this.generateCharacteristics(7, 'fixed_costs', '2.8');
       if (!q) q = this.generateTask2('2.8', 7);
-      part1.push(q);
+      if (q) part1.push(q);
 
       // 8
       const socTopics = topicsInBlock.filter(t => t.topic_id.startsWith('3.'));
       const topic8 = socTopics.length ? this.getRandomItem(socTopics) : this.topicsMap.get('3.1');
-      q = this.generateTask2(topic8.topic_id, 8);
-      if (!q) q = this.generateMatch(8, topic8.topic_id);
-      part1.push(q);
+      q = this.generateTask2(topic8?.topic_id, 8);
+      if (!q && topic8) q = this.generateMatch(8);
+      if (q) part1.push(q);
 
       // 9
       q = this.getStaticTask9();
       if (!q) q = this.generateTask2(this.getRandomItem(topicsInBlock).topic_id, 9);
-      part1.push(q);
+      if (q) part1.push(q);
 
       // 10
       const polTopics = topicsInBlock.filter(t => t.topic_id.startsWith('4.'));
       const topic10 = polTopics.length ? this.getRandomItem(polTopics) : this.topicsMap.get('4.1');
-      q = this.generateTask2(topic10.topic_id, 10);
-      if (!q) q = this.generateMatch(10, topic10.topic_id);
-      part1.push(q);
+      q = this.generateTask2(topic10?.topic_id, 10);
+      if (!q && topic10) q = this.generateMatch(10);
+      if (q) part1.push(q);
 
       // 11
       q = this.generateCharacteristics(11, 'majoritarian_system', '4.10');
       if (!q) q = this.generateTask2('4.10', 11);
-      part1.push(q);
+      if (q) part1.push(q);
 
       // 12
       const lawTopics = topicsInBlock.filter(t => t.topic_id.startsWith('5.'));
       const topic12 = lawTopics.length ? this.getRandomItem(lawTopics) : this.topicsMap.get('5.1');
-      q = this.generateTask2(topic12.topic_id, 12);
-      if (!q) q = this.generateMatch(12, topic12.topic_id);
-      part1.push(q);
+      q = this.generateTask2(topic12?.topic_id, 12);
+      if (!q && topic12) q = this.generateMatch(12);
+      if (q) part1.push(q);
 
       // 13
       q = this.generateMatchEge13();
-      if (!q) q = this.generateMatch(13, '5.6');
-      part1.push(q);
+      if (q) part1.push(q);
 
       // 14
       const topic14 = this.getRandomItem(topicsInBlock);
-      q = this.generateTask2(topic14.topic_id, 14);
-      if (!q) q = this.generateMatch(14, topic14.topic_id);
-      part1.push(q);
+      q = this.generateTask2(topic14?.topic_id, 14);
+      if (!q && topic14) q = this.generateMatch(14);
+      if (q) part1.push(q);
 
       // 15
       q = this.generateMatchEge15();
-      if (!q) q = this.generateMatch(15, '5.5');
-      part1.push(q);
+      if (q) part1.push(q);
 
       // 16
       const constTopic16 = this.topicsMap.get('5.6');
       q = this.generateTask2(constTopic16?.topic_id, 16);
-      if (!q) q = this.generateMatch(16, constTopic16?.topic_id);
-      part1.push(q);
+      if (!q && constTopic16) q = this.generateMatch(16);
+      if (q) part1.push(q);
 
-      // 21
-      q = this.getStaticTask21();
-      if (!q) q = this.generateTask2(this.getRandomItem(topicsInBlock).topic_id, 21);
-      part1.push(q);
-
-      // Часть 2 (развёрнутые ответы)
+      // ========== ЧАСТЬ 2 ==========
       const part2 = [];
+
+      // 17-20: текст (4 отдельных вопроса, каждый со своим текстом)
       if (part2Selections.text?.enabled && part2Selections.text?.value) {
         const textData = this.getTextById(part2Selections.text.value);
         if (textData && textData.questions) {
-          part2.push({ type: 'text_analysis', ege_num: 17, text: textData.content, question: textData.questions['17']?.text, expected: textData.questions['17']?.expected });
-          part2.push({ type: 'text_analysis', ege_num: 18, text: textData.content, question: textData.questions['18']?.text, expected: textData.questions['18']?.expected });
-          part2.push({ type: 'text_analysis', ege_num: 19, text: textData.content, question: textData.questions['19']?.text, expected: textData.questions['19']?.expected });
-          part2.push({ type: 'text_analysis', ege_num: 20, text: textData.content, question: textData.questions['20']?.text, expected: textData.questions['20']?.expected });
+          for (let key = 17; key <= 20; key++) {
+            const qData = textData.questions[key];
+            if (qData && qData.text) {
+              part2.push({
+                type: 'text_analysis',
+                ege_num: key,
+                text: qData.text,
+                content: textData.content,
+                expected: qData.expected || null,
+                id: `text_${textData.id || Date.now()}_${key}`
+              });
+            }
+          }
         }
       }
+
+      // 21: график
       if (part2Selections.graph?.enabled && part2Selections.graph?.value) {
-        const graph = this.getStaticTask21();
-        if (graph) part2.push(graph);
+        const selectedGraph = this.getStaticTask21ById(part2Selections.graph.value);
+        if (selectedGraph) part2.push(selectedGraph);
       }
+
+      // 22: задача
       if (part2Selections.task?.enabled && part2Selections.task?.value) {
         const task = this.getTaskById(part2Selections.task.value);
         if (task) part2.push(task);
       }
+
+      // 23: правовая задача
       if (part2Selections.lawTask?.enabled && part2Selections.lawTask?.value) {
         const lawTask = this.getLawTaskById(part2Selections.lawTask.value);
-        if (lawTask) part2.push(lawTask);
+        if (lawTask) {
+          part2.push({
+            type: 'law_task',
+            ege_num: 23,
+            title: lawTask.title,
+            question: lawTask.question,
+            expected_answer: lawTask.expected_answer,
+            source: lawTask.source,
+            id: lawTask.id || `lawtask_${Date.now()}`
+          });
+        }
       }
+
+      // 24: план
       if (part2Selections.plan?.enabled && part2Selections.plan?.value) {
         const plan = this.getPlanTopicById(part2Selections.plan.value);
-        if (plan) part2.push(plan);
+        if (plan) {
+          part2.push({
+            type: 'plan',
+            ege_num: 24,
+            title: plan.title,
+            suggestedPlan: plan.suggestedPlan,
+            topicId: plan.topicId,
+            id: plan.id || `plan_${plan.topicId?.replace(/\./g, '_') || Date.now()}`
+          });
+        }
       }
+
+      // 25: эссе
       if (part2Selections.essay?.enabled && part2Selections.essay?.value) {
         const essay = this.getEssayTopicById(part2Selections.essay.value);
-        if (essay) part2.push(essay);
+        if (essay) {
+          part2.push({
+            type: 'essay',
+            ege_num: 25,
+            title: essay.title,
+            prompt: essay.prompt,
+            criteria: essay.criteria,
+            topicId: essay.topicId,
+            id: essay.id || `essay_${essay.topicId?.replace(/\./g, '_') || Date.now()}`
+          });
+        }
       }
 
       return {
@@ -521,6 +564,7 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       };
     },
 
+    // ========== ГЕНЕРАЦИЯ ДОМАШНЕГО ЗАДАНИЯ ==========
     generateHomework(topicId, title, classId, typesCount = {}, deadline = null) {
       this.initialize();
       const topic = this.topicsMap.get(topicId);
@@ -532,7 +576,7 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
         if (q) questions.push(q);
       }
       for (let i = 0; i < (typesCount.match || 0); i++) {
-        const q = this.generateMatch(3, topicId);
+        const q = this.generateMatch(3);
         if (q) questions.push(q);
       }
       for (let i = 0; i < (typesCount.short || 0); i++) {
@@ -560,6 +604,7 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       };
     },
 
+    // ========== МЕТОДЫ ДЛЯ ЧАСТИ 2 ==========
     getTextsList(blockId = null) {
       let texts = [...this.texts];
       if (blockId && blockId !== 'all') {
@@ -577,7 +622,11 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
     },
 
     getTextById(id) {
-      return this.texts.find(t => t.id === id) || null;
+      const text = this.texts.find(t => t.id === id);
+      if (!text) return null;
+      const result = { ...text };
+      if (!result.id) result.id = `text_${Date.now()}`;
+      return result;
     },
 
     getPlanTopicsList(blockId = null) {
@@ -594,7 +643,8 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
         ege_num: 24,
         title: topic.title,
         suggestedPlan: topic.suggested_plan,
-        topicId: topic.topic_id
+        topicId: topic.topic_id,
+        id: `plan_${topic.topic_id.replace(/\./g, '_')}`
       };
     },
 
@@ -614,7 +664,8 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
         prompt: topic.prompt,
         criteria: topic.criteria,
         title: topic.title,
-        topicId: topic.topic_id
+        topicId: topic.topic_id,
+        id: `essay_${topic.topic_id.replace(/\./g, '_')}`
       };
     },
 
@@ -628,7 +679,8 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
         prompt: randomTopic.prompt,
         criteria: randomTopic.criteria,
         title: randomTopic.title,
-        topicId: randomTopic.topic_id
+        topicId: randomTopic.topic_id,
+        id: `essay_${randomTopic.topic_id.replace(/\./g, '_')}`
       };
     },
 
@@ -651,14 +703,17 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
     getTaskById(id) {
       const task = this.tasks.find(t => t.id === id);
       if (!task) return null;
+      const result = { ...task };
+      if (!result.id) result.id = `task_${id || Date.now()}`;
       return {
         type: 'task',
         ege_num: 22,
-        title: task.title,
-        situation: task.situation,
-        questions: task.questions,
-        expected_answer: task.expected_answer,
-        source: task.source
+        title: result.title,
+        situation: result.situation,
+        questions: result.questions,
+        expected_answer: result.expected_answer,
+        source: result.source,
+        id: result.id
       };
     },
 
@@ -675,7 +730,8 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
         title: task.title,
         question: task.question,
         expected_answer: task.expected_answer,
-        source: task.source
+        source: task.source,
+        id: task.id || `lawtask_${Date.now()}`
       };
     },
 
@@ -684,11 +740,13 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
       if (!topic?.definitions?.length) return null;
 
       const definition = this.getRandomItem(topic.definitions);
-      const termRegex = new RegExp(`\\b${definition.term}\\b`, 'gi');
+      if (!definition) return null;
+      
+      const termRegex = new RegExp(`\\b${this.escapeRegExp(definition.term)}\\b`, 'gi');
       const textWithBlank = definition.definition.replace(termRegex, '________');
 
       return {
-        id: `${topicId}_short_${Date.now()}_${Math.random()}`,
+        id: `short_${topicId.replace(/\./g, '_')}_${egeNum}`,
         type: 'short',
         ege_num: egeNum,
         text: textWithBlank,
@@ -696,6 +754,10 @@ export const useQuestionGenerator = defineStore('questionGenerator', {
         topicId,
         topicName: topic.name
       };
+    },
+
+    escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
   }
 });

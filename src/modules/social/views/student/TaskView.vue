@@ -5,7 +5,7 @@
         ⚠️ Задание просрочено. Вы не можете его выполнить или отправить.
       </div>
 
-      <div v-if="examTimerEnabled" class="timer-container">
+      <div v-if="examTimerEnabled && !isArchived" class="timer-container">
         <CustomTimer
           ref="timerRef"
           :initialSeconds="examTimerSeconds"
@@ -23,38 +23,46 @@
 
       <div class="task-header">
         <button @click="goBack" class="btn-back">← Назад</button>
-        <h1>{{ task?.title }}</h1>
+        <h1>{{ task?.title || 'Загрузка...' }}</h1>
         <div class="task-progress">
           {{ answeredCount }} / {{ totalQuestions }} отвечено
         </div>
       </div>
 
-      <div class="task-content">
+      <div class="task-content" v-if="task">
         <div class="progress-bar">
           <div class="progress-fill" :style="{ width: progressPercent + '%' }"></div>
         </div>
 
+        <div class="pagination-controls" v-if="totalQuestions > 10">
+          <button @click="currentPage--" :disabled="currentPage === 1" class="page-nav-btn">← Предыдущие</button>
+          <span class="page-info">Страница {{ currentPage }} из {{ totalPages }}</span>
+          <button @click="currentPage++" :disabled="currentPage === totalPages" class="page-nav-btn">Следующие →</button>
+        </div>
+
         <div class="question-nav">
           <button 
-            v-for="(q, idx) in task?.questions" 
-            :key="q.id"
+            v-for="(q, idx) in paginatedQuestions" 
+            :key="getQuestionId(q, idx)"
             class="nav-btn"
             :class="{ 
-              active: currentIndex === idx,
-              answered: isAnswered(idx),
-              hasFile: hasFileAttached(q.id)
+              active: currentIndex === getGlobalIndex(idx),
+              answered: isQuestionAnswered(q),
+              hasFile: hasFileAttached(getQuestionId(q, idx))
             }"
-            @click="currentIndex = idx"
+            @click="currentIndex = getGlobalIndex(idx)"
           >
-            {{ idx + 1 }}
-            <span v-if="hasFileAttached(q.id)" class="file-indicator">📎</span>
+            {{ getGlobalIndex(idx) + 1 }}
+            <span v-if="hasFileAttached(getQuestionId(q, idx))" class="file-indicator">📎</span>
           </button>
         </div>
 
         <div class="question-container" v-if="currentQuestion">
           <QuestionRenderer
+            :key="getQuestionId(currentQuestion, currentIndex)"
             :question="currentQuestion"
-            v-model="answers[currentQuestion.id]"
+            :modelValue="getAnswerForQuestion(currentQuestion)"
+            @update:modelValue="(val) => updateAnswer(currentQuestion, val)"
             :allowAttachments="isPart2(currentQuestion)"
             @fileAttached="handleFileAttached"
           />
@@ -73,7 +81,6 @@
           </button>
         </div>
 
-        <!-- Анимация загрузки файлов -->
         <div v-if="uploading" class="upload-progress-container">
           <div class="wave-progress">
             <div class="wave"></div>
@@ -83,14 +90,40 @@
         </div>
       </div>
 
+      <div v-else-if="loading" class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Загрузка задания...</p>
+      </div>
+
+      <div v-else-if="error" class="error-state">
+        <div class="error-icon">❌</div>
+        <h3>{{ error }}</h3>
+        <button @click="goBack" class="btn-primary">Вернуться к списку</button>
+      </div>
+
+      <!-- Модалки -->
       <div v-if="showConfirmModal" class="modal" @click.self="closeConfirmModal">
-        <div class="modal-content">
+        <div class="modal-content confirm-modal">
+          <div class="modal-icon">📤</div>
           <h2>Подтверждение отправки</h2>
           <p>Вы уверены, что хотите отправить задание на проверку?</p>
           <p class="warning">После отправки изменить ответы будет невозможно.</p>
           <div class="modal-actions">
             <button @click="confirmSubmit" class="btn-primary">Отправить</button>
             <button @click="closeConfirmModal" class="btn-secondary">Отмена</button>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="showLeaveModal" class="modal" @click.self="closeLeaveModal">
+        <div class="modal-content confirm-modal">
+          <div class="modal-icon">⚠️</div>
+          <h2>Выход из задания</h2>
+          <p>Вы действительно хотите выйти?</p>
+          <p class="warning">Ваш прогресс будет сохранён. Вы сможете продолжить позже.</p>
+          <div class="modal-actions">
+            <button @click="confirmLeave" class="btn-primary">Выйти</button>
+            <button @click="closeLeaveModal" class="btn-secondary">Остаться</button>
           </div>
         </div>
       </div>
@@ -106,9 +139,9 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { db, auth } from '@core/services/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import StudentLayout from '@core/layouts/StudentLayout.vue';
 import QuestionRenderer from '@/modules/social/components/QuestionRenderer.vue';
@@ -121,20 +154,51 @@ const taskId = route.params.id;
 const currentUser = auth.currentUser;
 
 const task = ref(null);
-const answers = ref({});
+const answersStore = ref({});
 const pendingFiles = ref(new Map());
 const uploadedFileUrls = ref({});
 const currentIndex = ref(0);
+const currentPage = ref(1);
+const itemsPerPage = 10;
 const submitting = ref(false);
 const uploading = ref(false);
 const uploadProgress = ref(0);
 const showConfirmModal = ref(false);
+const showLeaveModal = ref(false);
+let pendingLeaveCallback = null;
 const isArchived = ref(false);
 const examTimerEnabled = ref(false);
 const examTimerSeconds = ref(0);
 const timerExpired = ref(false);
 const timerRef = ref(null);
+const loading = ref(true);
+const error = ref(null);
 const toast = ref({ visible: false, type: 'success', message: '' });
+
+// Функция для получения ID вопроса
+const getQuestionId = (question, fallbackIndex = null) => {
+  if (!question) return null;
+  if (question.id) return question.id;
+  if (question._id) return question._id;
+  
+  const egeNum = question.ege_num || question.egeNum || 'unknown';
+  const type = question.type || 'unknown';
+  const generatedId = `${type}_${egeNum}_${fallbackIndex !== null ? fallbackIndex : Date.now()}`;
+  
+  if (fallbackIndex !== null) {
+    question.id = generatedId;
+  }
+  
+  return generatedId;
+};
+
+const log = (action, questionId, data) => {
+  console.log(`[TaskView] ${action}`, {
+    questionId,
+    timestamp: new Date().toISOString(),
+    ...data
+  });
+};
 
 const showToast = (type, message) => {
   toast.value = { visible: true, type, message };
@@ -143,70 +207,158 @@ const showToast = (type, message) => {
 
 const currentQuestion = computed(() => task.value?.questions?.[currentIndex.value]);
 const totalQuestions = computed(() => task.value?.questions?.length || 0);
+const totalPages = computed(() => Math.ceil(totalQuestions.value / itemsPerPage));
 
-const answeredCount = computed(() => {
-  return Object.keys(answers.value).filter(key => {
-    const val = answers.value[key];
-    if (val === undefined || val === null) return false;
-    if (Array.isArray(val)) return val.length > 0;
-    if (typeof val === 'object') {
-      if (val.text?.length > 0) return true;
-      if (Object.keys(val).length > 0 && !val.text) return true;
-    }
-    if (typeof val === 'string') return val.trim().length > 0;
-    if (typeof val === 'number') return true;
-    return false;
-  }).length;
+const paginatedQuestions = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return task.value?.questions?.slice(start, end) || [];
 });
 
-const progressPercent = computed(() => (answeredCount.value / totalQuestions.value) * 100);
+const getGlobalIndex = (localIndex) => {
+  return (currentPage.value - 1) * itemsPerPage + localIndex;
+};
+
+const getAnswerForQuestion = (question) => {
+  if (!question) return null;
+  const qId = getQuestionId(question);
+  return answersStore.value[qId];
+};
+
+const updateAnswer = (question, value) => {
+  if (!question) return;
+  
+  const qId = getQuestionId(question);
+  
+  const isEmpty = value === undefined || value === null || 
+    (typeof value === 'string' && value.trim() === '') || 
+    (Array.isArray(value) && value.length === 0) ||
+    (typeof value === 'object' && Object.keys(value).length === 0);
+  
+  if (isEmpty) {
+    delete answersStore.value[qId];
+  } else {
+    answersStore.value[qId] = value;
+  }
+  
+  saveToLocalStorage();
+};
+
+const isQuestionAnswered = (question) => {
+  if (!question) return false;
+  
+  const qId = getQuestionId(question);
+  const answer = answersStore.value[qId];
+  
+  if (answer === undefined || answer === null) return false;
+  
+  // Для задания 22 (task)
+  if (question.type === 'task') {
+    if (typeof answer === 'object' && answer !== null) {
+      return Object.values(answer).some(val => 
+        val !== undefined && val !== null && val !== '' && 
+        (typeof val !== 'string' || val.trim().length > 0)
+      );
+    }
+    return false;
+  }
+  
+  // Для заданий 23, 24, 25 (law_task, plan, essay)
+  if (question.type === 'law_task' || question.type === 'plan' || question.type === 'essay') {
+    if (typeof answer === 'string') {
+      return answer.trim().length > 0;
+    }
+    if (typeof answer === 'object' && answer !== null) {
+      const hasText = answer.text && answer.text.trim().length > 0;
+      const hasFile = answer.fileUrl || answer.file;
+      return hasText || hasFile;
+    }
+    return false;
+  }
+  
+  // Для text_analysis (17-20)
+  if (question.type === 'text_analysis') {
+    if (typeof answer === 'string') {
+      return answer.trim().length > 0;
+    }
+    if (typeof answer === 'object' && answer !== null) {
+      if (answer.text && typeof answer.text === 'string') {
+        return answer.text.trim().length > 0;
+      }
+    }
+    return false;
+  }
+  
+  if (Array.isArray(answer)) return answer.length > 0;
+  
+  if (typeof answer === 'object') {
+    if (answer.text?.length > 0) return true;
+    if (Object.keys(answer).length > 0 && !answer.text) return true;
+  }
+  
+  if (typeof answer === 'string') return answer.trim().length > 0;
+  
+  if (typeof answer === 'number') return true;
+  
+  return false;
+};
+
+const answeredCount = computed(() => {
+  let count = 0;
+  for (const question of (task.value?.questions || [])) {
+    if (isQuestionAnswered(question)) count++;
+  }
+  return count;
+});
+
+const progressPercent = computed(() => {
+  if (totalQuestions.value === 0) return 0;
+  return (answeredCount.value / totalQuestions.value) * 100;
+});
 
 const isPart2 = (question) => question && !['choice', 'match', 'short'].includes(question?.type);
 
-const hasFileAttached = (questionId) => !!uploadedFileUrls.value[questionId] || pendingFiles.value.has(questionId);
+const hasFileAttached = (questionId) => {
+  const answer = answersStore.value[questionId];
+  if (!answer) return false;
+  if (typeof answer === 'object') {
+    if (answer.fileUrl) return true;
+    if (answer.file) return true;
+  }
+  return !!uploadedFileUrls.value[questionId] || pendingFiles.value.has(questionId);
+};
 
 const handleFileAttached = ({ file, questionId }) => {
   if (file) {
     pendingFiles.value.set(questionId, file);
-    if (typeof answers.value[questionId] !== 'object') {
-      const text = answers.value[questionId];
-      answers.value[questionId] = { text: text || '' };
+    const currentAnswer = answersStore.value[questionId];
+    if (typeof currentAnswer !== 'object' || currentAnswer === null) {
+      answersStore.value[questionId] = { text: currentAnswer || '', file };
+    } else {
+      currentAnswer.file = file;
+      answersStore.value[questionId] = currentAnswer;
     }
-    answers.value[questionId].file = file;
   } else {
     pendingFiles.value.delete(questionId);
     delete uploadedFileUrls.value[questionId];
-    if (answers.value[questionId] && typeof answers.value[questionId] === 'object') {
-      const { text } = answers.value[questionId];
-      delete answers.value[questionId].file;
-      delete answers.value[questionId].fileUrl;
-      if (text && Object.keys(answers.value[questionId]).length === 1) {
-        answers.value[questionId] = text;
-      } else if (!text && Object.keys(answers.value[questionId]).length === 0) {
-        delete answers.value[questionId];
+    const currentAnswer = answersStore.value[questionId];
+    if (currentAnswer && typeof currentAnswer === 'object') {
+      const { text } = currentAnswer;
+      delete currentAnswer.file;
+      delete currentAnswer.fileUrl;
+      if (text && Object.keys(currentAnswer).length === 1) {
+        answersStore.value[questionId] = text;
+      } else if (!text && Object.keys(currentAnswer).length === 0) {
+        delete answersStore.value[questionId];
       }
     }
   }
   saveToLocalStorage();
 };
 
-const isAnswered = (idx) => {
-  const q = task.value?.questions[idx];
-  if (!q) return false;
-  const answer = answers.value[q.id];
-  if (answer === undefined || answer === null) return false;
-  if (Array.isArray(answer)) return answer.length > 0;
-  if (typeof answer === 'object') {
-    if (answer.text?.length > 0) return true;
-    if (Object.keys(answer).length > 0 && !answer.text) return true;
-  }
-  if (typeof answer === 'string') return answer.trim().length > 0;
-  if (typeof answer === 'number') return true;
-  return false;
-};
-
 const normalizeAnswer = (question, answer) => {
   if (answer === undefined || answer === null) return null;
+  
   if (question.type === 'choice') {
     if (question.isMultiple) {
       if (Array.isArray(answer)) return answer;
@@ -217,6 +369,7 @@ const normalizeAnswer = (question, answer) => {
       return null;
     }
   }
+  
   if (question.type === 'match') {
     if (typeof answer === 'object' && answer !== null) return answer;
     if (typeof answer === 'string') {
@@ -225,83 +378,153 @@ const normalizeAnswer = (question, answer) => {
         if (typeof parsed === 'object') return parsed;
       } catch(e) {}
     }
+    if (Array.isArray(answer)) {
+      const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е'];
+      const obj = {};
+      for (let i = 0; i < Math.min(answer.length, question.leftItems?.length || 5); i++) {
+        if (answer[i] && answer[i] !== '') obj[letters[i]] = answer[i].toString();
+      }
+      return obj;
+    }
     return {};
   }
+  
   if (question.type === 'short') return String(answer || '');
+  if (question.type === 'task') {
+    if (typeof answer === 'object' && answer !== null) return answer;
+    return {};
+  }
+  if (question.type === 'law_task' || question.type === 'plan') {
+    return String(answer || '');
+  }
+  if (question.type === 'essay') {
+    if (typeof answer === 'object' && answer !== null) return answer;
+    return String(answer || '');
+  }
+  if (question.type === 'graph_analysis') {
+    if (typeof answer === 'object' && answer !== null) return answer;
+    return {};
+  }
+  if (question.type === 'text_analysis') {
+    return String(answer || '');
+  }
+  
   return answer;
 };
 
-const loadTask = async () => {
-  try {
-    const taskDoc = await getDoc(doc(db, 'exams', taskId));
-    if (!taskDoc.exists()) {
-      showToast('error', 'Задание не найдено');
-      router.push('/student/homework');
+const loadTaskFromLocal = () => {
+  loading.value = true;
+  error.value = null;
+  
+  const savedExam = localStorage.getItem(`exam_data_${taskId}`);
+  
+  if (savedExam) {
+    try {
+      const parsed = JSON.parse(savedExam);
+      initTask(parsed);
+      loading.value = false;
       return;
+    } catch(e) {
+      log('loadTaskFromLocal error', null, { error: e });
     }
-    
-    const data = taskDoc.data();
-    
-    if (data.deadline) {
-      const deadlineDate = new Date(data.deadline.replace(' ', 'T') + ':00');
-      isArchived.value = deadlineDate < new Date();
-    }
-    
-    examTimerEnabled.value = data.enableTimer === true;
-    if (examTimerEnabled.value) {
-      examTimerSeconds.value = (data.timerMinutes || 210) * 60;
-      const savedTimer = localStorage.getItem(`exam_timer_${taskId}_${currentUser?.uid}`);
-      if (savedTimer) {
-        try {
-          const { expiresAt, remaining } = JSON.parse(savedTimer);
-          if (expiresAt <= Date.now() && remaining === 0) {
-            timerExpired.value = true;
-            autoSubmitIfNeeded();
-          }
-        } catch(e) {}
-      }
-    }
-    
-    const submissionsQuery = await getDoc(doc(db, 'submissions', `${currentUser.uid}_${taskId}`));
-    const savedAnswers = submissionsQuery.exists() ? submissionsQuery.data().answers : {};
-    const localKey = `task_${taskId}`;
-    const localAnswers = localStorage.getItem(localKey);
-    let loadedAnswers = {};
-    if (localAnswers && !submissionsQuery.exists()) {
-      try { loadedAnswers = JSON.parse(localAnswers); } catch(e) {}
-    }
-    
-    const normalizedAnswers = {};
-    const allQuestions = data.questions || [];
-    allQuestions.forEach(q => {
-      let answer = savedAnswers[q.id] !== undefined ? savedAnswers[q.id] : loadedAnswers[q.id];
-      const normalized = normalizeAnswer(q, answer);
-      if (normalized !== null && normalized !== undefined) normalizedAnswers[q.id] = normalized;
-      else if (q.type === 'match') normalizedAnswers[q.id] = {};
-    });
-    
-    Object.entries(normalizedAnswers).forEach(([qId, answer]) => {
-      if (answer && typeof answer === 'object' && answer.fileUrl) uploadedFileUrls.value[qId] = answer.fileUrl;
-    });
-    
-    task.value = { id: taskDoc.id, ...data };
-    answers.value = normalizedAnswers;
-    
-    setCachedData(`task_${taskId}_meta`, {
-      task: task.value,
-      isArchived: isArchived.value,
-      timerEnabled: examTimerEnabled.value,
-      timerSeconds: examTimerSeconds.value,
-      timestamp: Date.now()
-    });
-  } catch (error) {
-    console.error('Ошибка загрузки задания:', error);
-    showToast('error', 'Не удалось загрузить задание');
   }
+  
+  error.value = 'Данные задания не найдены. Вернитесь к списку заданий.';
+  loading.value = false;
+};
+
+const initTask = (data) => {
+  log('initTask START', null, { taskId, questionsCount: data.questions?.length });
+  
+  if (data.questions) {
+    data.questions.forEach((q, idx) => {
+      if (!q.id) {
+        const egeNum = q.ege_num || q.egeNum || idx;
+        const type = q.type || 'unknown';
+        if (type === 'task') {
+          q.id = `task_${egeNum}_${idx}`;
+        } else if (type === 'law_task') {
+          q.id = `lawtask_${egeNum}_${idx}`;
+        } else if (type === 'plan') {
+          q.id = `plan_${egeNum}_${idx}`;
+        } else if (type === 'essay') {
+          q.id = `essay_${egeNum}_${idx}`;
+        } else if (type === 'text_analysis') {
+          q.id = `text_${egeNum}_${idx}`;
+        } else if (type === 'graph_analysis') {
+          q.id = `graph_${egeNum}_${idx}`;
+        } else {
+          q.id = `${type}_${egeNum}_${idx}`;
+        }
+      }
+    });
+  }
+  
+  task.value = data;
+  
+  if (data.deadline) {
+    const deadlineDate = new Date(data.deadline.replace(' ', 'T') + ':00');
+    isArchived.value = deadlineDate < new Date();
+  }
+  
+  examTimerEnabled.value = data.enableTimer === true;
+  if (examTimerEnabled.value) {
+    examTimerSeconds.value = (data.timerMinutes || 210) * 60;
+    const savedTimer = localStorage.getItem(`exam_timer_${taskId}_${currentUser?.uid}`);
+    if (savedTimer) {
+      try {
+        const { expiresAt, remaining } = JSON.parse(savedTimer);
+        if (expiresAt <= Date.now() && remaining === 0) {
+          timerExpired.value = true;
+        }
+      } catch(e) {}
+    }
+  }
+  
+  const savedAnswers = localStorage.getItem(`task_${taskId}`);
+  if (savedAnswers) {
+    try {
+      const parsedAnswers = JSON.parse(savedAnswers);
+      answersStore.value = {};
+      for (const [qId, answer] of Object.entries(parsedAnswers)) {
+        const question = data.questions?.find(q => getQuestionId(q) === qId);
+        if (question) {
+          const normalized = normalizeAnswer(question, answer);
+          if (normalized !== null && normalized !== undefined) {
+            answersStore.value[qId] = normalized;
+          }
+        }
+      }
+    } catch(e) {}
+  }
+  
+  for (const [qId, answer] of Object.entries(answersStore.value)) {
+    if (answer && typeof answer === 'object' && answer.fileUrl) {
+      uploadedFileUrls.value[qId] = answer.fileUrl;
+    }
+  }
+  
+  setCachedData(`task_${taskId}_meta`, {
+    task: task.value,
+    isArchived: isArchived.value,
+    timerEnabled: examTimerEnabled.value,
+    timerSeconds: examTimerSeconds.value,
+    timestamp: Date.now()
+  });
+  
+  if (Object.keys(answersStore.value).length > 0) {
+    localStorage.setItem(`task_started_${taskId}`, 'true');
+  }
+  
+  log('initTask FINISH', null, { answersCount: Object.keys(answersStore.value).length });
 };
 
 const saveToLocalStorage = () => {
-  localStorage.setItem(`task_${taskId}`, JSON.stringify(answers.value));
+  try {
+    localStorage.setItem(`task_${taskId}`, JSON.stringify(answersStore.value));
+  } catch (error) {
+    console.error('Ошибка сохранения в localStorage:', error);
+  }
 };
 
 const uploadFiles = async () => {
@@ -324,21 +547,26 @@ const uploadFiles = async () => {
   return fileUrls;
 };
 
-const autoSubmitIfNeeded = () => {
-  if (!timerExpired.value) return;
-  setTimeout(async () => {
-    const submissionRef = doc(db, 'submissions', `${currentUser.uid}_${taskId}`);
-    const existing = await getDoc(submissionRef);
-    if (existing.exists() && existing.data().status !== 'pending') return;
-    const elapsedSeconds = timerRef.value?.getElapsed() || examTimerSeconds.value;
-    await confirmSubmitWithTimer(elapsedSeconds);
-  }, 2000);
-};
-
 const confirmSubmitWithTimer = async (elapsedSeconds = null) => {
   if (submitting.value) return;
   submitting.value = true;
   try {
+    let userClassId = null;
+    let userClassName = null;
+    let userLogin = currentUser.email?.split('@')[0] || 'Ученик';
+    
+    try {
+      const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        userClassId = userData.classId || null;
+        userClassName = userData.className || null;
+        userLogin = userData.login || userLogin;
+      }
+    } catch (e) {
+      console.warn('Не удалось получить данные пользователя:', e);
+    }
+
     let fileUrls = {};
     if (pendingFiles.value.size > 0) fileUrls = await uploadFiles();
     
@@ -347,57 +575,70 @@ const confirmSubmitWithTimer = async (elapsedSeconds = null) => {
     const part1Answers = {};
     const part2Answers = {};
     
-    task.value.questions.forEach(q => {
-      let answer = answers.value[q.id];
-      
-      const hasAnswer = answer !== undefined && answer !== null && 
-                        (typeof answer !== 'object' || Object.keys(answer).length > 0 || answer.text);
-      
-      if (q.type === 'choice' || q.type === 'match' || q.type === 'short') {
-        if (hasAnswer) {
-          let isCorrect = false;
-          if (q.type === 'choice') {
-            if (q.isMultiple) {
-              const userAnswer = Array.isArray(answer) ? [...answer].sort() : [];
-              const correctAnswer = Array.isArray(q.correct) ? [...q.correct].sort() : [];
-              isCorrect = JSON.stringify(userAnswer) === JSON.stringify(correctAnswer);
-            } else isCorrect = answer === q.correct;
-            autoGradedAnswers[q.id] = isCorrect;
-            part1Answers[q.id] = answer;
-          } else if (q.type === 'match') {
-            const correctMap = {};
-            q.correctMapping?.forEach(m => { correctMap[m.right] = m.left; });
-            let correctCount = 0;
-            let total = Object.keys(answer || {}).length;
-            Object.entries(answer || {}).forEach(([right, left]) => {
-              if (correctMap[right] === left) correctCount++;
-            });
-            isCorrect = correctCount === total && total === (q.correctMapping?.length || 0);
-            autoGradedAnswers[q.id] = isCorrect;
-            part1Answers[q.id] = answer;
-          } else if (q.type === 'short') {
-            isCorrect = answer?.toLowerCase().trim() === q.correctAnswer?.toLowerCase().trim();
-            autoGradedAnswers[q.id] = isCorrect;
-            part1Answers[q.id] = answer;
+    if (task.value?.questions) {
+      task.value.questions.forEach(q => {
+        const qId = getQuestionId(q);
+        let answer = answersStore.value[qId];
+        const hasAnswer = answer !== undefined && answer !== null && 
+                          (typeof answer !== 'object' || Object.keys(answer).length > 0 || answer.text);
+        
+        if (q.type === 'choice' || q.type === 'match' || q.type === 'short') {
+          if (hasAnswer) {
+            let isCorrect = false;
+            if (q.type === 'choice') {
+              if (q.isMultiple) {
+                const userAnswer = Array.isArray(answer) ? [...answer].sort() : [];
+                const correctAnswer = Array.isArray(q.correct) ? [...q.correct].sort() : [];
+                isCorrect = JSON.stringify(userAnswer) === JSON.stringify(correctAnswer);
+              } else isCorrect = answer === q.correct;
+              autoGradedAnswers[qId] = isCorrect;
+              part1Answers[qId] = answer;
+            } else if (q.type === 'match') {
+              const correctAnswersStr = q.correctAnswers;
+              let userAnswersStr = '';
+              const leftItems = q.leftItems || [];
+              
+              if (Array.isArray(answer) && answer.length === leftItems.length) {
+                userAnswersStr = answer.join('');
+              } else if (typeof answer === 'object' && answer !== null) {
+                const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е'];
+                const result = [];
+                for (let i = 0; i < leftItems.length; i++) {
+                  result.push(answer[letters[i]] || '');
+                }
+                userAnswersStr = result.join('');
+              }
+              
+              isCorrect = userAnswersStr === correctAnswersStr;
+              autoGradedAnswers[qId] = isCorrect;
+              part1Answers[qId] = userAnswersStr;
+            } else if (q.type === 'short') {
+              isCorrect = answer?.toLowerCase().trim() === q.correctAnswer?.toLowerCase().trim();
+              autoGradedAnswers[qId] = isCorrect;
+              part1Answers[qId] = answer;
+            }
+          }
+        } else {
+          if (hasAnswer) {
+            const fileUrl = fileUrls[qId] || uploadedFileUrls.value[qId];
+            if (fileUrl) {
+              if (typeof answer === 'object') answer.fileUrl = fileUrl;
+              else answer = { text: answer || '', fileUrl };
+            }
+            part2Answers[qId] = answer;
           }
         }
-      } else {
-        if (hasAnswer) {
-          const fileUrl = fileUrls[q.id] || uploadedFileUrls.value[q.id];
-          if (fileUrl) {
-            if (typeof answer === 'object') answer.fileUrl = fileUrl;
-            else answer = { text: answer || '', fileUrl };
-          }
-          part2Answers[q.id] = answer;
-        }
-      }
-    });
+      });
+    }
     
     const submissionData = {
       examId: taskId,
       studentId: currentUser.uid,
-      studentLogin: currentUser.email?.split('@')[0],
-      answers: answers.value,
+      studentLogin: userLogin,
+      studentEmail: currentUser.email,
+      className: userClassName,
+      classId: userClassId,
+      answers: answersStore.value,
       part1Answers,
       part2Answers,
       autoGraded: autoGradedAnswers,
@@ -409,11 +650,10 @@ const confirmSubmitWithTimer = async (elapsedSeconds = null) => {
       submittedByTimer: timerExpired.value
     };
 
-    console.log('Saving submission:', submissionData);
     await setDoc(submissionRef, submissionData);
-    console.log('Submission saved successfully');
-    
     localStorage.removeItem(`task_${taskId}`);
+    localStorage.removeItem(`task_started_${taskId}`);
+    localStorage.removeItem(`exam_data_${taskId}`);
     localStorage.removeItem(`exam_timer_${taskId}_${currentUser.uid}`);
     showToast('success', timerExpired.value ? 'Задание отправлено автоматически' : 'Задание отправлено на проверку');
     router.push('/student/homework');
@@ -426,7 +666,7 @@ const confirmSubmitWithTimer = async (elapsedSeconds = null) => {
 };
 
 const submitTask = () => {
-  if (timerExpired.value) { autoSubmitIfNeeded(); return; }
+  if (timerExpired.value) { confirmSubmitWithTimer(); return; }
   if (isArchived.value) { showToast('error', 'Задание просрочено'); return; }
   showConfirmModal.value = true;
 };
@@ -437,72 +677,106 @@ const confirmSubmit = () => { closeConfirmModal(); confirmSubmitWithTimer(); };
 const onTimerExpired = () => {
   timerExpired.value = true;
   showToast('warning', 'Время вышло, задание отправляется');
-  autoSubmitIfNeeded();
+  confirmSubmitWithTimer();
 };
 const onTimerTick = (remaining) => { if (remaining <= 0) timerExpired.value = true; };
 
 const goBack = () => {
-  if (examTimerEnabled.value && !timerExpired.value && !submitting.value) {
-    if (confirm('Внимание! Таймер продолжит идти. Вы уверены, что хотите выйти?')) {
+  if ((examTimerEnabled.value && !timerExpired.value && !submitting.value) || (!isArchived.value && !submitting.value)) {
+    showLeaveModal.value = true;
+    pendingLeaveCallback = () => {
       saveToLocalStorage();
       router.push('/student/homework');
-    }
+    };
   } else {
     saveToLocalStorage();
     router.push('/student/homework');
   }
 };
 
+const closeLeaveModal = () => {
+  showLeaveModal.value = false;
+  pendingLeaveCallback = null;
+};
+
+const confirmLeave = () => {
+  if (pendingLeaveCallback) pendingLeaveCallback();
+  closeLeaveModal();
+};
+
 const beforeUnloadHandler = (e) => {
-  if (examTimerEnabled.value && !timerExpired.value && !submitting.value) {
+  if (examTimerEnabled.value && !timerExpired.value && !submitting.value && !isArchived.value) {
     e.preventDefault();
-    e.returnValue = 'Внимание! Таймер продолжит идти. Вы уверены, что хотите покинуть страницу?';
+    e.returnValue = 'Ваш прогресс будет сохранён. Вы сможете продолжить позже.';
     return e.returnValue;
   }
 };
 
-onBeforeRouteLeave((to, from, next) => {
-  if (examTimerEnabled.value && !timerExpired.value && !submitting.value) {
-    const confirm = window.confirm('Внимание! Таймер продолжит идти. Вы уверены, что хотите покинуть страницу?');
-    if (confirm) {
-      next();
-    } else {
-      next(false);
-    }
-  } else {
-    next();
-  }
-});
-
 onMounted(() => {
+  const savedIndex = localStorage.getItem(`task_index_${taskId}`);
+  if (savedIndex) {
+    currentIndex.value = parseInt(savedIndex);
+    currentPage.value = Math.floor(currentIndex.value / itemsPerPage) + 1;
+  }
+  
   const cachedMeta = getCachedData(`task_${taskId}_meta`);
   if (cachedMeta && Date.now() - cachedMeta.timestamp < 12 * 60 * 60 * 1000) {
-    task.value = cachedMeta.task;
+    const cachedTask = cachedMeta.task;
+    
+    if (cachedTask?.questions) {
+      cachedTask.questions.forEach((q, idx) => {
+        if (!q.id) {
+          const egeNum = q.ege_num || q.egeNum || idx;
+          const type = q.type || 'unknown';
+          if (type === 'task') {
+            q.id = `task_${egeNum}_${idx}`;
+          } else if (type === 'law_task') {
+            q.id = `lawtask_${egeNum}_${idx}`;
+          } else if (type === 'plan') {
+            q.id = `plan_${egeNum}_${idx}`;
+          } else if (type === 'essay') {
+            q.id = `essay_${egeNum}_${idx}`;
+          } else if (type === 'text_analysis') {
+            q.id = `text_${egeNum}_${idx}`;
+          } else if (type === 'graph_analysis') {
+            q.id = `graph_${egeNum}_${idx}`;
+          } else {
+            q.id = `${type}_${egeNum}_${idx}`;
+          }
+        }
+      });
+    }
+    
+    task.value = cachedTask;
     isArchived.value = cachedMeta.isArchived;
     examTimerEnabled.value = cachedMeta.timerEnabled;
     examTimerSeconds.value = cachedMeta.timerSeconds;
     const localAnswers = localStorage.getItem(`task_${taskId}`);
-    if (localAnswers) { try { answers.value = JSON.parse(localAnswers); } catch(e) {} }
+    if (localAnswers) { 
+      try { 
+        answersStore.value = JSON.parse(localAnswers);
+      } catch(e) {} 
+    }
+    loading.value = false;
   } else {
-    loadTask();
+    loadTaskFromLocal();
   }
   window.addEventListener('beforeunload', beforeUnloadHandler);
 });
 
 onUnmounted(() => {
+  localStorage.setItem(`task_index_${taskId}`, currentIndex.value);
   saveToLocalStorage();
   window.removeEventListener('beforeunload', beforeUnloadHandler);
 });
 </script>
 
 <style scoped>
-/* ========== ОСНОВНЫЕ СТИЛИ ========== */
 .task-view {
   max-width: 900px;
   margin: 0 auto;
 }
 
-/* ========== БАННЕРЫ ========== */
 .archived-warning-banner,
 .timer-expired-banner {
   background: rgba(239,68,68,0.1);
@@ -531,7 +805,6 @@ onUnmounted(() => {
   color: var(--gray-500);
 }
 
-/* ========== ШАПКА ========== */
 .task-header {
   display: flex;
   align-items: center;
@@ -561,7 +834,6 @@ onUnmounted(() => {
   border-radius: 2rem;
 }
 
-/* ========== ПРОГРЕСС-БАР ========== */
 .progress-bar {
   height: 4px;
   background: var(--gray-200);
@@ -575,7 +847,37 @@ onUnmounted(() => {
   transition: width 0.3s;
 }
 
-/* ========== НАВИГАЦИЯ ПО ВОПРОСАМ ========== */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: var(--gray-50);
+  border-radius: 0.5rem;
+}
+.page-nav-btn {
+  padding: 0.3rem 0.8rem;
+  background: var(--gray-200);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.page-nav-btn:hover:not(:disabled) {
+  background: var(--primary);
+  color: white;
+}
+.page-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.page-info {
+  font-size: 0.85rem;
+  color: var(--gray-600);
+}
+
 .question-nav {
   display: flex;
   flex-wrap: wrap;
@@ -623,13 +925,11 @@ onUnmounted(() => {
   justify-content: center;
 }
 
-/* ========== КОНТЕЙНЕР ВОПРОСА ========== */
 .question-container {
   margin-bottom: 2rem;
   min-height: 300px;
 }
 
-/* ========== КНОПКИ НАВИГАЦИИ ========== */
 .navigation-buttons {
   display: flex;
   justify-content: space-between;
@@ -666,7 +966,6 @@ onUnmounted(() => {
   background: var(--gray-200);
 }
 
-/* ========== АНИМАЦИЯ ЗАГРУЗКИ ФАЙЛОВ ========== */
 .upload-progress-container {
   margin-top: 1rem;
   padding: 0.75rem;
@@ -684,12 +983,7 @@ onUnmounted(() => {
   position: absolute;
   height: 100%;
   width: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--primary) 0%,
-    var(--primary-dark) 50%,
-    var(--primary) 100%
-  );
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 50%, var(--primary) 100%);
   animation: waveMove 1.5s ease-in-out infinite;
   transform: translateX(-100%);
 }
@@ -712,7 +1006,31 @@ onUnmounted(() => {
   text-align: center;
 }
 
-/* ========== МОДАЛКА ПОДТВЕРЖДЕНИЯ ========== */
+.loading-state, .error-state {
+  text-align: center;
+  padding: 3rem;
+}
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--gray-200);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.error-state h3 {
+  margin-bottom: 1rem;
+  color: var(--danger);
+}
+
 .modal {
   position: fixed;
   top: 0;
@@ -733,18 +1051,33 @@ onUnmounted(() => {
   max-width: 400px;
   text-align: center;
 }
+.confirm-modal .modal-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.modal-content h2 {
+  margin: 0 0 0.5rem;
+  color: var(--secondary);
+}
+.modal-content p {
+  margin-bottom: 0.5rem;
+  color: var(--gray-600);
+}
 .warning {
   color: var(--danger);
   font-size: 0.85rem;
-  margin-top: 0.5rem;
 }
 .modal-actions {
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
+  justify-content: center;
+}
+.modal-actions .btn-primary,
+.modal-actions .btn-secondary {
+  padding: 0.5rem 1.2rem;
 }
 
-/* ========== ТОСТ ========== */
 .custom-toast {
   position: fixed;
   bottom: 20px;
@@ -773,71 +1106,35 @@ onUnmounted(() => {
   margin-left: 0.5rem;
 }
 @keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
-/* ========== ТЁМНАЯ ТЕМА ========== */
-body.dark-theme .task-view .question-container .question-text,
-body.dark-theme .task-view .question-container .option-text,
-body.dark-theme .task-view .question-container .match-left-item,
-body.dark-theme .task-view .question-container .match-right-item span,
-body.dark-theme .task-view .question-container .short-input,
-body.dark-theme .task-view .question-container .essay-textarea,
-body.dark-theme .task-view .question-container .custom-checkbox .option-text,
-body.dark-theme .task-view .question-container .custom-radio .option-text {
-  color: #ffffff !important;
-}
-
-body.dark-theme .task-view .question-container .short-input,
-body.dark-theme .task-view .question-container .essay-textarea {
-  background: var(--gray-700);
-  border-color: var(--gray-600);
-}
-
-body.dark-theme .task-view .question-container .custom-checkbox .custom-checkbox,
-body.dark-theme .task-view .question-container .custom-radio .custom-radio {
-  background: var(--gray-700);
-  border-color: var(--gray-500);
-}
-
-body.dark-theme .task-view .question-container .custom-checkbox-input:checked + .custom-checkbox {
-  background: var(--primary);
-  border-color: var(--primary);
-}
-
-body.dark-theme .task-view .question-container .custom-radio-input:checked + .custom-radio {
-  border-color: var(--primary);
-}
-
-body.dark-theme .task-view .question-container .custom-radio-input:checked + .custom-radio::after {
-  background: var(--primary);
-}
-
-body.dark-theme .task-view .nav-btn {
+body.dark-theme .question-nav .nav-btn {
   background: var(--gray-800);
   border-color: var(--gray-600);
   color: var(--gray-300);
 }
-body.dark-theme .task-view .nav-btn.answered {
-  background: rgba(16,185,129,0.2);
-}
-body.dark-theme .task-view .modal-content {
+body.dark-theme .modal-content {
   background: var(--gray-800);
 }
-body.dark-theme .task-view .custom-toast {
+body.dark-theme .modal-content h2 {
+  color: #ffffff;
+}
+body.dark-theme .modal-content p {
+  color: var(--gray-400);
+}
+body.dark-theme .custom-toast {
   background: var(--gray-800);
 }
-body.dark-theme .task-view .timer-container {
+body.dark-theme .timer-container {
   background: var(--gray-700);
 }
-body.dark-theme .task-view .upload-progress-container {
+body.dark-theme .upload-progress-container {
   background: var(--gray-700);
+}
+body.dark-theme .loading-state,
+body.dark-theme .error-state {
+  color: var(--gray-300);
 }
 </style>

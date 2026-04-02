@@ -1,6 +1,6 @@
 // src/composables/useToast.js
 import { createApp } from 'vue';
-import CustomToast from '@/components/ui/CustomToast.vue';
+import CustomToast from '@shared/components/CustomToast.vue';
 
 let toastContainer = null;
 

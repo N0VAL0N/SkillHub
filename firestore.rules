@@ -2,61 +2,96 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // ========== КОЛЛЕКЦИЯ users ==========
+    // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isUser(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function getUserRole() {
+      let userData = get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+      return userData.role;
+    }
+    
+    function isTeacher() {
+      return isAuthenticated() && getUserRole() == 'teacher';
+    }
+    
+    function isStudent() {
+      return isAuthenticated() && getUserRole() == 'student';
+    }
+    
+    // ========== КОЛЛЕКЦИЯ USERS ==========
     match /users/{userId} {
       allow read: if true;
-      allow create: if true;
-      allow update: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.resource.data.uid == request.auth.uid;
+      allow update: if isUser(userId) || isTeacher();
       allow delete: if false;
     }
     
-    // ========== КОЛЛЕКЦИЯ classes ==========
+    // ========== КОЛЛЕКЦИЯ CLASSES ==========
     match /classes/{classId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null;
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isTeacher();
     }
     
-    // ========== КОЛЛЕКЦИЯ submissions ==========
-    match /submissions/{submissionId} {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
+    // ========== КОЛЛЕКЦИЯ EXAMS ==========
+    // Ученики читают все экзамены, фильтрация на клиенте
+    match /exams/{examId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isTeacher();
+    }
+    
+    // ========== КОЛЛЕКЦИЯ STUDENT_PROGRESS (прогресс изучения тем) ==========
+    match /studentProgress/{progressId} {
+      allow read: if isAuthenticated();
+      allow create: if isStudent() && request.resource.data.studentId == request.auth.uid;
+      allow update: if isStudent() && resource.data.studentId == request.auth.uid;
       allow delete: if false;
     }
     
-    // ========== КОЛЛЕКЦИЯ exams ==========
-    match /exams/{examId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null;
+    // ========== КОЛЛЕКЦИЯ SUBMISSIONS (отправленные работы) ==========
+    match /submissions/{submissionId} {
+      allow read: if isTeacher() || (isStudent() && resource.data.studentId == request.auth.uid);
+      allow create: if isStudent() && request.resource.data.studentId == request.auth.uid;
+      allow update: if (isStudent() && resource.data.studentId == request.auth.uid && resource.data.status == 'pending') || isTeacher();
+      allow delete: if isTeacher();
     }
     
-    // ========== КОЛЛЕКЦИЯ aggregatedStats ==========
-    match /aggregatedStats/{classId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null;
+    // ========== КОЛЛЕКЦИЯ GRADED_SUBMISSIONS (проверенные работы) ==========
+    match /gradedSubmissions/{gradedId} {
+      allow read: if isTeacher() || (isStudent() && resource.data.studentId == request.auth.uid);
+      allow create, update: if isTeacher();
+      allow delete: if false;
     }
     
-    // ========== КОЛЛЕКЦИЯ studentProgress ==========
-    match /studentProgress/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if request.auth != null && request.auth.uid == userId;
+    // ========== КОЛЛЕКЦИЯ CARDS ==========
+    match /cards/{cardId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isTeacher();
     }
     
-    // ========== КОЛЛЕКЦИЯ studentStats ==========
-    match /studentStats/{userId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && request.auth.uid == userId;
+    // ========== КОЛЛЕКЦИЯ CARD_PACKS ==========
+    match /cardPacks/{packId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isTeacher();
     }
     
-    // ========== КОЛЛЕКЦИЯ weakTopics ==========
-    match /weakTopics/{topicId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null;
+    // ========== КОЛЛЕКЦИЯ SUBJECTS ==========
+    match /subjects/{subjectId} {
+      allow read: if isAuthenticated();
+      allow write: if isTeacher();
     }
     
-    // ========== КОЛЛЕКЦИЯ anything else ==========
-    match /{document=**} {
-      allow read, write: if request.auth != null;
+    // ========== КОЛЛЕКЦИЯ AGGREGATED_STATS (статистика по классам) ==========
+    match /aggregatedStats/{statId} {
+      allow read: if isTeacher();
+      allow create, update: if isTeacher();
+      allow delete: if false;
     }
   }
 }
