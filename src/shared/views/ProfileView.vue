@@ -258,7 +258,7 @@ const userStats = ref({
 const userCreatedAt = ref(null);
 
 // Настройки
-const fontSize = ref(parseInt(localStorage.getItem('fontSize') || '16'));
+const fontSize = ref(parseInt(localStorage.getItem('appFontSize') || '16'));
 const notifications = ref({
   newTasks: true,
   graded: true,
@@ -312,7 +312,7 @@ const formatTimeSpent = (minutes) => {
 
 const applyFontSize = () => {
   document.documentElement.style.fontSize = fontSize.value + 'px';
-  localStorage.setItem('fontSize', fontSize.value);
+  localStorage.setItem('appFontSize', fontSize.value);
 };
 
 const increaseFontSize = () => {

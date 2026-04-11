@@ -1,0 +1,1252 @@
+[
+  {
+    "rule_id": "g1",
+    "level": "A0",
+    "title": "Глагол to be в настоящем времени (утверждение)",
+    "category": "Tenses",
+    "theory": "Глагол to be переводится как 'быть, находиться'. В настоящем времени имеет три формы: I am, he/she/it is, we/you/they are. В русском языке часто опускается (Я учитель = I am a teacher).",
+    "examples": [
+      { "sentence": "I am a student.", "translation": "Я студент." },
+      { "sentence": "She is a doctor.", "translation": "Она врач." },
+      { "sentence": "They are friends.", "translation": "Они друзья." }
+    ]
+  },
+  {
+    "rule_id": "g2",
+    "level": "A0",
+    "title": "Глагол to be в настоящем времени (отрицание)",
+    "category": "Negation",
+    "theory": "Для отрицания добавьте not после формы to be: I am not, you are not (aren't), he/she/it is not (isn't), we/you/they are not (aren't).",
+    "examples": [
+      { "sentence": "I am not a teacher.", "translation": "Я не учитель." },
+      { "sentence": "He isn't at home.", "translation": "Он не дома." },
+      { "sentence": "They aren't ready.", "translation": "Они не готовы." }
+    ]
+  },
+  {
+    "rule_id": "g3",
+    "level": "A0",
+    "title": "Глагол to be в настоящем времени (вопросы)",
+    "category": "Questions",
+    "theory": "Для вопроса вынесите форму to be на первое место: Am I?, Are you?, Is he/she/it?, Are we/you/they?. Для краткого ответа: Yes, I am. / No, he isn't.",
+    "examples": [
+      { "sentence": "Are you a student?", "translation": "Ты студент?" },
+      { "sentence": "Is she your friend?", "translation": "Она твоя подруга?" },
+      { "sentence": "Are they at work?", "translation": "Они на работе?" }
+    ]
+  },
+  {
+    "rule_id": "g4",
+    "level": "A0",
+    "title": "Личные местоимения (I, you, he, she, it, we, they)",
+    "category": "Pronouns",
+    "theory": "Личные местоимения заменяют существительные. I — я, you — ты/вы, he — он, she — она, it — оно (для предметов и животных), we — мы, they — они.",
+    "examples": [
+      { "sentence": "I am Anna.", "translation": "Я Анна." },
+      { "sentence": "He is my brother.", "translation": "Он мой брат." },
+      { "sentence": "They are from London.", "translation": "Они из Лондона." }
+    ]
+  },
+  {
+    "rule_id": "g5",
+    "level": "A0",
+    "title": "Притяжательные местоимения (my, your, his, her, its, our, their)",
+    "category": "Pronouns",
+    "theory": "Притяжательные местоимения указывают на принадлежность: my — мой, your — твой/ваш, his — его, her — её, its — его/её (для неодуш.), our — наш, their — их.",
+    "examples": [
+      { "sentence": "This is my book.", "translation": "Это моя книга." },
+      { "sentence": "Her car is red.", "translation": "Её машина красная." },
+      { "sentence": "Our house is big.", "translation": "Наш дом большой." }
+    ]
+  },
+  {
+    "rule_id": "g6",
+    "level": "A0",
+    "title": "Артикли a / an",
+    "category": "Articles",
+    "theory": "Неопределённый артикль a ставится перед согласными звуками (a book), an — перед гласными (an apple). Используется, когда говорим о чём-то одном, неважно каком, впервые упоминаем предмет.",
+    "examples": [
+      { "sentence": "I have a cat.", "translation": "У меня есть кот." },
+      { "sentence": "She is an engineer.", "translation": "Она инженер." },
+      { "sentence": "It's an orange.", "translation": "Это апельсин." }
+    ]
+  },
+  {
+    "rule_id": "g7",
+    "level": "A0",
+    "title": "Множественное число существительных",
+    "category": "Nouns",
+    "theory": "Большинство существительных образуют множественное число добавлением -s: book → books. Если слово заканчивается на -s, -ss, -sh, -ch, -x, -o, добавляем -es: bus → buses. Некоторые слова имеют особые формы (man → men).",
+    "examples": [
+      { "sentence": "One apple, two apples.", "translation": "Одно яблоко, два яблока." },
+      { "sentence": "I have three books.", "translation": "У меня три книги." },
+      { "sentence": "The children are playing.", "translation": "Дети играют." }
+    ]
+  },
+  {
+    "rule_id": "g8",
+    "level": "A0",
+    "title": "Глагол have / has (утверждение)",
+    "category": "Verbs",
+    "theory": "Глагол have означает 'иметь'. С местоимениями I, you, we, they используется have. С he, she, it — has.",
+    "examples": [
+      { "sentence": "I have a car.", "translation": "У меня есть машина." },
+      { "sentence": "She has a dog.", "translation": "У неё есть собака." },
+      { "sentence": "They have two children.", "translation": "У них двое детей." }
+    ]
+  },
+  {
+    "rule_id": "g9",
+    "level": "A0",
+    "title": "Повелительное наклонение (императив)",
+    "category": "Verbs",
+    "theory": "Для приказа или просьбы используйте глагол без частицы to. Для отрицания добавьте Don't в начале.",
+    "examples": [
+      { "sentence": "Sit down!", "translation": "Сядь!" },
+      { "sentence": "Open the door, please.", "translation": "Открой дверь, пожалуйста." },
+      { "sentence": "Don't be late!", "translation": "Не опаздывай!" }
+    ]
+  },
+  {
+    "rule_id": "g10",
+    "level": "A0",
+    "title": "Предлоги места: in, on, under, next to",
+    "category": "Prepositions",
+    "theory": "Предлоги места указывают, где находится предмет. in — в (внутри), on — на (на поверхности), under — под, next to — рядом с.",
+    "examples": [
+      { "sentence": "The book is in the bag.", "translation": "Книга в сумке." },
+      { "sentence": "The cat is on the chair.", "translation": "Кот на стуле." },
+      { "sentence": "The shoes are under the bed.", "translation": "Туфли под кроватью." },
+      { "sentence": "The bank is next to the supermarket.", "translation": "Банк рядом с супермаркетом." }
+    ]
+  },
+  {
+    "rule_id": "g11",
+    "level": "A0",
+    "title": "Вопросительные слова: what, who, where",
+    "category": "Questions",
+    "theory": "Вопросительные слова помогают задать специальный вопрос. What — что/какой, Who — кто, Where — где/куда. В вопросах с to be они ставятся на первое место перед глаголом.",
+    "examples": [
+      { "sentence": "What is your name?", "translation": "Как тебя зовут?" },
+      { "sentence": "Who is she?", "translation": "Кто она?" },
+      { "sentence": "Where are you?", "translation": "Где ты?" }
+    ]
+  },
+  {
+    "rule_id": "g12",
+    "level": "A0",
+    "title": "Глагол have / has (отрицание и вопрос)",
+    "category": "Verbs",
+    "theory": "Отрицание с have/has: I/You/We/They do not (don't) have. He/She/It does not (doesn't) have. Вопрос: Do + I/you/we/they + have? Does + he/she/it + have?",
+    "examples": [
+      { "sentence": "I don't have a car.", "translation": "У меня нет машины." },
+      { "sentence": "She doesn't have a pet.", "translation": "У неё нет домашнего животного." },
+      { "sentence": "Do you have a pen?", "translation": "У тебя есть ручка?" },
+      { "sentence": "Does he have a brother?", "translation": "У него есть брат?" }
+    ]
+  },
+  {
+    "rule_id": "g13",
+    "level": "A0",
+    "title": "Модальный глагол can (способность)",
+    "category": "Modal Verbs",
+    "theory": "Can означает 'могу, умею'. Не изменяется по лицам. После can глагол идёт без to. Отрицание: cannot / can't. Вопрос: Can + подлежащее + глагол?",
+    "examples": [
+      { "sentence": "I can swim.", "translation": "Я умею плавать." },
+      { "sentence": "She can't speak French.", "translation": "Она не говорит по-французски." },
+      { "sentence": "Can you help me?", "translation": "Можешь мне помочь?" }
+    ]
+  },
+  {
+    "rule_id": "g14",
+    "level": "A0",
+    "title": "Настоящее простое время Present Simple (утверждение)",
+    "category": "Tenses",
+    "theory": "Используется для обычных, повторяющихся действий, фактов, привычек. Глагол в форме инфинитива без to. В 3-м лице ед.ч. (he, she, it) добавляется окончание -s / -es.",
+    "examples": [
+      { "sentence": "I work in an office.", "translation": "Я работаю в офисе." },
+      { "sentence": "She reads books every day.", "translation": "Она читает книги каждый день." },
+      { "sentence": "They play football on Saturdays.", "translation": "Они играют в футбол по субботам." }
+    ]
+  },
+  {
+    "rule_id": "g15",
+    "level": "A0",
+    "title": "Present Simple (отрицание и вопрос)",
+    "category": "Tenses",
+    "theory": "Отрицание: I/You/We/They do not (don't) + глагол. He/She/It does not (doesn't) + глагол (без -s). Вопрос: Do + подлежащее + глагол? Does + he/she/it + глагол (без -s)?",
+    "examples": [
+      { "sentence": "I don't like coffee.", "translation": "Я не люблю кофе." },
+      { "sentence": "He doesn't eat meat.", "translation": "Он не ест мясо." },
+      { "sentence": "Do you speak English?", "translation": "Вы говорите по-английски?" },
+      { "sentence": "Does she live here?", "translation": "Она живёт здесь?" }
+    ]
+  },
+  {
+    "rule_id": "g16",
+    "level": "A0",
+    "title": "Наречия частоты: always, usually, often, sometimes, never",
+    "category": "Adverbs",
+    "theory": "Наречия частоты показывают, как часто происходит действие. В Present Simple ставятся перед смысловым глаголом, но после глагола to be.",
+    "examples": [
+      { "sentence": "I always get up at 7 am.", "translation": "Я всегда встаю в 7 утра." },
+      { "sentence": "She is never late.", "translation": "Она никогда не опаздывает." },
+      { "sentence": "They sometimes visit us.", "translation": "Они иногда навещают нас." }
+    ]
+  },
+  {
+    "rule_id": "g17",
+    "level": "A0",
+    "title": "Указательные местоимения: this, that, these, those",
+    "category": "Pronouns",
+    "theory": "This (этот/эта/это) и these (эти) — для предметов рядом. That (тот/та/то) и those (те) — для предметов далеко. This/that + ед.ч., these/those + мн.ч.",
+    "examples": [
+      { "sentence": "This is my book.", "translation": "Это моя книга." },
+      { "sentence": "That car is fast.", "translation": "Та машина быстрая." },
+      { "sentence": "These are my friends.", "translation": "Это мои друзья." },
+      { "sentence": "Those apples are red.", "translation": "Те яблоки красные." }
+    ]
+  },
+  {
+    "rule_id": "g18",
+    "level": "A0",
+    "title": "Конструкция there is / there are",
+    "category": "Structures",
+    "theory": "There is + ед.ч. — 'имеется, есть, находится'. There are + мн.ч. — 'имеются, есть'. Отрицание: there isn't / there aren't. Вопрос: Is there? / Are there?",
+    "examples": [
+      { "sentence": "There is a book on the table.", "translation": "На столе (есть) книга." },
+      { "sentence": "There are two windows in the room.", "translation": "В комнате два окна." },
+      { "sentence": "Is there a bank near here?", "translation": "Здесь рядом есть банк?" },
+      { "sentence": "There aren't any chairs.", "translation": "Стульев нет." }
+    ]
+  },
+  {
+    "rule_id": "g19",
+    "level": "A0",
+    "title": "Количественные местоимения: some, any",
+    "category": "Pronouns",
+    "theory": "Some используется в утвердительных предложениях (несколько, немного). Any — в отрицательных и вопросительных. Оба могут употребляться с исчисляемыми и неисчисляемыми существительными.",
+    "examples": [
+      { "sentence": "I have some apples.", "translation": "У меня есть несколько яблок." },
+      { "sentence": "We need some water.", "translation": "Нам нужно немного воды." },
+      { "sentence": "Do you have any questions?", "translation": "У вас есть (какие-нибудь) вопросы?" },
+      { "sentence": "I don't have any money.", "translation": "У меня совсем нет денег." }
+    ]
+  },
+  {
+    "rule_id": "g20",
+    "level": "A0",
+    "title": "Прилагательные: базовые и порядок слов",
+    "category": "Adjectives",
+    "theory": "Прилагательные описывают существительные. В английском они ставятся перед существительным: a big house. Не изменяются по числам и родам.",
+    "examples": [
+      { "sentence": "a big car", "translation": "большая машина" },
+      { "sentence": "an interesting book", "translation": "интересная книга" },
+      { "sentence": "The house is old.", "translation": "Дом старый." },
+      { "sentence": "She is happy.", "translation": "Она счастлива." }
+    ]
+  },
+  {
+    "rule_id": "g21",
+    "level": "A1",
+    "title": "Глагол to be в прошедшем времени (Past Simple)",
+    "category": "Tenses",
+    "theory": "В прошедшем времени глагол to be имеет формы was (для I, he, she, it) и were (для you, we, they). Отрицание: was not (wasn't), were not (weren't). Вопрос: Was/Were + подлежащее?",
+    "examples": [
+      { "sentence": "I was at home yesterday.", "translation": "Я был дома вчера." },
+      { "sentence": "They were happy to see us.", "translation": "Они были рады нас видеть." },
+      { "sentence": "She wasn't at school last week.", "translation": "Она не была в школе на прошлой неделе." },
+      { "sentence": "Were you tired after the trip?", "translation": "Ты устал после поездки?" }
+    ]
+  },
+  {
+    "rule_id": "g22",
+    "level": "A1",
+    "title": "Past Simple: правильные глаголы (утверждение)",
+    "category": "Tenses",
+    "theory": "Past Simple употребляется для действий, произошедших в прошлом. Правильные глаголы образуют форму добавлением -ed к основе: work → worked. Если глагол оканчивается на -e, добавляется только -d: live → lived. Для односложных с краткой гласной конечная согласная удваивается: stop → stopped.",
+    "examples": [
+      { "sentence": "I worked late yesterday.", "translation": "Вчера я работал допоздна." },
+      { "sentence": "She arrived at 10 o'clock.", "translation": "Она приехала в 10 часов." },
+      { "sentence": "They played football last weekend.", "translation": "На прошлых выходных они играли в футбол." }
+    ]
+  },
+  {
+    "rule_id": "g23",
+    "level": "A1",
+    "title": "Past Simple: правильные глаголы (отрицание и вопрос)",
+    "category": "Tenses",
+    "theory": "Отрицание: подлежащее + did not (didn't) + глагол в инфинитиве без to. Вопрос: Did + подлежащее + глагол в инфинитиве без to. Краткие ответы: Yes, I did. / No, I didn't.",
+    "examples": [
+      { "sentence": "I didn't watch TV last night.", "translation": "Вчера вечером я не смотрел телевизор." },
+      { "sentence": "Did you call me yesterday?", "translation": "Ты звонил мне вчера?" },
+      { "sentence": "Yes, she did. / No, they didn't.", "translation": "Да. / Нет." }
+    ]
+  },
+  {
+    "rule_id": "g24",
+    "level": "A1",
+    "title": "Past Simple: неправильные глаголы",
+    "category": "Tenses",
+    "theory": "Многие глаголы образуют Past Simple не по правилам. Их формы нужно запоминать (см. irregular_verbs.json). В отрицании и вопросах используется did + инфинитив, как с правильными глаголами.",
+    "examples": [
+      { "sentence": "I went to the cinema yesterday.", "translation": "Вчера я ходил в кино." },
+      { "sentence": "She had a headache.", "translation": "У неё болела голова." },
+      { "sentence": "He didn't see the accident.", "translation": "Он не видел аварию." },
+      { "sentence": "Did you eat breakfast?", "translation": "Ты завтракал?" }
+    ]
+  },
+  {
+    "rule_id": "g25",
+    "level": "A1",
+    "title": "Конструкция to be going to (планы и намерения)",
+    "category": "Structures",
+    "theory": "To be going to + глагол выражает намерение или план на будущее, а также предсказание, основанное на очевидных признаках. Формы: I am going to, he/she/it is going to, we/you/they are going to.",
+    "examples": [
+      { "sentence": "I'm going to visit my parents next weekend.", "translation": "На следующих выходных я собираюсь навестить родителей." },
+      { "sentence": "Look at those clouds! It's going to rain.", "translation": "Посмотри на тучи! Собирается дождь." },
+      { "sentence": "Are you going to watch the match?", "translation": "Ты собираешься смотреть матч?" }
+    ]
+  },
+  {
+    "rule_id": "g26",
+    "level": "A1",
+    "title": "Future Simple (will) — утверждение, отрицание, вопрос",
+    "category": "Tenses",
+    "theory": "Future Simple (will + инфинитив) используется для спонтанных решений, предсказаний, обещаний, предложений помощи. Отрицание: will not (won't). Вопрос: Will + подлежащее + инфинитив?",
+    "examples": [
+      { "sentence": "I will call you tomorrow.", "translation": "Я позвоню тебе завтра." },
+      { "sentence": "She won't be late.", "translation": "Она не опоздает." },
+      { "sentence": "Will you help me with this bag?", "translation": "Поможешь мне с этой сумкой?" }
+    ]
+  },
+  {
+    "rule_id": "g27",
+    "level": "A1",
+    "title": "Степени сравнения прилагательных: сравнительная",
+    "category": "Adjectives",
+    "theory": "Сравнительная степень используется для сравнения двух предметов. Односложные прилагательные: + -er (big → bigger). Двусложные на -y: -y → -ier (happy → happier). Многосложные: more + прилагательное (more expensive). Исключения: good → better, bad → worse.",
+    "examples": [
+      { "sentence": "My house is bigger than yours.", "translation": "Мой дом больше твоего." },
+      { "sentence": "She is happier now.", "translation": "Она счастливее сейчас." },
+      { "sentence": "This book is more interesting than that one.", "translation": "Эта книга интереснее, чем та." }
+    ]
+  },
+  {
+    "rule_id": "g28",
+    "level": "A1",
+    "title": "Степени сравнения прилагательных: превосходная",
+    "category": "Adjectives",
+    "theory": "Превосходная степень используется для выделения предмета из группы. Односложные: the + -est (the biggest). Многосложные: the most + прилагательное (the most expensive). Исключения: good → the best, bad → the worst.",
+    "examples": [
+      { "sentence": "This is the biggest room in the hotel.", "translation": "Это самая большая комната в отеле." },
+      { "sentence": "She is the most intelligent student in the class.", "translation": "Она самая умная ученица в классе." },
+      { "sentence": "It was the worst day of my life.", "translation": "Это был худший день в моей жизни." }
+    ]
+  },
+  {
+    "rule_id": "g29",
+    "level": "A1",
+    "title": "Модальный глагол must (обязанность, запрет)",
+    "category": "Modal Verbs",
+    "theory": "Must выражает строгую обязанность, приказ или настоятельный совет. Отрицание mustn't (must not) означает строгий запрет. После must глагол без to.",
+    "examples": [
+      { "sentence": "You must stop at the red light.", "translation": "Вы должны остановиться на красный свет." },
+      { "sentence": "I must finish this report today.", "translation": "Я должен закончить этот отчёт сегодня." },
+      { "sentence": "You mustn't smoke here.", "translation": "Здесь нельзя курить." }
+    ]
+  },
+  {
+    "rule_id": "g30",
+    "level": "A1",
+    "title": "Модальный глагол should (совет)",
+    "category": "Modal Verbs",
+    "theory": "Should выражает совет или рекомендацию. Отрицание: should not (shouldn't). Вопрос: Should + подлежащее + глагол?",
+    "examples": [
+      { "sentence": "You should see a doctor.", "translation": "Тебе следует обратиться к врачу." },
+      { "sentence": "She shouldn't work so hard.", "translation": "Ей не следует так много работать." },
+      { "sentence": "Should I call him?", "translation": "Мне позвонить ему?" }
+    ]
+  },
+  {
+    "rule_id": "g31",
+    "level": "A1",
+    "title": "Предлоги времени: at, in, on",
+    "category": "Prepositions",
+    "theory": "At — точное время (at 5 pm), праздники (at Christmas). In — месяцы, годы, времена года, части дня (in July, in 2020, in the morning). On — дни недели, даты (on Monday, on 15th May).",
+    "examples": [
+      { "sentence": "I get up at 7 o'clock.", "translation": "Я встаю в 7 часов." },
+      { "sentence": "She was born in August.", "translation": "Она родилась в августе." },
+      { "sentence": "We have English lessons on Tuesdays.", "translation": "У нас уроки английского по вторникам." }
+    ]
+  },
+  {
+    "rule_id": "g32",
+    "level": "A1",
+    "title": "Исчисляемые и неисчисляемые существительные: many, much, a lot of",
+    "category": "Nouns",
+    "theory": "Many используется с исчисляемыми (many books). Much — с неисчисляемыми (much water). A lot of / lots of — с обоими типами в утвердительных предложениях.",
+    "examples": [
+      { "sentence": "I don't have many friends here.", "translation": "У меня здесь не много друзей." },
+      { "sentence": "How much sugar do you need?", "translation": "Сколько сахара тебе нужно?" },
+      { "sentence": "She has a lot of work to do.", "translation": "У неё много работы." }
+    ]
+  },
+  {
+    "rule_id": "g33",
+    "level": "A1",
+    "title": "Конструкция Let's (предложение совместного действия)",
+    "category": "Structures",
+    "theory": "Let's + инфинитив без to используется для предложения сделать что-то вместе. Отрицание: Let's not + инфинитив.",
+    "examples": [
+      { "sentence": "Let's go to the cinema tonight.", "translation": "Давай сходим в кино сегодня вечером." },
+      { "sentence": "Let's not argue about it.", "translation": "Давай не будем спорить об этом." },
+      { "sentence": "Let's take a break.", "translation": "Давай сделаем перерыв." }
+    ]
+  },
+  {
+    "rule_id": "g34",
+    "level": "A1",
+    "title": "Вопросы к подлежащему (Who, What)",
+    "category": "Questions",
+    "theory": "В вопросах к подлежащему (кто? что?) используется прямой порядок слов. Вспомогательный глагол do/does не нужен. Who / What + глагол в 3-м лице ед.ч. (с -s).",
+    "examples": [
+      { "sentence": "Who lives in this house?", "translation": "Кто живёт в этом доме?" },
+      { "sentence": "What happened to your car?", "translation": "Что случилось с твоей машиной?" },
+      { "sentence": "Who wants some tea?", "translation": "Кто хочет чаю?" }
+    ]
+  },
+  {
+    "rule_id": "g35",
+    "level": "A1",
+    "title": "Прилагательные на -ing и -ed",
+    "category": "Adjectives",
+    "theory": "Прилагательные на -ing описывают качество предмета или ситуации (интересный фильм). Прилагательные на -ed описывают состояние или чувство человека (заинтересованный зритель).",
+    "examples": [
+      { "sentence": "The movie was boring.", "translation": "Фильм был скучным." },
+      { "sentence": "I felt bored during the lecture.", "translation": "Мне было скучно во время лекции." },
+      { "sentence": "She is interested in art.", "translation": "Она интересуется искусством." },
+      { "sentence": "The news was surprising.", "translation": "Новость была удивительной." }
+    ]
+  },
+  {
+    "rule_id": "g36",
+    "level": "A1",
+    "title": "Конструкция used to (привычки в прошлом)",
+    "category": "Structures",
+    "theory": "Used to + инфинитив описывает действия или состояния, которые были привычными в прошлом, но больше не происходят. Отрицание: didn't use to. Вопрос: Did + подлежащее + use to?",
+    "examples": [
+      { "sentence": "I used to play the piano when I was a child.", "translation": "В детстве я играл на пианино." },
+      { "sentence": "She didn't use to like coffee.", "translation": "Раньше она не любила кофе." },
+      { "sentence": "Did you use to live here?", "translation": "Ты раньше здесь жил?" }
+    ]
+  },
+  {
+    "rule_id": "g37",
+    "level": "A1",
+    "title": "Притяжательные местоимения: абсолютная форма (mine, yours, his, hers, its, ours, theirs)",
+    "category": "Pronouns",
+    "theory": "Абсолютные притяжательные местоимения заменяют существительное, чтобы избежать повтора: This book is my book → This book is mine.",
+    "examples": [
+      { "sentence": "This pen is mine.", "translation": "Эта ручка моя." },
+      { "sentence": "Is this bag yours?", "translation": "Эта сумка твоя?" },
+      { "sentence": "Our car is blue; theirs is red.", "translation": "Наша машина синяя, а их — красная." }
+    ]
+  },
+  {
+    "rule_id": "g38",
+    "level": "A1",
+    "title": "Союзы and, but, or, so, because",
+    "category": "Conjunctions",
+    "theory": "And — и (добавление). But — но (противопоставление). Or — или (выбор). So — поэтому (следствие). Because — потому что (причина).",
+    "examples": [
+      { "sentence": "I like tea and coffee.", "translation": "Я люблю чай и кофе." },
+      { "sentence": "She is tired but happy.", "translation": "Она устала, но счастлива." },
+      { "sentence": "Do you want pizza or pasta?", "translation": "Ты хочешь пиццу или пасту?" },
+      { "sentence": "It was raining, so we stayed home.", "translation": "Шёл дождь, поэтому мы остались дома." },
+      { "sentence": "I went to bed because I was sleepy.", "translation": "Я пошёл спать, потому что хотел спать." }
+    ]
+  },
+  {
+    "rule_id": "g39",
+    "level": "A1",
+    "title": "Порядковые числительные и даты",
+    "category": "Numbers",
+    "theory": "Порядковые числительные: first (1st), second (2nd), third (3rd), fourth (4th), fifth (5th) и т.д. Для дат используем порядковые числительные с предлогом on: on the 5th of May или on May 5th.",
+    "examples": [
+      { "sentence": "My birthday is on the 10th of June.", "translation": "Мой день рождения 10 июня." },
+      { "sentence": "She came first in the race.", "translation": "Она пришла первой в гонке." },
+      { "sentence": "Today is the 3rd of March.", "translation": "Сегодня 3 марта." }
+    ]
+  },
+  {
+    "rule_id": "g40",
+    "level": "A1",
+    "title": "Базовые фразовые глаголы (get up, turn on, turn off, look for, wake up, go out)",
+    "category": "Phrasal Verbs",
+    "theory": "Фразовые глаголы состоят из глагола и предлога/наречия, значение которых часто отличается от исходного глагола. Например, get up — вставать, turn on — включать.",
+    "examples": [
+      { "sentence": "I get up at 7 am every day.", "translation": "Я встаю в 7 утра каждый день." },
+      { "sentence": "Can you turn on the light?", "translation": "Можешь включить свет?" },
+      { "sentence": "Please turn off your phone.", "translation": "Пожалуйста, выключи телефон." },
+      { "sentence": "I'm looking for my keys.", "translation": "Я ищу свои ключи." }
+    ]
+  },
+  {
+    "rule_id": "g41",
+    "level": "A2",
+    "title": "Present Perfect (опыт): have/has + V3",
+    "category": "Tenses",
+    "theory": "Present Perfect связывает прошлое с настоящим. Для рассказа о жизненном опыте используйте have/has + третья форма глагола. Часто с ever (когда-либо) и never (никогда).",
+    "examples": [
+      { "sentence": "I have visited Paris twice.", "translation": "Я был в Париже дважды." },
+      { "sentence": "She has never eaten sushi.", "translation": "Она никогда не ела суши." },
+      { "sentence": "Have you ever been to London?", "translation": "Ты когда-нибудь был в Лондоне?" }
+    ]
+  },
+  {
+    "rule_id": "g42",
+    "level": "A2",
+    "title": "Present Perfect (результат): just, already, yet",
+    "category": "Tenses",
+    "theory": "Present Perfect с just (только что) указывает на недавно завершённое действие. Already (уже) — на действие, произошедшее раньше ожидаемого. Yet (ещё, уже) — в вопросах и отрицаниях, ставится в конец предложения.",
+    "examples": [
+      { "sentence": "I have just finished my homework.", "translation": "Я только что закончил домашнюю работу." },
+      { "sentence": "She has already seen this film.", "translation": "Она уже видела этот фильм." },
+      { "sentence": "Have you called him yet?", "translation": "Ты уже позвонил ему?" },
+      { "sentence": "I haven't had lunch yet.", "translation": "Я ещё не обедал." }
+    ]
+  },
+  {
+    "rule_id": "g43",
+    "level": "A2",
+    "title": "Present Perfect (длительность): since и for",
+    "category": "Tenses",
+    "theory": "Since + точка во времени (since Monday, since 2010). For + период времени (for two weeks, for three years). Используется, когда действие началось в прошлом и продолжается сейчас.",
+    "examples": [
+      { "sentence": "I have known her since childhood.", "translation": "Я знаю её с детства." },
+      { "sentence": "He has worked here for five years.", "translation": "Он работает здесь пять лет." },
+      { "sentence": "How long have you lived in this city?", "translation": "Как долго ты живёшь в этом городе?" }
+    ]
+  },
+  {
+    "rule_id": "g44",
+    "level": "A2",
+    "title": "Present Perfect vs Past Simple",
+    "category": "Tenses",
+    "theory": "Past Simple — завершённое действие в прошлом с указанием времени (yesterday, last week). Present Perfect — результат сейчас или опыт без точной даты.",
+    "examples": [
+      { "sentence": "I saw that movie yesterday. (Past Simple)", "translation": "Я смотрел этот фильм вчера." },
+      { "sentence": "I have seen that movie. (Present Perfect)", "translation": "Я видел этот фильм." },
+      { "sentence": "She went to Rome last summer.", "translation": "Она ездила в Рим прошлым летом." },
+      { "sentence": "She has been to Rome. (опыт)", "translation": "Она была в Риме." }
+    ]
+  },
+  {
+    "rule_id": "g45",
+    "level": "A2",
+    "title": "Past Continuous (утверждение, отрицание, вопрос)",
+    "category": "Tenses",
+    "theory": "Past Continuous (was/were + V-ing) описывает действие в процессе в определённый момент в прошлом. Отрицание: was/were not (wasn't/weren't) + V-ing. Вопрос: Was/Were + подлежащее + V-ing?",
+    "examples": [
+      { "sentence": "I was watching TV at 8 pm yesterday.", "translation": "Вчера в 8 вечера я смотрел телевизор." },
+      { "sentence": "They weren't sleeping when I called.", "translation": "Они не спали, когда я позвонил." },
+      { "sentence": "What were you doing at 10 am?", "translation": "Что ты делал в 10 утра?" }
+    ]
+  },
+  {
+    "rule_id": "g46",
+    "level": "A2",
+    "title": "Past Simple vs Past Continuous",
+    "category": "Tenses",
+    "theory": "Past Continuous — длительное действие (фон). Past Simple — короткое действие, которое прерывает длительное или происходит на его фоне. Часто с when (когда) и while (пока).",
+    "examples": [
+      { "sentence": "I was walking home when it started to rain.", "translation": "Я шёл домой, когда начался дождь." },
+      { "sentence": "While she was cooking, the phone rang.", "translation": "Пока она готовила, зазвонил телефон." },
+      { "sentence": "He broke his leg while he was skiing.", "translation": "Он сломал ногу, когда катался на лыжах." }
+    ]
+  },
+  {
+    "rule_id": "g47",
+    "level": "A2",
+    "title": "Условные предложения 0 типа (факты, законы природы)",
+    "category": "Conditionals",
+    "theory": "Zero Conditional: If + Present Simple, Present Simple. Используется для общеизвестных истин, научных фактов и ситуаций, которые всегда истинны при определённом условии.",
+    "examples": [
+      { "sentence": "If you heat ice, it melts.", "translation": "Если нагреть лёд, он тает." },
+      { "sentence": "If it rains, the grass gets wet.", "translation": "Если идёт дождь, трава становится мокрой." },
+      { "sentence": "If you don't water plants, they die.", "translation": "Если не поливать растения, они умирают." }
+    ]
+  },
+  {
+    "rule_id": "g48",
+    "level": "A2",
+    "title": "Условные предложения 1 типа (реальные будущие события)",
+    "category": "Conditionals",
+    "theory": "First Conditional: If + Present Simple, will + инфинитив. Описывает реальное или вероятное событие в будущем и его последствия.",
+    "examples": [
+      { "sentence": "If it rains tomorrow, we will stay at home.", "translation": "Если завтра пойдёт дождь, мы останемся дома." },
+      { "sentence": "She will be late if she doesn't hurry.", "translation": "Она опоздает, если не поторопится." },
+      { "sentence": "If you study hard, you will pass the exam.", "translation": "Если будешь усердно учиться, сдашь экзамен." }
+    ]
+  },
+  {
+    "rule_id": "g49",
+    "level": "A2",
+    "title": "Модальные глаголы have to / don't have to",
+    "category": "Modal Verbs",
+    "theory": "Have to + инфинитив выражает обязанность, необходимость, вызванную внешними обстоятельствами. Don't have to — отсутствие необходимости. Вопрос: Do/Does + подлежащее + have to + инфинитив?",
+    "examples": [
+      { "sentence": "I have to wear a uniform at work.", "translation": "На работе я должен носить униформу." },
+      { "sentence": "She doesn't have to work on Saturdays.", "translation": "Ей не нужно работать по субботам." },
+      { "sentence": "Do you have to get up early?", "translation": "Тебе нужно рано вставать?" }
+    ]
+  },
+  {
+    "rule_id": "g50",
+    "level": "A2",
+    "title": "Модальные глаголы may / might (вероятность)",
+    "category": "Modal Verbs",
+    "theory": "May и might + инфинитив выражают возможность или вероятность (примерно 50% или меньше). Might указывает на меньшую вероятность, чем may. Оба переводятся как «возможно, может быть».",
+    "examples": [
+      { "sentence": "I may go to the party tonight. (50% chance)", "translation": "Я, возможно, пойду на вечеринку сегодня вечером." },
+      { "sentence": "She might be at home. (30% chance)", "translation": "Она, может быть, дома." },
+      { "sentence": "It might rain later.", "translation": "Позже, возможно, пойдёт дождь." }
+    ]
+  },
+  {
+    "rule_id": "g51",
+    "level": "A2",
+    "title": "Страдательный залог в Present Simple",
+    "category": "Passive Voice",
+    "theory": "Passive Voice (страдательный залог) используется, когда важнее само действие, а не тот, кто его совершает. Present Simple Passive: am/is/are + V3 (третья форма глагола).",
+    "examples": [
+      { "sentence": "English is spoken all over the world.", "translation": "На английском говорят по всему миру." },
+      { "sentence": "These cars are made in Japan.", "translation": "Эти машины производятся в Японии." },
+      { "sentence": "The office is cleaned every evening.", "translation": "Офис убирают каждый вечер." }
+    ]
+  },
+  {
+    "rule_id": "g52",
+    "level": "A2",
+    "title": "Страдательный залог в Past Simple",
+    "category": "Passive Voice",
+    "theory": "Past Simple Passive: was/were + V3. Описывает действие, совершённое над подлежащим в прошлом.",
+    "examples": [
+      { "sentence": "The Eiffel Tower was built in 1889.", "translation": "Эйфелева башня была построена в 1889 году." },
+      { "sentence": "These photos were taken by my father.", "translation": "Эти фотографии были сделаны моим отцом." },
+      { "sentence": "The thief was caught last night.", "translation": "Вор был пойман прошлой ночью." }
+    ]
+  },
+  {
+    "rule_id": "g53",
+    "level": "A2",
+    "title": "Герундий vs инфинитив (базовые случаи)",
+    "category": "Gerund/Infinitive",
+    "theory": "После некоторых глаголов употребляется герундий (V-ing): enjoy, finish, mind, suggest, practice. После других — инфинитив с to (to V): want, need, decide, hope, plan, learn.",
+    "examples": [
+      { "sentence": "I enjoy reading books.", "translation": "Я люблю читать книги." },
+      { "sentence": "She wants to buy a new car.", "translation": "Она хочет купить новую машину." },
+      { "sentence": "He finished writing the report.", "translation": "Он закончил писать отчёт." },
+      { "sentence": "They decided to stay at home.", "translation": "Они решили остаться дома." }
+    ]
+  },
+  {
+    "rule_id": "g54",
+    "level": "A2",
+    "title": "Относительные местоимения who, which, that, where",
+    "category": "Pronouns",
+    "theory": "Who — для людей. Which — для предметов и животных. That — для людей и предметов (менее формально). Where — для мест. Вводят придаточные определительные предложения.",
+    "examples": [
+      { "sentence": "The woman who lives next door is a doctor.", "translation": "Женщина, которая живёт по соседству, врач." },
+      { "sentence": "This is the book which I told you about.", "translation": "Это книга, о которой я тебе говорил." },
+      { "sentence": "I like the restaurant that opened last week.", "translation": "Мне нравится ресторан, который открылся на прошлой неделе." },
+      { "sentence": "This is the house where I grew up.", "translation": "Это дом, где я вырос." }
+    ]
+  },
+  {
+    "rule_id": "g55",
+    "level": "A2",
+    "title": "Конструкция to be used to (привыкнуть)",
+    "category": "Structures",
+    "theory": "To be used to + герундий (V-ing) означает «привыкнуть к чему-либо». Не путать с used to (раньше делал). Формы: am/is/are used to + V-ing.",
+    "examples": [
+      { "sentence": "I am used to getting up early.", "translation": "Я привык рано вставать." },
+      { "sentence": "She is not used to driving on the left.", "translation": "Она не привыкла ездить по левой стороне." },
+      { "sentence": "Are you used to the weather here?", "translation": "Ты привык к здешней погоде?" }
+    ]
+  },
+  {
+    "rule_id": "g56",
+    "level": "A2",
+    "title": "Степени сравнения наречий",
+    "category": "Adverbs",
+    "theory": "Односложные наречия: + -er, the + -est (fast → faster → the fastest). Многосложные: more / the most + наречие (carefully → more carefully → the most carefully). Исключения: well → better → the best, badly → worse → the worst.",
+    "examples": [
+      { "sentence": "She runs faster than me.", "translation": "Она бегает быстрее меня." },
+      { "sentence": "He drives the most carefully of all.", "translation": "Он водит аккуратнее всех." },
+      { "sentence": "I feel better today.", "translation": "Сегодня я чувствую себя лучше." }
+    ]
+  },
+  {
+    "rule_id": "g57",
+    "level": "A2",
+    "title": "Возвратные местоимения (myself, yourself, himself, etc.)",
+    "category": "Pronouns",
+    "theory": "Возвратные местоимения используются, когда подлежащее и дополнение — одно лицо (я сам, ты сам). Формы: myself, yourself, himself, herself, itself, ourselves, yourselves, themselves.",
+    "examples": [
+      { "sentence": "I cut myself while shaving.", "translation": "Я порезался во время бритья." },
+      { "sentence": "She taught herself to play the piano.", "translation": "Она сама научилась играть на пианино." },
+      { "sentence": "Help yourselves to some cake!", "translation": "Угощайтесь тортом!" }
+    ]
+  },
+  {
+    "rule_id": "g58",
+    "level": "A2",
+    "title": "Способы выражения количества: too much, too many, enough",
+    "category": "Quantifiers",
+    "theory": "Too many + исчисляемые (слишком много). Too much + неисчисляемые (слишком много). Enough + существительное (достаточно). Прилагательное + enough (достаточно умный).",
+    "examples": [
+      { "sentence": "There are too many people in the room.", "translation": "В комнате слишком много людей." },
+      { "sentence": "I put too much sugar in my coffee.", "translation": "Я положил слишком много сахара в кофе." },
+      { "sentence": "We have enough time to catch the train.", "translation": "У нас достаточно времени, чтобы успеть на поезд." },
+      { "sentence": "She is old enough to drive.", "translation": "Она достаточно взрослая, чтобы водить машину." }
+    ]
+  },
+  {
+    "rule_id": "g59",
+    "level": "A2",
+    "title": "Косвенная речь: утверждения (He said that...)",
+    "category": "Reported Speech",
+    "theory": "При переводе прямой речи в косвенную время глагола сдвигается на шаг назад: Present Simple → Past Simple, Present Continuous → Past Continuous, Past Simple → Past Perfect. Местоимения и указатели времени тоже меняются (now → then, today → that day).",
+    "examples": [
+      { "sentence": "He said (that) he was tired.", "translation": "Он сказал, что устал." },
+      { "sentence": "She told me (that) she had seen the film.", "translation": "Она сказала мне, что видела этот фильм." },
+      { "sentence": "They said (that) they would call later.", "translation": "Они сказали, что позвонят позже." }
+    ]
+  },
+  {
+    "rule_id": "g60",
+    "level": "A2",
+    "title": "Сложные предлоги движения: across, through, along, towards, past",
+    "category": "Prepositions",
+    "theory": "Across — через (поверхность). Through — сквозь, через (объём). Along — вдоль. Towards — по направлению к. Past — мимо.",
+    "examples": [
+      { "sentence": "We walked across the bridge.", "translation": "Мы прошли через мост." },
+      { "sentence": "The train went through the tunnel.", "translation": "Поезд проехал сквозь туннель." },
+      { "sentence": "She ran along the beach.", "translation": "Она бежала вдоль пляжа." },
+      { "sentence": "He walked towards the door.", "translation": "Он пошёл к двери." },
+      { "sentence": "I drove past your house yesterday.", "translation": "Вчера я проезжал мимо твоего дома." }
+    ]
+  },
+  {
+    "rule_id": "g61",
+    "level": "B1",
+    "title": "Past Perfect: had + V3",
+    "category": "Tenses",
+    "theory": "Past Perfect (had + третья форма глагола) используется для обозначения действия, которое произошло раньше другого действия в прошлом. Часто употребляется с Past Simple для указания последовательности событий.",
+    "examples": [
+      { "sentence": "When we arrived at the cinema, the film had already started.", "translation": "Когда мы пришли в кинотеатр, фильм уже начался." },
+      { "sentence": "She had never seen such a beautiful sunset before she went to Hawaii.", "translation": "Она никогда не видела такого красивого заката до поездки на Гавайи." },
+      { "sentence": "He failed the test because he hadn't studied enough.", "translation": "Он провалил тест, потому что недостаточно готовился." }
+    ]
+  },
+  {
+    "rule_id": "g62",
+    "level": "B1",
+    "title": "Present Perfect Continuous: have/has been + V-ing",
+    "category": "Tenses",
+    "theory": "Present Perfect Continuous используется для действий, которые начались в прошлом, продолжались какое-то время и либо всё ещё продолжаются, либо только что завершились с видимым результатом. Часто с since и for.",
+    "examples": [
+      { "sentence": "I have been working here for five years.", "translation": "Я работаю здесь пять лет." },
+      { "sentence": "She looks tired because she has been studying all night.", "translation": "Она выглядит уставшей, потому что училась всю ночь." },
+      { "sentence": "It has been raining since morning.", "translation": "Дождь идёт с утра." }
+    ]
+  },
+  {
+    "rule_id": "g63",
+    "level": "B1",
+    "title": "Future Continuous: will be + V-ing",
+    "category": "Tenses",
+    "theory": "Future Continuous описывает действие, которое будет происходить в определённый момент в будущем. Часто используется для выражения запланированных действий или вежливого вопроса о планах.",
+    "examples": [
+      { "sentence": "This time tomorrow, I will be flying to Paris.", "translation": "Завтра в это время я буду лететь в Париж." },
+      { "sentence": "Will you be using the car tonight?", "translation": "Ты будешь пользоваться машиной сегодня вечером?" },
+      { "sentence": "She will be waiting for you at the station.", "translation": "Она будет ждать тебя на вокзале." }
+    ]
+  },
+  {
+    "rule_id": "g64",
+    "level": "B1",
+    "title": "Future Perfect: will have + V3",
+    "category": "Tenses",
+    "theory": "Future Perfect обозначает действие, которое будет завершено к определённому моменту в будущем. Часто с предлогом by (к).",
+    "examples": [
+      { "sentence": "By next year, I will have finished my degree.", "translation": "К следующему году я закончу обучение (получу степень)." },
+      { "sentence": "She will have arrived by 6 o'clock.", "translation": "К 6 часам она уже приедет." },
+      { "sentence": "They will have built the new bridge by the end of 2027.", "translation": "Новый мост построят к концу 2027 года." }
+    ]
+  },
+  {
+    "rule_id": "g65",
+    "level": "B1",
+    "title": "Условные предложения 2 типа (нереальные в настоящем/будущем)",
+    "category": "Conditionals",
+    "theory": "Second Conditional: If + Past Simple, would + инфинитив. Используется для выражения нереальных или маловероятных ситуаций в настоящем или будущем, а также для советов (If I were you...).",
+    "examples": [
+      { "sentence": "If I had a million dollars, I would travel around the world.", "translation": "Если бы у меня был миллион долларов, я бы путешествовал по миру." },
+      { "sentence": "If she knew his number, she would call him.", "translation": "Если бы она знала его номер, она бы ему позвонила." },
+      { "sentence": "If I were you, I would accept the offer.", "translation": "На твоём месте (если бы я был тобой) я бы принял предложение." }
+    ]
+  },
+  {
+    "rule_id": "g66",
+    "level": "B1",
+    "title": "Условные предложения 3 типа (нереальные в прошлом)",
+    "category": "Conditionals",
+    "theory": "Third Conditional: If + Past Perfect, would have + V3. Выражает нереализованное условие в прошлом и его предполагаемый (но не случившийся) результат. Используется для выражения сожаления или критики.",
+    "examples": [
+      { "sentence": "If you had called me, I would have helped you.", "translation": "Если бы ты мне позвонил, я бы тебе помог." },
+      { "sentence": "She would have passed the exam if she had studied harder.", "translation": "Она бы сдала экзамен, если бы усерднее училась." },
+      { "sentence": "If we hadn't missed the train, we would have arrived on time.", "translation": "Если бы мы не опоздали на поезд, мы бы приехали вовремя." }
+    ]
+  },
+  {
+    "rule_id": "g67",
+    "level": "B1",
+    "title": "Модальные глаголы для предположений: must be, can't be, might be",
+    "category": "Modal Verbs",
+    "theory": "Для логических выводов и предположений: must be (должно быть, скорее всего) — высокая уверенность. can't be (не может быть) — уверенность, что что-то невозможно. might / may / could be (возможно) — неуверенность.",
+    "examples": [
+      { "sentence": "He must be rich. He drives a Ferrari.", "translation": "Он, должно быть, богат. Он ездит на Феррари." },
+      { "sentence": "That can't be true! I don't believe it.", "translation": "Это не может быть правдой! Я не верю." },
+      { "sentence": "She might be at home, but I'm not sure.", "translation": "Она, возможно, дома, но я не уверен." }
+    ]
+  },
+  {
+    "rule_id": "g68",
+    "level": "B1",
+    "title": "Страдательный залог во всех изученных временах",
+    "category": "Passive Voice",
+    "theory": "Формула страдательного залога: to be + V3 в нужном времени. Present Continuous Passive: am/is/are being + V3. Present Perfect Passive: have/has been + V3. Future Simple Passive: will be + V3.",
+    "examples": [
+      { "sentence": "The new hotel is being built now.", "translation": "Новый отель строится сейчас." },
+      { "sentence": "My car has been repaired.", "translation": "Мою машину отремонтировали." },
+      { "sentence": "The results will be announced tomorrow.", "translation": "Результаты объявят завтра." }
+    ]
+  },
+  {
+    "rule_id": "g69",
+    "level": "B1",
+    "title": "Герундий и инфинитив: разница в значении (remember, forget, try, stop)",
+    "category": "Gerund/Infinitive",
+    "theory": "Некоторые глаголы меняют смысл в зависимости от формы: remember/forget + to V (не забыть/помнить, что нужно сделать). remember/forget + V-ing (помнить/забыть о событии в прошлом). try + to V (прилагать усилия). try + V-ing (экспериментировать). stop + to V (остановиться, чтобы сделать). stop + V-ing (прекратить действие).",
+    "examples": [
+      { "sentence": "I remembered to lock the door.", "translation": "Я не забыл запереть дверь." },
+      { "sentence": "I remember locking the door.", "translation": "Я помню, что запирал дверь." },
+      { "sentence": "He tried to open the window, but it was stuck.", "translation": "Он пытался открыть окно, но оно застряло." },
+      { "sentence": "Try adding some salt to the soup.", "translation": "Попробуй добавить немного соли в суп." },
+      { "sentence": "She stopped to tie her shoelace.", "translation": "Она остановилась, чтобы завязать шнурок." },
+      { "sentence": "He stopped smoking last year.", "translation": "Он бросил курить в прошлом году." }
+    ]
+  },
+  {
+    "rule_id": "g70",
+    "level": "B1",
+    "title": "Косвенная речь: вопросы (He asked me where I lived)",
+    "category": "Reported Speech",
+    "theory": "В косвенных вопросах прямой порядок слов (подлежащее перед сказуемым). Общий вопрос вводится с if или whether. Специальный вопрос — с вопросительного слова (what, where, when). Времена сдвигаются по правилам согласования.",
+    "examples": [
+      { "sentence": "He asked me if I was busy.", "translation": "Он спросил, занят ли я." },
+      { "sentence": "She asked where I had bought that dress.", "translation": "Она спросила, где я купила это платье." },
+      { "sentence": "They asked whether we wanted to go out.", "translation": "Они спросили, хотим ли мы пойти гулять." }
+    ]
+  },
+  {
+    "rule_id": "g71",
+    "level": "B1",
+    "title": "Косвенная речь: просьбы и приказы (tell / ask + to V)",
+    "category": "Reported Speech",
+    "theory": "Для передачи просьб и приказов используется конструкция: tell / ask / order + (not) to + инфинитив. Местоимения меняются по смыслу.",
+    "examples": [
+      { "sentence": "She told me to sit down.", "translation": "Она велела мне сесть." },
+      { "sentence": "He asked us not to be late.", "translation": "Он попросил нас не опаздывать." },
+      { "sentence": "The doctor told him to take the medicine twice a day.", "translation": "Врач сказал ему принимать лекарство дважды в день." }
+    ]
+  },
+  {
+    "rule_id": "g72",
+    "level": "B1",
+    "title": "Союзы и предлоги уступки: although, though, even though, despite, in spite of",
+    "category": "Conjunctions",
+    "theory": "Although / Even though / Though + подлежащее + сказуемое (хотя, несмотря на то что). Despite / In spite of + существительное / герундий (несмотря на).",
+    "examples": [
+      { "sentence": "Although it was raining, we went for a walk.", "translation": "Хотя шёл дождь, мы пошли гулять." },
+      { "sentence": "Even though she was tired, she finished the report.", "translation": "Несмотря на усталость, она закончила отчёт." },
+      { "sentence": "Despite the rain, we had a good time.", "translation": "Несмотря на дождь, мы хорошо провели время." },
+      { "sentence": "In spite of being ill, he went to work.", "translation": "Несмотря на болезнь, он пошёл на работу." }
+    ]
+  },
+  {
+    "rule_id": "g73",
+    "level": "B1",
+    "title": "Вопросы с предлогами в конце (Who are you talking to?)",
+    "category": "Questions",
+    "theory": "В разговорном английском в вопросах предлог часто ставится в конец предложения. Формальный вариант — предлог перед вопросительным словом (To whom are you talking?), но он редко используется в речи.",
+    "examples": [
+      { "sentence": "Who are you waiting for?", "translation": "Кого ты ждёшь?" },
+      { "sentence": "What are you looking at?", "translation": "На что ты смотришь?" },
+      { "sentence": "Which company does she work for?", "translation": "В какой компании она работает?" }
+    ]
+  },
+  {
+    "rule_id": "g74",
+    "level": "B1",
+    "title": "Сложное дополнение (Complex Object): want / expect + object + to V",
+    "category": "Structures",
+    "theory": "Complex Object: глагол + существительное/местоимение в объектном падеже + инфинитив с to. Используется с глаголами want, expect, would like, ask, tell, advise.",
+    "examples": [
+      { "sentence": "I want you to help me.", "translation": "Я хочу, чтобы ты мне помог." },
+      { "sentence": "She expects him to arrive on time.", "translation": "Она ожидает, что он приедет вовремя." },
+      { "sentence": "They asked us to leave.", "translation": "Они попросили нас уйти." }
+    ]
+  },
+  {
+    "rule_id": "g75",
+    "level": "B1",
+    "title": "Придаточные предложения цели: to, in order to, so that",
+    "category": "Structures",
+    "theory": "Для выражения цели: to + инфинитив / in order to + инфинитив (более формально). So that + подлежащее + can / could + инфинитив (чтобы кто-то мог сделать что-то).",
+    "examples": [
+      { "sentence": "I'm saving money to buy a new car.", "translation": "Я коплю деньги, чтобы купить новую машину." },
+      { "sentence": "She left early in order to catch the train.", "translation": "Она ушла рано, чтобы успеть на поезд." },
+      { "sentence": "I'll explain it again so that you can understand.", "translation": "Я объясню ещё раз, чтобы ты мог понять." }
+    ]
+  },
+  {
+    "rule_id": "g76",
+    "level": "B1",
+    "title": "Словообразование: основные суффиксы и префиксы",
+    "category": "Word Formation",
+    "theory": "Суффиксы меняют часть речи: -ment (сущ.), -tion/-sion (сущ.), -ness (сущ.), -ity (сущ.), -ful (прил.), -less (прил.), -able/-ible (прил.), -ly (наречие). Префиксы меняют значение: un-, in-, im-, ir-, dis- (отрицание), re- (снова).",
+    "examples": [
+      { "sentence": "happiness (happy + ness)", "translation": "счастье" },
+      { "sentence": "development (develop + ment)", "translation": "развитие" },
+      { "sentence": "impossible (im + possible)", "translation": "невозможный" },
+      { "sentence": "rewrite (re + write)", "translation": "переписать" }
+    ]
+  },
+  {
+    "rule_id": "g77",
+    "level": "B1",
+    "title": "Фразовые глаголы: give up, look after, run out of, put off, take off, carry on",
+    "category": "Phrasal Verbs",
+    "theory": "Фразовые глаголы на уровне B1 становятся более абстрактными. Их значение часто не вытекает из значений глагола и предлога. Нужно запоминать целиком.",
+    "examples": [
+      { "sentence": "He decided to give up smoking.", "translation": "Он решил бросить курить." },
+      { "sentence": "Can you look after my cat while I'm away?", "translation": "Можешь присмотреть за моей кошкой, пока меня не будет?" },
+      { "sentence": "We've run out of milk. I need to buy some.", "translation": "У нас закончилось молоко. Нужно купить." },
+      { "sentence": "Never put off until tomorrow what you can do today.", "translation": "Никогда не откладывай на завтра то, что можно сделать сегодня." },
+      { "sentence": "The plane took off an hour late.", "translation": "Самолёт взлетел с опозданием на час." },
+      { "sentence": "Carry on with your work while I'm gone.", "translation": "Продолжайте работать, пока меня не будет." }
+    ]
+  },
+  {
+    "rule_id": "g78",
+    "level": "B1",
+    "title": "Союзы причины и следствия: therefore, consequently, as a result, because of, due to",
+    "category": "Conjunctions",
+    "theory": "Therefore / Consequently / As a result (следовательно, в результате) — наречия, связывающие предложения. Because of / Due to / Owing to + существительное — из-за, по причине.",
+    "examples": [
+      { "sentence": "The flight was cancelled. Consequently, we had to stay overnight.", "translation": "Рейс отменили. Следовательно, нам пришлось остаться на ночь." },
+      { "sentence": "She studied hard and therefore passed the exam.", "translation": "Она усердно училась и поэтому сдала экзамен." },
+      { "sentence": "The match was postponed due to heavy rain.", "translation": "Матч отложили из-за сильного дождя." },
+      { "sentence": "Because of the traffic, I was late.", "translation": "Из-за пробок я опоздал." }
+    ]
+  },
+  {
+    "rule_id": "g79",
+    "level": "B1",
+    "title": "Инверсия после отрицательных наречий: Never, Rarely, Seldom, Hardly",
+    "category": "Structures",
+    "theory": "Для усиления или в формальном стиле отрицательные наречия могут выноситься в начало предложения, после чего следует инверсия (вспомогательный глагол + подлежащее + основной глагол). Never have I seen...",
+    "examples": [
+      { "sentence": "Never have I seen such a beautiful sunset.", "translation": "Никогда я не видел такого красивого заката." },
+      { "sentence": "Rarely does she eat out.", "translation": "Она редко ест вне дома." },
+      { "sentence": "Hardly had we arrived when it started to rain.", "translation": "Едва мы приехали, как начался дождь." }
+    ]
+  },
+  {
+    "rule_id": "g80",
+    "level": "B1",
+    "title": "Разделительные вопросы (Question Tags)",
+    "category": "Questions",
+    "theory": "Разделительный вопрос состоит из утверждения и краткого вопроса в конце. Если утверждение положительное — вопрос отрицательный, и наоборот. Время и лицо совпадают с утверждением. С I am → aren't I? С Let's → shall we? С повелительным наклонением → will you?",
+    "examples": [
+      { "sentence": "You are a student, aren't you?", "translation": "Ты студент, не так ли?" },
+      { "sentence": "She doesn't like coffee, does she?", "translation": "Она не любит кофе, правда?" },
+      { "sentence": "I'm late, aren't I?", "translation": "Я опоздал, не так ли?" },
+      { "sentence": "Let's go for a walk, shall we?", "translation": "Давай прогуляемся, хорошо?" },
+      { "sentence": "Open the window, will you?", "translation": "Открой окно, хорошо?" }
+    ]
+  },
+  {
+    "rule_id": "g81",
+    "level": "B2",
+    "title": "Past Perfect Continuous: had been + V-ing",
+    "category": "Tenses",
+    "theory": "Past Perfect Continuous подчёркивает длительность действия, которое происходило до определённого момента или другого действия в прошлом. Часто указывает на причину или видимый результат в прошлом.",
+    "examples": [
+      { "sentence": "She had been working for that company for 20 years when she retired.", "translation": "Она проработала в той компании 20 лет, когда вышла на пенсию." },
+      { "sentence": "The ground was wet because it had been raining all night.", "translation": "Земля была мокрой, потому что всю ночь шёл дождь." },
+      { "sentence": "He was exhausted because he had been running.", "translation": "Он был измотан, потому что бегал." }
+    ]
+  },
+  {
+    "rule_id": "g82",
+    "level": "B2",
+    "title": "Future Perfect Continuous: will have been + V-ing",
+    "category": "Tenses",
+    "theory": "Future Perfect Continuous используется для описания действия, которое будет продолжаться в течение некоторого времени до определённого момента в будущем. Подчёркивает длительность.",
+    "examples": [
+      { "sentence": "By next month, I will have been working here for 10 years.", "translation": "В следующем месяце будет 10 лет, как я здесь работаю." },
+      { "sentence": "When the bell rings, we will have been writing the test for two hours.", "translation": "Когда прозвенит звонок, мы будем писать тест уже два часа." },
+      { "sentence": "She will have been travelling for three months by the time she returns.", "translation": "К тому времени, как она вернётся, она будет путешествовать уже три месяца." }
+    ]
+  },
+  {
+    "rule_id": "g83",
+    "level": "B2",
+    "title": "Условные предложения смешанного типа (Mixed Conditionals)",
+    "category": "Conditionals",
+    "theory": "Mixed Conditionals соединяют условие в прошлом с результатом в настоящем (If + Past Perfect, would + инфинитив) или условие в настоящем с результатом в прошлом (If + Past Simple, would have + V3). Используются, когда временные рамки условия и результата не совпадают.",
+    "examples": [
+      { "sentence": "If I had studied harder at university, I would have a better job now.", "translation": "Если бы я усерднее учился в университете, у меня была бы сейчас работа получше." },
+      { "sentence": "If she weren't so lazy, she would have finished the project on time.", "translation": "Если бы она не была такой ленивой, она бы закончила проект вовремя." },
+      { "sentence": "If you hadn't spent all your money, we could go on holiday now.", "translation": "Если бы ты не потратил все деньги, мы могли бы сейчас поехать в отпуск." }
+    ]
+  },
+  {
+    "rule_id": "g84",
+    "level": "B2",
+    "title": "Страдательный залог с модальными глаголами (can be done, must have been done)",
+    "category": "Passive Voice",
+    "theory": "Passive Voice с модальными глаголами: модальный глагол + be + V3 (для настоящего/будущего) или модальный глагол + have been + V3 (для прошлого).",
+    "examples": [
+      { "sentence": "This report must be finished by Friday.", "translation": "Этот отчёт должен быть закончен к пятнице." },
+      { "sentence": "The letter should have been sent yesterday.", "translation": "Письмо следовало отправить вчера." },
+      { "sentence": "This door can't be opened from the outside.", "translation": "Эту дверь нельзя открыть снаружи." },
+      { "sentence": "The car might have been stolen.", "translation": "Машину, возможно, украли." }
+    ]
+  },
+  {
+    "rule_id": "g85",
+    "level": "B2",
+    "title": "Инверсия в условных предложениях (Had I known, Were I you, Should you need)",
+    "category": "Structures",
+    "theory": "В формальном или литературном стиле в условных предложениях можно опустить 'if' и использовать инверсию: Had + подлежащее + V3 (вместо If + Past Perfect). Were + подлежащее + to V / Were I you (вместо If I were you). Should + подлежащее + V (вместо If ... should).",
+    "examples": [
+      { "sentence": "Had I known about the party, I would have come.", "translation": "Если бы я знал о вечеринке, я бы пришёл." },
+      { "sentence": "Were I you, I would accept the job offer.", "translation": "На твоём месте я бы принял предложение о работе." },
+      { "sentence": "Should you need any assistance, please contact us.", "translation": "Если вам понадобится помощь, пожалуйста, свяжитесь с нами." }
+    ]
+  },
+  {
+    "rule_id": "g86",
+    "level": "B2",
+    "title": "Причастные обороты (Participle Clauses)",
+    "category": "Structures",
+    "theory": "Причастные обороты делают речь более лаконичной, заменяя придаточные предложения времени, причины или условия. Present Participle (V-ing) — для активного действия. Past Participle (V3) — для пассивного. Perfect Participle (Having + V3) — если действие произошло раньше.",
+    "examples": [
+      { "sentence": "Walking down the street, I met an old friend.", "translation": "Идя по улице, я встретил старого друга." },
+      { "sentence": "Built in 1900, the house is very old.", "translation": "Построенный в 1900 году, этот дом очень старый." },
+      { "sentence": "Having finished his work, he went home.", "translation": "Закончив работу, он пошёл домой." },
+      { "sentence": "Not knowing what to say, I remained silent.", "translation": "Не зная, что сказать, я промолчал." }
+    ]
+  },
+  {
+    "rule_id": "g87",
+    "level": "B2",
+    "title": "Эллипсис и замена (So do I, Neither have I)",
+    "category": "Structures",
+    "theory": "Чтобы избежать повторения, для краткого согласия или несогласия используются конструкции: So + вспомогательный глагол + подлежащее (для утверждения: 'я тоже'). Neither / Nor + вспомогательный глагол + подлежащее (для отрицания: 'я тоже нет').",
+    "examples": [
+      { "sentence": "I love pizza. — So do I.", "translation": "Я люблю пиццу. — Я тоже." },
+      { "sentence": "She has been to Paris. — So have I.", "translation": "Она была в Париже. — Я тоже." },
+      { "sentence": "He can't swim. — Neither can I.", "translation": "Он не умеет плавать. — Я тоже." },
+      { "sentence": "I didn't enjoy the film. — Nor did I.", "translation": "Мне не понравился фильм. — Мне тоже." }
+    ]
+  },
+  {
+    "rule_id": "g88",
+    "level": "B2",
+    "title": "Сослагательное наклонение (Subjunctive): I suggest that he go",
+    "category": "Structures",
+    "theory": "Сослагательное наклонение используется в формальном английском после глаголов suggest, recommend, demand, insist, propose, request, advise, а также после выражений It is important / essential / vital that. Глагол всегда в базовой форме (без to, без -s для 3-го лица).",
+    "examples": [
+      { "sentence": "I suggest that she be present at the meeting.", "translation": "Я предлагаю, чтобы она присутствовала на собрании." },
+      { "sentence": "It is essential that he arrive on time.", "translation": "Крайне важно, чтобы он прибыл вовремя." },
+      { "sentence": "They demanded that the prisoner be released.", "translation": "Они потребовали, чтобы заключённого освободили." }
+    ]
+  },
+  {
+    "rule_id": "g89",
+    "level": "B2",
+    "title": "Перфектный инфинитив и герундий (to have done, having done)",
+    "category": "Gerund/Infinitive",
+    "theory": "Перфектный инфинитив (to have + V3) используется после глаголов, выражающих чувства, мнение или предположение о прошлом (seem, appear, claim, pretend), а также после модальных глаголов. Перфектный герундий (having + V3) подчёркивает, что действие герундия предшествовало действию основного глагола.",
+    "examples": [
+      { "sentence": "She seems to have forgotten about the meeting.", "translation": "Она, кажется, забыла о встрече." },
+      { "sentence": "He claimed to have seen a ghost.", "translation": "Он утверждал, что видел привидение." },
+      { "sentence": "Having finished the report, I felt relieved.", "translation": "Закончив отчёт, я почувствовал облегчение." },
+      { "sentence": "She denied having stolen the money.", "translation": "Она отрицала, что украла деньги." }
+    ]
+  },
+  {
+    "rule_id": "g90",
+    "level": "B2",
+    "title": "Сложные союзы: provided that, unless, in case, otherwise, whereas, as long as",
+    "category": "Conjunctions",
+    "theory": "Provided that / Providing that / As long as — при условии что, если только. Unless — если не. In case — на случай если. Otherwise — иначе, в противном случае. Whereas — тогда как.",
+    "examples": [
+      { "sentence": "You can go out provided that you finish your homework.", "translation": "Можешь пойти гулять при условии, что закончишь домашнюю работу." },
+      { "sentence": "I won't go unless you come with me.", "translation": "Я не пойду, если ты не пойдёшь со мной." },
+      { "sentence": "Take an umbrella in case it rains.", "translation": "Возьми зонт на случай, если пойдёт дождь." },
+      { "sentence": "You'd better hurry, otherwise you'll miss the bus.", "translation": "Тебе лучше поторопиться, иначе опоздаешь на автобус." },
+      { "sentence": "He loves sports, whereas his wife prefers reading.", "translation": "Он любит спорт, тогда как его жена предпочитает чтение." }
+    ]
+  },
+  {
+    "rule_id": "g91",
+    "level": "B2",
+    "title": "Модальные глаголы в прошлом: could have done, should have done, would have done, might have done, must have done",
+    "category": "Modal Verbs",
+    "theory": "Модальный глагол + have + V3 используется для выражения различных значений в прошлом: could have done — мог бы сделать (но не сделал), имел возможность. should have done — следовало бы сделать (сожаление или критика). would have done — сделал бы (в условных предложениях). might have done — возможно, сделал (предположение). must have done — должно быть, сделал (уверенное предположение).",
+    "examples": [
+      { "sentence": "You could have helped me! Why didn't you?", "translation": "Ты мог бы мне помочь! Почему не помог?" },
+      { "sentence": "I should have studied harder for the exam.", "translation": "Мне следовало усерднее готовиться к экзамену." },
+      { "sentence": "If I had known, I would have told you.", "translation": "Если бы я знал, я бы тебе сказал." },
+      { "sentence": "She might have taken the wrong bus.", "translation": "Она, возможно, села не на тот автобус." },
+      { "sentence": "He must have been very tired. He fell asleep immediately.", "translation": "Он, должно быть, очень устал. Он заснул сразу же." }
+    ]
+  },
+  {
+    "rule_id": "g92",
+    "level": "B2",
+    "title": "Устойчивые выражения с герундием: It's no use, It's worth, There's no point, Have difficulty",
+    "category": "Gerund/Infinitive",
+    "theory": "Некоторые выражения всегда требуют после себя герундий: It's no use / There's no point (бесполезно, нет смысла), It's (not) worth (стоит / не стоит), Have difficulty / trouble / a hard time (испытывать трудности).",
+    "examples": [
+      { "sentence": "It's no use crying over spilled milk.", "translation": "Бесполезно плакать о пролитом молоке." },
+      { "sentence": "This book is worth reading.", "translation": "Эту книгу стоит прочитать." },
+      { "sentence": "There's no point in arguing with him.", "translation": "Нет смысла с ним спорить." },
+      { "sentence": "I had difficulty finding your house.", "translation": "Мне было трудно найти твой дом." }
+    ]
+  },
+  {
+    "rule_id": "g93",
+    "level": "B2",
+    "title": "Конструкция have something done (каузатив)",
+    "category": "Structures",
+    "theory": "Have / Get + дополнение + V3 означает, что действие выполняется для нас кем-то другим. Часто используется для услуг (стрижка, ремонт).",
+    "examples": [
+      { "sentence": "I had my hair cut yesterday.", "translation": "Я постригся вчера." },
+      { "sentence": "We are having our house painted next week.", "translation": "Наш дом будут красить на следующей неделе." },
+      { "sentence": "She got her car repaired at the local garage.", "translation": "Ей отремонтировали машину в местном гараже." },
+      { "sentence": "He had his wallet stolen on the bus.", "translation": "У него украли бумажник в автобусе." }
+    ]
+  },
+  {
+    "rule_id": "g94",
+    "level": "B2",
+    "title": "Стилистические различия: формальный vs неформальный английский",
+    "category": "Stylistics",
+    "theory": "Формальный английский избегает сокращений (I am вместо I'm), фразовых глаголов (investigate вместо look into), использует пассивный залог, сложные союзы и вежливые формулировки. Неформальный — использует сокращения, фразовые глаголы, простые слова, прямые вопросы.",
+    "examples": [
+      { "sentence": "I require your assistance. (formal)", "translation": "Мне требуется ваша помощь." },
+      { "sentence": "I need your help. (informal)", "translation": "Мне нужна твоя помощь." },
+      { "sentence": "We are unable to process your request. (formal)", "translation": "Мы не можем обработать ваш запрос." },
+      { "sentence": "We can't do that. (informal)", "translation": "Мы не можем этого сделать." },
+      { "sentence": "Could you possibly inform me of the outcome? (formal)", "translation": "Не могли бы вы сообщить мне о результате?" },
+      { "sentence": "Let me know what happens. (informal)", "translation": "Дай знать, что случится." }
+    ]
+  },
+  {
+    "rule_id": "g95",
+    "level": "B2",
+    "title": "Идиомы и коллокации: make a decision, take a break, catch a cold, pay attention",
+    "category": "Idioms",
+    "theory": "Коллокации — это устойчивые сочетания слов, которые звучат естественно для носителей. Например, в английском говорят 'make a decision' (принять решение), а не 'do a decision'. 'Take a break' (сделать перерыв), 'catch a cold' (простудиться), 'pay attention' (обращать внимание).",
+    "examples": [
+      { "sentence": "We need to make a decision by Friday.", "translation": "Нам нужно принять решение к пятнице." },
+      { "sentence": "Let's take a break. I'm exhausted.", "translation": "Давай сделаем перерыв. Я измотан." },
+      { "sentence": "I caught a cold from my colleague.", "translation": "Я простудился от коллеги." },
+      { "sentence": "Please pay attention to what I'm saying.", "translation": "Пожалуйста, обрати внимание на то, что я говорю." }
+    ]
+  },
+  {
+    "rule_id": "g96",
+    "level": "B2",
+    "title": "Эмфатические конструкции: What I need is..., It was John who..., All I want is...",
+    "category": "Structures",
+    "theory": "Для выделения, усиления или эмфазы определённой части предложения используются конструкции: What + подлежащее + глагол + is/was... (Что мне действительно нужно, так это...). It is/was + выделяемое слово + that/who... (Именно...). All + подлежащее + глагол + is... (Всё, что мне нужно, это...).",
+    "examples": [
+      { "sentence": "What I need is a long holiday.", "translation": "Что мне действительно нужно, так это долгий отпуск." },
+      { "sentence": "It was Sarah who told me the news.", "translation": "Именно Сара сообщила мне эту новость." },
+      { "sentence": "All I want is some peace and quiet.", "translation": "Всё, что я хочу, — это немного тишины и покоя." },
+      { "sentence": "What he did was (to) save the company from bankruptcy.", "translation": "Что он сделал, так это спас компанию от банкротства." }
+    ]
+  },
+  {
+    "rule_id": "g97",
+    "level": "B2",
+    "title": "Придаточные уступительные с прилагательным/наречием: No matter how hard, However difficult, Whatever happens",
+    "category": "Conjunctions",
+    "theory": "No matter how + прилагательное/наречие / However + прилагательное/наречие — как бы ни, сколько бы ни. Whatever / Whoever / Wherever — что бы ни, кто бы ни, где бы ни. Указывают на то, что действие произойдёт в любом случае, несмотря на условия.",
+    "examples": [
+      { "sentence": "No matter how hard I try, I can't solve this problem.", "translation": "Как бы усердно я ни пытался, я не могу решить эту задачу." },
+      { "sentence": "However difficult the task may be, we must complete it.", "translation": "Какой бы трудной ни была задача, мы должны её выполнить." },
+      { "sentence": "Whatever happens, don't lose hope.", "translation": "Что бы ни случилось, не теряй надежды." },
+      { "sentence": "Wherever you go, I will follow you.", "translation": "Куда бы ты ни пошёл, я последую за тобой." }
+    ]
+  },
+  {
+    "rule_id": "g98",
+    "level": "B2",
+    "title": "Будущее в прошедшем (Future in the Past): was/were going to, would",
+    "category": "Tenses",
+    "theory": "Future in the Past используется для описания действий, которые были в будущем относительно какого-то момента в прошлом. Was/were going to + инфинитив — планы, которые не осуществились. Would + инфинитив — будущее с точки зрения прошлого.",
+    "examples": [
+      { "sentence": "I was going to call you, but I forgot.", "translation": "Я собирался тебе позвонить, но забыл." },
+      { "sentence": "She knew she would be late.", "translation": "Она знала, что опоздает." },
+      { "sentence": "They thought the train would arrive on time.", "translation": "Они думали, что поезд прибудет вовремя." }
+    ]
+  },
+  {
+    "rule_id": "g99",
+    "level": "B2",
+    "title": "Конструкции для выражения предпочтения: would rather, would sooner, would prefer",
+    "category": "Structures",
+    "theory": "Would rather / would sooner + инфинитив без to — предпочёл бы (сейчас или в будущем). Would rather / would sooner + подлежащее + Past Simple — предпочёл бы, чтобы кто-то другой сделал. Would prefer + to V или + существительное.",
+    "examples": [
+      { "sentence": "I would rather stay at home tonight.", "translation": "Я бы предпочёл остаться дома сегодня вечером." },
+      { "sentence": "She would sooner walk than take a bus.", "translation": "Она скорее пойдёт пешком, чем поедет на автобусе." },
+      { "sentence": "I'd rather you didn't smoke in here.", "translation": "Я бы предпочёл, чтобы ты здесь не курил." },
+      { "sentence": "I would prefer to leave now.", "translation": "Я бы предпочёл уйти сейчас." }
+    ]
+  },
+  {
+    "rule_id": "g100",
+    "level": "B2",
+    "title": "Фразовые глаголы с тремя частями: put up with, come up with, look forward to, get away with, cut down on",
+    "category": "Phrasal Verbs",
+    "theory": "Фразовые глаголы с тремя частями (глагол + частица + предлог) всегда неразделимы и требуют после себя дополнения. Их значения идиоматичны.",
+    "examples": [
+      { "sentence": "I can't put up with this noise any longer!", "translation": "Я больше не могу мириться с этим шумом!" },
+      { "sentence": "She came up with a brilliant idea.", "translation": "Она придумала блестящую идею." },
+      { "sentence": "I'm looking forward to seeing you again.", "translation": "Я с нетерпением жду встречи с тобой снова." },
+      { "sentence": "He got away with cheating on the test.", "translation": "Ему сошло с рук списывание на тесте." },
+      { "sentence": "I need to cut down on sugar.", "translation": "Мне нужно сократить потребление сахара." }
+    ]
+  }
+]

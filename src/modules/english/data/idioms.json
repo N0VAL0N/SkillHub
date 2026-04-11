@@ -1,0 +1,802 @@
+[
+  {
+    "id": "idi1",
+    "expression": "What's up?",
+    "translation": "Как дела? Что нового?",
+    "example": "Hey, what's up? I haven't seen you in ages.",
+    "example_translation": "Привет, как дела? Не видел тебя целую вечность.",
+    "level": "A0"
+  },
+  {
+    "id": "idi2",
+    "expression": "How are you?",
+    "translation": "Как дела?",
+    "example": "Hello, how are you today?",
+    "example_translation": "Здравствуйте, как у вас дела сегодня?",
+    "level": "A0"
+  },
+  {
+    "id": "idi3",
+    "expression": "Excuse me",
+    "translation": "Извините, простите (при обращении)",
+    "example": "Excuse me, could I just squeeze past?",
+    "example_translation": "Простите, могу я протиснуться?",
+    "level": "A0"
+  },
+  {
+    "id": "idi4",
+    "expression": "Bless you",
+    "translation": "Будьте здоровы (когда чихают)",
+    "example": "Achoo! – Bless you!",
+    "example_translation": "Апчхи! – Будь здоров!",
+    "level": "A0"
+  },
+  {
+    "id": "idi5",
+    "expression": "Good luck",
+    "translation": "Удачи",
+    "example": "Good luck with your exam tomorrow!",
+    "example_translation": "Удачи на экзамене завтра!",
+    "level": "A1"
+  },
+  {
+    "id": "idi6",
+    "expression": "No problem",
+    "translation": "Без проблем, не за что",
+    "example": "Thanks for your help. – No problem!",
+    "example_translation": "Спасибо за помощь. – Без проблем!",
+    "level": "A1"
+  },
+  {
+    "id": "idi7",
+    "expression": "My pleasure",
+    "translation": "Мне очень приятно, не стоит благодарности",
+    "example": "Thank you for the gift. – My pleasure.",
+    "example_translation": "Спасибо за подарок. – Мне очень приятно.",
+    "level": "A1"
+  },
+  {
+    "id": "idi8",
+    "expression": "Come in",
+    "translation": "Входите",
+    "example": "I knocked on the door and a voice said, 'Come in'.",
+    "example_translation": "Я постучал в дверь, и голос сказал: «Входите».",
+    "level": "A1"
+  },
+  {
+    "id": "idi9",
+    "expression": "Hang on / Hold on",
+    "translation": "Подожди, не вешай трубку",
+    "example": "Hang on a minute while I get a pen.",
+    "example_translation": "Подожди минутку, я возьму ручку.",
+    "level": "A1"
+  },
+  {
+    "id": "idi10",
+    "expression": "Of course",
+    "translation": "Конечно",
+    "example": "Can you help me? – Of course!",
+    "example_translation": "Можешь мне помочь? – Конечно!",
+    "level": "A1"
+  },
+  {
+    "id": "idi11",
+    "expression": "Never mind",
+    "translation": "Ничего страшного, не обращай внимания, проехали",
+    "example": "I'm sorry I broke your cup. – Never mind.",
+    "example_translation": "Прости, что разбил твою чашку. – Ничего страшного.",
+    "level": "A1"
+  },
+  {
+    "id": "idi12",
+    "expression": "Take care",
+    "translation": "Береги себя (при прощании)",
+    "example": "Bye! Take care!",
+    "example_translation": "Пока! Береги себя!",
+    "level": "A1"
+  },
+  {
+    "id": "idi13",
+    "expression": "See you later / See you soon",
+    "translation": "Увидимся позже / До скорого",
+    "example": "I have to go now. See you later!",
+    "example_translation": "Мне пора идти. Увидимся позже!",
+    "level": "A1"
+  },
+  {
+    "id": "idi14",
+    "expression": "What a pity / That's a pity",
+    "translation": "Как жаль, какая жалость",
+    "example": "I can't come to the party. – Oh, what a pity!",
+    "example_translation": "Я не могу прийти на вечеринку. – О, как жаль!",
+    "level": "A1"
+  },
+  {
+    "id": "idi15",
+    "expression": "I have no idea",
+    "translation": "Понятия не имею",
+    "example": "Where is the nearest metro station? – I have no idea.",
+    "example_translation": "Где ближайшая станция метро? – Понятия не имею.",
+    "level": "A1"
+  },
+  {
+    "id": "idi16",
+    "expression": "It's up to you",
+    "translation": "Решать тебе, на твоё усмотрение",
+    "example": "We can go to the cinema or stay at home. It's up to you.",
+    "example_translation": "Мы можем пойти в кино или остаться дома. Решать тебе.",
+    "level": "A2"
+  },
+  {
+    "id": "idi17",
+    "expression": "Take your time",
+    "translation": "Не торопись, делай в своём темпе",
+    "example": "There's no rush. Take your time.",
+    "example_translation": "Спешить некуда. Не торопись.",
+    "level": "A2"
+  },
+  {
+    "id": "idi18",
+    "expression": "I don't mind",
+    "translation": "Я не против, мне всё равно",
+    "example": "Do you want tea or coffee? – I don't mind.",
+    "example_translation": "Ты хочешь чай или кофе? – Мне всё равно.",
+    "level": "A2"
+  },
+  {
+    "id": "idi19",
+    "expression": "It doesn't matter",
+    "translation": "Это не имеет значения, неважно",
+    "example": "I'm sorry I'm late. – It doesn't matter.",
+    "example_translation": "Извините за опоздание. – Ничего страшного.",
+    "level": "A2"
+  },
+  {
+    "id": "idi20",
+    "expression": "By the way",
+    "translation": "Кстати, между прочим",
+    "example": "By the way, have you seen my keys?",
+    "example_translation": "Кстати, ты не видел мои ключи?",
+    "level": "A2"
+  },
+  {
+    "id": "idi21",
+    "expression": "In the end",
+    "translation": "В конце концов",
+    "example": "We waited for an hour, but in the end we left.",
+    "example_translation": "Мы прождали час, но в конце концов ушли.",
+    "level": "A2"
+  },
+  {
+    "id": "idi22",
+    "expression": "At least",
+    "translation": "По крайней мере, хотя бы",
+    "example": "The film wasn't great, but at least it was short.",
+    "example_translation": "Фильм был не очень, но, по крайней мере, короткий.",
+    "level": "A2"
+  },
+  {
+    "id": "idi23",
+    "expression": "I can't stand it",
+    "translation": "Терпеть не могу, не выношу",
+    "example": "I can't stand this noise any longer!",
+    "example_translation": "Я больше не выношу этот шум!",
+    "level": "A2"
+  },
+  {
+    "id": "idi24",
+    "expression": "I'm looking forward to it",
+    "translation": "Жду с нетерпением",
+    "example": "I'm really looking forward to the holidays.",
+    "example_translation": "Я с большим нетерпением жду каникул.",
+    "level": "A2"
+  },
+  {
+    "id": "idi25",
+    "expression": "It's worth it",
+    "translation": "Это того стоит",
+    "example": "The climb was hard, but the view from the top was worth it.",
+    "example_translation": "Подъём был трудным, но вид сверху того стоил.",
+    "level": "B1"
+  },
+  {
+    "id": "idi26",
+    "expression": "It's not worth it",
+    "translation": "Оно того не стоит, не стоит усилий",
+    "example": "Don't argue with him. It's not worth it.",
+    "example_translation": "Не спорь с ним. Оно того не стоит.",
+    "level": "B1"
+  },
+  {
+    "id": "idi27",
+    "expression": "I'm broke",
+    "translation": "Я на мели, у меня нет денег",
+    "example": "Can we go out next week? I'm broke until payday.",
+    "example_translation": "Может, сходим куда-нибудь на следующей неделе? До зарплаты я на мели.",
+    "level": "B1"
+  },
+  {
+    "id": "idi28",
+    "expression": "Sleep on it",
+    "translation": "Утро вечера мудренее, обдумать до завтра",
+    "example": "I'm not sure what to do. Let me sleep on it.",
+    "example_translation": "Я не уверен, что делать. Дай мне подумать до завтра.",
+    "level": "B1"
+  },
+  {
+    "id": "idi29",
+    "expression": "Give someone a hand",
+    "translation": "Помочь кому-то",
+    "example": "Can you give me a hand with these boxes?",
+    "example_translation": "Можешь помочь мне с этими коробками?",
+    "level": "B1"
+  },
+  {
+    "id": "idi30",
+    "expression": "Make up your mind",
+    "translation": "Принять решение, решиться",
+    "example": "I can't make up my mind which dress to buy.",
+    "example_translation": "Я не могу решить, какое платье купить.",
+    "level": "B1"
+  },
+  {
+    "id": "idi31",
+    "expression": "Change your mind",
+    "translation": "Передумать, изменить решение",
+    "example": "I was going to go out, but I changed my mind.",
+    "example_translation": "Я собирался выйти, но передумал.",
+    "level": "B1"
+  },
+  {
+    "id": "idi32",
+    "expression": "Out of order",
+    "translation": "Не работает, сломан (о механизме)",
+    "example": "The lift is out of order again.",
+    "example_translation": "Лифт снова не работает.",
+    "level": "B1"
+  },
+  {
+    "id": "idi33",
+    "expression": "Out of the blue",
+    "translation": "Неожиданно, как гром среди ясного неба",
+    "example": "One day, out of the blue, she announced she was leaving.",
+    "example_translation": "В один прекрасный день она неожиданно объявила, что уходит.",
+    "level": "B1"
+  },
+  {
+    "id": "idi34",
+    "expression": "Call it a day",
+    "translation": "На сегодня хватит, закончить работу",
+    "example": "We've been working for hours. Let's call it a day.",
+    "example_translation": "Мы работаем уже несколько часов. Давай на сегодня закончим.",
+    "level": "B1"
+  },
+  {
+    "id": "idi35",
+    "expression": "Be on the safe side",
+    "translation": "На всякий случай, для подстраховки",
+    "example": "I don't think it will rain, but I'll take an umbrella just to be on the safe side.",
+    "example_translation": "Не думаю, что пойдёт дождь, но возьму зонт на всякий случай.",
+    "level": "B1"
+  },
+  {
+    "id": "idi36",
+    "expression": "It's a piece of cake",
+    "translation": "Проще простого, пустяковое дело",
+    "example": "The driving test was a piece of cake.",
+    "example_translation": "Экзамен по вождению был проще простого.",
+    "level": "B1"
+  },
+  {
+    "id": "idi37",
+    "expression": "Break the ice",
+    "translation": "Растопить лёд, начать общение",
+    "example": "A funny joke can help break the ice at a party.",
+    "example_translation": "Смешная шутка может помочь растопить лёд на вечеринке.",
+    "level": "B1"
+  },
+  {
+    "id": "idi38",
+    "expression": "Get on someone's nerves",
+    "translation": "Действовать кому-то на нервы, раздражать",
+    "example": "His constant whistling gets on my nerves.",
+    "example_translation": "Его постоянный свист действует мне на нервы.",
+    "level": "B1"
+  },
+  {
+    "id": "idi39",
+    "expression": "Give up",
+    "translation": "Сдаваться, бросать (привычку)",
+    "example": "I'm trying to give up smoking.",
+    "example_translation": "Я пытаюсь бросить курить.",
+    "level": "B1"
+  },
+  {
+    "id": "idi40",
+    "expression": "Go ahead",
+    "translation": "Продолжай, давай вперёд, разрешать",
+    "example": "Can I use your phone? – Sure, go ahead.",
+    "example_translation": "Можно воспользоваться твоим телефоном? – Конечно, давай.",
+    "level": "B1"
+  },
+  {
+    "id": "idi41",
+    "expression": "Keep an eye on",
+    "translation": "Присматривать, следить за (чем-то/кем-то)",
+    "example": "Can you keep an eye on the soup while I answer the phone?",
+    "example_translation": "Можешь присмотреть за супом, пока я отвечу на звонок?",
+    "level": "B1"
+  },
+  {
+    "id": "idi42",
+    "expression": "Look for",
+    "translation": "Искать",
+    "example": "I'm looking for my glasses. Have you seen them?",
+    "example_translation": "Я ищу свои очки. Ты их не видел?",
+    "level": "A2"
+  },
+  {
+    "id": "idi43",
+    "expression": "Look after",
+    "translation": "Заботиться, присматривать",
+    "example": "Who's looking after your cat while you're away?",
+    "example_translation": "Кто присматривает за твоей кошкой, пока тебя нет?",
+    "level": "B1"
+  },
+  {
+    "id": "idi44",
+    "expression": "Look forward to",
+    "translation": "Ждать с нетерпением",
+    "example": "I'm looking forward to seeing you again.",
+    "example_translation": "С нетерпением жду встречи с тобой снова.",
+    "level": "B1"
+  },
+  {
+    "id": "idi45",
+    "expression": "Take off",
+    "translation": "Взлетать, снимать (одежду)",
+    "example": "The plane took off an hour late.",
+    "example_translation": "Самолёт взлетел на час позже.",
+    "level": "A2"
+  },
+  {
+    "id": "idi46",
+    "expression": "Turn on / Turn off",
+    "translation": "Включать / Выключать",
+    "example": "Could you turn on the light, please?",
+    "example_translation": "Не мог бы ты включить свет, пожалуйста?",
+    "level": "A2"
+  },
+  {
+    "id": "idi47",
+    "expression": "Put on",
+    "translation": "Надевать (одежду)",
+    "example": "Put on your coat. It's cold outside.",
+    "example_translation": "Надень пальто. На улице холодно.",
+    "level": "A2"
+  },
+  {
+    "id": "idi48",
+    "expression": "Wake up",
+    "translation": "Просыпаться, будить",
+    "example": "I usually wake up at 7 a.m.",
+    "example_translation": "Обычно я просыпаюсь в 7 утра.",
+    "level": "A2"
+  },
+  {
+    "id": "idi49",
+    "expression": "Hurry up",
+    "translation": "Торопиться, поторапливаться",
+    "example": "Hurry up, or we'll miss the bus!",
+    "example_translation": "Поторопись, иначе мы опоздаем на автобус!",
+    "level": "A2"
+  },
+  {
+    "id": "idi50",
+    "expression": "Shut up",
+    "translation": "Заткнуться, замолчать",
+    "example": "I wish he would just shut up and let me speak.",
+    "example_translation": "Я бы хотел, чтобы он просто заткнулся и дал мне сказать.",
+    "level": "B1"
+  },
+  {
+    "id": "idi51",
+    "expression": "once in a blue moon",
+    "translation": "очень редко, в кои-то веки",
+    "example": "We go out to dinner once in a blue moon because it's so expensive.",
+    "example_translation": "Мы ходим ужинать очень редко, потому что это дорого.",
+    "level": "B2"
+  },
+  {
+    "id": "idi52",
+    "expression": "when pigs fly",
+    "translation": "когда рак на горе свистнет, никогда",
+    "example": "He'll clean his room when pigs fly.",
+    "example_translation": "Он уберётся в своей комнате, когда рак на горе свистнет.",
+    "level": "B2"
+  },
+  {
+    "id": "idi53",
+    "expression": "let the cat out of the bag",
+    "translation": "проболтаться, выдать секрет",
+    "example": "I was trying to keep the party a secret, but Sarah let the cat out of the bag.",
+    "example_translation": "Я пытался сохранить вечеринку в секрете, но Сара проболталась.",
+    "level": "B2"
+  },
+  {
+    "id": "idi54",
+    "expression": "hit the nail on the head",
+    "translation": "попасть в точку, точно подметить",
+    "example": "You hit the nail on the head when you said he's just jealous.",
+    "example_translation": "Ты попал в точку, когда сказал, что он просто завидует.",
+    "level": "B2"
+  },
+  {
+    "id": "idi55",
+    "expression": "cost an arm and a leg",
+    "translation": "стоить целое состояние, обойтись очень дорого",
+    "example": "This designer handbag cost me an arm and a leg.",
+    "example_translation": "Эта дизайнерская сумка стоила мне целое состояние.",
+    "level": "B2"
+  },
+  {
+    "id": "idi56",
+    "expression": "blessing in disguise",
+    "translation": "не было бы счастья, да несчастье помогло; скрытое благословение",
+    "example": "Losing that job was a blessing in disguise; I found a much better one.",
+    "example_translation": "Потеря той работы обернулась удачей; я нашёл гораздо лучшую.",
+    "level": "B2"
+  },
+  {
+    "id": "idi57",
+    "expression": "bite the bullet",
+    "translation": "стиснуть зубы, мужественно перетерпеть",
+    "example": "I hate going to the dentist, but I'll just have to bite the bullet.",
+    "example_translation": "Я ненавижу ходить к зубному, но придётся стиснуть зубы и пойти.",
+    "level": "B2"
+  },
+  {
+    "id": "idi58",
+    "expression": "burn the midnight oil",
+    "translation": "работать допоздна, засиживаться за работой",
+    "example": "I've been burning the midnight oil to finish this report on time.",
+    "example_translation": "Я работаю допоздна, чтобы закончить этот отчёт вовремя.",
+    "level": "B2"
+  },
+  {
+    "id": "idi59",
+    "expression": "call it a day",
+    "translation": "на сегодня хватит, закончить работу",
+    "example": "We've been painting for hours. Let's call it a day.",
+    "example_translation": "Мы красим уже несколько часов. Давай на сегодня закончим.",
+    "level": "B2"
+  },
+  {
+    "id": "idi60",
+    "expression": "cut corners",
+    "translation": "экономить в ущерб качеству, халтурить",
+    "example": "The company cut corners on safety, and now they're in trouble.",
+    "example_translation": "Компания сэкономила на безопасности, и теперь у них проблемы.",
+    "level": "B2"
+  },
+  {
+    "id": "idi61",
+    "expression": "feel under the weather",
+    "translation": "неважно себя чувствовать, приболеть",
+    "example": "I'm feeling a bit under the weather today. I think I'll stay home.",
+    "example_translation": "Я сегодня неважно себя чувствую. Думаю, останусь дома.",
+    "level": "B2"
+  },
+  {
+    "id": "idi62",
+    "expression": "get out of hand",
+    "translation": "выйти из-под контроля",
+    "example": "The party got out of hand when uninvited guests arrived.",
+    "example_translation": "Вечеринка вышла из-под контроля, когда пришли незваные гости.",
+    "level": "B2"
+  },
+  {
+    "id": "idi63",
+    "expression": "give someone the cold shoulder",
+    "translation": "оказать холодный приём, проигнорировать",
+    "example": "Ever since our argument, she's been giving me the cold shoulder.",
+    "example_translation": "С тех пор как мы поссорились, она меня игнорирует.",
+    "level": "B2"
+  },
+  {
+    "id": "idi64",
+    "expression": "have a sweet tooth",
+    "translation": "быть сладкоежкой",
+    "example": "I have a sweet tooth, so I love chocolate and cakes.",
+    "example_translation": "Я сладкоежка, поэтому люблю шоколад и пирожные.",
+    "level": "B2"
+  },
+  {
+    "id": "idi65",
+    "expression": "hit the sack / hit the hay",
+    "translation": "пойти на боковую, пойти спать",
+    "example": "I'm exhausted. I'm going to hit the sack.",
+    "example_translation": "Я вымотан. Пойду на боковую.",
+    "level": "B2"
+  },
+  {
+    "id": "idi66",
+    "expression": "in hot water",
+    "translation": "в беде, в неприятной ситуации",
+    "example": "He's in hot water with his boss for missing the deadline.",
+    "example_translation": "У него неприятности с начальником из-за срыва сроков.",
+    "level": "B2"
+  },
+  {
+    "id": "idi67",
+    "expression": "keep your chin up",
+    "translation": "не вешать нос, держаться молодцом",
+    "example": "I know it's tough, but keep your chin up. Things will get better.",
+    "example_translation": "Я знаю, это тяжело, но не вешай нос. Всё наладится.",
+    "level": "B2"
+  },
+  {
+    "id": "idi68",
+    "expression": "kill two birds with one stone",
+    "translation": "убить двух зайцев одним выстрелом",
+    "example": "I'll drop you off on my way to work, so I'll kill two birds with one stone.",
+    "example_translation": "Я высажу тебя по дороге на работу, так что убью двух зайцев одним выстрелом.",
+    "level": "B2"
+  },
+  {
+    "id": "idi69",
+    "expression": "miss the boat",
+    "translation": "упустить возможность, опоздать",
+    "example": "You should apply now, or you'll miss the boat.",
+    "example_translation": "Подавай заявление сейчас, иначе упустишь возможность.",
+    "level": "B2"
+  },
+  {
+    "id": "idi70",
+    "expression": "on cloud nine",
+    "translation": "на седьмом небе от счастья",
+    "example": "She's been on cloud nine ever since she got engaged.",
+    "example_translation": "Она на седьмом небе от счастья с тех пор, как обручилась.",
+    "level": "B2"
+  },
+  {
+    "id": "idi71",
+    "expression": "out of the blue",
+    "translation": "неожиданно, как гром среди ясного неба",
+    "example": "One day, out of the blue, he decided to quit his job and travel the world.",
+    "example_translation": "В один прекрасный день он неожиданно решил уволиться и путешествовать по миру.",
+    "level": "B2"
+  },
+  {
+    "id": "idi72",
+    "expression": "over the moon",
+    "translation": "вне себя от радости, очень счастлив",
+    "example": "They were over the moon when their baby was born.",
+    "example_translation": "Они были вне себя от радости, когда родился их ребёнок.",
+    "level": "B2"
+  },
+  {
+    "id": "idi73",
+    "expression": "pull someone's leg",
+    "translation": "дразнить, разыгрывать кого-то, морочить голову",
+    "example": "Don't believe him. He's just pulling your leg.",
+    "example_translation": "Не верь ему. Он тебя просто разыгрывает.",
+    "level": "B2"
+  },
+  {
+    "id": "idi74",
+    "expression": "put your foot down",
+    "translation": "занять твёрдую позицию, проявить настойчивость",
+    "example": "My kids wanted to stay up late, but I had to put my foot down.",
+    "example_translation": "Мои дети хотели не ложиться спать допоздна, но мне пришлось проявить твёрдость.",
+    "level": "B2"
+  },
+  {
+    "id": "idi75",
+    "expression": "see eye to eye",
+    "translation": "сходиться во взглядах, быть одного мнения",
+    "example": "We don't always see eye to eye, but we respect each other.",
+    "example_translation": "Мы не всегда сходимся во взглядах, но уважаем друг друга.",
+    "level": "B2"
+  },
+  {
+    "id": "idi76",
+    "expression": "sit on the fence",
+    "translation": "занимать нейтральную позицию, колебаться",
+    "example": "You can't sit on the fence forever. You have to make a decision.",
+    "example_translation": "Ты не можешь вечно колебаться. Ты должен принять решение.",
+    "level": "B2"
+  },
+  {
+    "id": "idi77",
+    "expression": "speak of the devil",
+    "translation": "лёгок на помине",
+    "example": "We were just talking about John, and speak of the devil, he walked in!",
+    "example_translation": "Мы как раз говорили о Джоне, и лёгок на помине — он вошёл!",
+    "level": "B2"
+  },
+  {
+    "id": "idi78",
+    "expression": "spill the beans",
+    "translation": "разболтать секрет, выдать тайну",
+    "example": "Come on, spill the beans! What happened at the meeting?",
+    "example_translation": "Ну давай, рассказывай! Что случилось на собрании?",
+    "level": "B2"
+  },
+  {
+    "id": "idi79",
+    "expression": "take it easy",
+    "translation": "расслабиться, не напрягаться, не принимать близко к сердцу",
+    "example": "You've been working too hard. You need to take it easy.",
+    "example_translation": "Ты слишком много работаешь. Тебе нужно расслабиться.",
+    "level": "B2"
+  },
+  {
+    "id": "idi80",
+    "expression": "the ball is in your court",
+    "translation": "теперь слово за тобой, теперь твой ход",
+    "example": "I've made my offer. The ball is in your court now.",
+    "example_translation": "Я сделал своё предложение. Теперь слово за тобой.",
+    "level": "B2"
+  },
+  {
+    "id": "idi81",
+    "expression": "the last straw",
+    "translation": "последняя капля, переполнившая чашу",
+    "example": "When he forgot my birthday, that was the last straw.",
+    "example_translation": "Когда он забыл о моём дне рождения, это стало последней каплей.",
+    "level": "B2"
+  },
+  {
+    "id": "idi82",
+    "expression": "throw in the towel",
+    "translation": "сдаться, признать поражение",
+    "example": "After hours of trying to fix the computer, I finally threw in the towel.",
+    "example_translation": "После нескольких часов попыток починить компьютер я наконец сдался.",
+    "level": "B2"
+  },
+  {
+    "id": "idi83",
+    "expression": "turn a blind eye",
+    "translation": "закрывать глаза (на что-то), смотреть сквозь пальцы",
+    "example": "The manager turned a blind eye to his employees being late.",
+    "example_translation": "Менеджер закрывал глаза на опоздания своих сотрудников.",
+    "level": "B2"
+  },
+  {
+    "id": "idi84",
+    "expression": "under the weather",
+    "translation": "неважно себя чувствовать, приболеть",
+    "example": "I'm feeling a bit under the weather, so I won't be coming in today.",
+    "example_translation": "Я неважно себя чувствую, так что сегодня не приду.",
+    "level": "B2"
+  },
+  {
+    "id": "idi85",
+    "expression": "up in the air",
+    "translation": "неопределённый, в подвешенном состоянии",
+    "example": "Our holiday plans are still up in the air.",
+    "example_translation": "Наши планы на отпуск всё ещё неопределённы.",
+    "level": "B2"
+  },
+  {
+    "id": "idi86",
+    "expression": "weather the storm",
+    "translation": "пережить трудные времена, выдержать шторм",
+    "example": "The company managed to weather the storm of the recession.",
+    "example_translation": "Компании удалось пережить шторм рецессии.",
+    "level": "B2"
+  },
+  {
+    "id": "idi87",
+    "expression": "at the drop of a hat",
+    "translation": "в любой момент, не раздумывая, по первому зову",
+    "example": "He's always ready to go on a trip at the drop of a hat.",
+    "example_translation": "Он всегда готов отправиться в поездку в любой момент.",
+    "level": "B2"
+  },
+  {
+    "id": "idi88",
+    "expression": "beat around the bush",
+    "translation": "ходить вокруг да около, говорить обиняками",
+    "example": "Stop beating around the bush and tell me what you really want.",
+    "example_translation": "Хватит ходить вокруг да около, скажи мне, чего ты на самом деле хочешь.",
+    "level": "B2"
+  },
+  {
+    "id": "idi89",
+    "expression": "bend over backwards",
+    "translation": "лезть из кожи вон, очень стараться",
+    "example": "I bent over backwards to help her, and she didn't even thank me.",
+    "example_translation": "Я из кожи вон лез, чтобы помочь ей, а она меня даже не поблагодарила.",
+    "level": "B2"
+  },
+  {
+    "id": "idi90",
+    "expression": "cut to the chase",
+    "translation": "перейти к сути дела, ближе к делу",
+    "example": "We don't have much time, so let's cut to the chase.",
+    "example_translation": "У нас мало времени, так что давай ближе к делу.",
+    "level": "B2"
+  },
+  {
+    "id": "idi91",
+    "expression": "easy come, easy go",
+    "translation": "как пришло, так и ушло; легко нажито — легко прожито",
+    "example": "He won a lot of money but spent it all in a week. Easy come, easy go.",
+    "example_translation": "Он выиграл много денег, но потратил всё за неделю. Как пришло, так и ушло.",
+    "level": "B2"
+  },
+  {
+    "id": "idi92",
+    "expression": "face the music",
+    "translation": "расплачиваться за свои действия, отвечать за последствия",
+    "example": "You made a mistake, and now you have to face the music.",
+    "example_translation": "Ты совершил ошибку, и теперь тебе придётся отвечать за последствия.",
+    "level": "B2"
+  },
+  {
+    "id": "idi93",
+    "expression": "get a taste of your own medicine",
+    "translation": "получить по заслугам, испытать то же на себе",
+    "example": "He's always been rude to everyone, so now he's getting a taste of his own medicine.",
+    "example_translation": "Он всегда был груб со всеми, так что теперь получает по заслугам.",
+    "level": "B2"
+  },
+  {
+    "id": "idi94",
+    "expression": "give someone the benefit of the doubt",
+    "translation": "давать кому-то шанс, верить на слово, считать невиновным при отсутствии доказательств",
+    "example": "I wasn't sure if he was telling the truth, but I decided to give him the benefit of the doubt.",
+    "example_translation": "Я не был уверен, говорит ли он правду, но решил поверить ему на слово.",
+    "level": "B2"
+  },
+  {
+    "id": "idi95",
+    "expression": "jump on the bandwagon",
+    "translation": "присоединяться к общему движению, следовать моде",
+    "example": "Everyone is using that new app, so I decided to jump on the bandwagon.",
+    "example_translation": "Все пользуются этим новым приложением, так что я решил не отставать.",
+    "level": "B2"
+  },
+  {
+    "id": "idi96",
+    "expression": "make a long story short",
+    "translation": "короче говоря",
+    "example": "To make a long story short, we missed our flight and had to stay overnight.",
+    "example_translation": "Короче говоря, мы опоздали на рейс и нам пришлось остаться на ночь.",
+    "level": "B2"
+  },
+  {
+    "id": "idi97",
+    "expression": "on thin ice",
+    "translation": "в опасном положении, на грани",
+    "example": "You're on thin ice with your boss after that mistake.",
+    "example_translation": "После той ошибки ты на волоске от увольнения.",
+    "level": "B2"
+  },
+  {
+    "id": "idi98",
+    "expression": "play devil's advocate",
+    "translation": "выступать в роли оппонента (ради спора), нарочно занимать противоположную позицию",
+    "example": "I agree with you, but let me play devil's advocate for a moment.",
+    "example_translation": "Я с тобой согласен, но позволь мне на минутку выступить в роли оппонента.",
+    "level": "B2"
+  },
+  {
+    "id": "idi99",
+    "expression": "rain on someone's parade",
+    "translation": "испортить кому-то праздник, отравить радость",
+    "example": "I hate to rain on your parade, but your plan has a serious flaw.",
+    "example_translation": "Не хочу портить тебе настроение, но у твоего плана есть серьёзный недостаток.",
+    "level": "B2"
+  },
+  {
+    "id": "idi100",
+    "expression": "steal someone's thunder",
+    "translation": "украсть чью-то идею, перехватить инициативу, затмить кого-то",
+    "example": "I was about to announce my engagement, but my sister stole my thunder by saying she was pregnant.",
+    "example_translation": "Я собиралась объявить о своей помолвке, но моя сестра меня затмила, сказав, что беременна.",
+    "level": "B2"
+  }
+]

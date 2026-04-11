@@ -1,59 +1,62 @@
-/**
- * Глобальные константы приложения
- */
+// src/core/constants/index.js
+import { SUBJECTS, SUBJECTS_LIST, getSubjectById, getSubjectsByCategory, getActiveSubjects } from './subjects';
 
-// ========== РОЛИ ПОЛЬЗОВАТЕЛЕЙ ==========
 export const USER_ROLES = {
   STUDENT: 'student',
   TEACHER: 'teacher',
   ADMIN: 'admin'
 };
 
-// ========== ПРЕДМЕТЫ ==========
-export const SUBJECTS = {
-  SOCIAL: 'social',   // Обществознание
-  CHINESE: 'chinese'  // Китайский язык
-};
-
-export const SUBJECTS_LIST = [
-  { id: SUBJECTS.SOCIAL, name: 'Обществознание', icon: '⚖️', color: '#e67e22' },
-  { id: SUBJECTS.CHINESE, name: 'Китайский язык', icon: '🐉', color: '#10b981' }
-];
-
-// ========== БЛОКИ ОБЩЕСТВОЗНАНИЯ ==========
-export const SOCIAL_BLOCKS = [
-  { id: 1, name: 'Человек и общество' },
-  { id: 2, name: 'Экономика' },
-  { id: 3, name: 'Социальные отношения' },
-  { id: 4, name: 'Политика' },
-  { id: 5, name: 'Право' }
-];
-
-// ========== УРОВНИ HSK (КИТАЙСКИЙ) ==========
-export const HSK_LEVELS = ['1', '2', '3', '4', '5'];
-
-export const HSK_LEVELS_WITH_NAMES = [
-  { level: '1', name: 'HSK 1', wordsCount: 150 },
-  { level: '2', name: 'HSK 2', wordsCount: 300 },
-  { level: '3', name: 'HSK 3', wordsCount: 600 },
-  { level: '4', name: 'HSK 4', wordsCount: 1200 },
-  { level: '5', name: 'HSK 5', wordsCount: 2500 }
-];
-
-// ========== ТИПЫ ЗАДАНИЙ ==========
+// ========== ТИПЫ ЗАДАНИЙ ПО ПРЕДМЕТАМ ==========
 export const QUESTION_TYPES = {
-  // Общие
-  CHOICE: 'choice',
-  MATCH: 'match',
-  SHORT: 'short',
-  ESSAY: 'essay',
-  TEXT_ANALYSIS: 'text_analysis',
-  PLAN: 'plan',
-  TASK: 'task',
-  LAW_TASK: 'law_task',
-  GRAPH_ANALYSIS: 'graph_analysis',
+  // --- Общие (базовые) ---
+  CHOICE: 'choice',           // Выбор одного правильного ответа
+  SHORT: 'short',             // Краткий ответ (число, слово)
+  MATCH: 'match',             // Установление соответствия
 
-  // Китайский
+  // --- Математика (ЕГЭ) ---
+  CALC_BASIC: 'calc_basic',   // Вычисления и преобразования
+  TEXT_PROBLEM: 'text_problem', // Текстовая задача
+  GRAPH_ANALYSIS: 'graph_analysis', // Анализ графика / диаграммы
+  EQUATION: 'equation',       // Решение уравнения
+  INEQUALITY: 'inequality',   // Решение неравенства
+  ECONOMIC_TASK: 'economic_task', // Экономическая задача
+  PLANIMETRY: 'planimetry',   // Планиметрия
+  STEREOMETRY: 'stereometry', // Стереометрия
+  PARAMETER: 'parameter',     // Задача с параметром
+  INTEGER_SOLVE: 'integer_solve', // Целые числа / теория чисел
+
+  // --- Физика (ЕГЭ) ---
+  MULTIPLE_CHOICE: 'multiple_choice', // Множественный выбор (2 из 5)
+  QUALITATIVE_TASK: 'qualitative_task', // Качественная задача (объяснение явления)
+  CALC_SHORT: 'calc_short',   // Вычислительная задача (краткий ответ)
+  MATCHING: 'matching',       // Установление соответствия (графики и величины)
+  EXTENDED_SOLUTION: 'extended_solution', // Развернутое решение (с обоснованием)
+
+  // --- Информатика (ЕГЭ) ---
+  COMPUTING: 'computing',     // Вычисление (системы счисления, логика)
+  ALGORITHM_CODE: 'algorithm_code', // Написание кода / алгоритма
+  TABLE_PROCESSING: 'table_processing', // Обработка таблиц (Excel)
+  GRAPH_PATH: 'graph_path',   // Поиск путей в графе / анализ таблиц
+  INFO_SEARCH: 'info_search', // Информационный поиск (базы данных)
+
+  // --- Английский (IELTS) ---
+  // Аудирование (Listening)
+  LISTEN_MULTIPLE_CHOICE: 'listen_multiple_choice',
+  LISTEN_FORM_COMPLETION: 'listen_form_completion',
+  LISTEN_MAP_PLAN: 'listen_map_plan',
+  // Чтение (Reading)
+  READ_MULTIPLE_CHOICE: 'read_multiple_choice',
+  READ_TRUE_FALSE: 'read_true_false',
+  READ_MATCHING: 'read_matching',
+  // Письмо (Writing)
+  WRITE_DESCRIBE_CHART: 'write_describe_chart', // Task 1 (описание графика/схемы)
+  WRITE_ESSAY: 'write_essay', // Task 2 (эссе)
+  // Говорение (Speaking)
+  SPEAK_MONOLOGUE: 'speak_monologue', // Индивидуальное высказывание (cue card)
+  SPEAK_DIALOGUE: 'speak_dialogue',   // Диалог с экзаменатором
+
+  // --- Китайский (HSK) ---
   LISTENING: 'listening',
   READING: 'reading',
   FILL_BLANK: 'fill-blank',
@@ -61,24 +64,25 @@ export const QUESTION_TYPES = {
   MATCH_PINYIN: 'match-pinyin',
   MATCH_TRANSLATION: 'match-translation',
   SENTENCE_ORDER: 'sentence-order',
-  DIALOGUE_TRUEFALSE: 'dialogue-truefalse'
+  DIALOGUE_TRUEFALSE: 'dialogue-truefalse',
+
+  // --- Программирование (заглушка) ---
+  CODE_TASK: 'code_task',
+  ALGO_THEORY: 'algo_theory'
 };
 
-// ========== СТАТУСЫ ЗАДАНИЙ ==========
 export const SUBMISSION_STATUS = {
   PENDING: 'pending',      // На проверке
   GRADED: 'graded',        // Проверено
   REJECTED: 'rejected'     // Отклонено
 };
 
-// ========== СТАТУСЫ ПРОГРЕССА ==========
 export const PROGRESS_STATUS = {
   NOT_STARTED: 'not_started',
   IN_PROGRESS: 'in_progress',
   COMPLETED: 'completed'
 };
 
-// ========== КЛЮЧИ LOCALSTORAGE ==========
 export const STORAGE_KEYS = {
   THEME: 'theme',
   STREAK: 'streak',
@@ -89,13 +93,8 @@ export const STORAGE_KEYS = {
   LIBRARY_FONT_SIZE: 'libraryFontSize'
 };
 
-// ========== НАСТРОЙКИ КЭШИРОВАНИЯ ==========
 export const CACHE_TTL = 12 * 60 * 60 * 1000; // 12 часов
 
-// ========== КОД УЧИТЕЛЯ (для регистрации) ==========
-export const TEACHER_INVITE_CODE = import.meta.env.VITE_TEACHER_INVITE_CODE || 'TEACHER2026';
-
-// ========== ВАРИАНТЫ ОЦЕНОК ==========
 export const GRADE_OPTIONS = (() => {
   const options = [];
   for (let i = 0; i <= 100; i += 5) {
@@ -104,7 +103,6 @@ export const GRADE_OPTIONS = (() => {
   return options;
 })();
 
-// ========== ВАРИАНТЫ ВРЕМЕНИ ДЛЯ ТАЙМЕРА ==========
 export const TIMER_OPTIONS = [
   { value: 30, label: '30 минут' },
   { value: 60, label: '1 час' },
@@ -115,7 +113,6 @@ export const TIMER_OPTIONS = [
   { value: 210, label: '3.5 часа (ЕГЭ)' }
 ];
 
-// ========== КОНСТАНТЫ ДЛЯ СМ-2 АЛГОРИТМА ==========
 export const SM2 = {
   MIN_EASINESS: 1.3,
   DEFAULT_EASINESS: 2.5,
@@ -123,3 +120,6 @@ export const SM2 = {
   QUALITY_CORRECT_WITH_HINT: 3,
   QUALITY_INCORRECT: 1
 };
+
+// Реэкспорт subjects
+export { SUBJECTS, SUBJECTS_LIST, getSubjectById, getSubjectsByCategory, getActiveSubjects } from './subjects';

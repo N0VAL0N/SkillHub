@@ -17,60 +17,102 @@
       </div>
 
       <nav class="sidebar-nav">
-        <template v-if="currentSubject === 'social'">
-          <router-link to="/student" class="nav-item" :class="{ active: $route.path === '/student' || ($route.path.startsWith('/student/') && !$route.path.includes('/theory') && !$route.path.includes('/practice') && !$route.path.includes('/cards') && !$route.path.includes('/homework') && !$route.path.includes('/stats')) }">
-            <span class="nav-icon">📊</span>
-            <span class="nav-text">Главная</span>
-          </router-link>
-          <router-link to="/student/theory" class="nav-item" :class="{ active: $route.path.startsWith('/student/theory') }">
-            <span class="nav-icon">📖</span>
-            <span class="nav-text">Теория</span>
-          </router-link>
-          <router-link to="/student/practice" class="nav-item" :class="{ active: $route.path.startsWith('/student/practice') }">
-            <span class="nav-icon">✍️</span>
-            <span class="nav-text">Задания</span>
-          </router-link>
-          <router-link to="/student/cards" class="nav-item" :class="{ active: $route.path.startsWith('/student/cards') }">
-            <span class="nav-icon">🃏</span>
-            <span class="nav-text">Карточки</span>
-          </router-link>
-          <router-link to="/student/homework" class="nav-item" :class="{ active: $route.path.startsWith('/student/homework') || $route.path.startsWith('/student/task') || $route.path.startsWith('/student/results') }">
-            <span class="nav-icon">🏠</span>
-            <span class="nav-text">ДЗ</span>
-            <span v-if="homeworkCount" class="badge">{{ homeworkCount }}</span>
-          </router-link>
-          <router-link to="/student/stats" class="nav-item" :class="{ active: $route.path.startsWith('/student/stats') }">
-            <span class="nav-icon">📈</span>
-            <span class="nav-text">Статистика</span>
-          </router-link>
+        <template v-if="currentSubjectConfig && currentSubjectConfig.status === 'active'">
+          <!-- Меню для обществознания -->
+          <template v-if="currentSubject === 'social'">
+            <router-link to="/student" class="nav-item" :class="{ active: $route.path === '/student' || ($route.path.startsWith('/student/') && !$route.path.includes('/theory') && !$route.path.includes('/practice') && !$route.path.includes('/cards') && !$route.path.includes('/homework') && !$route.path.includes('/stats')) }">
+              <span class="nav-icon">📊</span>
+              <span class="nav-text">Главная</span>
+            </router-link>
+            <router-link to="/student/theory" class="nav-item" :class="{ active: $route.path.startsWith('/student/theory') }">
+              <span class="nav-icon">📖</span>
+              <span class="nav-text">Теория</span>
+            </router-link>
+            <router-link to="/student/practice" class="nav-item" :class="{ active: $route.path.startsWith('/student/practice') }">
+              <span class="nav-icon">✍️</span>
+              <span class="nav-text">Задания</span>
+            </router-link>
+            <router-link to="/student/cards" class="nav-item" :class="{ active: $route.path.startsWith('/student/cards') }">
+              <span class="nav-icon">🃏</span>
+              <span class="nav-text">Карточки</span>
+            </router-link>
+            <router-link to="/student/homework" class="nav-item" :class="{ active: $route.path.startsWith('/student/homework') || $route.path.startsWith('/student/task') || $route.path.startsWith('/student/results') }">
+              <span class="nav-icon">🏠</span>
+              <span class="nav-text">ДЗ</span>
+              <span v-if="homeworkCount" class="badge">{{ homeworkCount }}</span>
+            </router-link>
+            <router-link to="/student/stats" class="nav-item" :class="{ active: $route.path.startsWith('/student/stats') }">
+              <span class="nav-icon">📈</span>
+              <span class="nav-text">Статистика</span>
+            </router-link>
+          </template>
+
+          <!-- Меню для китайского HSK -->
+          <template v-else-if="currentSubject === 'chinese_hsk'">
+            <router-link to="/chinese" class="nav-item" :class="{ active: $route.path === '/chinese' }">
+              <span class="nav-icon">🏠</span>
+              <span class="nav-text">Главная</span>
+            </router-link>
+            <router-link to="/chinese/lessons" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/lessons') }">
+              <span class="nav-icon">📚</span>
+              <span class="nav-text">Уроки</span>
+            </router-link>
+            <router-link to="/chinese/library" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/library') }">
+              <span class="nav-icon">📖</span>
+              <span class="nav-text">Библиотека</span>
+            </router-link>
+            <router-link to="/chinese/packs" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/packs') }">
+              <span class="nav-icon">🃏</span>
+              <span class="nav-text">Паки</span>
+            </router-link>
+            <router-link to="/chinese/practice" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/practice') }">
+              <span class="nav-icon">✍️</span>
+              <span class="nav-text">Практика</span>
+            </router-link>
+            <router-link to="/chinese/stats" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/stats') }">
+              <span class="nav-icon">📈</span>
+              <span class="nav-text">Статистика</span>
+            </router-link>
+          </template>
+
+          <!-- Меню для английского IELTS -->
+          <template v-else-if="currentSubject === 'english_ielts'">
+            <router-link to="/english" class="nav-item" :class="{ active: $route.path === '/english' }">
+              <span class="nav-icon">🏠</span>
+              <span class="nav-text">Главная</span>
+            </router-link>
+            <router-link to="/english/lessons" class="nav-item" :class="{ active: $route.path.startsWith('/english/lessons') }">
+              <span class="nav-icon">📚</span>
+              <span class="nav-text">Уроки</span>
+            </router-link>
+            <router-link to="/english/library" class="nav-item" :class="{ active: $route.path.startsWith('/english/library') }">
+              <span class="nav-icon">📖</span>
+              <span class="nav-text">Библиотека</span>
+            </router-link>
+            <router-link to="/english/packs" class="nav-item" :class="{ active: $route.path.startsWith('/english/packs') }">
+              <span class="nav-icon">🃏</span>
+              <span class="nav-text">Паки</span>
+            </router-link>
+            <router-link to="/english/practice" class="nav-item" :class="{ active: $route.path.startsWith('/english/practice') }">
+              <span class="nav-icon">✍️</span>
+              <span class="nav-text">Практика</span>
+            </router-link>
+            <router-link to="/english/stats" class="nav-item" :class="{ active: $route.path.startsWith('/english/stats') }">
+              <span class="nav-icon">📈</span>
+              <span class="nav-text">Статистика</span>
+            </router-link>
+          </template>
         </template>
 
-        <template v-else-if="currentSubject === 'chinese_hsk'">
-          <router-link to="/chinese" class="nav-item" :class="{ active: $route.path === '/chinese' }">
+        <!-- Для неактивных предметов (planned/placeholder) показываем заглушку -->
+        <div v-else class="nav-placeholder">
+          <div class="placeholder-icon">🔨</div>
+          <p>Разделы для предмета «{{ currentSubjectConfig?.name }}» в разработке</p>
+          <router-link to="/student" class="nav-item" v-if="currentSubject !== 'social'">
             <span class="nav-icon">🏠</span>
-            <span class="nav-text">Главная</span>
+            <span class="nav-text">Вернуться на главную</span>
           </router-link>
-          <router-link to="/chinese/lessons" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/lessons') }">
-            <span class="nav-icon">📚</span>
-            <span class="nav-text">Уроки</span>
-          </router-link>
-          <router-link to="/chinese/library" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/library') }">
-            <span class="nav-icon">📖</span>
-            <span class="nav-text">Библиотека</span>
-          </router-link>
-          <router-link to="/chinese/packs" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/packs') }">
-            <span class="nav-icon">🃏</span>
-            <span class="nav-text">Паки</span>
-          </router-link>
-          <router-link to="/chinese/practice" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/practice') }">
-            <span class="nav-icon">✍️</span>
-            <span class="nav-text">Практика</span>
-          </router-link>
-          <router-link to="/chinese/stats" class="nav-item" :class="{ active: $route.path.startsWith('/chinese/stats') }">
-            <span class="nav-icon">📈</span>
-            <span class="nav-text">Статистика</span>
-          </router-link>
-        </template>
+        </div>
 
         <button @click="openSettings" class="nav-item settings-nav">
           <span class="nav-icon">⚙️</span>
@@ -98,9 +140,10 @@
         <div class="footer-content">
           <p>© 2026 ЕГЭ‑ПРО | Подготовка к ЕГЭ</p>
           <div class="footer-links">
-            <a href="#">О проекте</a>
-            <a href="#">Помощь</a>
-            <a href="#">Контакты</a>
+            <a href="#" @click.prevent="showSupportModal = true">Поддержка</a>
+            <a href="#" @click.prevent="showContactsModal = true">Контакты</a>
+            <a href="https://t.me/your_telegram" target="_blank" class="contact-link">📱 Telegram</a>
+            <a href="mailto:your@email.ru" class="contact-link">📧 Почта</a>
           </div>
         </div>
       </footer>
@@ -110,7 +153,6 @@
     <div v-if="showSettingsModal" class="modal" @click.self="showSettingsModal = false">
       <div class="modal-content">
         <h2>Настройки</h2>
-        
         <div class="settings-option">
           <label>Мои предметы</label>
           <div class="subjects-select">
@@ -126,7 +168,6 @@
             {{ savingSubjects ? 'Сохранение...' : 'Сохранить' }}
           </button>
         </div>
-
         <div class="settings-option">
           <label>Размер шрифта:</label>
           <div class="font-size-controls">
@@ -135,20 +176,132 @@
             <button @click="increaseFontSize" :disabled="fontSize >= 24">A+</button>
           </div>
         </div>
-
         <div class="settings-option">
           <label>Тема:</label>
           <div class="theme-controls">
-            <button @click="setTheme('light')" :class="{ active: currentTheme === 'light' }">
-              ☀️ Светлая
-            </button>
-            <button @click="setTheme('dark')" :class="{ active: currentTheme === 'dark' }">
-              🌙 Тёмная
-            </button>
+            <button @click="setTheme('light')" :class="{ active: currentTheme === 'light' }">☀️ Светлая</button>
+            <button @click="setTheme('dark')" :class="{ active: currentTheme === 'dark' }">🌙 Тёмная</button>
           </div>
         </div>
-
         <button @click="showSettingsModal = false" class="btn-close">Закрыть</button>
+      </div>
+    </div>
+
+    <!-- Модалка контактов -->
+    <div v-if="showContactsModal" class="modal-overlay" @click.self="showContactsModal = false">
+      <div class="modal contacts-modal">
+        <div class="modal-header">
+          <h3>📱 Свяжитесь с нами</h3>
+          <button class="close-btn" @click="showContactsModal = false">✕</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-description">Мы всегда рады помочь! Выберите удобный способ связи:</p>
+          <div class="contacts-grid">
+            <a href="https://t.me/egepro_support" target="_blank" class="contact-card telegram">
+              <div class="contact-icon">💬</div>
+              <div class="contact-info">
+                <span class="contact-title">Telegram</span>
+                <span class="contact-value">@egepro_support</span>
+              </div>
+              <div class="contact-arrow">→</div>
+            </a>
+            <a href="mailto:info@egepro.ru" class="contact-card email">
+              <div class="contact-icon">📧</div>
+              <div class="contact-info">
+                <span class="contact-title">Email</span>
+                <span class="contact-value">info@egepro.ru</span>
+              </div>
+              <div class="contact-arrow">→</div>
+            </a>
+            <a href="tel:+7XXXXXXXXXX" class="contact-card phone">
+              <div class="contact-icon">📱</div>
+              <div class="contact-info">
+                <span class="contact-title">Телефон</span>
+                <span class="contact-value">+7 (XXX) XXX-XX-XX</span>
+              </div>
+              <div class="contact-arrow">→</div>
+            </a>
+            <div class="contact-card vk">
+              <div class="contact-icon">🌐</div>
+              <div class="contact-info">
+                <span class="contact-title">ВКонтакте</span>
+                <span class="contact-value">vk.com/egepro</span>
+              </div>
+              <div class="contact-arrow">→</div>
+            </div>
+          </div>
+          <div class="support-note">
+            <span class="note-icon">⏰</span>
+            <span>Время ответа: обычно в течение 15 минут в рабочее время</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" @click="showContactsModal = false">Закрыть</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модалка поддержки -->
+    <div v-if="showSupportModal" class="modal-overlay" @click.self="showSupportModal = false">
+      <div class="modal support-modal">
+        <div class="modal-header">
+          <h3>🆘 Техническая поддержка</h3>
+          <button class="close-btn" @click="showSupportModal = false">✕</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-description">Возникла проблема? Напишите нам, и мы поможем!</p>
+          <div class="contacts-grid">
+            <a href="mailto:support@egepro.ru" class="contact-card email">
+              <div class="contact-icon">📧</div>
+              <div class="contact-info">
+                <span class="contact-title">Email поддержки</span>
+                <span class="contact-value">support@egepro.ru</span>
+              </div>
+              <div class="contact-arrow">→</div>
+            </a>
+            <a href="https://t.me/egepro_support" target="_blank" class="contact-card telegram">
+              <div class="contact-icon">💬</div>
+              <div class="contact-info">
+                <span class="contact-title">Telegram бот</span>
+                <span class="contact-value">@egepro_support_bot</span>
+              </div>
+              <div class="contact-arrow">→</div>
+            </a>
+          </div>
+          <div class="faq-section">
+            <h4>❓ Частые вопросы</h4>
+            <div class="faq-item">
+              <button class="faq-question" @click="toggleFaq(0)">
+                <span>Как сбросить пароль?</span>
+                <span class="faq-icon">{{ openFaq === 0 ? '−' : '+' }}</span>
+              </button>
+              <div v-if="openFaq === 0" class="faq-answer">
+                Нажмите на кнопку "Забыли пароль?" на странице входа. Вам придёт письмо со ссылкой для сброса.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" @click="toggleFaq(1)">
+                <span>Не приходит письмо для подтверждения?</span>
+                <span class="faq-icon">{{ openFaq === 1 ? '−' : '+' }}</span>
+              </button>
+              <div v-if="openFaq === 1" class="faq-answer">
+                Проверьте папку "Спам". Если письма нет, напишите в поддержку.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question" @click="toggleFaq(2)">
+                <span>Как добавить предметы?</span>
+                <span class="faq-icon">{{ openFaq === 2 ? '−' : '+' }}</span>
+              </button>
+              <div v-if="openFaq === 2" class="faq-answer">
+                Зайдите в настройки профиля и выберите нужные предметы в разделе "Мои предметы".
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" @click="showSupportModal = false">Закрыть</button>
+        </div>
       </div>
     </div>
   </div>
@@ -159,18 +312,32 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { auth, db } from '@core/services/firebase';
 import { signOut } from 'firebase/auth';
-import { doc, getDoc, updateDoc, collection, query, where, getDocs, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, query, where, getCountFromServer, onSnapshot } from 'firebase/firestore';
 import { useSubjectStore } from '@core/stores/subjectStore';
 import { useAppStore } from '@core/stores/appStore';
 import { useTheme } from '@core/composables/useTheme';
 import CustomSelect from '@shared/components/CustomSelect.vue';
-import { SUBJECTS_LIST } from '@core/constants/subjects';
+import { SUBJECTS_LIST, getSubjectById } from '@core/constants/subjects';
+import { useEnglishProgressFirestore } from '@/modules/english/stores/englishProgressFirestore';
+import { useEnglishPackStore } from '@/modules/english/stores/englishPackStore';
 
 const router = useRouter();
 const route = useRoute();
 const subjectStore = useSubjectStore();
 const appStore = useAppStore();
+const englishProgress = useEnglishProgressFirestore();
+const englishPackStore = useEnglishPackStore();
 
+// Состояние модалок
+const showSupportModal = ref(false);
+const showContactsModal = ref(false);
+const openFaq = ref(null);
+
+function toggleFaq(index) {
+  openFaq.value = openFaq.value === index ? null : index;
+}
+
+// Данные пользователя
 const studentDisplayName = ref('');
 const studentEmail = ref('');
 const homeworkCount = ref(0);
@@ -181,39 +348,45 @@ const currentSubject = computed({
 const userSubjects = ref([]);
 const allSubjects = SUBJECTS_LIST;
 
+// Настройки
 const showSettingsModal = ref(false);
-const fontSize = ref(parseInt(localStorage.getItem('studentFontSize') || '16'));
+const fontSize = ref(parseInt(localStorage.getItem('appFontSize') || '16'));
 const savingSubjects = ref(false);
 const { currentTheme, setTheme } = useTheme();
 
+// Подписки
 let unsubscribeUser = null;
+let unsubscribeHomework = null;
 let homeworkInterval = null;
 let isMounted = true;
 
+// Вычисляемые свойства
 const userSubjectOptions = computed(() => {
   return userSubjects.value
-    .map(id => allSubjects.find(s => s.id === id))
+    .map(id => getSubjectById(id))
     .filter(s => s)
     .map(s => ({ value: s.id, label: s.name, icon: s.icon }));
 });
 
-const applySettings = () => {
+const currentSubjectConfig = computed(() => getSubjectById(currentSubject.value));
+
+// Применение настроек
+const applyFontSize = () => {
   document.documentElement.style.fontSize = fontSize.value + 'px';
+  localStorage.setItem('appFontSize', fontSize.value);
 };
 
 const increaseFontSize = () => {
   if (fontSize.value < 24) {
     fontSize.value++;
-    localStorage.setItem('studentFontSize', fontSize.value);
-    applySettings();
+    applyFontSize();
   }
 };
 
 const decreaseFontSize = () => {
   if (fontSize.value > 12) {
     fontSize.value--;
-    localStorage.setItem('studentFontSize', fontSize.value);
-    applySettings();
+    applyFontSize();
   }
 };
 
@@ -221,10 +394,10 @@ const openSettings = () => {
   showSettingsModal.value = true;
 };
 
+// Сохранение предметов
 const saveUserSubjects = async () => {
   const user = auth.currentUser;
   if (!user) return;
-  
   savingSubjects.value = true;
   try {
     await updateDoc(doc(db, 'users', user.uid), {
@@ -233,112 +406,91 @@ const saveUserSubjects = async () => {
     });
     subjectStore.setUserSubjects(userSubjects.value);
     appStore.showToast('Предметы сохранены', 'success');
-    
     if (!userSubjects.value.includes(currentSubject.value) && userSubjects.value.length > 0) {
       subjectStore.setSubject(userSubjects.value[0]);
     }
   } catch (err) {
-    console.error('Error saving subjects:', err);
+    console.error(err);
     appStore.showToast('Ошибка сохранения', 'error');
   } finally {
     savingSubjects.value = false;
   }
 };
 
+// Загрузка количества ДЗ
 const loadHomeworkCount = async () => {
   const user = auth.currentUser;
-  if (!user || !isMounted) return;
-  
+  if (!user) return;
   try {
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
-    if (!userDoc.exists() || !isMounted) return;
-    
-    const userData = userDoc.data();
-    const studentClass = userData.className;
-    const studentSubjects = userData.subjects || [];
-    const studentId = user.uid;
-    
-    const examsSnap = await getDocs(query(collection(db, 'exams'), where('published', '==', true)));
-    if (!isMounted) return;
-    
-    const submissionsSnap = await getDocs(
-      query(collection(db, 'submissions'), where('studentId', '==', user.uid))
+    const q = query(
+      collection(db, 'submissions'),
+      where('studentId', '==', user.uid),
+      where('status', '==', 'pending')
     );
-    if (!isMounted) return;
-    
-    const submittedExamIds = new Set(submissionsSnap.docs.map(doc => doc.data().examId));
-    
-    let count = 0;
-    for (const examDoc of examsSnap.docs) {
-      const exam = examDoc.data();
-      const examId = examDoc.id;
-      
-      let canSee = false;
-      if (exam.publishedForType === 'all') {
-        canSee = true;
-      } else if (exam.publishedForType === 'class') {
-        canSee = exam.publishedForClassName === studentClass;
-      } else if (exam.publishedForType === 'student') {
-        canSee = exam.publishedForStudentId === studentId;
-      }
-      
-      if (!canSee) continue;
-      if (exam.subject && !studentSubjects.includes(exam.subject)) continue;
-      if (!submittedExamIds.has(examId)) {
-        count++;
-      }
-    }
-    
-    if (isMounted) {
-      homeworkCount.value = count;
-    }
-  } catch (error) {
-    console.error('Ошибка загрузки домашек:', error);
-    if (isMounted) {
-      homeworkCount.value = 0;
-    }
+    const snapshot = await getCountFromServer(q);
+    homeworkCount.value = snapshot.data().count;
+  } catch (err) {
+    console.error('Ошибка загрузки количества ДЗ:', err);
+    homeworkCount.value = 0;
   }
 };
 
-const switchSubject = (subject) => {
-  if (subject === currentSubject.value) return;
-  subjectStore.setSubject(subject);
-  if (subject === 'chinese_hsk') {
-    router.push('/chinese');
-  } else {
-    router.push('/student');
+// Переключение предмета с редиректом
+// В StudentLayout.vue, внутри script setup
+
+const switchSubject = (subjectId) => {
+  // Определяем целевой путь
+  let targetPath = '';
+  if (subjectId === 'social') targetPath = '/student';
+  else if (subjectId === 'chinese_hsk') targetPath = '/chinese';
+  else if (subjectId === 'english_ielts') targetPath = '/english';
+  else targetPath = `/student/${subjectId}`;
+  
+  // Меняем предмет в сторе
+  subjectStore.setSubject(subjectId);
+  
+  // Редирект, если мы не на главной странице этого предмета
+  if (route.path !== targetPath) {
+    router.push(targetPath);
   }
 };
 
+// Навигация
+const goToProfile = () => router.push('/profile');
+
+const logout = async () => {
+  isMounted = false;
+  if (unsubscribeUser) unsubscribeUser();
+  if (unsubscribeHomework) unsubscribeHomework();
+  if (homeworkInterval) clearInterval(homeworkInterval);
+  
+  // Очищаем английский прогресс и паки
+  englishProgress.reset();
+  englishPackStore.packs = [];
+  englishPackStore.loaded = false;
+  
+  await signOut(auth);
+  router.push('/');
+};
+
+// Синхронизация предмета при изменении маршрута
 watch(() => route.path, (newPath) => {
-  if (newPath.startsWith('/chinese')) {
-    if (currentSubject.value !== 'chinese_hsk' && userSubjects.value.includes('chinese_hsk')) {
-      subjectStore.setSubject('chinese_hsk');
-    }
-  } else if (newPath.startsWith('/student')) {
-    if (currentSubject.value !== 'social' && userSubjects.value.includes('social')) {
-      subjectStore.setSubject('social');
-    }
+  let detectedSubject = null;
+  if (newPath.startsWith('/chinese')) detectedSubject = 'chinese_hsk';
+  else if (newPath.startsWith('/english')) detectedSubject = 'english_ielts';
+  else if (newPath.startsWith('/student')) detectedSubject = 'social';
+  
+  if (detectedSubject && detectedSubject !== currentSubject.value) {
+    subjectStore.setSubject(detectedSubject);
   }
 }, { immediate: true });
 
-watch(currentSubject, (newSubject) => {
-  if (!newSubject) return;
-  const currentPath = route.path;
-  if (newSubject === 'chinese_hsk' && !currentPath.startsWith('/chinese')) {
-    router.push('/chinese');
-  } else if (newSubject === 'social' && !currentPath.startsWith('/student')) {
-    router.push('/student');
-  }
-});
-
-onMounted(() => {
+// Жизненный цикл
+onMounted(async () => {
   isMounted = true;
   const user = auth.currentUser;
-  
   if (user) {
     studentEmail.value = user.email;
-    
     const userRef = doc(db, 'users', user.uid);
     unsubscribeUser = onSnapshot(userRef, (docSnap) => {
       if (!isMounted) return;
@@ -347,57 +499,38 @@ onMounted(() => {
         studentDisplayName.value = data.displayName || data.login || user.email;
         userSubjects.value = data.subjects || [];
         subjectStore.setUserSubjects(userSubjects.value);
-        
         if (!userSubjects.value.includes(currentSubject.value) && userSubjects.value.length > 0) {
           subjectStore.setSubject(userSubjects.value[0]);
         }
       }
     });
     
-    getDoc(userRef).then(userDoc => {
-      if (!isMounted) return;
-      if (userDoc.exists()) {
-        const data = userDoc.data();
-        studentDisplayName.value = data.displayName || data.login || user.email;
-        userSubjects.value = data.subjects || [];
-        subjectStore.setUserSubjects(userSubjects.value);
-      } else {
-        studentDisplayName.value = user.email;
-      }
-    }).catch(error => {
-      console.error('Ошибка загрузки пользователя:', error);
-    });
+    // Загружаем прогресс английского и паки
+    await englishProgress.loadProgress();
+    await englishPackStore.loadPacks();
+    
+    // Подписка на изменения ДЗ
+    const homeworkQuery = query(
+      collection(db, 'submissions'),
+      where('studentId', '==', user.uid),
+      where('status', '==', 'pending')
+    );
+    unsubscribeHomework = onSnapshot(homeworkQuery, () => loadHomeworkCount());
   }
-  
-  applySettings();
-  loadHomeworkCount().catch(console.error);
-  
-  homeworkInterval = setInterval(() => {
-    loadHomeworkCount().catch(console.error);
-  }, 60000);
+  applyFontSize();
+  loadHomeworkCount();
+  homeworkInterval = setInterval(loadHomeworkCount, 60000);
 });
 
 onUnmounted(() => {
   isMounted = false;
   if (unsubscribeUser) unsubscribeUser();
+  if (unsubscribeHomework) unsubscribeHomework();
   if (homeworkInterval) clearInterval(homeworkInterval);
 });
-
-const goToProfile = () => {
-  router.push('/profile');
-};
-
-const logout = async () => {
-  isMounted = false;
-  if (unsubscribeUser) unsubscribeUser();
-  if (homeworkInterval) clearInterval(homeworkInterval);
-  await signOut(auth);
-  router.push('/');
-};
 </script>
 
 <style scoped>
-/* ... стили из предыдущей версии StudentLayout ... */
 .student-layout {
   display: flex;
   min-height: 100vh;
@@ -718,6 +851,231 @@ const logout = async () => {
 .btn-close:hover {
   background: var(--secondary-dark);
 }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+.contacts-modal, .support-modal {
+  background: white;
+  border-radius: 1.5rem;
+  width: 90%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.3s ease;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--gray-200);
+  background: linear-gradient(135deg, var(--primary-light) 0%, white 100%);
+  border-radius: 1.5rem 1.5rem 0 0;
+}
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--secondary);
+}
+.close-btn {
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: var(--gray-600);
+}
+.close-btn:hover {
+  background: rgba(0, 0, 0, 0.2);
+  transform: rotate(90deg);
+}
+.modal-body {
+  padding: 1.5rem;
+}
+.modal-description {
+  color: var(--gray-600);
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.contacts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: 1px solid var(--gray-200);
+  background: white;
+  cursor: pointer;
+}
+.contact-card:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+.contact-card.telegram:hover {
+  border-color: #0088cc;
+  background: #0088cc08;
+}
+.contact-card.email:hover {
+  border-color: #ea4335;
+  background: #ea433508;
+}
+.contact-card.phone:hover {
+  border-color: #34a853;
+  background: #34a85308;
+}
+.contact-card.vk:hover {
+  border-color: #4680c2;
+  background: #4680c208;
+}
+.contact-icon {
+  font-size: 1.8rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-100);
+  border-radius: 1rem;
+}
+.contact-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.contact-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.contact-value {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--gray-800);
+}
+.contact-arrow {
+  font-size: 1.2rem;
+  color: var(--gray-400);
+}
+.support-note {
+  background: var(--primary-light);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--primary-dark);
+}
+.note-icon {
+  font-size: 1.1rem;
+}
+.faq-section {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--gray-200);
+  padding-top: 1rem;
+}
+.faq-section h4 {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--gray-700);
+}
+.faq-item {
+  margin-bottom: 0.5rem;
+}
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: var(--gray-50);
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  transition: all 0.2s;
+}
+.faq-question:hover {
+  background: var(--gray-100);
+}
+.faq-icon {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.faq-answer {
+  padding: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--gray-600);
+  background: var(--gray-50);
+  border-radius: 0.75rem;
+  margin-top: 0.25rem;
+}
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: center;
+}
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 @media (max-width: 768px) {
   .sidebar {
     width: 70px;
@@ -749,7 +1107,9 @@ const logout = async () => {
 }
 body.dark-theme .sidebar,
 body.dark-theme .footer,
-body.dark-theme .modal-content {
+body.dark-theme .modal-content,
+body.dark-theme .contacts-modal,
+body.dark-theme .support-modal {
   background: var(--gray-800);
   border-color: var(--gray-700);
 }
@@ -788,5 +1148,46 @@ body.dark-theme .theme-controls button:hover {
 }
 body.dark-theme .font-size-value {
   color: var(--gray-300);
+}
+body.dark-theme .modal-header {
+  background: linear-gradient(135deg, rgba(230, 126, 34, 0.15) 0%, var(--gray-800) 100%);
+  border-bottom-color: var(--gray-700);
+}
+body.dark-theme .modal-header h3 {
+  color: white;
+}
+body.dark-theme .modal-description {
+  color: var(--gray-400);
+}
+body.dark-theme .contact-card {
+  background: var(--gray-700);
+  border-color: var(--gray-600);
+}
+body.dark-theme .contact-title {
+  color: var(--gray-400);
+}
+body.dark-theme .contact-value {
+  color: var(--gray-200);
+}
+body.dark-theme .contact-icon {
+  background: var(--gray-600);
+}
+body.dark-theme .support-note {
+  background: rgba(230, 126, 34, 0.15);
+  color: var(--primary);
+}
+body.dark-theme .faq-question {
+  background: var(--gray-700);
+  color: var(--gray-200);
+}
+body.dark-theme .faq-question:hover {
+  background: var(--gray-600);
+}
+body.dark-theme .faq-answer {
+  background: var(--gray-700);
+  color: var(--gray-300);
+}
+body.dark-theme .faq-section {
+  border-top-color: var(--gray-700);
 }
 </style>

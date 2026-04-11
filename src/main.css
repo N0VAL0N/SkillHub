@@ -477,3 +477,44 @@ body.dark-theme .toast {
     gap: 1rem;
   }
 }
+
+/* ===== КАСТОМНЫЙ СКРОЛЛБАР ===== */
+::-webkit-scrollbar {
+  width: 12px;  /* ширина */
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffe8d6;  /* светло-оранжевый фон */
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 6px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+  transform: scaleX(1.05);
+}
+
+/* Анимация "переливания" – градиент */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  background-size: 200% 200%;
+  animation: scrollbarShimmer 2s ease infinite;
+}
+
+@keyframes scrollbarShimmer {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: var(--primary) #ffe8d6;
+}

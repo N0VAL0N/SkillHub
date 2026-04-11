@@ -3,7 +3,7 @@
     <div class="login-card">
       <h1>ЕГЭ‑ПРО</h1>
       <p>{{ isLogin ? 'Войдите в аккаунт' : 'Создайте аккаунт' }}</p>
-      
+
       <form @submit.prevent="handleSubmit">
         <input
           v-model="loginOrEmail"
@@ -12,7 +12,7 @@
           required
           :disabled="loading"
         />
-        
+
         <input
           v-if="!isLogin"
           v-model="email"
@@ -21,7 +21,7 @@
           required
           :disabled="loading"
         />
-        
+
         <div class="password-field">
           <input
             v-model="password"
@@ -72,16 +72,14 @@
           :disabled="loading"
         />
 
-        <!-- Выбор предметов при регистрации -->
+        <!-- КАСТОМНЫЙ ВЫБОР ПРЕДМЕТОВ -->
         <div v-if="!isLogin" class="subjects-selection">
-          <label class="subjects-label">Выберите предметы:</label>
-          <div class="subjects-grid">
-            <label v-for="subject in SUBJECTS_LIST" :key="subject.id" class="subject-checkbox">
-              <input type="checkbox" :value="subject.id" v-model="selectedSubjects" />
-              <span class="subject-icon">{{ subject.icon }}</span>
-              <span class="subject-name">{{ subject.name }}</span>
-            </label>
-          </div>
+          <label class="subjects-label">Выберите предметы, которые изучаете:</label>
+          <SubjectSelector
+            v-model="selectedSubjects"
+            :showActions="false"
+            :filterPlanned="false"
+          />
         </div>
 
         <div class="options">
@@ -103,7 +101,7 @@
         <p v-if="error" class="error">{{ error }}</p>
       </form>
     </div>
-    
+
     <MigrationModal
       :isOpen="showMigrationModal"
       :userId="currentUserId"
@@ -130,11 +128,15 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc } from 'firebase/firestore';
 import MigrationModal from '@shared/components/MigrationModal.vue';
-import { SUBJECTS_LIST } from '@core/constants/subjects';
+import SubjectSelector from '@shared/components/SubjectSelector.vue';
+import { SUBJECTS } from '@core/constants/subjects';
 import { useAppStore } from '@core/stores/appStore';
 
 const router = useRouter();
 const appStore = useAppStore();
+
+// Код учителя читаем из .env
+const TEACHER_INVITE_CODE = import.meta.env.VITE_TEACHER_INVITE_CODE || 'TEACHER2026';
 
 const isLogin = ref(true);
 const loginOrEmail = ref('');
@@ -143,13 +145,11 @@ const password = ref('');
 const confirmPassword = ref('');
 const selectedRole = ref('student');
 const inviteCode = ref('');
-const selectedSubjects = ref([SUBJECTS_LIST[0]?.id]);
+const selectedSubjects = ref([SUBJECTS.SOCIAL]);
 const loading = ref(false);
 const error = ref('');
 const showPassword = ref(false);
 const rememberMe = ref(true);
-
-const TEACHER_CODE = import.meta.env.VITE_TEACHER_INVITE_CODE || 'TEACHER2026';
 
 const showMigrationModal = ref(false);
 const currentUserId = ref('');
@@ -159,15 +159,12 @@ const missingFields = ref([]);
 // Поиск пользователя по email или login
 const findUser = async (value) => {
   const searchValue = value.trim().toLowerCase();
-  
   const emailQuery = query(collection(db, 'users'), where('email', '==', searchValue));
   const emailSnapshot = await getDocs(emailQuery);
   if (!emailSnapshot.empty) return emailSnapshot.docs[0];
-  
   const loginQuery = query(collection(db, 'users'), where('login', '==', searchValue));
   const loginSnapshot = await getDocs(loginQuery);
   if (!loginSnapshot.empty) return loginSnapshot.docs[0];
-  
   return null;
 };
 
@@ -184,69 +181,45 @@ const checkMissingFields = (userData) => {
 const autoFillDefaults = async (userId, userData) => {
   const updateData = {};
   let needsUpdate = false;
-  
   if (!userData.settings) {
-    updateData.settings = {
-      theme: 'light',
-      fontSize: 16,
-      notifications: true
-    };
+    updateData.settings = { theme: 'light', fontSize: 16, notifications: true };
     needsUpdate = true;
   }
-  
   if (!userData.stats) {
-    updateData.stats = {
-      totalTasks: 0,
-      correctAnswers: 0,
-      streak: 0,
-      lastActive: new Date()
-    };
+    updateData.stats = { totalTasks: 0, correctAnswers: 0, streak: 0, lastActive: new Date() };
     needsUpdate = true;
   }
-  
   if (userData.isActive === undefined) {
     updateData.isActive = true;
     needsUpdate = true;
   }
-  
   if (!userData.classes) {
     updateData.classes = {};
     needsUpdate = true;
   }
-  
   if (needsUpdate) {
     updateData.updatedAt = new Date();
     await updateDoc(doc(db, 'users', userId), updateData);
     return { ...userData, ...updateData };
   }
-  
   return userData;
 };
 
 const handleMigrationSave = async (formData) => {
   try {
     const userRef = doc(db, 'users', currentUserId.value);
-    const updateData = {
-      updatedAt: new Date()
-    };
-    
+    const updateData = { updatedAt: new Date() };
     if (formData.email) updateData.email = formData.email.trim().toLowerCase();
-    if (formData.displayName) updateData.displayName = formData.displayName.trim().toLowerCase();
+    if (formData.displayName) updateData.displayName = formData.displayName.trim();
     if (formData.subjects && formData.subjects.length > 0) updateData.subjects = formData.subjects;
-    
     await updateDoc(userRef, updateData);
-    
     showMigrationModal.value = false;
-    
     const userDoc = await getDoc(userRef);
     const role = userDoc.data().role;
-    if (role === 'teacher') {
-      router.push('/teacher');
-    } else {
-      router.push('/student');
-    }
+    if (role === 'teacher') router.push('/teacher');
+    else router.push('/student');
   } catch (err) {
-    console.error('Migration save error:', err);
+    console.error(err);
     error.value = 'Ошибка сохранения данных';
     appStore.showToast('Ошибка сохранения данных', 'error');
   }
@@ -254,11 +227,8 @@ const handleMigrationSave = async (formData) => {
 
 const handleMigrationSkip = () => {
   showMigrationModal.value = false;
-  if (currentUserData.value.role === 'teacher') {
-    router.push('/teacher');
-  } else {
-    router.push('/student');
-  }
+  if (currentUserData.value.role === 'teacher') router.push('/teacher');
+  else router.push('/student');
 };
 
 const toggleMode = () => {
@@ -269,7 +239,7 @@ const toggleMode = () => {
   confirmPassword.value = '';
   selectedRole.value = 'student';
   inviteCode.value = '';
-  selectedSubjects.value = [SUBJECTS_LIST[0]?.id];
+  selectedSubjects.value = [SUBJECTS.SOCIAL];
   error.value = '';
 };
 
@@ -279,14 +249,9 @@ const handleSubmit = async () => {
     appStore.showToast(error.value, 'error');
     return;
   }
-  
+
   if (!isLogin.value) {
-    if (!email.value.trim()) {
-      error.value = 'Введите email';
-      appStore.showToast(error.value, 'error');
-      return;
-    }
-    if (!email.value.includes('@')) {
+    if (!email.value.trim() || !email.value.includes('@')) {
       error.value = 'Введите корректный email';
       appStore.showToast(error.value, 'error');
       return;
@@ -321,93 +286,50 @@ const handleSubmit = async () => {
     await setPersistence(auth, rememberMe.value ? browserLocalPersistence : browserSessionPersistence);
 
     if (isLogin.value) {
-      // === ВХОД ===
+      // ВХОД
       const userDoc = await findUser(loginOrEmail.value.trim());
-      
-      if (!userDoc) {
-        error.value = 'Пользователь не найден';
-        appStore.showToast(error.value, 'error');
-        loading.value = false;
-        return;
-      }
-      
+      if (!userDoc) throw new Error('Пользователь не найден');
       const userData = userDoc.data();
       const userEmail = userData.email;
-      
-      if (!userEmail) {
-        error.value = 'У пользователя нет email';
+      if (!userEmail) throw new Error('У пользователя нет email');
+      await signInWithEmailAndPassword(auth, userEmail, password.value);
+      const user = auth.currentUser;
+      if (user && !user.emailVerified) {
+        error.value = 'Пожалуйста, подтвердите email. Проверьте почту.';
         appStore.showToast(error.value, 'error');
         loading.value = false;
         return;
       }
-      
-      await signInWithEmailAndPassword(auth, userEmail, password.value);
-      
-      const user = auth.currentUser;
-      if (user) {
-        // Проверка подтверждения email
-        if (!user.emailVerified) {
-          error.value = 'Пожалуйста, подтвердите email. Проверьте почту.';
-          appStore.showToast(error.value, 'error');
-          loading.value = false;
-          return;
-        }
-        
-        await updateDoc(doc(db, 'users', user.uid), {
-          lastLoginAt: new Date(),
-          updatedAt: new Date()
-        });
-        
-        let freshUserData = userData;
-        freshUserData = await autoFillDefaults(user.uid, freshUserData);
-        
-        currentUserId.value = user.uid;
-        currentUserData.value = freshUserData;
-        
-        const missing = checkMissingFields(freshUserData);
-        
-        if (missing.length > 0) {
-          missingFields.value = missing;
-          showMigrationModal.value = true;
-        } else {
-          if (freshUserData.role === 'teacher') {
-            router.push('/teacher');
-          } else {
-            router.push('/student');
-          }
-        }
+      await updateDoc(doc(db, 'users', user.uid), { lastLoginAt: new Date(), updatedAt: new Date() });
+      let freshUserData = await autoFillDefaults(user.uid, userData);
+      currentUserId.value = user.uid;
+      currentUserData.value = freshUserData;
+      const missing = checkMissingFields(freshUserData);
+      if (missing.length > 0) {
+        missingFields.value = missing;
+        showMigrationModal.value = true;
+      } else {
+        if (freshUserData.role === 'teacher') router.push('/teacher');
+        else router.push('/student');
       }
-      
     } else {
-      // === РЕГИСТРАЦИЯ ===
+      // РЕГИСТРАЦИЯ
       const loginName = loginOrEmail.value.trim().toLowerCase();
-      
-      // Проверка уникальности login
       const loginQuery = query(collection(db, 'users'), where('login', '==', loginName));
       const loginSnapshot = await getDocs(loginQuery);
-      if (!loginSnapshot.empty) {
-        throw new Error('Имя пользователя уже занято');
-      }
-      
-      // Проверка уникальности email
+      if (!loginSnapshot.empty) throw new Error('Имя пользователя уже занято');
       const emailQuery = query(collection(db, 'users'), where('email', '==', email.value.toLowerCase()));
       const emailSnapshot = await getDocs(emailQuery);
-      if (!emailSnapshot.empty) {
-        throw new Error('Email уже используется');
-      }
+      if (!emailSnapshot.empty) throw new Error('Email уже используется');
       
-      if (selectedRole.value === 'teacher') {
-        if (!inviteCode.value || inviteCode.value !== TEACHER_CODE) {
-          throw new Error('Неверный код доступа для учителя');
-        }
+      // Проверка кода учителя
+      if (selectedRole.value === 'teacher' && inviteCode.value !== TEACHER_INVITE_CODE) {
+        throw new Error('Неверный код доступа для учителя');
       }
       
       const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
       const user = userCredential.user;
-      
-      // Отправляем письмо с подтверждением
       await sendEmailVerification(user);
-      
       await setDoc(doc(db, 'users', user.uid), {
         uid: user.uid,
         login: loginName,
@@ -420,45 +342,22 @@ const handleSubmit = async () => {
         isActive: true,
         classes: {},
         subjects: selectedSubjects.value,
-        settings: {
-          theme: 'light',
-          fontSize: 16,
-          notifications: true
-        },
-        stats: {
-          totalTasks: 0,
-          correctAnswers: 0,
-          streak: 0,
-          lastActive: new Date()
-        }
+        settings: { theme: 'light', fontSize: 16, notifications: true },
+        stats: { totalTasks: 0, correctAnswers: 0, streak: 0, lastActive: new Date() }
       });
-      
       appStore.showToast('Регистрация прошла успешно! Проверьте почту для подтверждения.', 'success');
-      
-      if (selectedRole.value === 'teacher') {
-        router.push('/teacher');
-      } else {
-        router.push('/student');
-      }
+      if (selectedRole.value === 'teacher') router.push('/teacher');
+      else router.push('/student');
     }
   } catch (err) {
-    console.error('Ошибка:', err);
-    
+    console.error(err);
     let message = 'Ошибка. Попробуйте позже';
-    if (err.code === 'auth/user-not-found') {
-      message = 'Пользователь не найден';
-    } else if (err.code === 'auth/wrong-password') {
-      message = 'Неверный пароль';
-    } else if (err.code === 'auth/email-already-in-use') {
-      message = 'Email уже используется';
-    } else if (err.code === 'auth/invalid-email') {
-      message = 'Неверный формат email';
-    } else if (err.code === 'auth/weak-password') {
-      message = 'Слишком слабый пароль';
-    } else if (err.message) {
-      message = err.message;
-    }
-    
+    if (err.code === 'auth/user-not-found') message = 'Пользователь не найден';
+    else if (err.code === 'auth/wrong-password') message = 'Неверный пароль';
+    else if (err.code === 'auth/email-already-in-use') message = 'Email уже используется';
+    else if (err.code === 'auth/invalid-email') message = 'Неверный формат email';
+    else if (err.code === 'auth/weak-password') message = 'Слишком слабый пароль';
+    else if (err.message) message = err.message;
     error.value = message;
     appStore.showToast(message, 'error');
   } finally {

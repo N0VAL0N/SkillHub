@@ -1,0 +1,2202 @@
+[
+  {
+    "id": "col1",
+    "collocation": "have breakfast",
+    "translation": "завтракать",
+    "example": "I usually have breakfast at 7 a.m.",
+    "example_translation": "Обычно я завтракаю в 7 утра.",
+    "level": "A2"
+  },
+  {
+    "id": "col2",
+    "collocation": "have lunch",
+    "translation": "обедать",
+    "example": "Let's have lunch together tomorrow.",
+    "example_translation": "Давай вместе пообедаем завтра.",
+    "level": "A2"
+  },
+  {
+    "id": "col3",
+    "collocation": "have dinner",
+    "translation": "ужинать",
+    "example": "We had dinner at a nice Italian restaurant.",
+    "example_translation": "Мы поужинали в хорошем итальянском ресторане.",
+    "level": "A2"
+  },
+  {
+    "id": "col4",
+    "collocation": "have a drink",
+    "translation": "выпить, попить",
+    "example": "I'm thirsty. I need to have a drink.",
+    "example_translation": "Я хочу пить. Мне нужно попить.",
+    "level": "A2"
+  },
+  {
+    "id": "col5",
+    "collocation": "have a party",
+    "translation": "устраивать вечеринку",
+    "example": "We're having a party next Saturday.",
+    "example_translation": "В следующую субботу мы устраиваем вечеринку.",
+    "level": "A2"
+  },
+  {
+    "id": "col6",
+    "collocation": "have a problem",
+    "translation": "иметь проблему, столкнуться с проблемой",
+    "example": "I have a problem with my computer.",
+    "example_translation": "У меня проблема с компьютером.",
+    "level": "A2"
+  },
+  {
+    "id": "col7",
+    "collocation": "have a shower / bath",
+    "translation": "принимать душ / ванну",
+    "example": "I usually have a shower in the morning.",
+    "example_translation": "Обычно я принимаю душ по утрам.",
+    "level": "A2"
+  },
+  {
+    "id": "col8",
+    "collocation": "have a rest",
+    "translation": "отдыхать",
+    "example": "You look tired. You should have a rest.",
+    "example_translation": "Ты выглядишь уставшим. Тебе следует отдохнуть.",
+    "level": "A2"
+  },
+  {
+    "id": "col9",
+    "collocation": "have a good time",
+    "translation": "хорошо проводить время",
+    "example": "Did you have a good time at the concert?",
+    "example_translation": "Ты хорошо провёл время на концерте?",
+    "level": "A2"
+  },
+  {
+    "id": "col10",
+    "collocation": "make breakfast/lunch/dinner",
+    "translation": "готовить завтрак/обед/ужин",
+    "example": "I'll make dinner tonight.",
+    "example_translation": "Сегодня вечером я приготовлю ужин.",
+    "level": "A2"
+  },
+  {
+    "id": "col11",
+    "collocation": "make a mistake",
+    "translation": "совершать ошибку",
+    "example": "Everyone makes mistakes.",
+    "example_translation": "Все совершают ошибки.",
+    "level": "A2"
+  },
+  {
+    "id": "col12",
+    "collocation": "make a phone call",
+    "translation": "звонить по телефону",
+    "example": "I need to make a quick phone call.",
+    "example_translation": "Мне нужно быстро позвонить.",
+    "level": "A2"
+  },
+  {
+    "id": "col13",
+    "collocation": "make friends",
+    "translation": "заводить друзей",
+    "example": "It's easy to make friends when you travel.",
+    "example_translation": "Путешествуя, легко заводить друзей.",
+    "level": "A2"
+  },
+  {
+    "id": "col14",
+    "collocation": "make a noise",
+    "translation": "шуметь",
+    "example": "Please don't make a noise. The baby is sleeping.",
+    "example_translation": "Пожалуйста, не шумите. Ребёнок спит.",
+    "level": "A2"
+  },
+  {
+    "id": "col15",
+    "collocation": "make the bed",
+    "translation": "заправлять постель",
+    "example": "I make my bed every morning.",
+    "example_translation": "Я заправляю постель каждое утро.",
+    "level": "A2"
+  },
+  {
+    "id": "col16",
+    "collocation": "do homework",
+    "translation": "делать домашнее задание",
+    "example": "I can't go out. I have to do my homework.",
+    "example_translation": "Я не могу выйти. Мне нужно делать домашнее задание.",
+    "level": "A2"
+  },
+  {
+    "id": "col17",
+    "collocation": "do the shopping",
+    "translation": "ходить за покупками (о продуктах)",
+    "example": "I do the shopping every Saturday morning.",
+    "example_translation": "Я хожу за покупками каждую субботу утром.",
+    "level": "A2"
+  },
+  {
+    "id": "col18",
+    "collocation": "do housework",
+    "translation": "выполнять работу по дому",
+    "example": "I spent all morning doing housework.",
+    "example_translation": "Я провёл всё утро за домашними делами.",
+    "level": "A2"
+  },
+  {
+    "id": "col19",
+    "collocation": "do exercise",
+    "translation": "делать упражнения, заниматься физкультурой",
+    "example": "You should do more exercise to stay healthy.",
+    "example_translation": "Тебе следует больше заниматься физкультурой, чтобы оставаться здоровым.",
+    "level": "A2"
+  },
+  {
+    "id": "col20",
+    "collocation": "do someone a favour",
+    "translation": "оказывать кому-то услугу, делать одолжение",
+    "example": "Could you do me a favour and close the window?",
+    "example_translation": "Не мог бы ты сделать мне одолжение и закрыть окно?",
+    "level": "A2"
+  },
+  {
+    "id": "col21",
+    "collocation": "take a photo",
+    "translation": "фотографировать",
+    "example": "She took a photo of the beautiful sunset.",
+    "example_translation": "Она сфотографировала красивый закат.",
+    "level": "A2"
+  },
+  {
+    "id": "col22",
+    "collocation": "take an exam",
+    "translation": "сдавать экзамен",
+    "example": "I'm taking my driving exam next week.",
+    "example_translation": "На следующей неделе я сдаю экзамен по вождению.",
+    "level": "A2"
+  },
+  {
+    "id": "col23",
+    "collocation": "take a break",
+    "translation": "сделать перерыв",
+    "example": "Let's take a break and have a coffee.",
+    "example_translation": "Давай сделаем перерыв и выпьем кофе.",
+    "level": "A2"
+  },
+  {
+    "id": "col24",
+    "collocation": "take a walk",
+    "translation": "прогуляться",
+    "example": "I like to take a walk after dinner.",
+    "example_translation": "Мне нравится прогуливаться после ужина.",
+    "level": "A2"
+  },
+  {
+    "id": "col25",
+    "collocation": "take a taxi / bus / train",
+    "translation": "ехать на такси / автобусе / поезде",
+    "example": "We took a taxi to the airport.",
+    "example_translation": "Мы поехали в аэропорт на такси.",
+    "level": "A2"
+  },
+  {
+    "id": "col26",
+    "collocation": "get married",
+    "translation": "жениться, выходить замуж",
+    "example": "They are getting married next summer.",
+    "example_translation": "Они женятся следующим летом.",
+    "level": "A2"
+  },
+  {
+    "id": "col27",
+    "collocation": "get lost",
+    "translation": "заблудиться",
+    "example": "I got lost on my way to the hotel.",
+    "example_translation": "Я заблудился по пути в отель.",
+    "level": "A2"
+  },
+  {
+    "id": "col28",
+    "collocation": "get a job",
+    "translation": "получить работу",
+    "example": "She hopes to get a job in marketing.",
+    "example_translation": "Она надеется получить работу в сфере маркетинга.",
+    "level": "A2"
+  },
+  {
+    "id": "col29",
+    "collocation": "get home",
+    "translation": "добираться до дома",
+    "example": "What time did you get home last night?",
+    "example_translation": "Во сколько ты добрался до дома вчера вечером?",
+    "level": "A2"
+  },
+  {
+    "id": "col30",
+    "collocation": "get ready",
+    "translation": "готовиться, быть готовым",
+    "example": "I need to get ready for the party.",
+    "example_translation": "Мне нужно подготовиться к вечеринке.",
+    "level": "A2"
+  },
+  {
+    "id": "col31",
+    "collocation": "go shopping",
+    "translation": "ходить по магазинам (за покупками)",
+    "example": "I love going shopping on weekends.",
+    "example_translation": "Я люблю ходить по магазинам по выходным.",
+    "level": "A2"
+  },
+  {
+    "id": "col32",
+    "collocation": "go swimming / fishing / hiking",
+    "translation": "ходить плавать / на рыбалку / в поход",
+    "example": "We went hiking in the mountains last weekend.",
+    "example_translation": "На прошлых выходных мы ходили в поход в горы.",
+    "level": "A2"
+  },
+  {
+    "id": "col33",
+    "collocation": "go for a walk",
+    "translation": "ходить на прогулку",
+    "example": "It's a lovely day. Let's go for a walk.",
+    "example_translation": "Чудесный день. Давай прогуляемся.",
+    "level": "A2"
+  },
+  {
+    "id": "col34",
+    "collocation": "go abroad",
+    "translation": "ехать за границу",
+    "example": "I've never been abroad.",
+    "example_translation": "Я никогда не был за границей.",
+    "level": "A2"
+  },
+  {
+    "id": "col35",
+    "collocation": "go online",
+    "translation": "выходить в интернет",
+    "example": "I go online to check my emails every morning.",
+    "example_translation": "Я выхожу в интернет, чтобы проверить почту, каждое утро.",
+    "level": "A2"
+  },
+  {
+    "id": "col36",
+    "collocation": "catch a bus / train",
+    "translation": "успеть на автобус / поезд",
+    "example": "I need to hurry if I want to catch the bus.",
+    "example_translation": "Мне нужно поторопиться, если я хочу успеть на автобус.",
+    "level": "A2"
+  },
+  {
+    "id": "col37",
+    "collocation": "catch a cold",
+    "translation": "простудиться",
+    "example": "I caught a cold last week and felt terrible.",
+    "example_translation": "На прошлой неделе я простудился и чувствовал себя ужасно.",
+    "level": "A2"
+  },
+  {
+    "id": "col38",
+    "collocation": "tell a story / joke",
+    "translation": "рассказывать историю / шутку",
+    "example": "My grandfather used to tell us funny stories.",
+    "example_translation": "Мой дедушка рассказывал нам забавные истории.",
+    "level": "A2"
+  },
+  {
+    "id": "col39",
+    "collocation": "tell the truth",
+    "translation": "говорить правду",
+    "example": "You must tell the truth in court.",
+    "example_translation": "В суде вы должны говорить правду.",
+    "level": "A2"
+  },
+  {
+    "id": "col40",
+    "collocation": "keep a secret",
+    "translation": "хранить секрет",
+    "example": "Can you keep a secret?",
+    "example_translation": "Ты умеешь хранить секреты?",
+    "level": "B1"
+  },
+  {
+    "id": "col41",
+    "collocation": "keep a promise",
+    "translation": "сдерживать обещание",
+    "example": "It's important to keep your promises.",
+    "example_translation": "Важно сдерживать свои обещания.",
+    "level": "B1"
+  },
+  {
+    "id": "col42",
+    "collocation": "keep in touch",
+    "translation": "поддерживать связь, оставаться на связи",
+    "example": "Let's keep in touch after we graduate.",
+    "example_translation": "Давай оставаться на связи после выпуска.",
+    "level": "B1"
+  },
+  {
+    "id": "col43",
+    "collocation": "keep calm",
+    "translation": "сохранять спокойствие",
+    "example": "Try to keep calm in an emergency.",
+    "example_translation": "Постарайся сохранять спокойствие в чрезвычайной ситуации.",
+    "level": "B1"
+  },
+  {
+    "id": "col44",
+    "collocation": "pay attention",
+    "translation": "обращать внимание",
+    "example": "Please pay attention to what I'm saying.",
+    "example_translation": "Пожалуйста, обрати внимание на то, что я говорю.",
+    "level": "B1"
+  },
+  {
+    "id": "col45",
+    "collocation": "pay a visit",
+    "translation": "наносить визит, навещать",
+    "example": "We paid a visit to my grandparents last weekend.",
+    "example_translation": "На прошлых выходных мы навестили моих бабушку и дедушку.",
+    "level": "B1"
+  },
+  {
+    "id": "col46",
+    "collocation": "pay the price",
+    "translation": "расплачиваться, платить цену",
+    "example": "He took a big risk and paid the price.",
+    "example_translation": "Он сильно рискнул и поплатился за это.",
+    "level": "B1"
+  },
+  {
+    "id": "col47",
+    "collocation": "save time / money",
+    "translation": "экономить время / деньги",
+    "example": "Shopping online can save you both time and money.",
+    "example_translation": "Покупки онлайн могут сэкономить вам и время, и деньги.",
+    "level": "B1"
+  },
+  {
+    "id": "col48",
+    "collocation": "save energy",
+    "translation": "экономить энергию, беречь силы",
+    "example": "We should all try to save energy at home.",
+    "example_translation": "Мы все должны стараться экономить энергию дома.",
+    "level": "B1"
+  },
+  {
+    "id": "col49",
+    "collocation": "save someone's life",
+    "translation": "спасать кому-то жизнь",
+    "example": "The doctor saved the patient's life.",
+    "example_translation": "Врач спас жизнь пациенту.",
+    "level": "B1"
+  },
+  {
+    "id": "col50",
+    "collocation": "break the law",
+    "translation": "нарушать закон",
+    "example": "Anyone who breaks the law will be punished.",
+    "example_translation": "Любой, кто нарушает закон, будет наказан.",
+    "level": "B1"
+  },
+  {
+    "id": "col51",
+    "collocation": "break a record",
+    "translation": "побить рекорд",
+    "example": "She hopes to break the world record this year.",
+    "example_translation": "В этом году она надеется побить мировой рекорд.",
+    "level": "B1"
+  },
+  {
+    "id": "col52",
+    "collocation": "break the news",
+    "translation": "сообщать новость (обычно плохую)",
+    "example": "I had to break the news of his father's death.",
+    "example_translation": "Мне пришлось сообщить ему новость о смерти отца.",
+    "level": "B2"
+  },
+  {
+    "id": "col53",
+    "collocation": "catch someone's eye",
+    "translation": "привлекать чьё-то внимание, бросаться в глаза",
+    "example": "The bright red dress caught my eye immediately.",
+    "example_translation": "Ярко-красное платье сразу бросилось мне в глаза.",
+    "level": "B1"
+  },
+  {
+    "id": "col54",
+    "collocation": "catch fire",
+    "translation": "загораться",
+    "example": "The car crashed and caught fire.",
+    "example_translation": "Машина врезалась и загорелась.",
+    "level": "B1"
+  },
+  {
+    "id": "col55",
+    "collocation": "give a speech / talk / presentation",
+    "translation": "выступать с речью / докладом / презентацией",
+    "example": "She gave an inspiring speech at the conference.",
+    "example_translation": "На конференции она выступила с вдохновляющей речью.",
+    "level": "B1"
+  },
+  {
+    "id": "col56",
+    "collocation": "give advice",
+    "translation": "давать совет",
+    "example": "Can you give me some advice on what to wear?",
+    "example_translation": "Можешь дать мне совет, что надеть?",
+    "level": "B1"
+  },
+  {
+    "id": "col57",
+    "collocation": "give a reason",
+    "translation": "называть причину, приводить основание",
+    "example": "He didn't give any reason for being late.",
+    "example_translation": "Он не назвал никакой причины своего опоздания.",
+    "level": "B1"
+  },
+  {
+    "id": "col58",
+    "collocation": "give someone a lift",
+    "translation": "подвозить кого-то на машине",
+    "example": "Can you give me a lift to the station?",
+    "example_translation": "Можешь подбросить меня до станции?",
+    "level": "B1"
+  },
+  {
+    "id": "col59",
+    "collocation": "lose weight",
+    "translation": "худеть",
+    "example": "I'm trying to lose weight by eating healthier.",
+    "example_translation": "Я пытаюсь похудеть, питаясь более здоровой пищей.",
+    "level": "B1"
+  },
+  {
+    "id": "col60",
+    "collocation": "lose touch",
+    "translation": "терять связь, переставать общаться",
+    "example": "We lost touch after she moved to another city.",
+    "example_translation": "Мы потеряли связь после того, как она переехала в другой город.",
+    "level": "B1"
+  },
+  {
+    "id": "col61",
+    "collocation": "lose your temper",
+    "translation": "выходить из себя, терять самообладание",
+    "example": "He rarely loses his temper.",
+    "example_translation": "Он редко выходит из себя.",
+    "level": "B2"
+  },
+  {
+    "id": "col62",
+    "collocation": "lose faith",
+    "translation": "терять веру",
+    "example": "She lost faith in the political system.",
+    "example_translation": "Она потеряла веру в политическую систему.",
+    "level": "B2"
+  },
+  {
+    "id": "col63",
+    "collocation": "lose your way",
+    "translation": "сбиться с пути, заблудиться (в жизни)",
+    "example": "I felt like I was losing my way in life.",
+    "example_translation": "Я чувствовал, что сбиваюсь с жизненного пути.",
+    "level": "B2"
+  },
+  {
+    "id": "col64",
+    "collocation": "meet a deadline",
+    "translation": "укладываться в срок",
+    "example": "We worked hard to meet the deadline.",
+    "example_translation": "Мы усердно работали, чтобы уложиться в срок.",
+    "level": "B2"
+  },
+  {
+    "id": "col65",
+    "collocation": "meet expectations",
+    "translation": "оправдывать ожидания",
+    "example": "The film didn't meet my expectations.",
+    "example_translation": "Фильм не оправдал моих ожиданий.",
+    "level": "B2"
+  },
+  {
+    "id": "col66",
+    "collocation": "meet the needs",
+    "translation": "удовлетворять потребности",
+    "example": "This software meets the needs of our business.",
+    "example_translation": "Это программное обеспечение удовлетворяет потребности нашего бизнеса.",
+    "level": "B2"
+  },
+  {
+    "id": "col67",
+    "collocation": "meet someone halfway",
+    "translation": "идти на компромисс, встречать кого-то на полпути",
+    "example": "I'm willing to meet you halfway on the price.",
+    "example_translation": "Я готов пойти на компромисс по цене.",
+    "level": "B2"
+  },
+  {
+    "id": "col68",
+    "collocation": "raise a question",
+    "translation": "поднимать вопрос",
+    "example": "The incident raised questions about airport security.",
+    "example_translation": "Инцидент поднял вопросы о безопасности в аэропорту.",
+    "level": "B2"
+  },
+  {
+    "id": "col69",
+    "collocation": "raise awareness",
+    "translation": "повышать осведомлённость, привлекать внимание",
+    "example": "The campaign aims to raise awareness of climate change.",
+    "example_translation": "Цель кампании — повысить осведомлённость об изменении климата.",
+    "level": "B2"
+  },
+  {
+    "id": "col70",
+    "collocation": "raise money / funds",
+    "translation": "собирать деньги / средства",
+    "example": "We're raising money for a new hospital.",
+    "example_translation": "Мы собираем деньги на новую больницу.",
+    "level": "B1"
+  },
+  {
+    "id": "col71",
+    "collocation": "raise children",
+    "translation": "растить детей",
+    "example": "Raising children is a difficult but rewarding job.",
+    "example_translation": "Растить детей — трудная, но благодарная работа.",
+    "level": "B1"
+  },
+  {
+    "id": "col72",
+    "collocation": "reach a decision / agreement / compromise",
+    "translation": "достигать решения / соглашения / компромисса",
+    "example": "After hours of discussion, they finally reached an agreement.",
+    "example_translation": "После многочасовых обсуждений они наконец достигли соглашения.",
+    "level": "B2"
+  },
+  {
+    "id": "col73",
+    "collocation": "reach a goal / target",
+    "translation": "достигать цели / целевого показателя",
+    "example": "We haven't reached our sales targets this month.",
+    "example_translation": "В этом месяце мы не достигли наших целей по продажам.",
+    "level": "B2"
+  },
+  {
+    "id": "col74",
+    "collocation": "make a decision",
+    "translation": "принимать решение",
+    "example": "I need to make a decision about my future career.",
+    "example_translation": "Мне нужно принять решение о моей будущей карьере.",
+    "level": "B1"
+  },
+  {
+    "id": "col75",
+    "collocation": "make a difference",
+    "translation": "иметь значение, что-то менять (к лучшему)",
+    "example": "Volunteering can really make a difference.",
+    "example_translation": "Волонтёрство действительно может изменить ситуацию к лучшему.",
+    "level": "B1"
+  },
+  {
+    "id": "col76",
+    "collocation": "make a suggestion",
+    "translation": "вносить предложение",
+    "example": "Can I make a suggestion?",
+    "example_translation": "Могу я внести предложение?",
+    "level": "B1"
+  },
+  {
+    "id": "col77",
+    "collocation": "make a complaint",
+    "translation": "подавать жалобу, жаловаться (официально)",
+    "example": "I'd like to make a complaint about the service.",
+    "example_translation": "Я бы хотел подать жалобу на обслуживание.",
+    "level": "B2"
+  },
+  {
+    "id": "col78",
+    "collocation": "make a fortune",
+    "translation": "заработать состояние, разбогатеть",
+    "example": "He made a fortune selling computers.",
+    "example_translation": "Он заработал состояние на продаже компьютеров.",
+    "level": "B2"
+  },
+  {
+    "id": "col79",
+    "collocation": "make a living",
+    "translation": "зарабатывать на жизнь",
+    "example": "How do you make a living?",
+    "example_translation": "Как вы зарабатываете на жизнь?",
+    "level": "B1"
+  },
+  {
+    "id": "col80",
+    "collocation": "make sense",
+    "translation": "иметь смысл, быть понятным",
+    "example": "What you're saying doesn't make any sense.",
+    "example_translation": "То, что ты говоришь, не имеет никакого смысла.",
+    "level": "B1"
+  },
+  {
+    "id": "col81",
+    "collocation": "make sure",
+    "translation": "убедиться, удостовериться",
+    "example": "Make sure you lock the door before you leave.",
+    "example_translation": "Убедись, что запер дверь перед уходом.",
+    "level": "B1"
+  },
+  {
+    "id": "col82",
+    "collocation": "make way",
+    "translation": "уступать дорогу, освобождать место",
+    "example": "Make way for the ambulance!",
+    "example_translation": "Уступите дорогу скорой помощи!",
+    "level": "B2"
+  },
+  {
+    "id": "col83",
+    "collocation": "do research",
+    "translation": "проводить исследование",
+    "example": "She's doing research on the causes of cancer.",
+    "example_translation": "Она проводит исследование причин рака.",
+    "level": "B1"
+  },
+  {
+    "id": "col84",
+    "collocation": "do business",
+    "translation": "вести дела, заниматься бизнесом",
+    "example": "It's a pleasure doing business with you.",
+    "example_translation": "Приятно иметь с вами дело.",
+    "level": "B2"
+  },
+  {
+    "id": "col85",
+    "collocation": "do damage",
+    "translation": "наносить ущерб, причинять вред",
+    "example": "The storm did considerable damage to the crops.",
+    "example_translation": "Буря нанесла значительный ущерб урожаю.",
+    "level": "B2"
+  },
+  {
+    "id": "col86",
+    "collocation": "do one's best",
+    "translation": "сделать всё возможное, постараться изо всех сил",
+    "example": "I know it's hard, but just do your best.",
+    "example_translation": "Я знаю, это трудно, но просто постарайся изо всех сил.",
+    "level": "B1"
+  },
+  {
+    "id": "col87",
+    "collocation": "do the dishes / washing-up",
+    "translation": "мыть посуду",
+    "example": "I'll cook dinner, and you can do the dishes.",
+    "example_translation": "Я приготовлю ужин, а ты помоешь посуду.",
+    "level": "B1"
+  },
+  {
+    "id": "col88",
+    "collocation": "do the ironing",
+    "translation": "гладить бельё",
+    "example": "I hate doing the ironing.",
+    "example_translation": "Я ненавижу гладить бельё.",
+    "level": "B1"
+  },
+  {
+    "id": "col89",
+    "collocation": "do someone good",
+    "translation": "пойти кому-то на пользу",
+    "example": "A long holiday would do you good.",
+    "example_translation": "Долгий отпуск пошёл бы тебе на пользу.",
+    "level": "B2"
+  },
+  {
+    "id": "col90",
+    "collocation": "take care of",
+    "translation": "заботиться о, присматривать за",
+    "example": "Who's taking care of your dog while you're away?",
+    "example_translation": "Кто заботится о твоей собаке, пока тебя нет?",
+    "level": "B1"
+  },
+  {
+    "id": "col91",
+    "collocation": "take part (in)",
+    "translation": "принимать участие (в)",
+    "example": "Over 500 athletes took part in the competition.",
+    "example_translation": "Более 500 спортсменов приняли участие в соревновании.",
+    "level": "B1"
+  },
+  {
+    "id": "col92",
+    "collocation": "take place",
+    "translation": "происходить, состояться (о событии)",
+    "example": "The wedding will take place in June.",
+    "example_translation": "Свадьба состоится в июне.",
+    "level": "B1"
+  },
+  {
+    "id": "col93",
+    "collocation": "take advantage of",
+    "translation": "воспользоваться (преимуществом), извлекать выгоду",
+    "example": "We took advantage of the good weather to go for a walk.",
+    "example_translation": "Мы воспользовались хорошей погодой, чтобы пойти на прогулку.",
+    "level": "B2"
+  },
+  {
+    "id": "col94",
+    "collocation": "take into account",
+    "translation": "принимать во внимание, учитывать",
+    "example": "We need to take the cost into account before we decide.",
+    "example_translation": "Нам нужно учесть стоимость, прежде чем принимать решение.",
+    "level": "B2"
+  },
+  {
+    "id": "col95",
+    "collocation": "take responsibility",
+    "translation": "брать на себя ответственность",
+    "example": "You need to take responsibility for your actions.",
+    "example_translation": "Тебе нужно нести ответственность за свои поступки.",
+    "level": "B2"
+  },
+  {
+    "id": "col96",
+    "collocation": "take a risk",
+    "translation": "рисковать",
+    "example": "He took a huge risk investing all his money in one company.",
+    "example_translation": "Он сильно рисковал, вложив все свои деньги в одну компанию.",
+    "level": "B2"
+  },
+  {
+    "id": "col97",
+    "collocation": "take your time",
+    "translation": "не торопиться, делать в своём темпе",
+    "example": "There's no rush. Take your time.",
+    "example_translation": "Спешить некуда. Не торопись.",
+    "level": "B1"
+  },
+  {
+    "id": "col98",
+    "collocation": "get involved",
+    "translation": "вовлекаться, участвовать",
+    "example": "She likes to get involved in community projects.",
+    "example_translation": "Ей нравится участвовать в общественных проектах.",
+    "level": "B2"
+  },
+  {
+    "id": "col99",
+    "collocation": "get permission",
+    "translation": "получать разрешение",
+    "example": "You need to get permission before you can film here.",
+    "example_translation": "Вам нужно получить разрешение, прежде чем снимать здесь.",
+    "level": "B2"
+  },
+  {
+    "id": "col100",
+    "collocation": "get the impression",
+    "translation": "получать впечатление, казаться",
+    "example": "I got the impression he wasn't telling the whole truth.",
+    "example_translation": "У меня сложилось впечатление, что он говорит не всю правду.",
+    "level": "B2"
+  },
+  {
+    "id": "col101",
+    "collocation": "get things done",
+    "translation": "делать дела, добиваться результата",
+    "example": "She's very efficient and knows how to get things done.",
+    "example_translation": "Она очень эффективна и знает, как добиваться результата.",
+    "level": "B2"
+  },
+  {
+    "id": "col102",
+    "collocation": "get to know someone",
+    "translation": "узнавать кого-то (поближе), знакомиться",
+    "example": "It took a while to get to know her, but now we're good friends.",
+    "example_translation": "Потребовалось время, чтобы узнать её поближе, но теперь мы хорошие друзья.",
+    "level": "B2"
+  },
+  {
+    "id": "col103",
+    "collocation": "come to a conclusion",
+    "translation": "приходить к заключению, делать вывод",
+    "example": "After reviewing the evidence, we came to the conclusion that he was innocent.",
+    "example_translation": "После изучения улик мы пришли к выводу, что он невиновен.",
+    "level": "B2"
+  },
+  {
+    "id": "col104",
+    "collocation": "come to an end",
+    "translation": "заканчиваться, подходить к концу",
+    "example": "All good things must come to an end.",
+    "example_translation": "Всё хорошее когда-нибудь заканчивается.",
+    "level": "B2"
+  },
+  {
+    "id": "col105",
+    "collocation": "come to life",
+    "translation": "оживать, пробуждаться",
+    "example": "The city really comes to life at night.",
+    "example_translation": "Город по-настоящему оживает ночью.",
+    "level": "B2"
+  },
+  {
+    "id": "col106",
+    "collocation": "come as a surprise / shock",
+    "translation": "быть неожиданностью / шоком",
+    "example": "The news came as a complete shock to everyone.",
+    "example_translation": "Эта новость стала полным шоком для всех.",
+    "level": "B2"
+  },
+  {
+    "id": "col107",
+    "collocation": "come into force",
+    "translation": "вступать в силу (о законе)",
+    "example": "The new law will come into force next month.",
+    "example_translation": "Новый закон вступит в силу в следующем месяце.",
+    "level": "B2"
+  },
+  {
+    "id": "col108",
+    "collocation": "come into view / sight",
+    "translation": "появляться в поле зрения",
+    "example": "The mountains came into view as we drove closer.",
+    "example_translation": "Горы появились в поле зрения, когда мы подъехали ближе.",
+    "level": "B2"
+  },
+  {
+    "id": "col109",
+    "collocation": "go wrong",
+    "translation": "пойти не так, не получаться",
+    "example": "Everything that could go wrong did go wrong.",
+    "example_translation": "Всё, что могло пойти не так, пошло не так.",
+    "level": "B1"
+  },
+  {
+    "id": "col110",
+    "collocation": "go mad / crazy",
+    "translation": "сходить с ума, беситься",
+    "example": "The crowd went crazy when the band came on stage.",
+    "example_translation": "Толпа взбесилась, когда группа вышла на сцену.",
+    "level": "B1"
+  },
+  {
+    "id": "col111",
+    "collocation": "go missing",
+    "translation": "пропадать, исчезать",
+    "example": "My keys have gone missing again.",
+    "example_translation": "Мои ключи снова пропали.",
+    "level": "B2"
+  },
+  {
+    "id": "col112",
+    "collocation": "go well / smoothly",
+    "translation": "идти хорошо / гладко",
+    "example": "I hope the meeting goes smoothly.",
+    "example_translation": "Надеюсь, встреча пройдёт гладко.",
+    "level": "B2"
+  },
+  {
+    "id": "col113",
+    "collocation": "go bankrupt",
+    "translation": "обанкротиться",
+    "example": "Many small businesses went bankrupt during the recession.",
+    "example_translation": "Многие малые предприятия обанкротились во время рецессии.",
+    "level": "B2"
+  },
+  {
+    "id": "col114",
+    "collocation": "keep a diary",
+    "translation": "вести дневник",
+    "example": "I used to keep a diary when I was a teenager.",
+    "example_translation": "В подростковом возрасте я вела дневник.",
+    "level": "B1"
+  },
+  {
+    "id": "col115",
+    "collocation": "keep someone waiting",
+    "translation": "заставлять кого-то ждать",
+    "example": "I'm sorry to keep you waiting.",
+    "example_translation": "Извините, что заставил вас ждать.",
+    "level": "B2"
+  },
+  {
+    "id": "col116",
+    "collocation": "keep a low profile",
+    "translation": "не привлекать к себе внимания, оставаться в тени",
+    "example": "He's been keeping a low profile since the scandal.",
+    "example_translation": "После скандала он старался не привлекать к себе внимания.",
+    "level": "B2"
+  },
+  {
+    "id": "col117",
+    "collocation": "keep an open mind",
+    "translation": "быть непредвзятым, сохранять открытость ума",
+    "example": "Try to keep an open mind about the new proposal.",
+    "example_translation": "Постарайся быть непредвзятым по отношению к новому предложению.",
+    "level": "B2"
+  },
+  {
+    "id": "col118",
+    "collocation": "keep your fingers crossed",
+    "translation": "держать кулачки (на удачу)",
+    "example": "I'm keeping my fingers crossed that I get the job.",
+    "example_translation": "Я держу кулачки, чтобы получить эту работу.",
+    "level": "B2"
+  },
+  {
+    "id": "col119",
+    "collocation": "set a goal / target",
+    "translation": "ставить цель / задачу",
+    "example": "It's important to set realistic goals.",
+    "example_translation": "Важно ставить реалистичные цели.",
+    "level": "B1"
+  },
+  {
+    "id": "col120",
+    "collocation": "set an example",
+    "translation": "подавать пример",
+    "example": "Parents should set a good example for their children.",
+    "example_translation": "Родители должны подавать хороший пример своим детям.",
+    "level": "B2"
+  },
+  {
+    "id": "col121",
+    "collocation": "set a record",
+    "translation": "устанавливать рекорд",
+    "example": "He set a new world record in the 100-metre sprint.",
+    "example_translation": "Он установил новый мировой рекорд в беге на 100 метров.",
+    "level": "B1"
+  },
+  {
+    "id": "col122",
+    "collocation": "set the table",
+    "translation": "накрывать на стол",
+    "example": "Could you please set the table for dinner?",
+    "example_translation": "Не мог бы ты, пожалуйста, накрыть на стол к ужину?",
+    "level": "B1"
+  },
+  {
+    "id": "col123",
+    "collocation": "set someone free",
+    "translation": "освобождать кого-то",
+    "example": "The hostages were set free after three days.",
+    "example_translation": "Заложники были освобождены через три дня.",
+    "level": "B2"
+  },
+  {
+    "id": "col124",
+    "collocation": "set fire to",
+    "translation": "поджигать",
+    "example": "Someone set fire to the building deliberately.",
+    "example_translation": "Кто-то намеренно поджёг здание.",
+    "level": "B2"
+  },
+  {
+    "id": "col125",
+    "collocation": "put pressure on",
+    "translation": "оказывать давление на",
+    "example": "Don't put too much pressure on yourself.",
+    "example_translation": "Не оказывай на себя слишком сильное давление.",
+    "level": "B2"
+  },
+  {
+    "id": "col126",
+    "collocation": "put an end to",
+    "translation": "положить конец, прекратить",
+    "example": "We must put an end to this violence.",
+    "example_translation": "Мы должны положить конец этому насилию.",
+    "level": "B2"
+  },
+  {
+    "id": "col127",
+    "collocation": "put someone at ease",
+    "translation": "успокоить кого-то, снять напряжение",
+    "example": "Her warm smile put me at ease immediately.",
+    "example_translation": "Её тёплая улыбка сразу же меня успокоила.",
+    "level": "B2"
+  },
+  {
+    "id": "col128",
+    "collocation": "put your mind to",
+    "translation": "сосредоточиться на, приложить усилия к",
+    "example": "You can achieve anything if you put your mind to it.",
+    "example_translation": "Ты можешь достичь всего, если приложишь к этому усилия.",
+    "level": "B2"
+  },
+  {
+    "id": "col129",
+    "collocation": "put into practice",
+    "translation": "применять на практике, осуществлять",
+    "example": "It's time to put these ideas into practice.",
+    "example_translation": "Пришло время применить эти идеи на практике.",
+    "level": "B2"
+  },
+  {
+    "id": "col130",
+    "collocation": "put your foot down",
+    "translation": "занять твёрдую позицию, проявить настойчивость",
+    "example": "I had to put my foot down and say no.",
+    "example_translation": "Мне пришлось занять твёрдую позицию и сказать «нет».",
+    "level": "B2"
+  },
+  {
+    "id": "col131",
+    "collocation": "tell the difference",
+    "translation": "различать, видеть разницу",
+    "example": "Can you tell the difference between these two wines?",
+    "example_translation": "Ты можешь почувствовать разницу между этими двумя винами?",
+    "level": "B1"
+  },
+  {
+    "id": "col132",
+    "collocation": "tell a lie",
+    "translation": "лгать, говорить неправду",
+    "example": "He told a lie about his age.",
+    "example_translation": "Он солгал о своём возрасте.",
+    "level": "B1"
+  },
+  {
+    "id": "col133",
+    "collocation": "tell the time",
+    "translation": "определять время (по часам)",
+    "example": "My little brother is learning to tell the time.",
+    "example_translation": "Мой младший брат учится определять время.",
+    "level": "A2"
+  },
+  {
+    "id": "col134",
+    "collocation": "tell someone off",
+    "translation": "ругать, отчитывать кого-то",
+    "example": "The teacher told him off for talking in class.",
+    "example_translation": "Учитель отругал его за разговоры в классе.",
+    "level": "B2"
+  },
+  {
+    "id": "col135",
+    "collocation": "draw attention",
+    "translation": "привлекать внимание",
+    "example": "The protest was designed to draw attention to the issue.",
+    "example_translation": "Протест был призван привлечь внимание к проблеме.",
+    "level": "B2"
+  },
+  {
+    "id": "col136",
+    "collocation": "draw a conclusion",
+    "translation": "делать вывод",
+    "example": "What conclusions did you draw from the evidence?",
+    "example_translation": "Какие выводы вы сделали из этих доказательств?",
+    "level": "B2"
+  },
+  {
+    "id": "col137",
+    "collocation": "draw the line",
+    "translation": "установить границу, положить предел",
+    "example": "I don't mind helping, but I draw the line at lending money.",
+    "example_translation": "Я не против помочь, но одалживать деньги — это уже слишком.",
+    "level": "B2"
+  },
+  {
+    "id": "col138",
+    "collocation": "draw up a plan / list / contract",
+    "translation": "составлять план / список / контракт",
+    "example": "We need to draw up a plan of action.",
+    "example_translation": "Нам нужно составить план действий.",
+    "level": "B2"
+  },
+  {
+    "id": "col139",
+    "collocation": "hold a meeting / event",
+    "translation": "проводить встречу / мероприятие",
+    "example": "The company holds a staff meeting every Monday morning.",
+    "example_translation": "Каждый понедельник утром компания проводит собрание сотрудников.",
+    "level": "B2"
+  },
+  {
+    "id": "col140",
+    "collocation": "hold a conversation",
+    "translation": "вести беседу, поддерживать разговор",
+    "example": "It's difficult to hold a conversation with all this noise.",
+    "example_translation": "Трудно вести беседу при таком шуме.",
+    "level": "B2"
+  },
+  {
+    "id": "col141",
+    "collocation": "hold your breath",
+    "translation": "задерживать дыхание",
+    "example": "How long can you hold your breath underwater?",
+    "example_translation": "Как долго ты можешь задерживать дыхание под водой?",
+    "level": "B2"
+  },
+  {
+    "id": "col142",
+    "collocation": "hold someone responsible",
+    "translation": "считать кого-то ответственным, возлагать ответственность",
+    "example": "He was held responsible for the accident.",
+    "example_translation": "Его признали ответственным за аварию.",
+    "level": "B2"
+  },
+  {
+    "id": "col143",
+    "collocation": "hold the line",
+    "translation": "не вешать трубку, ждать на линии",
+    "example": "Please hold the line, and I'll put you through.",
+    "example_translation": "Пожалуйста, оставайтесь на линии, я вас соединю.",
+    "level": "B2"
+  },
+  {
+    "id": "col144",
+    "collocation": "hold a grudge",
+    "translation": "затаить обиду, держать зло",
+    "example": "I don't hold a grudge against him anymore.",
+    "example_translation": "Я больше не держу на него зла.",
+    "level": "B2"
+  },
+  {
+    "id": "col145",
+    "collocation": "face a problem / challenge",
+    "translation": "сталкиваться с проблемой / вызовом",
+    "example": "The company is facing serious financial problems.",
+    "example_translation": "Компания сталкивается с серьёзными финансовыми проблемами.",
+    "level": "B2"
+  },
+  {
+    "id": "col146",
+    "collocation": "face the consequences",
+    "translation": "отвечать за последствия",
+    "example": "You made the decision, and now you have to face the consequences.",
+    "example_translation": "Ты принял решение, и теперь тебе придётся отвечать за последствия.",
+    "level": "B2"
+  },
+  {
+    "id": "col147",
+    "collocation": "face facts / reality",
+    "translation": "смотреть правде в глаза",
+    "example": "It's time to face facts: we can't afford this house.",
+    "example_translation": "Пора смотреть правде в глаза: мы не можем позволить себе этот дом.",
+    "level": "B2"
+  },
+  {
+    "id": "col148",
+    "collocation": "pose a threat / risk",
+    "translation": "представлять угрозу / риск",
+    "example": "Pollution poses a serious threat to our health.",
+    "example_translation": "Загрязнение представляет серьёзную угрозу нашему здоровью.",
+    "level": "B2"
+  },
+  {
+    "id": "col149",
+    "collocation": "pose a question",
+    "translation": "задавать вопрос",
+    "example": "The teacher posed a difficult question to the class.",
+    "example_translation": "Учитель задал классу трудный вопрос.",
+    "level": "B2"
+  },
+  {
+    "id": "col150",
+    "collocation": "pose for a photo",
+    "translation": "позировать для фотографии",
+    "example": "The happy couple posed for a photo outside the church.",
+    "example_translation": "Счастливая пара позировала для фотографии перед церковью.",
+    "level": "B2"
+  },
+  {
+    "id": "col151",
+    "collocation": "go home",
+    "translation": "идти домой",
+    "example": "I'm tired. I want to go home.",
+    "example_translation": "Я устал. Я хочу домой.",
+    "level": "A0"
+  },
+  {
+    "id": "col152",
+    "collocation": "go to bed / sleep",
+    "translation": "ложиться спать",
+    "example": "I usually go to bed at 10 p.m.",
+    "example_translation": "Обычно я ложусь спать в 10 вечера.",
+    "level": "A0"
+  },
+  {
+    "id": "col153",
+    "collocation": "go to school / work",
+    "translation": "ходить в школу / на работу",
+    "example": "She goes to school by bus.",
+    "example_translation": "Она ездит в школу на автобусе.",
+    "level": "A1"
+  },
+  {
+    "id": "col154",
+    "collocation": "go to the cinema",
+    "translation": "ходить в кино",
+    "example": "We went to the cinema last night.",
+    "example_translation": "Вчера вечером мы ходили в кино.",
+    "level": "A1"
+  },
+  {
+    "id": "col155",
+    "collocation": "go home",
+    "translation": "идти домой",
+    "example": "It's late. I think I'll go home now.",
+    "example_translation": "Уже поздно. Думаю, я пойду домой.",
+    "level": "A1"
+  },
+  {
+    "id": "col156",
+    "collocation": "get up early / late",
+    "translation": "вставать рано / поздно",
+    "example": "I hate getting up early on weekends.",
+    "example_translation": "Я ненавижу рано вставать по выходным.",
+    "level": "A1"
+  },
+  {
+    "id": "col157",
+    "collocation": "get home",
+    "translation": "добираться до дома",
+    "example": "What time did you get home last night?",
+    "example_translation": "Во сколько ты добрался до дома вчера вечером?",
+    "level": "A1"
+  },
+  {
+    "id": "col158",
+    "collocation": "get dressed",
+    "translation": "одеваться",
+    "example": "Wait a minute; I'm just getting dressed.",
+    "example_translation": "Подожди минутку; я просто одеваюсь.",
+    "level": "A1"
+  },
+  {
+    "id": "col159",
+    "collocation": "get ready",
+    "translation": "готовиться",
+    "example": "I need to get ready for the party.",
+    "example_translation": "Мне нужно подготовиться к вечеринке.",
+    "level": "A1"
+  },
+  {
+    "id": "col160",
+    "collocation": "have a shower / bath",
+    "translation": "принимать душ / ванну",
+    "example": "I usually have a shower in the morning.",
+    "example_translation": "Обычно я принимаю душ по утрам.",
+    "level": "A1"
+  },
+  {
+    "id": "col161",
+    "collocation": "have breakfast / lunch / dinner",
+    "translation": "завтракать / обедать / ужинать",
+    "example": "What time do you usually have lunch?",
+    "example_translation": "Во сколько ты обычно обедаешь?",
+    "level": "A1"
+  },
+  {
+    "id": "col162",
+    "collocation": "have fun / a good time",
+    "translation": "веселиться, хорошо проводить время",
+    "example": "Have fun at the party!",
+    "example_translation": "Повеселись на вечеринке!",
+    "level": "A1"
+  },
+  {
+    "id": "col163",
+    "collocation": "have a problem",
+    "translation": "иметь проблему",
+    "example": "I have a problem with my computer.",
+    "example_translation": "У меня проблема с компьютером.",
+    "level": "A1"
+  },
+  {
+    "id": "col164",
+    "collocation": "have an idea",
+    "translation": "иметь идею, придумать",
+    "example": "I have an idea! Let's go to the beach.",
+    "example_translation": "У меня есть идея! Давайте пойдём на пляж.",
+    "level": "A1"
+  },
+  {
+    "id": "col165",
+    "collocation": "make a cake",
+    "translation": "готовить торт",
+    "example": "She made a cake for my birthday.",
+    "example_translation": "Она приготовила торт на мой день рождения.",
+    "level": "A1"
+  },
+  {
+    "id": "col166",
+    "collocation": "make a sandwich",
+    "translation": "делать бутерброд",
+    "example": "I'm hungry. I'll make a sandwich.",
+    "example_translation": "Я голоден. Сделаю себе бутерброд.",
+    "level": "A1"
+  },
+  {
+    "id": "col167",
+    "collocation": "make coffee / tea",
+    "translation": "готовить кофе / чай",
+    "example": "Shall I make some tea?",
+    "example_translation": "Приготовить чай?",
+    "level": "A1"
+  },
+  {
+    "id": "col168",
+    "collocation": "make a mistake",
+    "translation": "совершать ошибку",
+    "example": "Don't worry if you make a mistake.",
+    "example_translation": "Не волнуйся, если совершишь ошибку.",
+    "level": "A1"
+  },
+  {
+    "id": "col169",
+    "collocation": "make a noise",
+    "translation": "шуметь",
+    "example": "Please don't make a noise. The baby is sleeping.",
+    "example_translation": "Пожалуйста, не шумите. Ребёнок спит.",
+    "level": "A1"
+  },
+  {
+    "id": "col170",
+    "collocation": "make the bed",
+    "translation": "заправлять постель",
+    "example": "Don't forget to make your bed.",
+    "example_translation": "Не забудь заправить постель.",
+    "level": "A1"
+  },
+  {
+    "id": "col171",
+    "collocation": "do homework",
+    "translation": "делать домашнее задание",
+    "example": "I have to do my homework before I can go out.",
+    "example_translation": "Мне нужно сделать домашнее задание, прежде чем я смогу выйти.",
+    "level": "A1"
+  },
+  {
+    "id": "col172",
+    "collocation": "do housework",
+    "translation": "заниматься домашними делами",
+    "example": "I hate doing housework.",
+    "example_translation": "Я ненавижу заниматься домашними делами.",
+    "level": "A1"
+  },
+  {
+    "id": "col173",
+    "collocation": "do the shopping",
+    "translation": "ходить за покупками",
+    "example": "I do the shopping every Friday afternoon.",
+    "example_translation": "Я хожу за покупками каждую пятницу днём.",
+    "level": "A1"
+  },
+  {
+    "id": "col174",
+    "collocation": "do exercise",
+    "translation": "делать физические упражнения",
+    "example": "You should do more exercise.",
+    "example_translation": "Тебе следует больше заниматься физкультурой.",
+    "level": "A1"
+  },
+  {
+    "id": "col175",
+    "collocation": "take a photo / picture",
+    "translation": "фотографировать",
+    "example": "Can you take a photo of us?",
+    "example_translation": "Можешь нас сфотографировать?",
+    "level": "A1"
+  },
+  {
+    "id": "col176",
+    "collocation": "take a shower / bath",
+    "translation": "принимать душ / ванну",
+    "example": "I usually take a shower after the gym.",
+    "example_translation": "Обычно после спортзала я принимаю душ.",
+    "level": "A1"
+  },
+  {
+    "id": "col177",
+    "collocation": "take a bus / train / taxi",
+    "translation": "ехать на автобусе / поезде / такси",
+    "example": "We took a taxi to the station.",
+    "example_translation": "Мы поехали на станцию на такси.",
+    "level": "A1"
+  },
+  {
+    "id": "col178",
+    "collocation": "take an exam",
+    "translation": "сдавать экзамен",
+    "example": "I'm taking my driving test next week.",
+    "example_translation": "На следующей неделе я сдаю экзамен по вождению.",
+    "level": "A1"
+  },
+  {
+    "id": "col179",
+    "collocation": "watch TV / a film",
+    "translation": "смотреть телевизор / фильм",
+    "example": "I like watching films at the weekend.",
+    "example_translation": "По выходным я люблю смотреть фильмы.",
+    "level": "A0"
+  },
+  {
+    "id": "col180",
+    "collocation": "watch a match",
+    "translation": "смотреть матч",
+    "example": "We're going to watch the football match at the pub.",
+    "example_translation": "Мы собираемся смотреть футбольный матч в пабе.",
+    "level": "A1"
+  },
+  {
+    "id": "col181",
+    "collocation": "listen to music / the radio",
+    "translation": "слушать музыку / радио",
+    "example": "I listen to music on my way to work.",
+    "example_translation": "По дороге на работу я слушаю музыку.",
+    "level": "A1"
+  },
+  {
+    "id": "col182",
+    "collocation": "listen to someone",
+    "translation": "слушать кого-то",
+    "example": "You never listen to me!",
+    "example_translation": "Ты никогда меня не слушаешь!",
+    "level": "A1"
+  },
+  {
+    "id": "col183",
+    "collocation": "play football / tennis",
+    "translation": "играть в футбол / теннис",
+    "example": "I play tennis every Sunday.",
+    "example_translation": "Я играю в теннис каждое воскресенье.",
+    "level": "A1"
+  },
+  {
+    "id": "col184",
+    "collocation": "play the guitar / piano",
+    "translation": "играть на гитаре / пианино",
+    "example": "He's learning to play the guitar.",
+    "example_translation": "Он учится играть на гитаре.",
+    "level": "A1"
+  },
+  {
+    "id": "col185",
+    "collocation": "speak a language",
+    "translation": "говорить на языке",
+    "example": "How many languages do you speak?",
+    "example_translation": "На скольких языках вы говорите?",
+    "level": "A1"
+  },
+  {
+    "id": "col186",
+    "collocation": "speak to someone",
+    "translation": "говорить с кем-то",
+    "example": "Can I speak to the manager, please?",
+    "example_translation": "Могу я поговорить с менеджером, пожалуйста?",
+    "level": "A1"
+  },
+  {
+    "id": "col187",
+    "collocation": "wait for someone / something",
+    "translation": "ждать кого-то / чего-то",
+    "example": "I'm waiting for the bus.",
+    "example_translation": "Я жду автобус.",
+    "level": "A1"
+  },
+  {
+    "id": "col188",
+    "collocation": "wait a minute / moment",
+    "translation": "подождать минуту",
+    "example": "Wait a minute! I'm coming.",
+    "example_translation": "Подожди минуту! Я иду.",
+    "level": "A1"
+  },
+  {
+    "id": "col189",
+    "collocation": "ride a bike / horse",
+    "translation": "кататься на велосипеде / лошади",
+    "example": "I learned to ride a bike when I was five.",
+    "example_translation": "Я научился кататься на велосипеде в пять лет.",
+    "level": "A1"
+  },
+  {
+    "id": "col190",
+    "collocation": "drive a car",
+    "translation": "водить машину",
+    "example": "Can you drive a car?",
+    "example_translation": "Ты умеешь водить машину?",
+    "level": "A1"
+  },
+  {
+    "id": "col191",
+    "collocation": "tell a story",
+    "translation": "рассказывать историю",
+    "example": "My grandfather used to tell me stories.",
+    "example_translation": "Мой дедушка рассказывал мне истории.",
+    "level": "A1"
+  },
+  {
+    "id": "col192",
+    "collocation": "tell the truth",
+    "translation": "говорить правду",
+    "example": "You must tell the truth.",
+    "example_translation": "Ты должен говорить правду.",
+    "level": "A1"
+  },
+  {
+    "id": "col193",
+    "collocation": "ask a question",
+    "translation": "задавать вопрос",
+    "example": "Can I ask you a question?",
+    "example_translation": "Могу я задать вам вопрос?",
+    "level": "A1"
+  },
+  {
+    "id": "col194",
+    "collocation": "ask for help",
+    "translation": "просить помощи",
+    "example": "Don't be afraid to ask for help.",
+    "example_translation": "Не бойся просить помощи.",
+    "level": "A1"
+  },
+  {
+    "id": "col195",
+    "collocation": "call a friend / taxi",
+    "translation": "звонить другу / вызывать такси",
+    "example": "I'll call a taxi for you.",
+    "example_translation": "Я вызову тебе такси.",
+    "level": "A1"
+  },
+  {
+    "id": "col196",
+    "collocation": "call back",
+    "translation": "перезванивать",
+    "example": "I'm busy now. Can I call you back later?",
+    "example_translation": "Я сейчас занят. Могу я перезвонить тебе позже?",
+    "level": "A2"
+  },
+  {
+    "id": "col197",
+    "collocation": "leave home",
+    "translation": "уходить из дома",
+    "example": "What time do you leave home in the morning?",
+    "example_translation": "Во сколько ты уходишь из дома утром?",
+    "level": "A1"
+  },
+  {
+    "id": "col198",
+    "collocation": "leave a message",
+    "translation": "оставлять сообщение",
+    "example": "Please leave a message after the beep.",
+    "example_translation": "Пожалуйста, оставьте сообщение после сигнала.",
+    "level": "A1"
+  },
+  {
+    "id": "col199",
+    "collocation": "start school / work",
+    "translation": "начинать учёбу / работу",
+    "example": "What time do you start work?",
+    "example_translation": "Во сколько ты начинаешь работать?",
+    "level": "A1"
+  },
+  {
+    "id": "col200",
+    "collocation": "finish work / school",
+    "translation": "заканчивать работу / учёбу",
+    "example": "I finish work at 5 p.m.",
+    "example_translation": "Я заканчиваю работу в 5 вечера.",
+    "level": "A1"
+  },
+  {
+    "id": "col201",
+    "collocation": "live in a flat / house",
+    "translation": "жить в квартире / доме",
+    "example": "They live in a big house near the park.",
+    "example_translation": "Они живут в большом доме рядом с парком.",
+    "level": "A0"
+  },
+  {
+    "id": "col202",
+    "collocation": "live with someone",
+    "translation": "жить с кем-то",
+    "example": "I live with my parents.",
+    "example_translation": "Я живу с родителями.",
+    "level": "A1"
+  },
+  {
+    "id": "col203",
+    "collocation": "very well / good",
+    "translation": "очень хорошо",
+    "example": "She speaks English very well.",
+    "example_translation": "Она очень хорошо говорит по-английски.",
+    "level": "A1"
+  },
+  {
+    "id": "col204",
+    "collocation": "really good / nice",
+    "translation": "действительно хороший / милый",
+    "example": "He's a really nice guy.",
+    "example_translation": "Он действительно хороший парень.",
+    "level": "A1"
+  },
+  {
+    "id": "col205",
+    "collocation": "quite good / well",
+    "translation": "довольно хороший / хорошо",
+    "example": "The film was quite good.",
+    "example_translation": "Фильм был довольно хорош.",
+    "level": "A1"
+  },
+  {
+    "id": "col206",
+    "collocation": "a bit tired / cold",
+    "translation": "немного уставший / холодно",
+    "example": "I'm feeling a bit tired today.",
+    "example_translation": "Сегодня я чувствую себя немного уставшим.",
+    "level": "A1"
+  },
+  {
+    "id": "col207",
+    "collocation": "a lot of people / things",
+    "translation": "много людей / вещей",
+    "example": "There were a lot of people at the concert.",
+    "example_translation": "На концерте было много людей.",
+    "level": "A1"
+  },
+  {
+    "id": "col208",
+    "collocation": "lots of friends / money",
+    "translation": "много друзей / денег",
+    "example": "She has lots of friends.",
+    "example_translation": "У неё много друзей.",
+    "level": "A1"
+  },
+  {
+    "id": "col209",
+    "collocation": "a couple of days / weeks",
+    "translation": "пара дней / недель",
+    "example": "I'll be back in a couple of days.",
+    "example_translation": "Я вернусь через пару дней.",
+    "level": "A2"
+  },
+  {
+    "id": "col210",
+    "collocation": "a glass of water / wine",
+    "translation": "стакан воды / бокал вина",
+    "example": "Can I have a glass of water, please?",
+    "example_translation": "Можно мне стакан воды, пожалуйста?",
+    "level": "A1"
+  },
+  {
+    "id": "col211",
+    "collocation": "a cup of tea / coffee",
+    "translation": "чашка чая / кофе",
+    "example": "Would you like a cup of tea?",
+    "example_translation": "Не хотите ли чашечку чая?",
+    "level": "A1"
+  },
+  {
+    "id": "col212",
+    "collocation": "a piece of cake / paper",
+    "translation": "кусок торта / лист бумаги",
+    "example": "Can I have a piece of paper, please?",
+    "example_translation": "Можно мне лист бумаги, пожалуйста?",
+    "level": "A1"
+  },
+  {
+    "id": "col213",
+    "collocation": "a slice of bread / pizza",
+    "translation": "ломтик хлеба / кусок пиццы",
+    "example": "I'll just have a slice of pizza.",
+    "example_translation": "Я возьму только кусочек пиццы.",
+    "level": "A2"
+  },
+  {
+    "id": "col214",
+    "collocation": "a packet of biscuits / crisps",
+    "translation": "пачка печенья / чипсов",
+    "example": "I bought a packet of biscuits.",
+    "example_translation": "Я купил пачку печенья.",
+    "level": "A1"
+  },
+  {
+    "id": "col215",
+    "collocation": "a bottle of water / milk",
+    "translation": "бутылка воды / молока",
+    "example": "We need a bottle of milk.",
+    "example_translation": "Нам нужна бутылка молока.",
+    "level": "A1"
+  },
+  {
+    "id": "col216",
+    "collocation": "a pair of shoes / jeans",
+    "translation": "пара туфель / джинсов",
+    "example": "I need a new pair of shoes.",
+    "example_translation": "Мне нужна новая пара обуви.",
+    "level": "A1"
+  },
+  {
+    "id": "col217",
+    "collocation": "in the morning / afternoon / evening",
+    "translation": "утром / днём / вечером",
+    "example": "I work in the morning.",
+    "example_translation": "Я работаю по утрам.",
+    "level": "A0"
+  },
+  {
+    "id": "col218",
+    "collocation": "at night",
+    "translation": "ночью",
+    "example": "I don't like driving at night.",
+    "example_translation": "Я не люблю водить машину ночью.",
+    "level": "A1"
+  },
+  {
+    "id": "col219",
+    "collocation": "at the weekend / weekends",
+    "translation": "на выходных / по выходным",
+    "example": "What are you doing at the weekend?",
+    "example_translation": "Что ты делаешь на выходных?",
+    "level": "A1"
+  },
+  {
+    "id": "col220",
+    "collocation": "on Monday / Tuesday etc.",
+    "translation": "в понедельник / вторник и т.д.",
+    "example": "I have an appointment on Tuesday.",
+    "example_translation": "У меня встреча во вторник.",
+    "level": "A0"
+  },
+  {
+    "id": "col221",
+    "collocation": "in January / February etc.",
+    "translation": "в январе / феврале и т.д.",
+    "example": "My birthday is in July.",
+    "example_translation": "Мой день рождения в июле.",
+    "level": "A0"
+  },
+  {
+    "id": "col222",
+    "collocation": "in summer / winter",
+    "translation": "летом / зимой",
+    "example": "We usually go on holiday in summer.",
+    "example_translation": "Обычно мы ездим в отпуск летом.",
+    "level": "A1"
+  },
+  {
+    "id": "col223",
+    "collocation": "at 7 o'clock / 10:30",
+    "translation": "в 7 часов / в 10:30",
+    "example": "The film starts at 7 o'clock.",
+    "example_translation": "Фильм начинается в 7 часов.",
+    "level": "A1"
+  },
+  {
+    "id": "col224",
+    "collocation": "on holiday / vacation",
+    "translation": "в отпуске / на каникулах",
+    "example": "We're going on holiday to Spain next month.",
+    "example_translation": "В следующем месяце мы едем в отпуск в Испанию.",
+    "level": "A1"
+  },
+  {
+    "id": "col225",
+    "collocation": "on the phone",
+    "translation": "по телефону, разговаривать по телефону",
+    "example": "She's on the phone at the moment.",
+    "example_translation": "Она сейчас говорит по телефону.",
+    "level": "A1"
+  },
+  {
+    "id": "col226",
+    "collocation": "on the internet / website",
+    "translation": "в интернете / на веб-сайте",
+    "example": "I found the information on the internet.",
+    "example_translation": "Я нашёл информацию в интернете.",
+    "level": "A1"
+  },
+  {
+    "id": "col227",
+    "collocation": "on TV / the radio",
+    "translation": "по телевизору / радио",
+    "example": "What's on TV tonight?",
+    "example_translation": "Что сегодня вечером по телевизору?",
+    "level": "A1"
+  },
+  {
+    "id": "col228",
+    "collocation": "by car / bus / train / plane",
+    "translation": "на машине / автобусе / поезде / самолёте",
+    "example": "I usually go to work by bus.",
+    "example_translation": "Обычно я езжу на работу на автобусе.",
+    "level": "A1"
+  },
+  {
+    "id": "col229",
+    "collocation": "by mistake",
+    "translation": "по ошибке",
+    "example": "I deleted the file by mistake.",
+    "example_translation": "Я удалил файл по ошибке.",
+    "level": "A2"
+  },
+  {
+    "id": "col230",
+    "collocation": "by chance",
+    "translation": "случайно",
+    "example": "I met her by chance in the city centre.",
+    "example_translation": "Я встретил её случайно в центре города.",
+    "level": "A2"
+  },
+  {
+    "id": "col231",
+    "collocation": "for breakfast / lunch / dinner",
+    "translation": "на завтрак / обед / ужин",
+    "example": "What did you have for breakfast?",
+    "example_translation": "Что ты ел на завтрак?",
+    "level": "A1"
+  },
+  {
+    "id": "col232",
+    "collocation": "for example",
+    "translation": "например",
+    "example": "I like sports, for example, tennis and swimming.",
+    "example_translation": "Я люблю спорт, например, теннис и плавание.",
+    "level": "A2"
+  },
+  {
+    "id": "col233",
+    "collocation": "for a walk / swim",
+    "translation": "на прогулку / поплавать",
+    "example": "Let's go for a walk.",
+    "example_translation": "Давай прогуляемся.",
+    "level": "A1"
+  },
+  {
+    "id": "col234",
+    "collocation": "in the end",
+    "translation": "в конце концов",
+    "example": "In the end, we decided to stay at home.",
+    "example_translation": "В конце концов, мы решили остаться дома.",
+    "level": "A2"
+  },
+  {
+    "id": "col235",
+    "collocation": "at the end (of)",
+    "translation": "в конце (чего-то)",
+    "example": "There's a shop at the end of the street.",
+    "example_translation": "В конце улицы есть магазин.",
+    "level": "A1"
+  },
+  {
+    "id": "col236",
+    "collocation": "at the moment",
+    "translation": "в данный момент",
+    "example": "I'm busy at the moment. Can I call you back?",
+    "example_translation": "Я сейчас занят. Могу я перезвонить тебе позже?",
+    "level": "A1"
+  },
+  {
+    "id": "col237",
+    "collocation": "at first",
+    "translation": "сначала, поначалу",
+    "example": "At first I didn't like him, but now we're friends.",
+    "example_translation": "Поначалу он мне не нравился, но теперь мы друзья.",
+    "level": "A2"
+  },
+  {
+    "id": "col238",
+    "collocation": "at least",
+    "translation": "по крайней мере, хотя бы",
+    "example": "You should at least try.",
+    "example_translation": "Ты должен хотя бы попытаться.",
+    "level": "A2"
+  },
+  {
+    "id": "col239",
+    "collocation": "at once",
+    "translation": "немедленно, сразу",
+    "example": "Come here at once!",
+    "example_translation": "Иди сюда немедленно!",
+    "level": "B1"
+  },
+  {
+    "id": "col240",
+    "collocation": "in a hurry",
+    "translation": "в спешке, торопиться",
+    "example": "I'm in a hurry. I can't stop now.",
+    "example_translation": "Я тороплюсь. Не могу сейчас остановиться.",
+    "level": "A2"
+  },
+  {
+    "id": "col241",
+    "collocation": "in trouble",
+    "translation": "в беде, иметь проблемы",
+    "example": "He's in trouble with the police again.",
+    "example_translation": "У него снова проблемы с полицией.",
+    "level": "A2"
+  },
+  {
+    "id": "col242",
+    "collocation": "in danger",
+    "translation": "в опасности",
+    "example": "His life is in danger.",
+    "example_translation": "Его жизнь в опасности.",
+    "level": "B1"
+  },
+  {
+    "id": "col243",
+    "collocation": "in love (with)",
+    "translation": "влюблён (в)",
+    "example": "He's in love with her.",
+    "example_translation": "Он влюблён в неё.",
+    "level": "A2"
+  },
+  {
+    "id": "col244",
+    "collocation": "in a good / bad mood",
+    "translation": "в хорошем / плохом настроении",
+    "example": "She's in a good mood today.",
+    "example_translation": "Она сегодня в хорошем настроении.",
+    "level": "B1"
+  },
+  {
+    "id": "col245",
+    "collocation": "in the open air",
+    "translation": "на открытом воздухе",
+    "example": "I love walking in the open air.",
+    "example_translation": "Я люблю гулять на свежем воздухе.",
+    "level": "B1"
+  },
+  {
+    "id": "col246",
+    "collocation": "on foot",
+    "translation": "пешком",
+    "example": "We went there on foot.",
+    "example_translation": "Мы пошли туда пешком.",
+    "level": "A2"
+  },
+  {
+    "id": "col247",
+    "collocation": "on time",
+    "translation": "вовремя (по расписанию)",
+    "example": "The train arrived on time.",
+    "example_translation": "Поезд прибыл вовремя.",
+    "level": "A2"
+  },
+  {
+    "id": "col248",
+    "collocation": "in time (for)",
+    "translation": "вовремя, как раз к (чему-то)",
+    "example": "We arrived just in time for the start of the film.",
+    "example_translation": "Мы пришли как раз к началу фильма.",
+    "level": "B1"
+  },
+  {
+    "id": "col249",
+    "collocation": "on purpose",
+    "translation": "нарочно, специально",
+    "example": "I didn't do it on purpose. It was an accident.",
+    "example_translation": "Я сделал это не нарочно. Это была случайность.",
+    "level": "A2"
+  },
+  {
+    "id": "col250",
+    "collocation": "on business",
+    "translation": "по делу, в командировке",
+    "example": "He's in London on business.",
+    "example_translation": "Он в Лондоне по делам.",
+    "level": "A2"
+  },
+  {
+    "id": "col251",
+    "collocation": "on fire",
+    "translation": "в огне, гореть",
+    "example": "The building was on fire.",
+    "example_translation": "Здание горело.",
+    "level": "B1"
+  },
+  {
+    "id": "col252",
+    "collocation": "on sale",
+    "translation": "в продаже, на распродаже",
+    "example": "These shoes are on sale for half price.",
+    "example_translation": "Эти туфли продаются со скидкой в полцены.",
+    "level": "A2"
+  },
+  {
+    "id": "col253",
+    "collocation": "out of control",
+    "translation": "неконтролируемый, вышедший из-под контроля",
+    "example": "The situation is out of control.",
+    "example_translation": "Ситуация вышла из-под контроля.",
+    "level": "B2"
+  },
+  {
+    "id": "col254",
+    "collocation": "out of work",
+    "translation": "безработный",
+    "example": "He's been out of work for six months.",
+    "example_translation": "Он без работы уже шесть месяцев.",
+    "level": "B1"
+  },
+  {
+    "id": "col255",
+    "collocation": "out of order",
+    "translation": "не работает (об аппарате), сломан",
+    "example": "The coffee machine is out of order.",
+    "example_translation": "Кофемашина не работает.",
+    "level": "A2"
+  },
+  {
+    "id": "col256",
+    "collocation": "out of date",
+    "translation": "устаревший, просроченный",
+    "example": "This passport is out of date. You need a new one.",
+    "example_translation": "Этот паспорт просрочен. Вам нужен новый.",
+    "level": "B1"
+  },
+  {
+    "id": "col257",
+    "collocation": "up to date",
+    "translation": "современный, новейший, актуальный",
+    "example": "Keep me up to date with any news.",
+    "example_translation": "Держи меня в курсе любых новостей.",
+    "level": "B1"
+  },
+  {
+    "id": "col258",
+    "collocation": "according to",
+    "translation": "согласно, по словам",
+    "example": "According to the weather forecast, it will rain tomorrow.",
+    "example_translation": "Согласно прогнозу погоды, завтра будет дождь.",
+    "level": "A2"
+  },
+  {
+    "id": "col259",
+    "collocation": "apart from",
+    "translation": "не считая, кроме",
+    "example": "Apart from a few mistakes, your work is good.",
+    "example_translation": "Не считая нескольких ошибок, ваша работа хороша.",
+    "level": "B1"
+  },
+  {
+    "id": "col260",
+    "collocation": "because of",
+    "translation": "из-за, по причине",
+    "example": "The flight was cancelled because of bad weather.",
+    "example_translation": "Рейс отменили из-за плохой погоды.",
+    "level": "A2"
+  },
+  {
+    "id": "col261",
+    "collocation": "instead of",
+    "translation": "вместо, взамен",
+    "example": "I'll have tea instead of coffee.",
+    "example_translation": "Я выпью чаю вместо кофе.",
+    "level": "A2"
+  },
+  {
+    "id": "col262",
+    "collocation": "in case of",
+    "translation": "в случае (чего-то)",
+    "example": "In case of emergency, break the glass.",
+    "example_translation": "В случае чрезвычайной ситуации разбейте стекло.",
+    "level": "A2"
+  },
+  {
+    "id": "col263",
+    "collocation": "in front of",
+    "translation": "перед, напротив",
+    "example": "There's a bus stop in front of the building.",
+    "example_translation": "Перед зданием есть автобусная остановка.",
+    "level": "A1"
+  },
+  {
+    "id": "col264",
+    "collocation": "in spite of",
+    "translation": "несмотря на",
+    "example": "In spite of the rain, we had a good time.",
+    "example_translation": "Несмотря на дождь, мы хорошо провели время.",
+    "level": "B1"
+  },
+  {
+    "id": "col265",
+    "collocation": "in terms of",
+    "translation": "с точки зрения, в плане",
+    "example": "In terms of quality, this is the best product.",
+    "example_translation": "С точки зрения качества, это лучший продукт.",
+    "level": "B2"
+  },
+  {
+    "id": "col266",
+    "collocation": "on behalf of",
+    "translation": "от имени (кого-то)",
+    "example": "I'm speaking on behalf of the entire team.",
+    "example_translation": "Я говорю от имени всей команды.",
+    "level": "B2"
+  },
+  {
+    "id": "col267",
+    "collocation": "with regard to",
+    "translation": "относительно, в отношении",
+    "example": "I'm writing with regard to your recent letter.",
+    "example_translation": "Я пишу относительно вашего недавнего письма.",
+    "level": "B2"
+  },
+  {
+    "id": "col268",
+    "collocation": "in addition (to)",
+    "translation": "в дополнение (к), кроме того",
+    "example": "In addition to English, she speaks French and Spanish.",
+    "example_translation": "В дополнение к английскому, она говорит на французском и испанском.",
+    "level": "B2"
+  },
+  {
+    "id": "col269",
+    "collocation": "in charge of",
+    "translation": "отвечающий за, руководящий",
+    "example": "She's in charge of the marketing department.",
+    "example_translation": "Она возглавляет отдел маркетинга.",
+    "level": "B2"
+  },
+  {
+    "id": "col270",
+    "collocation": "in favour of",
+    "translation": "в пользу (кого-то/чего-то), за",
+    "example": "I'm in favour of the new proposal.",
+    "example_translation": "Я за новое предложение.",
+    "level": "B2"
+  },
+  {
+    "id": "col271",
+    "collocation": "in connection with",
+    "translation": "в связи с",
+    "example": "He was arrested in connection with the robbery.",
+    "example_translation": "Он был арестован в связи с ограблением.",
+    "level": "B2"
+  },
+  {
+    "id": "col272",
+    "collocation": "in response to",
+    "translation": "в ответ на",
+    "example": "She smiled in response to his question.",
+    "example_translation": "Она улыбнулась в ответ на его вопрос.",
+    "level": "B2"
+  },
+  {
+    "id": "col273",
+    "collocation": "on the one hand / on the other hand",
+    "translation": "с одной стороны / с другой стороны",
+    "example": "On the one hand, I'd like a bigger car, but on the other hand, it's more expensive to run.",
+    "example_translation": "С одной стороны, я бы хотел машину побольше, но с другой стороны, её дороже содержать.",
+    "level": "B2"
+  },
+  {
+    "id": "col274",
+    "collocation": "by means of",
+    "translation": "посредством, с помощью",
+    "example": "They communicated by means of sign language.",
+    "example_translation": "Они общались посредством языка жестов.",
+    "level": "B2"
+  },
+  {
+    "id": "col275",
+    "collocation": "for the sake of",
+    "translation": "ради (кого-то/чего-то)",
+    "example": "Let's try to be civilised for the sake of the children.",
+    "example_translation": "Давай попробуем быть цивилизованными ради детей.",
+    "level": "B2"
+  }
+]

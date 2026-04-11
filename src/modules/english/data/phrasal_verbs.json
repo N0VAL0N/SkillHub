@@ -1,0 +1,1442 @@
+[
+  {
+    "id": "ph1",
+    "verb": "sit down",
+    "translation": "садиться",
+    "example": "Please, come in and sit down.",
+    "example_translation": "Пожалуйста, входите и садитесь.",
+    "level": "A0",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph2",
+    "verb": "stand up",
+    "translation": "вставать",
+    "example": "Stand up when the teacher enters the room.",
+    "example_translation": "Вставайте, когда учитель входит в класс.",
+    "level": "A0",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph3",
+    "verb": "wake up",
+    "translation": "просыпаться, будить",
+    "example": "I usually wake up at 7 a.m.",
+    "example_translation": "Обычно я просыпаюсь в 7 утра.",
+    "level": "A0",
+    "notes": "Может быть разделяемым (wake smb up)"
+  },
+  {
+    "id": "ph4",
+    "verb": "get up",
+    "translation": "вставать (с постели)",
+    "example": "She got up late and missed her bus.",
+    "example_translation": "Она поздно встала и опоздала на автобус.",
+    "level": "A1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph5",
+    "verb": "turn on",
+    "translation": "включать (свет, прибор)",
+    "example": "Could you turn on the air conditioning? It's hot in here.",
+    "example_translation": "Не мог бы ты включить кондиционер? Здесь жарко.",
+    "level": "A1",
+    "notes": "Разделяемый (turn the TV on)"
+  },
+  {
+    "id": "ph6",
+    "verb": "turn off",
+    "translation": "выключать (свет, прибор)",
+    "example": "Please turn off your phone during the performance.",
+    "example_translation": "Пожалуйста, выключите свои телефоны во время представления.",
+    "level": "A1",
+    "notes": "Разделяемый (turn it off)"
+  },
+  {
+    "id": "ph7",
+    "verb": "put on",
+    "translation": "надевать (одежду)",
+    "example": "He put on his coat and left the house.",
+    "example_translation": "Он надел пальто и вышел из дома.",
+    "level": "A1",
+    "notes": "Разделяемый (put it on)"
+  },
+  {
+    "id": "ph8",
+    "verb": "take off",
+    "translation": "снимать (одежду)",
+    "example": "Take off your shoes before you come in.",
+    "example_translation": "Сними обувь, прежде чем войти.",
+    "level": "A2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph9",
+    "verb": "go out",
+    "translation": "выходить (из дома), гулять, встречаться",
+    "example": "We're going out for dinner tonight.",
+    "example_translation": "Сегодня вечером мы идём ужинать не дома.",
+    "level": "A1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph10",
+    "verb": "come in",
+    "translation": "входить",
+    "example": "Please knock before you come in.",
+    "example_translation": "Пожалуйста, стучите, прежде чем войти.",
+    "level": "A1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph11",
+    "verb": "pick up",
+    "translation": "поднимать, забирать, подвозить",
+    "example": "Can you pick me up from the station at 6 p.m.?",
+    "example_translation": "Можешь забрать меня с вокзала в 6 вечера?",
+    "level": "A2",
+    "notes": "Разделяемый (pick me up)"
+  },
+  {
+    "id": "ph12",
+    "verb": "put down",
+    "translation": "класть (на поверхность)",
+    "example": "Put down that knife! It's dangerous.",
+    "example_translation": "Положи этот нож! Это опасно.",
+    "level": "A2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph13",
+    "verb": "look for",
+    "translation": "искать",
+    "example": "I'm looking for my keys. Have you seen them?",
+    "example_translation": "Я ищу свои ключи. Ты их не видел?",
+    "level": "A2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph14",
+    "verb": "come back",
+    "translation": "возвращаться",
+    "example": "I'll be waiting for you when you come back.",
+    "example_translation": "Я буду ждать тебя, когда ты вернёшься.",
+    "level": "A2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph15",
+    "verb": "go back",
+    "translation": "возвращаться (туда, где были)",
+    "example": "It's getting late. We should go back to the hotel.",
+    "example_translation": "Становится поздно. Нам следует вернуться в отель.",
+    "level": "A2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph16",
+    "verb": "check in / check out",
+    "translation": "регистрироваться / выписываться (из отеля)",
+    "example": "We need to check out of the hotel by 11 a.m.",
+    "example_translation": "Нам нужно выписаться из отеля до 11 утра.",
+    "level": "A2",
+    "notes": "Непереходные"
+  },
+  {
+    "id": "ph17",
+    "verb": "get on / get off",
+    "translation": "садиться в / сходить с (автобус, поезд, самолёт)",
+    "example": "I get on the bus at this stop every morning.",
+    "example_translation": "Каждое утро я сажусь на автобус на этой остановке.",
+    "level": "A2",
+    "notes": "Неразделяемые"
+  },
+  {
+    "id": "ph18",
+    "verb": "try on",
+    "translation": "примерять (одежду)",
+    "example": "I'd like to try on this dress in a smaller size.",
+    "example_translation": "Я бы хотела примерить это платье на размер меньше.",
+    "level": "A2",
+    "notes": "Разделяемый (try it on)"
+  },
+  {
+    "id": "ph19",
+    "verb": "run away",
+    "translation": "убегать, сбегать",
+    "example": "The thief ran away when he saw the police car.",
+    "example_translation": "Вор убежал, когда увидел полицейскую машину.",
+    "level": "A2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph20",
+    "verb": "call back",
+    "translation": "перезванивать",
+    "example": "I'm in a meeting right now. Can I call you back later?",
+    "example_translation": "Я сейчас на совещании. Могу я перезвонить тебе позже?",
+    "level": "A2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph21",
+    "verb": "switch on / switch off",
+    "translation": "включать / выключать (электроприбор)",
+    "example": "She switched on the TV to watch the news.",
+    "example_translation": "Она включила телевизор, чтобы посмотреть новости.",
+    "level": "A2",
+    "notes": "Разделяемые, синонимы turn on / turn off"
+  },
+  {
+    "id": "ph22",
+    "verb": "look after",
+    "translation": "присматривать, заботиться",
+    "example": "Could you look after my cat while I'm on holiday?",
+    "example_translation": "Не мог бы ты присмотреть за моей кошкой, пока я в отпуске?",
+    "level": "B1",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph23",
+    "verb": "look forward to",
+    "translation": "ждать с нетерпением",
+    "example": "I'm really looking forward to the concert next week.",
+    "example_translation": "Я с большим нетерпением жду концерта на следующей неделе.",
+    "level": "B1",
+    "notes": "После to всегда герундий (V-ing)"
+  },
+  {
+    "id": "ph24",
+    "verb": "give up",
+    "translation": "бросать (привычку), сдаваться",
+    "example": "She gave up smoking ten years ago.",
+    "example_translation": "Она бросила курить десять лет назад.",
+    "level": "B1",
+    "notes": "Может быть разделяемым (give it up)"
+  },
+  {
+    "id": "ph25",
+    "verb": "go on",
+    "translation": "продолжать, происходить",
+    "example": "What's going on here? Why are you shouting?",
+    "example_translation": "Что здесь происходит? Почему вы кричите?",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph26",
+    "verb": "find out",
+    "translation": "узнать, выяснить",
+    "example": "I was shocked to find out that he had been lying to me.",
+    "example_translation": "Я был в шоке, когда узнал, что он мне лгал.",
+    "level": "B1",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph27",
+    "verb": "run out (of)",
+    "translation": "заканчиваться, иссякать (о запасах)",
+    "example": "We've run out of milk. Can you buy some on your way home?",
+    "example_translation": "У нас закончилось молоко. Можешь купить по дороге домой?",
+    "level": "B1",
+    "notes": "Неразделяемый с 'of'"
+  },
+  {
+    "id": "ph28",
+    "verb": "set off",
+    "translation": "отправляться (в путь)",
+    "example": "We set off early in the morning to avoid the traffic.",
+    "example_translation": "Мы отправились рано утром, чтобы избежать пробок.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph29",
+    "verb": "turn up",
+    "translation": "появляться, приходить, делать громче",
+    "example": "He finally turned up at the party after midnight.",
+    "example_translation": "В конце концов он появился на вечеринке после полуночи.",
+    "level": "B1",
+    "notes": "В значении 'громкость' разделяемый (turn it up)"
+  },
+  {
+    "id": "ph30",
+    "verb": "turn down",
+    "translation": "отклонять (предложение), делать тише",
+    "example": "She turned down the job offer because the salary was too low.",
+    "example_translation": "Она отклонила предложение о работе, потому что зарплата была слишком низкой.",
+    "level": "B1",
+    "notes": "Разделяемый (turn it down)"
+  },
+  {
+    "id": "ph31",
+    "verb": "break down",
+    "translation": "ломаться (о механизме), сломаться (эмоционально)",
+    "example": "My car broke down on the motorway.",
+    "example_translation": "Моя машина сломалась на автомагистрали.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph32",
+    "verb": "break up",
+    "translation": "расставаться (об отношениях), прекращать",
+    "example": "She broke up with her boyfriend after a huge argument.",
+    "example_translation": "Она рассталась со своим парнем после крупной ссоры.",
+    "level": "B1",
+    "notes": "Непереходный в значении 'расставаться'"
+  },
+  {
+    "id": "ph33",
+    "verb": "get along (with)",
+    "translation": "ладить, уживаться (с кем-то)",
+    "example": "I get along well with all my colleagues.",
+    "example_translation": "Я хорошо лажу со всеми коллегами.",
+    "level": "B1",
+    "notes": "Неразделяемый с 'with'"
+  },
+  {
+    "id": "ph34",
+    "verb": "come across",
+    "translation": "натолкнуться, случайно встретить",
+    "example": "I came across an old photo album while cleaning the attic.",
+    "example_translation": "Я наткнулся на старый фотоальбом, когда убирался на чердаке.",
+    "level": "B1",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph35",
+    "verb": "put off",
+    "translation": "откладывать (на потом), отвращать",
+    "example": "Never put off until tomorrow what you can do today.",
+    "example_translation": "Никогда не откладывай на завтра то, что можно сделать сегодня.",
+    "level": "B1",
+    "notes": "Разделяемый (put it off)"
+  },
+  {
+    "id": "ph36",
+    "verb": "look up",
+    "translation": "искать (информацию в справочнике/словаре), улучшаться",
+    "example": "If you don't know the word, look it up in a dictionary.",
+    "example_translation": "Если не знаешь слово, поищи его в словаре.",
+    "level": "B1",
+    "notes": "Разделяемый (look it up)"
+  },
+  {
+    "id": "ph37",
+    "verb": "make up",
+    "translation": "мириться, выдумывать, краситься",
+    "example": "They had a big fight but made up the next day.",
+    "example_translation": "Они сильно поссорились, но помирились на следующий день.",
+    "level": "B1",
+    "notes": "Разделяемый в значении 'выдумывать'"
+  },
+  {
+    "id": "ph38",
+    "verb": "eat out",
+    "translation": "есть вне дома (в ресторане, кафе)",
+    "example": "We usually eat out on Friday evenings.",
+    "example_translation": "По пятницам вечером мы обычно едим в ресторане.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph39",
+    "verb": "fill in / fill out",
+    "translation": "заполнять (анкету, бланк)",
+    "example": "Please fill in this application form and sign it at the bottom.",
+    "example_translation": "Пожалуйста, заполните этот бланк заявления и подпишите внизу.",
+    "level": "B1",
+    "notes": "Разделяемый (fill it out)"
+  },
+  {
+    "id": "ph40",
+    "verb": "get away",
+    "translation": "уезжать, сбегать, выбираться (на отдых)",
+    "example": "We're hoping to get away for a few days next month.",
+    "example_translation": "Мы надеемся уехать на несколько дней в следующем месяце.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph41",
+    "verb": "grow up",
+    "translation": "вырастать, взрослеть",
+    "example": "I grew up in a small town near the coast.",
+    "example_translation": "Я вырос в маленьком городке недалеко от побережья.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph42",
+    "verb": "hang out",
+    "translation": "тусоваться, проводить время (с друзьями)",
+    "example": "We used to hang out at the mall when we were teenagers.",
+    "example_translation": "Подростками мы обычно тусовались в торговом центре.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph43",
+    "verb": "hang up",
+    "translation": "вешать (трубку), класть трубку",
+    "example": "Don't hang up on me! I need to talk to you.",
+    "example_translation": "Не вешай трубку! Мне нужно с тобой поговорить.",
+    "level": "B1",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph44",
+    "verb": "hold on",
+    "translation": "ждать (по телефону), держаться",
+    "example": "Hold on a minute, I'll get a pen.",
+    "example_translation": "Подожди минутку, я возьму ручку.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph45",
+    "verb": "keep on",
+    "translation": "продолжать (делать что-либо)",
+    "example": "She kept on asking me the same question.",
+    "example_translation": "Она продолжала задавать мне один и тот же вопрос.",
+    "level": "B1",
+    "notes": "После keep on герундий (V-ing)"
+  },
+  {
+    "id": "ph46",
+    "verb": "pay back",
+    "translation": "возвращать (долг), отплатить",
+    "example": "Can you lend me £20? I'll pay you back on Friday.",
+    "example_translation": "Можешь одолжить мне 20 фунтов? Я верну в пятницу.",
+    "level": "B1",
+    "notes": "Разделяемый (pay smb back)"
+  },
+  {
+    "id": "ph47",
+    "verb": "rely on",
+    "translation": "полагаться на, зависеть от",
+    "example": "You can always rely on him to be on time.",
+    "example_translation": "Ты всегда можешь положиться на него в плане пунктуальности.",
+    "level": "B1",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph48",
+    "verb": "run into",
+    "translation": "случайно встретить, столкнуться с (проблемой)",
+    "example": "I ran into an old school friend at the supermarket.",
+    "example_translation": "Я случайно встретил старого школьного друга в супермаркете.",
+    "level": "B1",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph49",
+    "verb": "see off",
+    "translation": "провожать (в аэропорту, на вокзале)",
+    "example": "We went to the airport to see them off.",
+    "example_translation": "Мы поехали в аэропорт, чтобы проводить их.",
+    "level": "B1",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph50",
+    "verb": "set up",
+    "translation": "основывать (компанию), устанавливать, организовывать",
+    "example": "She set up her own business when she was only 22.",
+    "example_translation": "Она основала собственный бизнес, когда ей было всего 22 года.",
+    "level": "B1",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph51",
+    "verb": "show off",
+    "translation": "хвастаться, красоваться, выставлять напоказ",
+    "example": "He's always showing off his new car.",
+    "example_translation": "Он постоянно хвастается своей новой машиной.",
+    "level": "B1",
+    "notes": "Может быть разделяемым"
+  },
+  {
+    "id": "ph52",
+    "verb": "show up",
+    "translation": "появляться, приходить",
+    "example": "I waited for an hour, but he never showed up.",
+    "example_translation": "Я прождал час, но он так и не появился.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph53",
+    "verb": "slow down",
+    "translation": "сбавлять скорость, замедляться",
+    "example": "You should slow down; you're driving too fast.",
+    "example_translation": "Тебе следует сбавить скорость; ты едешь слишком быстро.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph54",
+    "verb": "speak up",
+    "translation": "говорить громче, высказываться",
+    "example": "Could you speak up? I can't hear you very well.",
+    "example_translation": "Не могли бы вы говорить громче? Я вас плохо слышу.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph55",
+    "verb": "stay up",
+    "translation": "не ложиться спать, бодрствовать допоздна",
+    "example": "I stayed up all night to finish the project.",
+    "example_translation": "Я не ложился спать всю ночь, чтобы закончить проект.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph56",
+    "verb": "take after",
+    "translation": "быть похожим (на старшего родственника)",
+    "example": "She really takes after her mother; they have the same smile.",
+    "example_translation": "Она очень похожа на свою мать; у них одинаковая улыбка.",
+    "level": "B1",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph57",
+    "verb": "think over",
+    "translation": "обдумывать, размышлять",
+    "example": "I'll need some time to think over your offer.",
+    "example_translation": "Мне нужно время, чтобы обдумать твоё предложение.",
+    "level": "B1",
+    "notes": "Разделяемый (think it over)"
+  },
+  {
+    "id": "ph58",
+    "verb": "throw away",
+    "translation": "выбрасывать, упускать (шанс)",
+    "example": "Don't throw away that old magazine; I want to read it.",
+    "example_translation": "Не выбрасывай этот старый журнал; я хочу его почитать.",
+    "level": "B1",
+    "notes": "Разделяемый (throw it away)"
+  },
+  {
+    "id": "ph59",
+    "verb": "tidy up",
+    "translation": "прибираться, наводить порядок",
+    "example": "I need to tidy up my room before my parents arrive.",
+    "example_translation": "Мне нужно прибраться в комнате до приезда родителей.",
+    "level": "B1",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph60",
+    "verb": "turn into",
+    "translation": "превращаться, превращать",
+    "example": "The sofa turns into a bed for guests.",
+    "example_translation": "Диван превращается в кровать для гостей.",
+    "level": "B1",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph61",
+    "verb": "watch out",
+    "translation": "остерегаться, быть настороже",
+    "example": "Watch out! There's a car coming!",
+    "example_translation": "Берегись! Машина едет!",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph62",
+    "verb": "work out",
+    "translation": "тренироваться, разрабатывать (план), получаться, вычислять",
+    "example": "I work out at the gym three times a week.",
+    "example_translation": "Я тренируюсь в спортзале три раза в неделю.",
+    "level": "B1",
+    "notes": "Может быть разделяемым (work it out)"
+  },
+  {
+    "id": "ph63",
+    "verb": "count on",
+    "translation": "рассчитывать на, полагаться на",
+    "example": "You can always count on me for help.",
+    "example_translation": "Ты всегда можешь рассчитывать на мою помощь.",
+    "level": "B1",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph64",
+    "verb": "dress up",
+    "translation": "наряжаться, одеваться (в костюм)",
+    "example": "We decided to dress up for the party.",
+    "example_translation": "Мы решили нарядиться на вечеринку.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph65",
+    "verb": "get together",
+    "translation": "собираться (вместе), встречаться",
+    "example": "Let's get together for a coffee sometime next week.",
+    "example_translation": "Давай как-нибудь соберёмся на кофе на следующей неделе.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph66",
+    "verb": "hand in",
+    "translation": "сдавать (работу, документы)",
+    "example": "Please hand in your essays by Friday afternoon.",
+    "example_translation": "Пожалуйста, сдайте ваши эссе к вечеру пятницы.",
+    "level": "B1",
+    "notes": "Разделяемый (hand them in)"
+  },
+  {
+    "id": "ph67",
+    "verb": "hand out",
+    "translation": "раздавать, распространять",
+    "example": "The teacher handed out the exam papers.",
+    "example_translation": "Учитель раздал экзаменационные работы.",
+    "level": "B1",
+    "notes": "Разделяемый (hand them out)"
+  },
+  {
+    "id": "ph68",
+    "verb": "join in",
+    "translation": "присоединяться (к игре, деятельности)",
+    "example": "When the music started, everyone joined in the dancing.",
+    "example_translation": "Когда заиграла музыка, все присоединились к танцам.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph69",
+    "verb": "leave out",
+    "translation": "пропускать, не включать, исключать",
+    "example": "She felt left out because everyone was invited except her.",
+    "example_translation": "Она чувствовала себя обделённой, потому что пригласили всех, кроме неё.",
+    "level": "B1",
+    "notes": "Разделяемый (leave smb out)"
+  },
+  {
+    "id": "ph70",
+    "verb": "let in",
+    "translation": "впускать",
+    "example": "Could you let the cat in? It's raining outside.",
+    "example_translation": "Не мог бы ты впустить кота? На улице дождь.",
+    "level": "B1",
+    "notes": "Разделяемый (let smb in)"
+  },
+  {
+    "id": "ph71",
+    "verb": "look out",
+    "translation": "быть осторожным, беречься",
+    "example": "Look out! There's a branch falling!",
+    "example_translation": "Берегись! Ветка падает!",
+    "level": "B1",
+    "notes": "Непереходный, часто в повелительном наклонении"
+  },
+  {
+    "id": "ph72",
+    "verb": "move in / move out",
+    "translation": "въезжать / съезжать (с квартиры)",
+    "example": "We're moving in next weekend. / They moved out last month.",
+    "example_translation": "Мы въезжаем в следующие выходные. / Они съехали в прошлом месяце.",
+    "level": "B1",
+    "notes": "Непереходные"
+  },
+  {
+    "id": "ph73",
+    "verb": "plug in",
+    "translation": "включать в розетку",
+    "example": "The printer isn't working. Have you plugged it in?",
+    "example_translation": "Принтер не работает. Ты включил его в розетку?",
+    "level": "B1",
+    "notes": "Разделяемый (plug it in)"
+  },
+  {
+    "id": "ph74",
+    "verb": "send off",
+    "translation": "отправлять (письмо, посылку), удалять (с поля)",
+    "example": "I need to send off this package before the post office closes.",
+    "example_translation": "Мне нужно отправить эту посылку до закрытия почты.",
+    "level": "B1",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph75",
+    "verb": "show around",
+    "translation": "показывать (кому-то) достопримечательности, проводить экскурсию",
+    "example": "Let me show you around the city when you visit.",
+    "example_translation": "Позволь мне показать тебе город, когда приедешь.",
+    "level": "B1",
+    "notes": "Разделяемый (show smb around)"
+  },
+  {
+    "id": "ph76",
+    "verb": "split up",
+    "translation": "расставаться (с партнёром), разделяться",
+    "example": "They decided to split up after five years together.",
+    "example_translation": "Они решили расстаться после пяти лет совместной жизни.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph77",
+    "verb": "take off",
+    "translation": "взлетать (о самолёте)",
+    "example": "The plane took off an hour late due to the storm.",
+    "example_translation": "Самолёт взлетел с опозданием на час из-за шторма.",
+    "level": "B1",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph78",
+    "verb": "carry on",
+    "translation": "продолжать",
+    "example": "The teacher told us to carry on with our work.",
+    "example_translation": "Учитель велел нам продолжать работать.",
+    "level": "B2",
+    "notes": "Синоним go on, continue"
+  },
+  {
+    "id": "ph79",
+    "verb": "drop off",
+    "translation": "высаживать (из машины), завозить",
+    "example": "I'll drop you off at the airport on my way to work.",
+    "example_translation": "Я высажу тебя в аэропорту по дороге на работу.",
+    "level": "B2",
+    "notes": "Разделяемый (drop him off)"
+  },
+  {
+    "id": "ph80",
+    "verb": "break out",
+    "translation": "вспыхивать, разражаться (о войне, пожаре, эпидемии)",
+    "example": "A fire broke out in the abandoned warehouse last night.",
+    "example_translation": "Прошлой ночью на заброшенном складе вспыхнул пожар.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph81",
+    "verb": "get over",
+    "translation": "оправиться, пережить (болезнь, потрясение)",
+    "example": "It took her months to get over the flu.",
+    "example_translation": "Ей потребовались месяцы, чтобы оправиться от гриппа.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph82",
+    "verb": "get through",
+    "translation": "дозвониться, справиться, пережить",
+    "example": "I tried calling you all day but I couldn't get through.",
+    "example_translation": "Я пытался дозвониться тебе весь день, но не смог.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph83",
+    "verb": "come up with",
+    "translation": "придумать, предложить (идею, план)",
+    "example": "We need to come up with a solution quickly.",
+    "example_translation": "Нам нужно быстро придумать решение.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph84",
+    "verb": "go through",
+    "translation": "проходить через (трудности), переживать, тщательно изучать",
+    "example": "She's going through a difficult divorce right now.",
+    "example_translation": "Сейчас она переживает трудный развод.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph85",
+    "verb": "put up with",
+    "translation": "мириться, терпеть (что-то неприятное)",
+    "example": "I can't put up with this noise any longer!",
+    "example_translation": "Я больше не могу мириться с этим шумом!",
+    "level": "B2",
+    "notes": "Неразделяемый, всегда с дополнением"
+  },
+  {
+    "id": "ph86",
+    "verb": "call off",
+    "translation": "отменять (мероприятие)",
+    "example": "The football match was called off due to heavy rain.",
+    "example_translation": "Футбольный матч был отменён из-за сильного дождя.",
+    "level": "B2",
+    "notes": "Разделяемый (call it off)"
+  },
+  {
+    "id": "ph87",
+    "verb": "carry out",
+    "translation": "выполнять, проводить (исследование, эксперимент)",
+    "example": "Scientists are carrying out tests on the new drug.",
+    "example_translation": "Учёные проводят испытания нового лекарства.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph88",
+    "verb": "cut down on",
+    "translation": "сокращать (потребление)",
+    "example": "The doctor told him to cut down on sugar and fatty foods.",
+    "example_translation": "Врач посоветовал ему сократить потребление сахара и жирной пищи.",
+    "level": "B2",
+    "notes": "Неразделяемый, всегда с дополнением"
+  },
+  {
+    "id": "ph89",
+    "verb": "do without",
+    "translation": "обходиться без (чего-либо)",
+    "example": "I can't do without my morning coffee.",
+    "example_translation": "Я не могу обойтись без утреннего кофе.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph90",
+    "verb": "drop out (of)",
+    "translation": "бросать (учёбу), выбывать",
+    "example": "He dropped out of college in his second year to start a business.",
+    "example_translation": "Он бросил колледж на втором курсе, чтобы начать бизнес.",
+    "level": "B2",
+    "notes": "Неразделяемый с 'of'"
+  },
+  {
+    "id": "ph91",
+    "verb": "fall apart",
+    "translation": "разваливаться (на части), распадаться",
+    "example": "Their marriage fell apart after just two years.",
+    "example_translation": "Их брак распался всего через два года.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph92",
+    "verb": "fall behind",
+    "translation": "отставать (в учёбе, графике)",
+    "example": "If you miss too many classes, you'll fall behind.",
+    "example_translation": "Если пропустишь слишком много занятий, отстанешь.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph93",
+    "verb": "get away with",
+    "translation": "выйти сухим из воды, остаться безнаказанным",
+    "example": "He cheated on the test and got away with it.",
+    "example_translation": "Он списал на тесте, и это сошло ему с рук.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph94",
+    "verb": "get by",
+    "translation": "сводить концы с концами, справляться",
+    "example": "I don't earn much, but it's enough to get by.",
+    "example_translation": "Я немного зарабатываю, но на жизнь хватает.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph95",
+    "verb": "give in",
+    "translation": "уступать, сдаваться",
+    "example": "After hours of arguing, he finally gave in.",
+    "example_translation": "После многочасовых споров он наконец уступил.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph96",
+    "verb": "go off",
+    "translation": "срабатывать (о сигнализации), портиться (о еде), взрываться",
+    "example": "My alarm clock didn't go off this morning, so I overslept.",
+    "example_translation": "Мой будильник не сработал сегодня утром, поэтому я проспал.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph97",
+    "verb": "hold up",
+    "translation": "задерживать, грабить",
+    "example": "Sorry I'm late. I was held up in traffic.",
+    "example_translation": "Извините за опоздание. Меня задержали пробки.",
+    "level": "B2",
+    "notes": "Разделяемый в значении 'задерживать'"
+  },
+  {
+    "id": "ph98",
+    "verb": "keep up with",
+    "translation": "не отставать, быть в курсе",
+    "example": "Technology changes so fast; it's hard to keep up with it.",
+    "example_translation": "Технологии меняются так быстро; трудно успевать за ними.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph99",
+    "verb": "let down",
+    "translation": "подводить (кого-то), разочаровывать",
+    "example": "I'm counting on you. Please don't let me down.",
+    "example_translation": "Я на тебя рассчитываю. Пожалуйста, не подведи меня.",
+    "level": "B2",
+    "notes": "Разделяемый (let smb down)"
+  },
+  {
+    "id": "ph100",
+    "verb": "look down on",
+    "translation": "смотреть свысока, презирать",
+    "example": "She looks down on anyone who hasn't been to university.",
+    "example_translation": "Она смотрит свысока на всех, кто не учился в университете.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph101",
+    "verb": "look into",
+    "translation": "расследовать, изучать (вопрос)",
+    "example": "The police are looking into the cause of the fire.",
+    "example_translation": "Полиция расследует причину пожара.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph102",
+    "verb": "look up to",
+    "translation": "уважать, восхищаться (кем-то)",
+    "example": "I've always looked up to my older brother.",
+    "example_translation": "Я всегда восхищался своим старшим братом.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph103",
+    "verb": "pass away",
+    "translation": "умереть, скончаться",
+    "example": "Her grandmother passed away peacefully in her sleep.",
+    "example_translation": "Её бабушка мирно скончалась во сне.",
+    "level": "B2",
+    "notes": "Эвфемизм для 'die'"
+  },
+  {
+    "id": "ph104",
+    "verb": "pass out",
+    "translation": "упасть в обморок, потерять сознание",
+    "example": "He passed out from the heat and exhaustion.",
+    "example_translation": "Он потерял сознание от жары и истощения.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph105",
+    "verb": "point out",
+    "translation": "указывать, обращать внимание",
+    "example": "He pointed out that the report contained several errors.",
+    "example_translation": "Он указал на то, что в отчёте есть несколько ошибок.",
+    "level": "B2",
+    "notes": "Разделяемый (point it out)"
+  },
+  {
+    "id": "ph106",
+    "verb": "pull over",
+    "translation": "остановиться у обочины (о машине)",
+    "example": "The police car signalled for us to pull over.",
+    "example_translation": "Полицейская машина дала нам сигнал остановиться у обочины.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph107",
+    "verb": "put aside",
+    "translation": "откладывать (деньги, работу), отложить в сторону",
+    "example": "We put aside some money every month for our summer holiday.",
+    "example_translation": "Мы откладываем немного денег каждый месяц на летний отпуск.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph108",
+    "verb": "put up",
+    "translation": "размещать (гостей), устанавливать (палатку), повышать (цены)",
+    "example": "They kindly offered to put us up for the night.",
+    "example_translation": "Они любезно предложили приютить нас на ночь.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph109",
+    "verb": "run over",
+    "translation": "переехать, задавить (машиной)",
+    "example": "The poor cat was run over by a bus.",
+    "example_translation": "Бедного кота переехал автобус.",
+    "level": "B2",
+    "notes": "Разделяемый (run smb/smth over)"
+  },
+  {
+    "id": "ph110",
+    "verb": "settle down",
+    "translation": "осесть, успокоиться, обзавестись семьёй",
+    "example": "He travelled the world for years before finally settling down in Canada.",
+    "example_translation": "Он годами путешествовал по миру, прежде чем наконец осесть в Канаде.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph111",
+    "verb": "shut up",
+    "translation": "заткнуться, замолчать",
+    "example": "I wish he would just shut up and let me speak.",
+    "example_translation": "Я бы хотел, чтобы он просто заткнулся и дал мне сказать.",
+    "level": "B2",
+    "notes": "Непереходный, может быть грубым"
+  },
+  {
+    "id": "ph112",
+    "verb": "sort out",
+    "translation": "разбираться, улаживать (проблему), сортировать",
+    "example": "We need to sort out this mess before the guests arrive.",
+    "example_translation": "Нам нужно разобраться с этим беспорядком до прихода гостей.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph113",
+    "verb": "stand for",
+    "translation": "означать, обозначать, терпеть",
+    "example": "What does CEO stand for? – Chief Executive Officer.",
+    "example_translation": "Что означает CEO? – Главный исполнительный директор.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph114",
+    "verb": "stand out",
+    "translation": "выделяться, быть заметным",
+    "example": "Her bright red hair made her stand out in the crowd.",
+    "example_translation": "Её ярко-рыжие волосы заставляли её выделяться в толпе.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph115",
+    "verb": "take over",
+    "translation": "принимать управление, поглощать (компанию)",
+    "example": "When my father retired, I took over the family business.",
+    "example_translation": "Когда мой отец ушёл на пенсию, я возглавил семейный бизнес.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph116",
+    "verb": "take up",
+    "translation": "заняться (хобби), начать (дело), занимать (время/место)",
+    "example": "I've recently taken up yoga, and I'm really enjoying it.",
+    "example_translation": "Недавно я занялся йогой и получаю от этого огромное удовольствие.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph117",
+    "verb": "tell off",
+    "translation": "отчитывать, ругать",
+    "example": "The teacher told him off for not doing his homework.",
+    "example_translation": "Учитель отчитал его за невыполненное домашнее задание.",
+    "level": "B2",
+    "notes": "Разделяемый (tell smb off)"
+  },
+  {
+    "id": "ph118",
+    "verb": "wear off",
+    "translation": "проходить, ослабевать (о действии лекарства, эффекте)",
+    "example": "The pain will start to wear off in a few hours.",
+    "example_translation": "Боль начнёт проходить через несколько часов.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph119",
+    "verb": "bring up",
+    "translation": "воспитывать (ребёнка), поднимать (тему)",
+    "example": "She was brought up by her grandparents in a small village.",
+    "example_translation": "Её воспитали бабушка и дедушка в маленькой деревне.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph120",
+    "verb": "come apart",
+    "translation": "разваливаться, распадаться на части",
+    "example": "The cheap toy came apart in his hands.",
+    "example_translation": "Дешёвая игрушка развалилась у него в руках.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph121",
+    "verb": "come down with",
+    "translation": "заболевать (чем-то, обычно не серьёзным)",
+    "example": "I think I'm coming down with a cold.",
+    "example_translation": "Кажется, я заболеваю простудой.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph122",
+    "verb": "cut off",
+    "translation": "отрезать, прерывать (связь, подачу)",
+    "example": "The electricity was cut off for several hours after the storm.",
+    "example_translation": "После шторма электричество отключили на несколько часов.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph123",
+    "verb": "do over",
+    "translation": "переделывать",
+    "example": "This work is full of mistakes. You'll have to do it over.",
+    "example_translation": "Эта работа полна ошибок. Тебе придётся её переделать.",
+    "level": "B2",
+    "notes": "Разделяемый (do it over)"
+  },
+  {
+    "id": "ph124",
+    "verb": "drop in",
+    "translation": "заходить (в гости без предупреждения)",
+    "example": "Feel free to drop in whenever you're in the neighbourhood.",
+    "example_translation": "Не стесняйся заходить, когда будешь в этом районе.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph125",
+    "verb": "fall for",
+    "translation": "влюбиться, попасться на (уловку)",
+    "example": "He fell for her the moment he saw her.",
+    "example_translation": "Он влюбился в неё с первого взгляда.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph126",
+    "verb": "fall out (with)",
+    "translation": "ссориться (с кем-то)",
+    "example": "They fell out over money and haven't spoken since.",
+    "example_translation": "Они поссорились из-за денег и с тех пор не разговаривают.",
+    "level": "B2",
+    "notes": "Неразделяемый с 'with'"
+  },
+  {
+    "id": "ph127",
+    "verb": "fall through",
+    "translation": "провалиться, сорваться (о планах)",
+    "example": "Our plans to go to the beach fell through because of the rain.",
+    "example_translation": "Наши планы поехать на пляж сорвались из-за дождя.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph128",
+    "verb": "get at",
+    "translation": "добираться до, намекать, иметь в виду",
+    "example": "What exactly are you getting at?",
+    "example_translation": "На что именно ты намекаешь?",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph129",
+    "verb": "go along with",
+    "translation": "соглашаться, поддерживать (идею)",
+    "example": "I'll go along with your plan, even though I have some doubts.",
+    "example_translation": "Я поддержу твой план, хотя у меня есть некоторые сомнения.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph130",
+    "verb": "go in for",
+    "translation": "увлекаться, заниматься (хобби)",
+    "example": "I don't really go in for team sports; I prefer running.",
+    "example_translation": "Я не очень увлекаюсь командными видами спорта; предпочитаю бег.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph131",
+    "verb": "hang on",
+    "translation": "держаться, ждать",
+    "example": "Hang on tight! The ride's about to start.",
+    "example_translation": "Держись крепче! Поездка сейчас начнётся.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph132",
+    "verb": "hit back",
+    "translation": "нанести ответный удар, дать сдачи",
+    "example": "The company hit back at critics with a strongly worded statement.",
+    "example_translation": "Компания нанесла ответный удар критикам жёстким заявлением.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph133",
+    "verb": "hold back",
+    "translation": "сдерживать (чувства, слёзы), удерживать",
+    "example": "She couldn't hold back her tears when she heard the news.",
+    "example_translation": "Она не могла сдержать слёз, когда услышала новость.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph134",
+    "verb": "keep up",
+    "translation": "продолжать в том же духе, не отставать",
+    "example": "You're doing a great job. Keep up the good work!",
+    "example_translation": "Ты отлично справляешься. Продолжай в том же духе!",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph135",
+    "verb": "kick off",
+    "translation": "начинать (матч, встречу), вышвыривать",
+    "example": "The meeting is scheduled to kick off at 10 a.m.",
+    "example_translation": "Встреча должна начаться в 10 утра.",
+    "level": "B2",
+    "notes": "Разделяемый в значении 'вышвыривать'"
+  },
+  {
+    "id": "ph136",
+    "verb": "knock down",
+    "translation": "сносить (здание), сбивать (с ног)",
+    "example": "They're going to knock down the old cinema and build apartments.",
+    "example_translation": "Они собираются снести старый кинотеатр и построить жилой дом.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph137",
+    "verb": "knock out",
+    "translation": "нокаутировать, выбить (из соревнования)",
+    "example": "The champion was knocked out in the first round.",
+    "example_translation": "Чемпиона нокаутировали в первом раунде.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph138",
+    "verb": "live up to",
+    "translation": "соответствовать, оправдывать (ожидания)",
+    "example": "The film didn't live up to my expectations.",
+    "example_translation": "Фильм не оправдал моих ожиданий.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph139",
+    "verb": "make out",
+    "translation": "разобрать, понять (с трудом), целоваться (сленг)",
+    "example": "I can't make out what he's saying; the music is too loud.",
+    "example_translation": "Я не могу разобрать, что он говорит; музыка слишком громкая.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph140",
+    "verb": "mess up",
+    "translation": "испортить, напортачить, устроить беспорядок",
+    "example": "I really messed up my interview; I was so nervous.",
+    "example_translation": "Я ужасно провалил собеседование; я так нервничал.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph141",
+    "verb": "miss out (on)",
+    "translation": "упускать (возможность), пропускать",
+    "example": "Don't miss out on this fantastic opportunity!",
+    "example_translation": "Не упусти эту фантастическую возможность!",
+    "level": "B2",
+    "notes": "Неразделяемый с 'on'"
+  },
+  {
+    "id": "ph142",
+    "verb": "nod off",
+    "translation": "задремать, клевать носом",
+    "example": "I nodded off during the boring lecture.",
+    "example_translation": "Я задремал во время скучной лекции.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph143",
+    "verb": "own up",
+    "translation": "признаваться, сознаваться",
+    "example": "No one owned up to breaking the window.",
+    "example_translation": "Никто не признался, что разбил окно.",
+    "level": "B2",
+    "notes": "Непереходный, часто с 'to'"
+  },
+  {
+    "id": "ph144",
+    "verb": "pass on",
+    "translation": "передавать (информацию, вещь), отказываться",
+    "example": "Could you pass on this message to John when you see him?",
+    "example_translation": "Не мог бы ты передать это сообщение Джону, когда увидишь его?",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph145",
+    "verb": "pay off",
+    "translation": "окупаться, приносить плоды, расплатиться (с долгом)",
+    "example": "All his hard work finally paid off when he got the promotion.",
+    "example_translation": "Вся его тяжёлая работа наконец окупилась, когда он получил повышение.",
+    "level": "B2",
+    "notes": "Разделяемый в значении 'расплатиться'"
+  },
+  {
+    "id": "ph146",
+    "verb": "pick out",
+    "translation": "выбирать, выделять",
+    "example": "Can you help me pick out a nice tie for the wedding?",
+    "example_translation": "Поможешь мне выбрать хороший галстук на свадьбу?",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph147",
+    "verb": "pull out",
+    "translation": "вытаскивать, выдёргивать, выходить (из сделки, соглашения)",
+    "example": "The dentist had to pull out one of my teeth.",
+    "example_translation": "Дантисту пришлось вырвать один из моих зубов.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph148",
+    "verb": "put aside",
+    "translation": "откладывать (деньги, время), отложить в сторону",
+    "example": "Let's put aside our differences and work together.",
+    "example_translation": "Давай забудем о наших разногласиях и будем работать вместе.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph149",
+    "verb": "put down",
+    "translation": "унижать, записывать",
+    "example": "He's always putting me down in front of my friends.",
+    "example_translation": "Он постоянно унижает меня перед друзьями.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph150",
+    "verb": "put forward",
+    "translation": "выдвигать (идею, предложение), предлагать",
+    "example": "He put forward a very interesting proposal at the meeting.",
+    "example_translation": "На собрании он выдвинул очень интересное предложение.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph151",
+    "verb": "put out",
+    "translation": "тушить (огонь), выставлять, расстраивать",
+    "example": "It took firefighters several hours to put out the blaze.",
+    "example_translation": "Пожарным потребовалось несколько часов, чтобы потушить пламя.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph152",
+    "verb": "put through",
+    "translation": "соединять (по телефону), подвергать",
+    "example": "Could you put me through to the manager, please?",
+    "example_translation": "Не могли бы вы соединить меня с менеджером, пожалуйста?",
+    "level": "B2",
+    "notes": "Разделяемый (put smb through)"
+  },
+  {
+    "id": "ph153",
+    "verb": "rip off",
+    "translation": "обдирать, сдирать (высокую цену), подделка",
+    "example": "Tourists often get ripped off by taxi drivers.",
+    "example_translation": "Таксисты часто обдирают туристов.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph154",
+    "verb": "rule out",
+    "translation": "исключать (возможность), отбрасывать",
+    "example": "The police have ruled out robbery as a motive for the murder.",
+    "example_translation": "Полиция исключила ограбление как мотив убийства.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph155",
+    "verb": "see to",
+    "translation": "заниматься, позаботиться о (чём-то)",
+    "example": "I'll see to the travel arrangements; you book the hotel.",
+    "example_translation": "Я займусь организацией поездки; ты забронируй отель.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph156",
+    "verb": "sell out",
+    "translation": "распродавать (полностью), предавать",
+    "example": "The concert was so popular that tickets sold out in an hour.",
+    "example_translation": "Концерт был настолько популярен, что билеты были распроданы за час.",
+    "level": "B2",
+    "notes": "Может быть переходным и непереходным"
+  },
+  {
+    "id": "ph157",
+    "verb": "set out",
+    "translation": "отправляться (в путь), излагать (план), намереваться",
+    "example": "We set out early to avoid the traffic.",
+    "example_translation": "Мы отправились рано, чтобы избежать пробок.",
+    "level": "B2",
+    "notes": "Непереходный"
+  },
+  {
+    "id": "ph158",
+    "verb": "settle for",
+    "translation": "довольствоваться, соглашаться на (меньшее)",
+    "example": "I really wanted a higher salary, but I had to settle for what they offered.",
+    "example_translation": "Я очень хотел более высокую зарплату, но пришлось согласиться на то, что предложили.",
+    "level": "B2",
+    "notes": "Неразделяемый"
+  },
+  {
+    "id": "ph159",
+    "verb": "shake off",
+    "translation": "избавиться, отделаться (от преследователя, болезни)",
+    "example": "I can't seem to shake off this cold.",
+    "example_translation": "Кажется, я никак не могу избавиться от этой простуды.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  },
+  {
+    "id": "ph160",
+    "verb": "talk over",
+    "translation": "обсуждать (подробно)",
+    "example": "Let's talk over the details of the project before we make a decision.",
+    "example_translation": "Давай обсудим детали проекта, прежде чем принимать решение.",
+    "level": "B2",
+    "notes": "Разделяемый"
+  }
+]

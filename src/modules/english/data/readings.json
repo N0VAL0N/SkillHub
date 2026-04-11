@@ -1,0 +1,1418 @@
+[
+  {
+    "id": "r1",
+    "level": "A0",
+    "title": "My Family",
+    "text": "I have a small family. There are four people: my mother, my father, my sister and me. We live in a flat in Moscow. I love my family very much.",
+    "translation": "У меня небольшая семья. Нас четверо: моя мама, мой папа, моя сестра и я. Мы живём в квартире в Москве. Я очень люблю свою семью.",
+    "vocabulary": [
+      { "word": "small", "translation": "маленький", "transcription": "smɔːl" },
+      { "word": "family", "translation": "семья", "transcription": "ˈfæm.əl.i" },
+      { "word": "people", "translation": "люди", "transcription": "ˈpiː.pəl" },
+      { "word": "mother", "translation": "мать", "transcription": "ˈmʌð.ər" },
+      { "word": "father", "translation": "отец", "transcription": "ˈfɑː.ðər" },
+      { "word": "sister", "translation": "сестра", "transcription": "ˈsɪs.tər" },
+      { "word": "live", "translation": "жить", "transcription": "lɪv" },
+      { "word": "flat", "translation": "квартира", "transcription": "flæt" },
+      { "word": "love", "translation": "любить", "transcription": "lʌv" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "How many people are in the family?",
+        "options": ["Three", "Four", "Five", "Six"],
+        "correct": "Four",
+        "translation": "Сколько человек в семье?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Where do they live?",
+        "options": ["In a house", "In a flat", "In a hotel", "In a village"],
+        "correct": "In a flat",
+        "translation": "Где они живут?"
+      },
+      {
+        "type": "true_false",
+        "question": "Does the speaker love his/her family?",
+        "correct": "True",
+        "translation": "Любит ли рассказчик свою семью?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Who is NOT mentioned in the text?",
+        "options": ["Mother", "Father", "Brother", "Sister"],
+        "correct": "Brother",
+        "translation": "Кто не упоминается в тексте?"
+      }
+    ]
+  },
+  {
+    "id": "r2",
+    "level": "A0",
+    "title": "My Day",
+    "text": "I get up at 7 o'clock. I have breakfast. I go to school. I come home at 3 o'clock. I do my homework. I go to bed at 10 o'clock.",
+    "translation": "Я встаю в 7 часов. Я завтракаю. Я иду в школу. Я прихожу домой в 3 часа. Я делаю домашнее задание. Я ложусь спать в 10 часов.",
+    "vocabulary": [
+      { "word": "get up", "translation": "вставать", "transcription": "ɡet ʌp" },
+      { "word": "o'clock", "translation": "часов (время)", "transcription": "əˈklɒk" },
+      { "word": "have breakfast", "translation": "завтракать", "transcription": "hæv ˈbrek.fəst" },
+      { "word": "go to school", "translation": "идти в школу", "transcription": "ɡəʊ tə skuːl" },
+      { "word": "come home", "translation": "приходить домой", "transcription": "kʌm həʊm" },
+      { "word": "do homework", "translation": "делать домашнее задание", "transcription": "duː ˈhəʊm.wɜːk" },
+      { "word": "go to bed", "translation": "ложиться спать", "transcription": "ɡəʊ tə bed" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What time does the person get up?",
+        "options": ["6 o'clock", "7 o'clock", "8 o'clock", "9 o'clock"],
+        "correct": "7 o'clock",
+        "translation": "Во сколько человек встаёт?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What does the person do at 3 o'clock?",
+        "options": ["Go to school", "Have lunch", "Come home", "Do homework"],
+        "correct": "Come home",
+        "translation": "Что человек делает в 3 часа?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What time does the person go to bed?",
+        "options": ["9 o'clock", "10 o'clock", "11 o'clock", "12 o'clock"],
+        "correct": "10 o'clock",
+        "translation": "Во сколько человек ложится спать?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person has lunch at school.",
+        "correct": "False",
+        "translation": "Человек обедает в школе."
+      }
+    ]
+  },
+  {
+    "id": "r3",
+    "level": "A0",
+    "title": "Colours",
+    "text": "I like colours. The sky is blue. The sun is yellow. The grass is green. My bag is red. My cat is black.",
+    "translation": "Я люблю цвета. Небо голубое. Солнце жёлтое. Трава зелёная. Моя сумка красная. Мой кот чёрный.",
+    "vocabulary": [
+      { "word": "colour", "translation": "цвет", "transcription": "ˈkʌl.ər" },
+      { "word": "sky", "translation": "небо", "transcription": "skaɪ" },
+      { "word": "blue", "translation": "синий", "transcription": "bluː" },
+      { "word": "sun", "translation": "солнце", "transcription": "sʌn" },
+      { "word": "yellow", "translation": "жёлтый", "transcription": "ˈjel.əʊ" },
+      { "word": "grass", "translation": "трава", "transcription": "ɡrɑːs" },
+      { "word": "green", "translation": "зелёный", "transcription": "ɡriːn" },
+      { "word": "bag", "translation": "сумка", "transcription": "bæɡ" },
+      { "word": "red", "translation": "красный", "transcription": "red" },
+      { "word": "cat", "translation": "кот", "transcription": "kæt" },
+      { "word": "black", "translation": "чёрный", "transcription": "blæk" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What colour is the sky?",
+        "options": ["Green", "Blue", "Red", "Yellow"],
+        "correct": "Blue",
+        "translation": "Какого цвета небо?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What colour is the grass?",
+        "options": ["Blue", "Yellow", "Green", "Black"],
+        "correct": "Green",
+        "translation": "Какого цвета трава?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What colour is the bag?",
+        "options": ["Red", "Blue", "Black", "Green"],
+        "correct": "Red",
+        "translation": "Какого цвета сумка?"
+      },
+      {
+        "type": "true_false",
+        "question": "The cat is white.",
+        "correct": "False",
+        "translation": "Кот белый."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Which colour is NOT mentioned?",
+        "options": ["White", "Black", "Blue", "Red"],
+        "correct": "White",
+        "translation": "Какой цвет не упоминается?"
+      }
+    ]
+  },
+  {
+    "id": "r4",
+    "level": "A0",
+    "title": "My Pet",
+    "text": "I have a dog. His name is Rex. He is big and brown. He likes to run and play. I walk with him every day.",
+    "translation": "У меня есть собака. Его зовут Рекс. Он большой и коричневый. Он любит бегать и играть. Я гуляю с ним каждый день.",
+    "vocabulary": [
+      { "word": "pet", "translation": "домашнее животное", "transcription": "pet" },
+      { "word": "dog", "translation": "собака", "transcription": "dɒɡ" },
+      { "word": "name", "translation": "имя", "transcription": "neɪm" },
+      { "word": "big", "translation": "большой", "transcription": "bɪɡ" },
+      { "word": "brown", "translation": "коричневый", "transcription": "braʊn" },
+      { "word": "like", "translation": "любить", "transcription": "laɪk" },
+      { "word": "run", "translation": "бегать", "transcription": "rʌn" },
+      { "word": "play", "translation": "играть", "transcription": "pleɪ" },
+      { "word": "walk", "translation": "гулять", "transcription": "wɔːk" },
+      { "word": "every day", "translation": "каждый день", "transcription": "ˈev.ri deɪ" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What pet does the person have?",
+        "options": ["A cat", "A dog", "A bird", "A fish"],
+        "correct": "A dog",
+        "translation": "Какое домашнее животное есть у человека?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is the dog's name?",
+        "options": ["Max", "Rex", "Buddy", "Charlie"],
+        "correct": "Rex",
+        "translation": "Как зовут собаку?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What colour is the dog?",
+        "options": ["Black", "White", "Brown", "Grey"],
+        "correct": "Brown",
+        "translation": "Какого цвета собака?"
+      },
+      {
+        "type": "true_false",
+        "question": "The dog likes to swim.",
+        "correct": "False",
+        "translation": "Собака любит плавать."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How often does the person walk the dog?",
+        "options": ["Once a week", "Every day", "Never", "Sometimes"],
+        "correct": "Every day",
+        "translation": "Как часто человек гуляет с собакой?"
+      }
+    ]
+  },
+  {
+    "id": "r5",
+    "level": "A0",
+    "title": "Food",
+    "text": "I like food. I eat bread and butter. I drink milk. I like apples and bananas. I don't like fish.",
+    "translation": "Я люблю еду. Я ем хлеб с маслом. Я пью молоко. Я люблю яблоки и бананы. Я не люблю рыбу.",
+    "vocabulary": [
+      { "word": "food", "translation": "еда", "transcription": "fuːd" },
+      { "word": "eat", "translation": "есть", "transcription": "iːt" },
+      { "word": "bread", "translation": "хлеб", "transcription": "bred" },
+      { "word": "butter", "translation": "масло", "transcription": "ˈbʌt.ər" },
+      { "word": "drink", "translation": "пить", "transcription": "drɪŋk" },
+      { "word": "milk", "translation": "молоко", "transcription": "mɪlk" },
+      { "word": "apple", "translation": "яблоко", "transcription": "ˈæp.əl" },
+      { "word": "banana", "translation": "банан", "transcription": "bəˈnɑː.nə" },
+      { "word": "fish", "translation": "рыба", "transcription": "fɪʃ" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What does the person eat?",
+        "options": ["Cheese", "Bread and butter", "Rice", "Soup"],
+        "correct": "Bread and butter",
+        "translation": "Что ест человек?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What does the person drink?",
+        "options": ["Water", "Juice", "Milk", "Tea"],
+        "correct": "Milk",
+        "translation": "Что пьёт человек?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Which fruit does the person like?",
+        "options": ["Oranges", "Apples and bananas", "Grapes", "Strawberries"],
+        "correct": "Apples and bananas",
+        "translation": "Какие фрукты нравятся человеку?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person likes fish.",
+        "correct": "False",
+        "translation": "Человек любит рыбу."
+      }
+    ]
+  },
+  {
+    "id": "r6",
+    "level": "A1",
+    "title": "My Weekend",
+    "text": "On Saturday I usually get up late. I have breakfast with my family. Then I go shopping or meet my friends. In the evening we sometimes go to the cinema. On Sunday I visit my grandparents. We have lunch together. I help my grandmother in the garden.",
+    "translation": "В субботу я обычно встаю поздно. Я завтракаю с семьёй. Потом я иду за покупками или встречаюсь с друзьями. Вечером мы иногда ходим в кино. В воскресенье я навещаю бабушку и дедушку. Мы обедаем вместе. Я помогаю бабушке в саду.",
+    "vocabulary": [
+      { "word": "usually", "translation": "обычно", "transcription": "ˈjuː.ʒu.ə.li" },
+      { "word": "get up late", "translation": "вставать поздно", "transcription": "ɡet ʌp leɪt" },
+      { "word": "have breakfast", "translation": "завтракать", "transcription": "hæv ˈbrek.fəst" },
+      { "word": "go shopping", "translation": "ходить за покупками", "transcription": "ɡəʊ ˈʃɒp.ɪŋ" },
+      { "word": "meet friends", "translation": "встречаться с друзьями", "transcription": "miːt frendz" },
+      { "word": "go to the cinema", "translation": "ходить в кино", "transcription": "ɡəʊ tə ðə ˈsɪn.ə.mə" },
+      { "word": "visit", "translation": "навещать", "transcription": "ˈvɪz.ɪt" },
+      { "word": "grandparents", "translation": "бабушка и дедушка", "transcription": "ˈɡræn.peə.rənts" },
+      { "word": "have lunch", "translation": "обедать", "transcription": "hæv lʌntʃ" },
+      { "word": "help", "translation": "помогать", "transcription": "help" },
+      { "word": "garden", "translation": "сад", "transcription": "ˈɡɑː.dən" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What does the person usually do on Saturday morning?",
+        "options": ["Go to work", "Get up late", "Go shopping", "Visit grandparents"],
+        "correct": "Get up late",
+        "translation": "Что человек обычно делает в субботу утром?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What does the person do in the evening on Saturday?",
+        "options": ["Watch TV", "Go to the cinema", "Read a book", "Cook dinner"],
+        "correct": "Go to the cinema",
+        "translation": "Что человек делает вечером в субботу?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Who does the person visit on Sunday?",
+        "options": ["Friends", "Grandparents", "Colleagues", "Neighbours"],
+        "correct": "Grandparents",
+        "translation": "Кого человек навещает в воскресенье?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person helps his/her grandmother in the garden.",
+        "correct": "True",
+        "translation": "Человек помогает бабушке в саду."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What does the person do with friends?",
+        "options": ["Go for a walk", "Go shopping", "Play football", "Watch TV"],
+        "correct": "Go shopping",
+        "translation": "Что человек делает с друзьями?"
+      }
+    ]
+  },
+  {
+    "id": "r7",
+    "level": "A1",
+    "title": "My Flat",
+    "text": "I live in a small flat. There is a living room, a bedroom, a kitchen and a bathroom. In the living room there is a sofa, a table and two chairs. My bedroom is not big but it is very cosy. I like my flat.",
+    "translation": "Я живу в маленькой квартире. Есть гостиная, спальня, кухня и ванная. В гостиной есть диван, стол и два стула. Моя спальня небольшая, но очень уютная. Мне нравится моя квартира.",
+    "vocabulary": [
+      { "word": "flat", "translation": "квартира", "transcription": "flæt" },
+      { "word": "living room", "translation": "гостиная", "transcription": "ˈlɪv.ɪŋ ˌruːm" },
+      { "word": "bedroom", "translation": "спальня", "transcription": "ˈbed.ruːm" },
+      { "word": "kitchen", "translation": "кухня", "transcription": "ˈkɪtʃ.ən" },
+      { "word": "bathroom", "translation": "ванная", "transcription": "ˈbɑːθ.ruːm" },
+      { "word": "sofa", "translation": "диван", "transcription": "ˈsəʊ.fə" },
+      { "word": "table", "translation": "стол", "transcription": "ˈteɪ.bəl" },
+      { "word": "chair", "translation": "стул", "transcription": "tʃeər" },
+      { "word": "cosy", "translation": "уютный", "transcription": "ˈkəʊ.zi" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "How many rooms are mentioned?",
+        "options": ["Three", "Four", "Five", "Six"],
+        "correct": "Four",
+        "translation": "Сколько комнат упоминается?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is in the living room?",
+        "options": ["A bed", "A sofa, a table and two chairs", "A fridge", "A shower"],
+        "correct": "A sofa, a table and two chairs",
+        "translation": "Что находится в гостиной?"
+      },
+      {
+        "type": "true_false",
+        "question": "The bedroom is very big.",
+        "correct": "False",
+        "translation": "Спальня очень большая."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How does the person describe the bedroom?",
+        "options": ["Big", "Cosy", "Dark", "Noisy"],
+        "correct": "Cosy",
+        "translation": "Как человек описывает спальню?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person likes his/her flat.",
+        "correct": "True",
+        "translation": "Человеку нравится его/её квартира."
+      }
+    ]
+  },
+  {
+    "id": "r8",
+    "level": "A1",
+    "title": "A Busy Day",
+    "text": "Yesterday was a very busy day. I got up at 6 a.m., had a quick shower and left home at 7. I took a bus to the city centre. I had a meeting at 9 o'clock. After the meeting I had lunch in a café. Then I worked on my computer until 5 p.m. In the evening I was tired but happy.",
+    "translation": "Вчера был очень насыщенный день. Я встал в 6 утра, быстро принял душ и вышел из дома в 7. Я поехал на автобусе в центр города. В 9 часов у меня была встреча. После встречи я пообедал в кафе. Затем я работал за компьютером до 5 вечера. Вечером я был уставшим, но счастливым.",
+    "vocabulary": [
+      { "word": "busy", "translation": "занятой, насыщенный", "transcription": "ˈbɪz.i" },
+      { "word": "get up", "translation": "вставать", "transcription": "ɡet ʌp" },
+      { "word": "have a shower", "translation": "принимать душ", "transcription": "hæv ə ˈʃaʊər" },
+      { "word": "leave home", "translation": "уходить из дома", "transcription": "liːv həʊm" },
+      { "word": "take a bus", "translation": "ехать на автобусе", "transcription": "teɪk ə bʌs" },
+      { "word": "city centre", "translation": "центр города", "transcription": "ˈsɪt.i ˌsen.tər" },
+      { "word": "meeting", "translation": "встреча", "transcription": "ˈmiː.tɪŋ" },
+      { "word": "have lunch", "translation": "обедать", "transcription": "hæv lʌntʃ" },
+      { "word": "café", "translation": "кафе", "transcription": "ˈkæf.eɪ" },
+      { "word": "work on computer", "translation": "работать за компьютером", "transcription": "wɜːk ɒn kəmˈpjuː.tər" },
+      { "word": "tired", "translation": "уставший", "transcription": "taɪəd" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What time did the person get up?",
+        "options": ["5 a.m.", "6 a.m.", "7 a.m.", "8 a.m."],
+        "correct": "6 a.m.",
+        "translation": "Во сколько человек встал?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How did the person get to the city centre?",
+        "options": ["By car", "By bus", "By taxi", "On foot"],
+        "correct": "By bus",
+        "translation": "Как человек добрался до центра города?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What did the person do after the meeting?",
+        "options": ["Went home", "Had lunch in a café", "Worked on computer", "Took a shower"],
+        "correct": "Had lunch in a café",
+        "translation": "Что человек делал после встречи?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person worked until 6 p.m.",
+        "correct": "False",
+        "translation": "Человек работал до 6 вечера."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How did the person feel in the evening?",
+        "options": ["Tired but happy", "Very angry", "Excited", "Sad"],
+        "correct": "Tired but happy",
+        "translation": "Как человек себя чувствовал вечером?"
+      }
+    ]
+  },
+  {
+    "id": "r9",
+    "level": "A1",
+    "title": "My Best Friend",
+    "text": "My best friend is Anna. She is 25 years old. She has long brown hair and green eyes. She works as a nurse in a big hospital. She is very kind and helpful. We often go for a walk or watch films together. I am happy to have such a good friend.",
+    "translation": "Моя лучшая подруга — Анна. Ей 25 лет. У неё длинные каштановые волосы и зелёные глаза. Она работает медсестрой в большой больнице. Она очень добрая и отзывчивая. Мы часто гуляем или смотрим фильмы вместе. Я счастлива, что у меня есть такая хорошая подруга.",
+    "vocabulary": [
+      { "word": "best friend", "translation": "лучший друг", "transcription": "ˌbest ˈfrend" },
+      { "word": "years old", "translation": "лет (возраст)", "transcription": "jɪəz əʊld" },
+      { "word": "long", "translation": "длинный", "transcription": "lɒŋ" },
+      { "word": "hair", "translation": "волосы", "transcription": "heər" },
+      { "word": "eyes", "translation": "глаза", "transcription": "aɪz" },
+      { "word": "nurse", "translation": "медсестра", "transcription": "nɜːs" },
+      { "word": "hospital", "translation": "больница", "transcription": "ˈhɒs.pɪ.təl" },
+      { "word": "kind", "translation": "добрый", "transcription": "kaɪnd" },
+      { "word": "helpful", "translation": "отзывчивый", "transcription": "ˈhelp.fəl" },
+      { "word": "go for a walk", "translation": "идти на прогулку", "transcription": "ɡəʊ fər ə wɔːk" },
+      { "word": "watch films", "translation": "смотреть фильмы", "transcription": "wɒtʃ fɪlmz" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What is the name of the best friend?",
+        "options": ["Anna", "Maria", "Elena", "Olga"],
+        "correct": "Anna",
+        "translation": "Как зовут лучшую подругу?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How old is Anna?",
+        "options": ["23", "24", "25", "26"],
+        "correct": "25",
+        "translation": "Сколько лет Анне?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What colour are Anna's eyes?",
+        "options": ["Blue", "Brown", "Green", "Grey"],
+        "correct": "Green",
+        "translation": "Какого цвета глаза у Анны?"
+      },
+      {
+        "type": "true_false",
+        "question": "Anna is a doctor.",
+        "correct": "False",
+        "translation": "Анна — врач."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What do they often do together?",
+        "options": ["Play tennis", "Go for a walk or watch films", "Cook dinner", "Study"],
+        "correct": "Go for a walk or watch films",
+        "translation": "Что они часто делают вместе?"
+      }
+    ]
+  },
+  {
+    "id": "r10",
+    "level": "A1",
+    "title": "My Hobby",
+    "text": "My hobby is photography. I have a good camera. I like to take photos of nature and people. At the weekend I go to the park and take pictures of flowers and trees. Sometimes I take photos of my friends. I want to be a professional photographer one day.",
+    "translation": "Моё хобби — фотография. У меня хороший фотоаппарат. Мне нравится фотографировать природу и людей. В выходные я хожу в парк и снимаю цветы и деревья. Иногда я фотографирую своих друзей. Однажды я хочу стать профессиональным фотографом.",
+    "vocabulary": [
+      { "word": "hobby", "translation": "хобби", "transcription": "ˈhɒb.i" },
+      { "word": "photography", "translation": "фотография (хобби)", "transcription": "fəˈtɒɡ.rə.fi" },
+      { "word": "camera", "translation": "фотоаппарат", "transcription": "ˈkæm.rə" },
+      { "word": "take photos", "translation": "фотографировать", "transcription": "teɪk ˈfəʊ.təʊz" },
+      { "word": "nature", "translation": "природа", "transcription": "ˈneɪ.tʃər" },
+      { "word": "at the weekend", "translation": "на выходных", "transcription": "ət ðə wiːkˈend" },
+      { "word": "park", "translation": "парк", "transcription": "pɑːk" },
+      { "word": "flowers", "translation": "цветы", "transcription": "ˈflaʊəz" },
+      { "word": "trees", "translation": "деревья", "transcription": "triːz" },
+      { "word": "professional", "translation": "профессиональный", "transcription": "prəˈfeʃ.ən.əl" },
+      { "word": "photographer", "translation": "фотограф", "transcription": "fəˈtɒɡ.rə.fər" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What is the person's hobby?",
+        "options": ["Painting", "Photography", "Singing", "Dancing"],
+        "correct": "Photography",
+        "translation": "Какое хобби у человека?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What does the person like to photograph?",
+        "options": ["Animals", "Nature and people", "Buildings", "Cars"],
+        "correct": "Nature and people",
+        "translation": "Что человек любит фотографировать?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Where does the person go at the weekend?",
+        "options": ["To the beach", "To the park", "To the mountains", "To the museum"],
+        "correct": "To the park",
+        "translation": "Куда человек ходит на выходных?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person sometimes takes photos of friends.",
+        "correct": "True",
+        "translation": "Человек иногда фотографирует друзей."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What does the person want to become one day?",
+        "options": ["A doctor", "A teacher", "A professional photographer", "An engineer"],
+        "correct": "A professional photographer",
+        "translation": "Кем человек хочет стать однажды?"
+      }
+    ]
+  },
+  {
+    "id": "r11",
+    "level": "A2",
+    "title": "A Trip to the Seaside",
+    "text": "Last summer my family and I went to the seaside. We stayed in a small hotel near the beach. The weather was sunny and hot. We swam in the sea, built sandcastles and ate ice cream. In the evenings we walked along the promenade and watched the sunset. It was a wonderful holiday.",
+    "translation": "Прошлым летом мы с семьёй ездили на море. Мы остановились в небольшом отеле рядом с пляжем. Погода была солнечная и жаркая. Мы купались в море, строили замки из песка и ели мороженое. По вечерам мы гуляли по набережной и смотрели на закат. Это был чудесный отпуск.",
+    "vocabulary": [
+      { "word": "seaside", "translation": "морское побережье", "transcription": "ˈsiː.saɪd" },
+      { "word": "stay", "translation": "останавливаться", "transcription": "steɪ" },
+      { "word": "hotel", "translation": "отель", "transcription": "həʊˈtel" },
+      { "word": "beach", "translation": "пляж", "transcription": "biːtʃ" },
+      { "word": "sunny", "translation": "солнечный", "transcription": "ˈsʌn.i" },
+      { "word": "hot", "translation": "жаркий", "transcription": "hɒt" },
+      { "word": "swim", "translation": "плавать", "transcription": "swɪm" },
+      { "word": "sea", "translation": "море", "transcription": "siː" },
+      { "word": "sandcastle", "translation": "замок из песка", "transcription": "ˈsændˌkɑː.səl" },
+      { "word": "ice cream", "translation": "мороженое", "transcription": "ˌaɪs ˈkriːm" },
+      { "word": "promenade", "translation": "набережная", "transcription": "ˌprɒm.əˈnɑːd" },
+      { "word": "sunset", "translation": "закат", "transcription": "ˈsʌn.set" },
+      { "word": "wonderful", "translation": "чудесный", "transcription": "ˈwʌn.də.fəl" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "When did the family go to the seaside?",
+        "options": ["Last winter", "Last summer", "Last spring", "Last autumn"],
+        "correct": "Last summer",
+        "translation": "Когда семья ездила на море?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Where did they stay?",
+        "options": ["In a hotel", "In a tent", "In a hostel", "With friends"],
+        "correct": "In a hotel",
+        "translation": "Где они остановились?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What did they do in the sea?",
+        "options": ["Fished", "Swam", "Sailed", "Dived"],
+        "correct": "Swam",
+        "translation": "Что они делали в море?"
+      },
+      {
+        "type": "true_false",
+        "question": "The weather was cold and rainy.",
+        "correct": "False",
+        "translation": "Погода была холодной и дождливой."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What did they watch in the evenings?",
+        "options": ["The stars", "The sunset", "The moon", "The clouds"],
+        "correct": "The sunset",
+        "translation": "Что они смотрели по вечерам?"
+      }
+    ]
+  },
+  {
+    "id": "r12",
+    "level": "A2",
+    "title": "My New Job",
+    "text": "Two months ago I started a new job. I work as a sales assistant in a big clothes shop. I help customers to find the right size and give advice about styles. My colleagues are very friendly and the manager is kind. I work five days a week, including Saturdays. I like my job because I meet many interesting people.",
+    "translation": "Два месяца назад я начал новую работу. Я работаю продавцом-консультантом в большом магазине одежды. Я помогаю покупателям найти нужный размер и даю советы по стилю. Мои коллеги очень дружелюбные, а менеджер — добрый. Я работаю пять дней в неделю, включая субботы. Мне нравится моя работа, потому что я встречаю много интересных людей.",
+    "vocabulary": [
+      { "word": "start a job", "translation": "начать работу", "transcription": "stɑːrt ə dʒɒb" },
+      { "word": "sales assistant", "translation": "продавец-консультант", "transcription": "ˈseɪlz əˌsɪs.tənt" },
+      { "word": "clothes shop", "translation": "магазин одежды", "transcription": "kləʊðz ʃɒp" },
+      { "word": "customer", "translation": "покупатель", "transcription": "ˈkʌs.tə.mər" },
+      { "word": "size", "translation": "размер", "transcription": "saɪz" },
+      { "word": "advice", "translation": "совет", "transcription": "ədˈvaɪs" },
+      { "word": "colleague", "translation": "коллега", "transcription": "ˈkɒl.iːɡ" },
+      { "word": "friendly", "translation": "дружелюбный", "transcription": "ˈfrend.li" },
+      { "word": "manager", "translation": "менеджер", "transcription": "ˈmæn.ɪ.dʒər" },
+      { "word": "kind", "translation": "добрый", "transcription": "kaɪnd" },
+      { "word": "including", "translation": "включая", "transcription": "ɪnˈkluː.dɪŋ" },
+      { "word": "interesting", "translation": "интересный", "transcription": "ˈɪn.trə.stɪŋ" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "When did the person start the new job?",
+        "options": ["One month ago", "Two months ago", "Three months ago", "Four months ago"],
+        "correct": "Two months ago",
+        "translation": "Когда человек начал новую работу?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is the person's job?",
+        "options": ["Manager", "Sales assistant", "Accountant", "Teacher"],
+        "correct": "Sales assistant",
+        "translation": "Какая у человека профессия?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How many days a week does the person work?",
+        "options": ["Four", "Five", "Six", "Seven"],
+        "correct": "Five",
+        "translation": "Сколько дней в неделю работает человек?"
+      },
+      {
+        "type": "true_false",
+        "question": "The manager is unfriendly.",
+        "correct": "False",
+        "translation": "Менеджер недружелюбный."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Why does the person like the job?",
+        "options": ["Because it pays well", "Because it's easy", "Because he/she meets interesting people", "Because it's close to home"],
+        "correct": "Because he/she meets interesting people",
+        "translation": "Почему человеку нравится работа?"
+      }
+    ]
+  },
+  {
+    "id": "r13",
+    "level": "A2",
+    "title": "A Surprise Party",
+    "text": "Yesterday was my friend Tom's birthday. We decided to throw him a surprise party. I invited all our friends and we decorated the living room with balloons. When Tom came home, he was very surprised and happy. We ate pizza, listened to music and danced until late. Tom said it was the best birthday ever.",
+    "translation": "Вчера был день рождения моего друга Тома. Мы решили устроить ему вечеринку-сюрприз. Я пригласил всех наших друзей, и мы украсили гостиную воздушными шарами. Когда Том пришёл домой, он был очень удивлён и счастлив. Мы ели пиццу, слушали музыку и танцевали допоздна. Том сказал, что это был лучший день рождения в его жизни.",
+    "vocabulary": [
+      { "word": "birthday", "translation": "день рождения", "transcription": "ˈbɜːθ.deɪ" },
+      { "word": "throw a party", "translation": "устраивать вечеринку", "transcription": "θrəʊ ə ˈpɑː.ti" },
+      { "word": "surprise", "translation": "сюрприз", "transcription": "səˈpraɪz" },
+      { "word": "invite", "translation": "приглашать", "transcription": "ɪnˈvaɪt" },
+      { "word": "decorate", "translation": "украшать", "transcription": "ˈdek.ə.reɪt" },
+      { "word": "living room", "translation": "гостиная", "transcription": "ˈlɪv.ɪŋ ˌruːm" },
+      { "word": "balloon", "translation": "воздушный шар", "transcription": "bəˈluːn" },
+      { "word": "surprised", "translation": "удивлённый", "transcription": "səˈpraɪzd" },
+      { "word": "pizza", "translation": "пицца", "transcription": "ˈpiːt.sə" },
+      { "word": "listen to music", "translation": "слушать музыку", "transcription": "ˈlɪs.ən tə ˈmjuː.zɪk" },
+      { "word": "dance", "translation": "танцевать", "transcription": "dɑːns" },
+      { "word": "best ever", "translation": "лучший в жизни", "transcription": "best ˈev.ər" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "Whose birthday was it?",
+        "options": ["Anna's", "Tom's", "John's", "Mary's"],
+        "correct": "Tom's",
+        "translation": "У кого был день рождения?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What kind of party did they throw?",
+        "options": ["A costume party", "A surprise party", "A dinner party", "A pool party"],
+        "correct": "A surprise party",
+        "translation": "Какую вечеринку они устроили?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How did Tom feel when he came home?",
+        "options": ["Angry", "Sad", "Surprised and happy", "Tired"],
+        "correct": "Surprised and happy",
+        "translation": "Как почувствовал Том, когда пришёл домой?"
+      },
+      {
+        "type": "true_false",
+        "question": "They played board games.",
+        "correct": "False",
+        "translation": "Они играли в настольные игры."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What did Tom say about the party?",
+        "options": ["It was too noisy", "It was the best birthday ever", "It was boring", "It was too short"],
+        "correct": "It was the best birthday ever",
+        "translation": "Что Том сказал о вечеринке?"
+      }
+    ]
+  },
+  {
+    "id": "r14",
+    "level": "A2",
+    "title": "Healthy Habits",
+    "text": "It is important to have healthy habits. I try to eat a lot of vegetables and fruit every day. I don't eat fast food and I don't drink sugary drinks. I also go to the gym twice a week. I usually walk to work instead of taking the bus. I sleep at least eight hours every night. These simple things help me feel good and stay fit.",
+    "translation": "Важно иметь здоровые привычки. Я стараюсь есть много овощей и фруктов каждый день. Я не ем фастфуд и не пью сладкие напитки. Я также хожу в спортзал два раза в неделю. Обычно я хожу на работу пешком, а не еду на автобусе. Я сплю не менее восьми часов каждую ночь. Эти простые вещи помогают мне хорошо себя чувствовать и оставаться в форме.",
+    "vocabulary": [
+      { "word": "healthy", "translation": "здоровый", "transcription": "ˈhel.θi" },
+      { "word": "habit", "translation": "привычка", "transcription": "ˈhæb.ɪt" },
+      { "word": "vegetables", "translation": "овощи", "transcription": "ˈvedʒ.tə.bəlz" },
+      { "word": "fruit", "translation": "фрукты", "transcription": "fruːt" },
+      { "word": "fast food", "translation": "фастфуд", "transcription": "ˈfɑːst ˌfuːd" },
+      { "word": "sugary drinks", "translation": "сладкие напитки", "transcription": "ˈʃʊɡ.ər.i drɪŋks" },
+      { "word": "go to the gym", "translation": "ходить в спортзал", "transcription": "ɡəʊ tə ðə dʒɪm" },
+      { "word": "walk to work", "translation": "ходить на работу пешком", "transcription": "wɔːk tə wɜːk" },
+      { "word": "instead of", "translation": "вместо", "transcription": "ɪnˈsted əv" },
+      { "word": "sleep", "translation": "спать", "transcription": "sliːp" },
+      { "word": "at least", "translation": "по крайней мере", "transcription": "ət ˈliːst" },
+      { "word": "stay fit", "translation": "оставаться в форме", "transcription": "steɪ fɪt" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What does the person eat every day?",
+        "options": ["Fast food", "Vegetables and fruit", "Only meat", "Only bread"],
+        "correct": "Vegetables and fruit",
+        "translation": "Что человек ест каждый день?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How often does the person go to the gym?",
+        "options": ["Once a week", "Twice a week", "Three times a week", "Every day"],
+        "correct": "Twice a week",
+        "translation": "Как часто человек ходит в спортзал?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How does the person usually get to work?",
+        "options": ["By car", "By bus", "By bike", "On foot"],
+        "correct": "On foot",
+        "translation": "Как человек обычно добирается до работы?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person drinks sugary drinks every day.",
+        "correct": "False",
+        "translation": "Человек пьёт сладкие напитки каждый день."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How many hours does the person sleep every night?",
+        "options": ["6 hours", "7 hours", "At least 8 hours", "9 hours"],
+        "correct": "At least 8 hours",
+        "translation": "Сколько часов спит человек каждую ночь?"
+      }
+    ]
+  },
+  {
+    "id": "r15",
+    "level": "A2",
+    "title": "My Favourite Season",
+    "text": "My favourite season is autumn. The weather is not too hot and not too cold. The leaves on the trees change colour to red, orange and yellow. I love walking in the park and listening to the sound of leaves under my feet. In autumn I like to wear warm sweaters and drink hot chocolate. It is a very beautiful and cosy time of year.",
+    "translation": "Моё любимое время года — осень. Погода не слишком жаркая и не слишком холодная. Листья на деревьях меняют цвет на красный, оранжевый и жёлтый. Я люблю гулять в парке и слушать шорох листьев под ногами. Осенью я люблю носить тёплые свитера и пить горячий шоколад. Это очень красивое и уютное время года.",
+    "vocabulary": [
+      { "word": "season", "translation": "время года", "transcription": "ˈsiː.zən" },
+      { "word": "autumn", "translation": "осень", "transcription": "ˈɔː.təm" },
+      { "word": "weather", "translation": "погода", "transcription": "ˈweð.ər" },
+      { "word": "leaf", "translation": "лист", "transcription": "liːf" },
+      { "word": "change colour", "translation": "менять цвет", "transcription": "tʃeɪndʒ ˈkʌl.ər" },
+      { "word": "red", "translation": "красный", "transcription": "red" },
+      { "word": "orange", "translation": "оранжевый", "transcription": "ˈɒr.ɪndʒ" },
+      { "word": "yellow", "translation": "жёлтый", "transcription": "ˈjel.əʊ" },
+      { "word": "walk in the park", "translation": "гулять в парке", "transcription": "wɔːk ɪn ðə pɑːk" },
+      { "word": "sound", "translation": "звук", "transcription": "saʊnd" },
+      { "word": "warm sweater", "translation": "тёплый свитер", "transcription": "wɔːm ˈswet.ər" },
+      { "word": "hot chocolate", "translation": "горячий шоколад", "transcription": "hɒt ˈtʃɒk.lət" },
+      { "word": "cosy", "translation": "уютный", "transcription": "ˈkəʊ.zi" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What is the person's favourite season?",
+        "options": ["Spring", "Summer", "Autumn", "Winter"],
+        "correct": "Autumn",
+        "translation": "Какое любимое время года у человека?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What colours do the leaves turn in autumn?",
+        "options": ["Green and blue", "Red, orange and yellow", "White and grey", "Pink and purple"],
+        "correct": "Red, orange and yellow",
+        "translation": "В какие цвета окрашиваются листья осенью?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What does the person like to drink in autumn?",
+        "options": ["Coffee", "Hot chocolate", "Tea", "Milk"],
+        "correct": "Hot chocolate",
+        "translation": "Что человек любит пить осенью?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person dislikes walking in the park.",
+        "correct": "False",
+        "translation": "Человек не любит гулять в парке."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How does the person describe autumn?",
+        "options": ["Cold and dark", "Beautiful and cosy", "Rainy and windy", "Hot and sunny"],
+        "correct": "Beautiful and cosy",
+        "translation": "Как человек описывает осень?"
+      }
+    ]
+  },
+  {
+    "id": "r16",
+    "level": "B1",
+    "title": "The Lost Wallet",
+    "text": "Last Monday I had a bit of an adventure. I was walking to the station when I found a wallet on the ground. It was full of money and credit cards. I looked inside and found an ID card with an address. I decided to return it to the owner. I went to the address and knocked on the door. An elderly woman opened it. She was so happy and grateful. She said she had lost her wallet on her way to the bank and thought she would never see it again. She offered me a reward, but I refused. It was enough to see the smile on her face.",
+    "translation": "В прошлый понедельник со мной приключилась небольшая история. Я шёл на станцию и нашёл на земле кошелёк. В нём было полно денег и кредитных карт. Я заглянул внутрь и нашёл удостоверение личности с адресом. Я решил вернуть его владельцу. Я пошёл по адресу и постучал в дверь. Открыла пожилая женщина. Она была так счастлива и благодарна. Она сказала, что потеряла кошелёк по дороге в банк и думала, что больше никогда его не увидит. Она предложила мне вознаграждение, но я отказался. Достаточно было увидеть улыбку на её лице.",
+    "vocabulary": [
+      { "word": "adventure", "translation": "приключение", "transcription": "ədˈven.tʃər" },
+      { "word": "wallet", "translation": "бумажник", "transcription": "ˈwɒl.ɪt" },
+      { "word": "ground", "translation": "земля", "transcription": "ɡraʊnd" },
+      { "word": "credit card", "translation": "кредитная карта", "transcription": "ˈkred.ɪt ˌkɑːd" },
+      { "word": "ID card", "translation": "удостоверение личности", "transcription": "ˌaɪ ˈdiː ˌkɑːd" },
+      { "word": "address", "translation": "адрес", "transcription": "əˈdres" },
+      { "word": "return", "translation": "возвращать", "transcription": "rɪˈtɜːn" },
+      { "word": "owner", "translation": "владелец", "transcription": "ˈəʊ.nər" },
+      { "word": "elderly", "translation": "пожилой", "transcription": "ˈel.dəl.i" },
+      { "word": "grateful", "translation": "благодарный", "transcription": "ˈɡreɪt.fəl" },
+      { "word": "on the way to", "translation": "по пути в", "transcription": "ɒn ðə weɪ tə" },
+      { "word": "reward", "translation": "вознаграждение", "transcription": "rɪˈwɔːd" },
+      { "word": "refuse", "translation": "отказываться", "transcription": "rɪˈfjuːz" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What did the person find on the ground?",
+        "options": ["A phone", "A wallet", "A key", "A bag"],
+        "correct": "A wallet",
+        "translation": "Что человек нашёл на земле?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How did the person find the owner?",
+        "options": ["By calling a phone number", "By looking at an ID card with an address", "By asking a policeman", "By posting online"],
+        "correct": "By looking at an ID card with an address",
+        "translation": "Как человек нашёл владельца?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Who opened the door?",
+        "options": ["A young man", "A child", "An elderly woman", "A policeman"],
+        "correct": "An elderly woman",
+        "translation": "Кто открыл дверь?"
+      },
+      {
+        "type": "true_false",
+        "question": "The owner offered a reward and the person accepted it.",
+        "correct": "False",
+        "translation": "Владелица предложила вознаграждение, и человек принял его."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Why did the person refuse the reward?",
+        "options": ["Because he/she didn't need money", "Because the smile on her face was enough", "Because the owner was poor", "Because the reward was too small"],
+        "correct": "Because the smile on her face was enough",
+        "translation": "Почему человек отказался от вознаграждения?"
+      }
+    ]
+  },
+  {
+    "id": "r17",
+    "level": "B1",
+    "title": "The Importance of Learning Languages",
+    "text": "In our globalised world, speaking more than one language is a valuable skill. It opens doors to new cultures, improves job opportunities and makes travelling much easier. Studies also show that bilingual people have better memory and problem-solving skills. I started learning English when I was a child and now I'm studying Spanish. It's not always easy, but it's definitely worth the effort. I try to practise a little every day by watching films, reading books or talking to native speakers online.",
+    "translation": "В нашем глобализированном мире знание более чем одного языка — ценный навык. Это открывает двери к новым культурам, улучшает возможности трудоустройства и делает путешествия намного проще. Исследования также показывают, что у билингвов лучше память и навыки решения проблем. Я начал учить английский в детстве, а сейчас изучаю испанский. Это не всегда легко, но определённо стоит усилий. Я стараюсь практиковаться понемногу каждый день, смотря фильмы, читая книги или общаясь с носителями языка онлайн.",
+    "vocabulary": [
+      { "word": "globalised", "translation": "глобализированный", "transcription": "ˈɡləʊ.bəl.aɪzd" },
+      { "word": "valuable", "translation": "ценный", "transcription": "ˈvæl.jə.bəl" },
+      { "word": "skill", "translation": "навык", "transcription": "skɪl" },
+      { "word": "culture", "translation": "культура", "transcription": "ˈkʌl.tʃər" },
+      { "word": "job opportunity", "translation": "возможность трудоустройства", "transcription": "dʒɒb ˌɒp.əˈtjuː.nə.ti" },
+      { "word": "travelling", "translation": "путешествие", "transcription": "ˈtræv.əl.ɪŋ" },
+      { "word": "bilingual", "translation": "двуязычный", "transcription": "baɪˈlɪŋ.ɡwəl" },
+      { "word": "memory", "translation": "память", "transcription": "ˈmem.ər.i" },
+      { "word": "problem-solving", "translation": "решение проблем", "transcription": "ˈprɒb.ləm ˌsɒl.vɪŋ" },
+      { "word": "worth the effort", "translation": "стоить усилий", "transcription": "wɜːθ ði ˈef.ət" },
+      { "word": "practise", "translation": "практиковаться", "transcription": "ˈpræk.tɪs" },
+      { "word": "native speaker", "translation": "носитель языка", "transcription": "ˌneɪ.tɪv ˈspiː.kər" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What is a benefit of speaking more than one language?",
+        "options": ["It makes you richer", "It improves job opportunities", "It makes you taller", "It makes you stronger"],
+        "correct": "It improves job opportunities",
+        "translation": "Каково преимущество знания более чем одного языка?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What do studies show about bilingual people?",
+        "options": ["They have worse memory", "They have better memory and problem-solving skills", "They are more stressed", "They are less creative"],
+        "correct": "They have better memory and problem-solving skills",
+        "translation": "Что показывают исследования о билингвах?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Which language is the person studying now?",
+        "options": ["French", "German", "Spanish", "Chinese"],
+        "correct": "Spanish",
+        "translation": "Какой язык человек изучает сейчас?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person practises languages only on weekends.",
+        "correct": "False",
+        "translation": "Человек практикует языки только по выходным."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How does the person practise languages? (Choose all that apply)",
+        "options": ["Watching films", "Reading books", "Talking to native speakers", "Going to language school every day"],
+        "correct": ["Watching films", "Reading books", "Talking to native speakers"],
+        "translation": "Как человек практикует языки? (выберите все подходящие)"
+      }
+    ]
+  },
+  {
+    "id": "r18",
+    "level": "B1",
+    "title": "My Ideal Holiday",
+    "text": "If I had enough money and time, my ideal holiday would be a road trip across Europe. I would rent a comfortable car and travel from country to country without a strict plan. I would visit famous landmarks, try local food in small villages and take hundreds of photos. I wouldn't stay in expensive hotels; instead, I'd prefer cosy guesthouses where I could meet locals. I think this kind of holiday gives you the freedom to explore and create unforgettable memories.",
+    "translation": "Если бы у меня было достаточно денег и времени, моим идеальным отпуском было бы автопутешествие по Европе. Я бы арендовал комфортную машину и ездил из страны в страну без строгого плана. Я бы посещал известные достопримечательности, пробовал местную еду в маленьких деревушках и делал сотни фотографий. Я бы не останавливался в дорогих отелях; вместо этого я бы предпочёл уютные гостевые дома, где можно познакомиться с местными жителями. Думаю, такой вид отдыха даёт свободу исследовать и создавать незабываемые воспоминания.",
+    "vocabulary": [
+      { "word": "ideal", "translation": "идеальный", "transcription": "aɪˈdɪəl" },
+      { "word": "road trip", "translation": "автопутешествие", "transcription": "ˈrəʊd ˌtrɪp" },
+      { "word": "rent", "translation": "арендовать", "transcription": "rent" },
+      { "word": "comfortable", "translation": "комфортный", "transcription": "ˈkʌm.fə.tə.bəl" },
+      { "word": "strict plan", "translation": "строгий план", "transcription": "strɪkt plæn" },
+      { "word": "landmark", "translation": "достопримечательность", "transcription": "ˈlænd.mɑːk" },
+      { "word": "local food", "translation": "местная еда", "transcription": "ˈləʊ.kəl fuːd" },
+      { "word": "village", "translation": "деревня", "transcription": "ˈvɪl.ɪdʒ" },
+      { "word": "guesthouse", "translation": "гостевой дом", "transcription": "ˈɡest.haʊs" },
+      { "word": "freedom", "translation": "свобода", "transcription": "ˈfriː.dəm" },
+      { "word": "explore", "translation": "исследовать", "transcription": "ɪkˈsplɔːr" },
+      { "word": "unforgettable", "translation": "незабываемый", "transcription": "ˌʌn.fəˈɡet.ə.bəl" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What is the person's ideal holiday?",
+        "options": ["A beach holiday", "A road trip across Europe", "A mountain climbing trip", "A city break"],
+        "correct": "A road trip across Europe",
+        "translation": "Какой идеальный отпуск у человека?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What would the person avoid?",
+        "options": ["Expensive hotels", "Local food", "Taking photos", "Meeting locals"],
+        "correct": "Expensive hotels",
+        "translation": "Чего бы человек избегал?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Where would the person prefer to stay?",
+        "options": ["Luxury resorts", "Hostels", "Cosy guesthouses", "Camping sites"],
+        "correct": "Cosy guesthouses",
+        "translation": "Где бы человек предпочёл останавливаться?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person would follow a strict plan.",
+        "correct": "False",
+        "translation": "Человек следовал бы строгому плану."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What does the person think about this type of holiday?",
+        "options": ["It's stressful", "It's expensive", "It gives freedom to explore", "It's boring"],
+        "correct": "It gives freedom to explore",
+        "translation": "Что человек думает об этом типе отпуска?"
+      }
+    ]
+  },
+  {
+    "id": "r19",
+    "level": "B1",
+    "title": "A Day Without Technology",
+    "text": "Have you ever tried to spend a whole day without your phone, computer or TV? Last Sunday I decided to do just that. It was strange at first. I didn't know what to do with my hands. But then I went for a long walk in the forest, read a book I had wanted to read for months, and cooked a complicated recipe for dinner. In the evening I played board games with my family. It was one of the most relaxing and enjoyable days I've had in a long time. I realised that sometimes we need to disconnect to reconnect with ourselves and others.",
+    "translation": "Вы когда-нибудь пробовали провести целый день без телефона, компьютера или телевизора? В прошлое воскресенье я решил сделать именно так. Сначала было странно. Я не знал, куда деть руки. Но потом я пошёл на долгую прогулку в лес, прочитал книгу, которую хотел прочитать месяцами, и приготовил сложный рецепт на ужин. Вечером я играл в настольные игры со своей семьёй. Это был один из самых расслабляющих и приятных дней за долгое время. Я понял, что иногда нам нужно отключиться, чтобы восстановить связь с собой и другими.",
+    "vocabulary": [
+      { "word": "technology", "translation": "технология", "transcription": "tekˈnɒl.ə.dʒi" },
+      { "word": "strange", "translation": "странный", "transcription": "streɪndʒ" },
+      { "word": "forest", "translation": "лес", "transcription": "ˈfɒr.ɪst" },
+      { "word": "complicated", "translation": "сложный", "transcription": "ˈkɒm.plɪ.keɪ.tɪd" },
+      { "word": "recipe", "translation": "рецепт", "transcription": "ˈres.ɪ.pi" },
+      { "word": "board games", "translation": "настольные игры", "transcription": "ˈbɔːd ˌɡeɪmz" },
+      { "word": "relaxing", "translation": "расслабляющий", "transcription": "rɪˈlæk.sɪŋ" },
+      { "word": "enjoyable", "translation": "приятный", "transcription": "ɪnˈdʒɔɪ.ə.bəl" },
+      { "word": "disconnect", "translation": "отключаться", "transcription": "ˌdɪs.kəˈnekt" },
+      { "word": "reconnect", "translation": "восстанавливать связь", "transcription": "ˌriː.kəˈnekt" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What did the person decide to do last Sunday?",
+        "options": ["Work all day", "Spend a day without technology", "Watch TV all day", "Go shopping"],
+        "correct": "Spend a day without technology",
+        "translation": "Что человек решил сделать в прошлое воскресенье?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How did the person feel at first?",
+        "options": ["Happy", "Strange", "Excited", "Angry"],
+        "correct": "Strange",
+        "translation": "Как человек чувствовал себя сначала?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What did the person do in the forest?",
+        "options": ["Ran", "Took photos", "Went for a long walk", "Met friends"],
+        "correct": "Went for a long walk",
+        "translation": "Что человек делал в лесу?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person watched TV in the evening.",
+        "correct": "False",
+        "translation": "Человек смотрел телевизор вечером."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What lesson did the person learn?",
+        "options": ["Technology is bad", "We need to disconnect sometimes", "Board games are boring", "Forests are scary"],
+        "correct": "We need to disconnect sometimes",
+        "translation": "Какой урок извлёк человек?"
+      }
+    ]
+  },
+  {
+    "id": "r20",
+    "level": "B1",
+    "title": "Working from Home: Pros and Cons",
+    "text": "Since the pandemic, many people have started working from home. This has both advantages and disadvantages. On the one hand, you save time and money on commuting, you have a more flexible schedule and you can work in comfortable clothes. On the other hand, it can be lonely, it's harder to separate work from personal life, and there are more distractions at home. Personally, I prefer a hybrid model. I go to the office three days a week and work from home for two. This way I get the best of both worlds.",
+    "translation": "С начала пандемии многие люди стали работать из дома. У этого есть как преимущества, так и недостатки. С одной стороны, вы экономите время и деньги на дорогу, у вас более гибкий график, и можно работать в удобной одежде. С другой стороны, бывает одиноко, труднее отделить работу от личной жизни, и дома больше отвлекающих факторов. Лично я предпочитаю гибридную модель. Я хожу в офис три дня в неделю и два дня работаю из дома. Так я получаю лучшее из обоих миров.",
+    "vocabulary": [
+      { "word": "pandemic", "translation": "пандемия", "transcription": "pænˈdem.ɪk" },
+      { "word": "working from home", "translation": "работа из дома", "transcription": "ˈwɜː.kɪŋ frɒm həʊm" },
+      { "word": "advantage", "translation": "преимущество", "transcription": "ədˈvɑːn.tɪdʒ" },
+      { "word": "disadvantage", "translation": "недостаток", "transcription": "ˌdɪs.ədˈvɑːn.tɪdʒ" },
+      { "word": "commuting", "translation": "поездки на работу", "transcription": "kəˈmjuː.tɪŋ" },
+      { "word": "flexible schedule", "translation": "гибкий график", "transcription": "ˈflek.sɪ.bəl ˈʃed.juːl" },
+      { "word": "lonely", "translation": "одинокий", "transcription": "ˈləʊn.li" },
+      { "word": "separate", "translation": "отделять", "transcription": "ˈsep.ər.eɪt" },
+      { "word": "distraction", "translation": "отвлекающий фактор", "transcription": "dɪˈstræk.ʃən" },
+      { "word": "hybrid model", "translation": "гибридная модель", "transcription": "ˈhaɪ.brɪd ˈmɒd.əl" },
+      { "word": "best of both worlds", "translation": "лучшее из обоих миров", "transcription": "best əv bəʊθ wɜːldz" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What is an advantage of working from home?",
+        "options": ["More meetings", "Saving time and money on commuting", "More office gossip", "Stricter dress code"],
+        "correct": "Saving time and money on commuting",
+        "translation": "Каково преимущество работы из дома?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is a disadvantage of working from home?",
+        "options": ["It's noisier", "It's lonelier", "It's more expensive", "It's less productive"],
+        "correct": "It's lonelier",
+        "translation": "Каков недостаток работы из дома?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What model does the person prefer?",
+        "options": ["Full-time office", "Full-time home", "Hybrid model", "Freelance"],
+        "correct": "Hybrid model",
+        "translation": "Какую модель предпочитает человек?"
+      },
+      {
+        "type": "true_false",
+        "question": "The person goes to the office five days a week.",
+        "correct": "False",
+        "translation": "Человек ходит в офис пять дней в неделю."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How many days a week does the person work from home?",
+        "options": ["One", "Two", "Three", "Four"],
+        "correct": "Two",
+        "translation": "Сколько дней в неделю человек работает из дома?"
+      }
+    ]
+  },
+  {
+    "id": "r21",
+    "level": "B2",
+    "title": "The Rise of Artificial Intelligence",
+    "text": "Artificial intelligence (AI) is no longer a concept confined to science fiction. It has become an integral part of our daily lives, from voice assistants on our smartphones to sophisticated algorithms that predict our shopping habits. While AI offers immense potential to solve complex problems in fields like medicine and climate change, it also raises significant ethical concerns. Issues such as job displacement due to automation, algorithmic bias, and the potential misuse of facial recognition technology are hotly debated. As AI continues to evolve at a rapid pace, society must grapple with how to harness its benefits while mitigating its risks. The future will likely depend on our ability to establish clear regulations and ethical guidelines for its development and use.",
+    "translation": "Искусственный интеллект (ИИ) больше не является концепцией, ограниченной научной фантастикой. Он стал неотъемлемой частью нашей повседневной жизни, от голосовых помощников в смартфонах до сложных алгоритмов, предсказывающих наши покупательские привычки. Хотя ИИ предлагает огромный потенциал для решения сложных проблем в таких областях, как медицина и изменение климата, он также вызывает серьёзные этические вопросы. Такие проблемы, как сокращение рабочих мест из-за автоматизации, алгоритмическая предвзятость и потенциальное злоупотребление технологией распознавания лиц, активно обсуждаются. Поскольку ИИ продолжает развиваться быстрыми темпами, общество должно решить, как использовать его преимущества, одновременно снижая риски. Будущее, вероятно, будет зависеть от нашей способности установить чёткие правила и этические принципы для его разработки и использования.",
+    "vocabulary": [
+      { "word": "artificial intelligence", "translation": "искусственный интеллект", "transcription": "ˌɑː.tɪˈfɪʃ.əl ɪnˈtel.ɪ.dʒəns" },
+      { "word": "confined to", "translation": "ограниченный", "transcription": "kənˈfaɪnd tuː" },
+      { "word": "science fiction", "translation": "научная фантастика", "transcription": "ˌsaɪ.əns ˈfɪk.ʃən" },
+      { "word": "integral", "translation": "неотъемлемый", "transcription": "ˈɪn.tɪ.ɡrəl" },
+      { "word": "voice assistant", "translation": "голосовой помощник", "transcription": "ˈvɔɪs əˌsɪs.tənt" },
+      { "word": "sophisticated", "translation": "сложный, продуманный", "transcription": "səˈfɪs.tɪ.keɪ.tɪd" },
+      { "word": "algorithm", "translation": "алгоритм", "transcription": "ˈæl.ɡə.rɪ.ðəm" },
+      { "word": "immense potential", "translation": "огромный потенциал", "transcription": "ɪˈmens pəˈten.ʃəl" },
+      { "word": "ethical concern", "translation": "этическая проблема", "transcription": "ˈeθ.ɪ.kəl kənˈsɜːn" },
+      { "word": "job displacement", "translation": "сокращение рабочих мест", "transcription": "dʒɒb dɪsˈpleɪs.mənt" },
+      { "word": "automation", "translation": "автоматизация", "transcription": "ˌɔː.təˈmeɪ.ʃən" },
+      { "word": "algorithmic bias", "translation": "алгоритмическая предвзятость", "transcription": "ˌæl.ɡəˈrɪð.mɪk ˈbaɪ.əs" },
+      { "word": "facial recognition", "translation": "распознавание лиц", "transcription": "ˈfeɪ.ʃəl ˌrek.əɡˈnɪʃ.ən" },
+      { "word": "grapple with", "translation": "бороться с", "transcription": "ˈɡræp.əl wɪð" },
+      { "word": "harness", "translation": "использовать (силу, энергию)", "transcription": "ˈhɑː.nəs" },
+      { "word": "mitigate risks", "translation": "снижать риски", "transcription": "ˈmɪt.ɪ.ɡeɪt rɪsks" },
+      { "word": "regulations", "translation": "правила, нормы", "transcription": "ˌreɡ.jəˈleɪ.ʃənz" },
+      { "word": "ethical guidelines", "translation": "этические принципы", "transcription": "ˈeθ.ɪ.kəl ˈɡaɪd.laɪnz" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "Where can AI be found in daily life?",
+        "options": ["Only in factories", "In voice assistants and algorithms", "Only in research labs", "Only in video games"],
+        "correct": "In voice assistants and algorithms",
+        "translation": "Где ИИ можно встретить в повседневной жизни?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is a positive aspect of AI mentioned in the text?",
+        "options": ["It creates more jobs", "It solves complex problems in medicine and climate change", "It makes people smarter", "It replaces human interaction"],
+        "correct": "It solves complex problems in medicine and climate change",
+        "translation": "Какой положительный аспект ИИ упоминается в тексте?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is a concern about AI?",
+        "options": ["It's too slow", "Job displacement due to automation", "It's too expensive", "It's not accurate enough"],
+        "correct": "Job displacement due to automation",
+        "translation": "Какая проблема, связанная с ИИ, упоминается?"
+      },
+      {
+        "type": "true_false",
+        "question": "The text says that AI is a concept only found in science fiction.",
+        "correct": "False",
+        "translation": "В тексте говорится, что ИИ — это концепция, встречающаяся только в научной фантастике."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What does the future depend on according to the text?",
+        "options": ["Better computers", "More funding for AI", "Clear regulations and ethical guidelines", "More scientists"],
+        "correct": "Clear regulations and ethical guidelines",
+        "translation": "От чего зависит будущее, согласно тексту?"
+      }
+    ]
+  },
+  {
+    "id": "r22",
+    "level": "B2",
+    "title": "The Psychology of Procrastination",
+    "text": "Procrastination is a common struggle that affects people from all walks of life. It's more than just laziness or poor time management; psychologists suggest it is often an emotional regulation problem. We tend to put off tasks that evoke feelings of anxiety, boredom, or self-doubt, seeking short-term relief by doing something more enjoyable. However, this temporary fix usually leads to increased stress, guilt, and a last-minute rush to meet deadlines. To overcome procrastination, experts recommend strategies like breaking large tasks into smaller, manageable steps, forgiving yourself for past delays, and creating a distraction-free work environment. Understanding the emotional roots of the problem is the first step towards becoming more productive.",
+    "translation": "Прокрастинация — распространённая проблема, которая затрагивает людей из всех слоёв общества. Это больше, чем просто лень или плохое планирование времени; психологи предполагают, что это часто проблема эмоциональной регуляции. Мы склонны откладывать задачи, которые вызывают чувство тревоги, скуки или неуверенности в себе, ища кратковременного облегчения в чём-то более приятном. Однако это временное решение обычно приводит к усилению стресса, чувству вины и спешке в последнюю минуту, чтобы уложиться в сроки. Чтобы преодолеть прокрастинацию, эксперты рекомендуют такие стратегии, как разбивка больших задач на маленькие, выполнимые шаги, прощение себя за прошлые задержки и создание рабочей обстановки без отвлекающих факторов. Понимание эмоциональных корней проблемы — первый шаг к тому, чтобы стать более продуктивным.",
+    "vocabulary": [
+      { "word": "procrastination", "translation": "прокрастинация, откладывание дел", "transcription": "prəˌkræs.tɪˈneɪ.ʃən" },
+      { "word": "common struggle", "translation": "распространённая проблема", "transcription": "ˈkɒm.ən ˈstrʌɡ.əl" },
+      { "word": "all walks of life", "translation": "все слои общества", "transcription": "ɔːl wɔːks əv laɪf" },
+      { "word": "laziness", "translation": "лень", "transcription": "ˈleɪ.zi.nəs" },
+      { "word": "poor time management", "translation": "плохое управление временем", "transcription": "pɔː ˈtaɪm ˌmæn.ɪdʒ.mənt" },
+      { "word": "emotional regulation", "translation": "эмоциональная регуляция", "transcription": "ɪˈməʊ.ʃən.əl ˌreɡ.jəˈleɪ.ʃən" },
+      { "word": "put off", "translation": "откладывать", "transcription": "pʊt ɒf" },
+      { "word": "evoke feelings", "translation": "вызывать чувства", "transcription": "ɪˈvəʊk ˈfiː.lɪŋz" },
+      { "word": "anxiety", "translation": "тревога", "transcription": "æŋˈzaɪ.ə.ti" },
+      { "word": "boredom", "translation": "скука", "transcription": "ˈbɔː.dəm" },
+      { "word": "self-doubt", "translation": "неуверенность в себе", "transcription": "ˌselfˈdaʊt" },
+      { "word": "short-term relief", "translation": "кратковременное облегчение", "transcription": "ˌʃɔːtˈtɜːm rɪˈliːf" },
+      { "word": "temporary fix", "translation": "временное решение", "transcription": "ˈtem.pər.ər.i fɪks" },
+      { "word": "stress", "translation": "стресс", "transcription": "stres" },
+      { "word": "guilt", "translation": "чувство вины", "transcription": "ɡɪlt" },
+      { "word": "last-minute rush", "translation": "спешка в последнюю минуту", "transcription": "ˌlɑːstˈmɪn.ɪt rʌʃ" },
+      { "word": "manageable steps", "translation": "выполнимые шаги", "transcription": "ˈmæn.ɪ.dʒə.bəl steps" },
+      { "word": "forgive yourself", "translation": "простить себя", "transcription": "fəˈɡɪv jɔːˈself" },
+      { "word": "distraction-free", "translation": "без отвлекающих факторов", "transcription": "dɪˈstræk.ʃən friː" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "According to psychologists, what is procrastination often caused by?",
+        "options": ["Laziness", "Poor time management", "Emotional regulation problems", "Lack of sleep"],
+        "correct": "Emotional regulation problems",
+        "translation": "По мнению психологов, чем часто вызвана прокрастинация?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What kind of tasks do people tend to put off?",
+        "options": ["Easy tasks", "Tasks that evoke anxiety, boredom, or self-doubt", "Tasks they enjoy", "Physical tasks"],
+        "correct": "Tasks that evoke anxiety, boredom, or self-doubt",
+        "translation": "Какие задачи люди склонны откладывать?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is a consequence of procrastination?",
+        "options": ["More free time", "Increased stress and guilt", "Better results", "Less work"],
+        "correct": "Increased stress and guilt",
+        "translation": "Каково последствие прокрастинации?"
+      },
+      {
+        "type": "true_false",
+        "question": "Experts recommend ignoring past delays.",
+        "correct": "False",
+        "translation": "Эксперты рекомендуют игнорировать прошлые задержки."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is the first step to becoming more productive?",
+        "options": ["Working longer hours", "Using a planner", "Understanding the emotional roots of the problem", "Getting more sleep"],
+        "correct": "Understanding the emotional roots of the problem",
+        "translation": "Какой первый шаг к повышению продуктивности?"
+      }
+    ]
+  },
+  {
+    "id": "r23",
+    "level": "B2",
+    "title": "The Benefits of Bilingualism",
+    "text": "For many years, people believed that learning a second language as a child could confuse the brain and hinder cognitive development. Modern research, however, has completely debunked this myth. In fact, numerous studies show that bilingualism offers a wide range of cognitive benefits across the lifespan. Bilingual individuals often demonstrate enhanced executive functions, such as better attention control, improved task-switching abilities, and superior problem-solving skills. Furthermore, there is compelling evidence that regularly using two or more languages can delay the onset of dementia and Alzheimer's disease by several years. Far from being a hindrance, a second language is a powerful tool that strengthens the mind and provides a cognitive reserve.",
+    "translation": "Долгие годы считалось, что изучение второго языка в детстве может запутать мозг и помешать когнитивному развитию. Однако современные исследования полностью развенчали этот миф. На самом деле, многочисленные исследования показывают, что билингвизм предлагает широкий спектр когнитивных преимуществ на протяжении всей жизни. Двуязычные люди часто демонстрируют улучшенные исполнительные функции, такие как лучший контроль внимания, улучшенная способность переключаться между задачами и превосходные навыки решения проблем. Более того, существуют убедительные доказательства того, что регулярное использование двух или более языков может отсрочить наступление деменции и болезни Альцгеймера на несколько лет. Второй язык — это не помеха, а мощный инструмент, который укрепляет ум и создаёт когнитивный резерв.",
+    "vocabulary": [
+      { "word": "bilingualism", "translation": "билингвизм, двуязычие", "transcription": "baɪˈlɪŋ.ɡwəl.ɪ.zəm" },
+      { "word": "confuse the brain", "translation": "запутывать мозг", "transcription": "kənˈfjuːz ðə breɪn" },
+      { "word": "hinder cognitive development", "translation": "мешать когнитивному развитию", "transcription": "ˈhɪn.dər ˈkɒɡ.nə.tɪv dɪˈvel.əp.mənt" },
+      { "word": "debunk a myth", "translation": "развенчать миф", "transcription": "diːˈbʌŋk ə mɪθ" },
+      { "word": "cognitive benefits", "translation": "когнитивные преимущества", "transcription": "ˈkɒɡ.nə.tɪv ˈben.ɪ.fɪts" },
+      { "word": "lifespan", "translation": "продолжительность жизни", "transcription": "ˈlaɪf.spæn" },
+      { "word": "executive functions", "translation": "исполнительные функции", "transcription": "ɪɡˈzek.jə.tɪv ˈfʌŋk.ʃənz" },
+      { "word": "attention control", "translation": "контроль внимания", "transcription": "əˈten.ʃən kənˈtrəʊl" },
+      { "word": "task-switching", "translation": "переключение между задачами", "transcription": "tɑːsk ˈswɪtʃ.ɪŋ" },
+      { "word": "compelling evidence", "translation": "убедительное доказательство", "transcription": "kəmˈpel.ɪŋ ˈev.ɪ.dəns" },
+      { "word": "delay the onset", "translation": "отсрочить начало", "transcription": "dɪˈleɪ ði ˈɒn.set" },
+      { "word": "dementia", "translation": "деменция", "transcription": "dɪˈmen.ʃə" },
+      { "word": "Alzheimer's disease", "translation": "болезнь Альцгеймера", "transcription": "ˈælts.haɪ.məz dɪˌziːz" },
+      { "word": "hindrance", "translation": "помеха", "transcription": "ˈhɪn.drəns" },
+      { "word": "cognitive reserve", "translation": "когнитивный резерв", "transcription": "ˈkɒɡ.nə.tɪv rɪˈzɜːv" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What did people used to believe about learning a second language as a child?",
+        "options": ["It was beneficial", "It could confuse the brain and hinder development", "It had no effect", "It made children smarter"],
+        "correct": "It could confuse the brain and hinder development",
+        "translation": "Во что люди раньше верили об изучении второго языка в детстве?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What do modern studies show about bilingualism?",
+        "options": ["It causes memory loss", "It offers cognitive benefits across the lifespan", "It only helps children", "It has no benefits"],
+        "correct": "It offers cognitive benefits across the lifespan",
+        "translation": "Что показывают современные исследования о билингвизме?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What can bilingualism help delay?",
+        "options": ["Headaches", "Dementia and Alzheimer's disease", "Fatigue", "Stress"],
+        "correct": "Dementia and Alzheimer's disease",
+        "translation": "Чему может помочь билингвизм отсрочить?"
+      },
+      {
+        "type": "true_false",
+        "question": "Bilingualism is described as a hindrance in the text.",
+        "correct": "False",
+        "translation": "В тексте билингвизм описывается как помеха."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What executive functions are improved in bilingual individuals? (Choose all that apply)",
+        "options": ["Attention control", "Task-switching abilities", "Problem-solving skills", "Physical strength"],
+        "correct": ["Attention control", "Task-switching abilities", "Problem-solving skills"],
+        "translation": "Какие исполнительные функции улучшаются у билингвов? (выберите все подходящие)"
+      }
+    ]
+  },
+  {
+    "id": "r24",
+    "level": "B2",
+    "title": "Urbanisation and Its Challenges",
+    "text": "The world is undergoing an unprecedented wave of urbanisation. For the first time in history, more than half of the global population resides in cities, and this number is projected to rise significantly in the coming decades. This trend is driven by the promise of better economic opportunities, access to education, and improved healthcare. However, rapid urban growth also presents formidable challenges. Overcrowding, strained infrastructure, housing shortages, traffic congestion, and increased pollution are just a few of the issues that modern metropolises face. To ensure a sustainable future, city planners and governments must find innovative solutions, such as investing in efficient public transport, developing green spaces, and creating affordable housing. The cities of tomorrow must be designed to be not only centres of commerce but also healthy and liveable environments for their inhabitants.",
+    "translation": "Мир переживает беспрецедентную волну урбанизации. Впервые в истории более половины населения планеты проживает в городах, и, по прогнозам, в ближайшие десятилетия это число значительно возрастёт. Эта тенденция обусловлена обещанием лучших экономических возможностей, доступа к образованию и улучшенного здравоохранения. Однако быстрый рост городов также создаёт огромные проблемы. Перенаселённость, перегруженная инфраструктура, нехватка жилья, пробки на дорогах и повышенное загрязнение — это лишь некоторые из проблем, с которыми сталкиваются современные мегаполисы. Чтобы обеспечить устойчивое будущее, градостроители и правительства должны находить инновационные решения, такие как инвестиции в эффективный общественный транспорт, создание зелёных зон и строительство доступного жилья. Города будущего должны быть спроектированы не только как центры торговли, но и как здоровая и пригодная для жизни среда для их обитателей.",
+    "vocabulary": [
+      { "word": "urbanisation", "translation": "урбанизация", "transcription": "ˌɜː.bən.aɪˈzeɪ.ʃən" },
+      { "word": "unprecedented", "translation": "беспрецедентный", "transcription": "ʌnˈpres.ɪ.den.tɪd" },
+      { "word": "global population", "translation": "население мира", "transcription": "ˈɡləʊ.bəl ˌpɒp.jəˈleɪ.ʃən" },
+      { "word": "reside in", "translation": "проживать в", "transcription": "rɪˈzaɪd ɪn" },
+      { "word": "projected to rise", "translation": "прогнозируется рост", "transcription": "prəˈdʒek.tɪd tə raɪz" },
+      { "word": "driven by", "translation": "обусловленный", "transcription": "ˈdrɪv.ən baɪ" },
+      { "word": "economic opportunities", "translation": "экономические возможности", "transcription": "ˌiː.kəˈnɒm.ɪk ˌɒp.əˈtjuː.nə.tiz" },
+      { "word": "access to education", "translation": "доступ к образованию", "transcription": "ˈæk.ses tə ˌed.jʊˈkeɪ.ʃən" },
+      { "word": "improved healthcare", "translation": "улучшенное здравоохранение", "transcription": "ɪmˈpruːvd ˈhelθ.keər" },
+      { "word": "formidable challenges", "translation": "огромные проблемы", "transcription": "ˈfɔː.mɪ.də.bəl ˈtʃæl.ɪn.dʒɪz" },
+      { "word": "overcrowding", "translation": "перенаселённость", "transcription": "ˌəʊ.vəˈkraʊ.dɪŋ" },
+      { "word": "strained infrastructure", "translation": "перегруженная инфраструктура", "transcription": "streɪnd ˈɪn.frəˌstrʌk.tʃər" },
+      { "word": "housing shortages", "translation": "нехватка жилья", "transcription": "ˈhaʊ.zɪŋ ˈʃɔː.tɪdʒɪz" },
+      { "word": "traffic congestion", "translation": "пробки на дорогах", "transcription": "ˈtræf.ɪk kənˈdʒes.tʃən" },
+      { "word": "pollution", "translation": "загрязнение", "transcription": "pəˈluː.ʃən" },
+      { "word": "sustainable future", "translation": "устойчивое будущее", "transcription": "səˈsteɪ.nə.bəl ˈfjuː.tʃər" },
+      { "word": "innovative solutions", "translation": "инновационные решения", "transcription": "ˈɪn.ə.veɪ.tɪv səˈluː.ʃənz" },
+      { "word": "efficient public transport", "translation": "эффективный общественный транспорт", "transcription": "ɪˈfɪʃ.ənt ˌpʌb.lɪk ˈtræn.spɔːt" },
+      { "word": "green spaces", "translation": "зелёные зоны", "transcription": "ɡriːn ˈspeɪ.sɪz" },
+      { "word": "affordable housing", "translation": "доступное жильё", "transcription": "əˈfɔː.də.bəl ˈhaʊ.zɪŋ" },
+      { "word": "centres of commerce", "translation": "центры торговли", "transcription": "ˈsen.təz əv ˈkɒm.ɜːs" },
+      { "word": "liveable environment", "translation": "пригодная для жизни среда", "transcription": "ˈlɪv.ə.bəl ɪnˈvaɪ.rən.mənt" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What percentage of the global population lives in cities for the first time?",
+        "options": ["Less than half", "More than half", "Exactly half", "Almost all"],
+        "correct": "More than half",
+        "translation": "Какой процент населения мира впервые живёт в городах?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What drives urbanisation?",
+        "options": ["Better economic opportunities, education, and healthcare", "Climate change", "Tourism", "Agricultural decline"],
+        "correct": "Better economic opportunities, education, and healthcare",
+        "translation": "Что движет урбанизацией?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is a challenge of rapid urban growth?",
+        "options": ["More parks", "Overcrowding and strained infrastructure", "Less crime", "Better weather"],
+        "correct": "Overcrowding and strained infrastructure",
+        "translation": "Какова проблема быстрого роста городов?"
+      },
+      {
+        "type": "true_false",
+        "question": "The text says cities of the future should only focus on being centres of commerce.",
+        "correct": "False",
+        "translation": "В тексте говорится, что города будущего должны сосредоточиться только на том, чтобы быть центрами торговли."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is mentioned as a solution for a sustainable future? (Choose all that apply)",
+        "options": ["Investing in efficient public transport", "Developing green spaces", "Creating affordable housing", "Building more skyscrapers"],
+        "correct": ["Investing in efficient public transport", "Developing green spaces", "Creating affordable housing"],
+        "translation": "Что упоминается как решение для устойчивого будущего? (выберите все подходящие)"
+      }
+    ]
+  },
+  {
+    "id": "r25",
+    "level": "B2",
+    "title": "The Power of Tiny Habits",
+    "text": "When people set out to change their lives, they often aim for huge, dramatic transformations. They vow to run a marathon, write a novel, or completely overhaul their diet overnight. More often than not, these ambitious goals are abandoned within weeks, leaving a feeling of failure and frustration. A more effective approach, advocated by behavioural scientists, is to focus on tiny habits. This involves making small, almost imperceptible changes that are incredibly easy to do. For instance, instead of aiming to 'read more', you could set a goal to read just one page of a book every night before bed. Or instead of 'getting fit', you could commit to doing just two push-ups a day. Because the barrier to entry is so low, you are far more likely to be consistent. Over time, these tiny actions compound, building momentum and self-efficacy, eventually leading to significant and lasting change. The key is to start so small that you cannot fail.",
+    "translation": "Когда люди намереваются изменить свою жизнь, они часто целятся в огромные, кардинальные преобразования. Они клянутся пробежать марафон, написать роман или полностью пересмотреть свой рацион в одночасье. Чаще всего от этих амбициозных целей отказываются через несколько недель, оставляя чувство неудачи и разочарования. Более эффективный подход, который отстаивают поведенческие учёные, — это сосредоточиться на крошечных привычках. Он включает в себя небольшие, почти незаметные изменения, которые невероятно легко сделать. Например, вместо того чтобы стремиться «больше читать», можно поставить цель прочитать всего одну страницу книги каждый вечер перед сном. Или вместо того чтобы «привести себя в форму», можно взять на себя обязательство делать всего два отжимания в день. Поскольку порог входа настолько низок, у вас гораздо больше шансов быть последовательным. Со временем эти крошечные действия накапливаются, создавая импульс и веру в собственные силы, что в конечном итоге приводит к значительным и устойчивым изменениям. Ключ в том, чтобы начать с настолько малого, что вы не сможете потерпеть неудачу.",
+    "vocabulary": [
+      { "word": "set out", "translation": "намереваться", "transcription": "set aʊt" },
+      { "word": "dramatic transformation", "translation": "кардинальное преобразование", "transcription": "drəˈmæt.ɪk ˌtræns.fəˈmeɪ.ʃən" },
+      { "word": "vow", "translation": "клясться", "transcription": "vaʊ" },
+      { "word": "run a marathon", "translation": "пробежать марафон", "transcription": "rʌn ə ˈmær.ə.θən" },
+      { "word": "overhaul", "translation": "полная реорганизация, пересмотр", "transcription": "ˈəʊ.və.hɔːl" },
+      { "word": "overnight", "translation": "в одночасье", "transcription": "ˌəʊ.vəˈnaɪt" },
+      { "word": "ambitious goals", "translation": "амбициозные цели", "transcription": "æmˈbɪʃ.əs ɡəʊlz" },
+      { "word": "abandon", "translation": "бросать", "transcription": "əˈbæn.dən" },
+      { "word": "failure", "translation": "неудача", "transcription": "ˈfeɪ.ljər" },
+      { "word": "frustration", "translation": "разочарование", "transcription": "frʌsˈtreɪ.ʃən" },
+      { "word": "behavioural scientists", "translation": "поведенческие учёные", "transcription": "bɪˈheɪ.vjə.rəl ˈsaɪ.ən.tɪsts" },
+      { "word": "tiny habits", "translation": "крошечные привычки", "transcription": "ˈtaɪ.ni ˈhæb.ɪts" },
+      { "word": "imperceptible changes", "translation": "незаметные изменения", "transcription": "ˌɪm.pəˈsep.tə.bəl ˈtʃeɪn.dʒɪz" },
+      { "word": "incredibly easy", "translation": "невероятно легко", "transcription": "ɪnˈkred.ɪ.bli ˈiː.zi" },
+      { "word": "barrier to entry", "translation": "порог входа", "transcription": "ˈbær.i.ər tə ˈen.tri" },
+      { "word": "consistent", "translation": "последовательный", "transcription": "kənˈsɪs.tənt" },
+      { "word": "compound", "translation": "накапливаться, складываться", "transcription": "kəmˈpaʊnd" },
+      { "word": "momentum", "translation": "импульс", "transcription": "məˈmen.təm" },
+      { "word": "self-efficacy", "translation": "вера в собственные силы", "transcription": "ˌselfˈef.ɪ.kə.si" },
+      { "word": "lasting change", "translation": "устойчивое изменение", "transcription": "ˈlɑː.stɪŋ tʃeɪndʒ" }
+    ],
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What do people often aim for when trying to change their lives?",
+        "options": ["Small changes", "Huge, dramatic transformations", "No changes", "Only physical changes"],
+        "correct": "Huge, dramatic transformations",
+        "translation": "К чему часто стремятся люди, пытаясь изменить свою жизнь?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What happens to ambitious goals most of the time?",
+        "options": ["They are achieved easily", "They are abandoned within weeks", "They become easier over time", "They lead to immediate success"],
+        "correct": "They are abandoned within weeks",
+        "translation": "Что случается с амбициозными целями в большинстве случаев?"
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is the alternative approach advocated by behavioural scientists?",
+        "options": ["Working harder", "Focusing on tiny habits", "Setting more goals", "Using technology"],
+        "correct": "Focusing on tiny habits",
+        "translation": "Какой альтернативный подход отстаивают поведенческие учёные?"
+      },
+      {
+        "type": "true_false",
+        "question": "Tiny habits are difficult to maintain.",
+        "correct": "False",
+        "translation": "Крошечные привычки трудно поддерживать."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is the key to success according to the text?",
+        "options": ["Working hard every day", "Having a strict plan", "Starting so small that you cannot fail", "Using willpower"],
+        "correct": "Starting so small that you cannot fail",
+        "translation": "В чём ключ к успеху, согласно тексту?"
+      }
+    ]
+  }
+]

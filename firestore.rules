@@ -40,13 +40,12 @@ service cloud.firestore {
     }
     
     // ========== КОЛЛЕКЦИЯ EXAMS ==========
-    // Ученики читают все экзамены, фильтрация на клиенте
     match /exams/{examId} {
       allow read: if isAuthenticated();
       allow create, update, delete: if isTeacher();
     }
     
-    // ========== КОЛЛЕКЦИЯ STUDENT_PROGRESS (прогресс изучения тем) ==========
+    // ========== КОЛЛЕКЦИЯ STUDENT_PROGRESS ==========
     match /studentProgress/{progressId} {
       allow read: if isAuthenticated();
       allow create: if isStudent() && request.resource.data.studentId == request.auth.uid;
@@ -54,7 +53,7 @@ service cloud.firestore {
       allow delete: if false;
     }
     
-    // ========== КОЛЛЕКЦИЯ SUBMISSIONS (отправленные работы) ==========
+    // ========== КОЛЛЕКЦИЯ SUBMISSIONS ==========
     match /submissions/{submissionId} {
       allow read: if isTeacher() || (isStudent() && resource.data.studentId == request.auth.uid);
       allow create: if isStudent() && request.resource.data.studentId == request.auth.uid;
@@ -62,7 +61,7 @@ service cloud.firestore {
       allow delete: if isTeacher();
     }
     
-    // ========== КОЛЛЕКЦИЯ GRADED_SUBMISSIONS (проверенные работы) ==========
+    // ========== КОЛЛЕКЦИЯ GRADED_SUBMISSIONS ==========
     match /gradedSubmissions/{gradedId} {
       allow read: if isTeacher() || (isStudent() && resource.data.studentId == request.auth.uid);
       allow create, update: if isTeacher();
@@ -87,11 +86,42 @@ service cloud.firestore {
       allow write: if isTeacher();
     }
     
-    // ========== КОЛЛЕКЦИЯ AGGREGATED_STATS (статистика по классам) ==========
+    // ========== КОЛЛЕКЦИЯ AGGREGATED_STATS ==========
     match /aggregatedStats/{statId} {
       allow read: if isTeacher();
       allow create, update: if isTeacher();
       allow delete: if false;
+    }
+    
+    // ========== СТАРЫЕ КОЛЛЕКЦИИ АНГЛИЙСКОГО (для миграции) ==========
+    match /englishProgress/{userId} {
+      allow read: if isUser(userId) || isTeacher();
+      allow create: if isUser(userId);
+      allow update: if isUser(userId);
+      allow delete: if false;
+    }
+    
+    match /englishPacks/{packId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+    
+    // ========== НОВАЯ СТРУКТУРА АНГЛИЙСКОГО ==========
+    match /english/{userId} {
+      allow read: if isUser(userId) || isTeacher();
+      allow write: if isUser(userId);
+      
+      match /progress {
+        allow read: if isUser(userId) || isTeacher();
+        allow write: if isUser(userId);
+      }
+      
+      match /packs/{packId} {
+        allow read: if isUser(userId) || isTeacher();
+        allow write: if isUser(userId);
+      }
     }
   }
 }

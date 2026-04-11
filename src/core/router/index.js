@@ -1,9 +1,14 @@
+// src/core/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import { globalGuard } from './guards';
 
 // Импортируем маршруты модулей
 import socialRoutes from '@/modules/social/router';
 import chineseRoutes from '@/modules/chinese/router';
+import englishRoutes from '@/modules/english/router';
+
+// Компонент-заглушка
+import ComingSoon from '@/shared/components/ComingSoon.vue';
 
 // Глобальные маршруты
 const globalRoutes = [
@@ -28,11 +33,74 @@ const globalRoutes = [
   }
 ];
 
+// Студенческие заглушки для новых предметов (planned)
+const placeholderStudentRoutes = [
+  {
+    path: '/student/math',
+    name: 'StudentMath',
+    component: ComingSoon,
+    props: { subjectName: 'Математика' },
+    meta: { requiresAuth: true, subject: 'math' }
+  },
+  {
+    path: '/student/physics',
+    name: 'StudentPhysics',
+    component: ComingSoon,
+    props: { subjectName: 'Физика' },
+    meta: { requiresAuth: true, subject: 'physics' }
+  },
+  {
+    path: '/student/info',
+    name: 'StudentInfo',
+    component: ComingSoon,
+    props: { subjectName: 'Информатика' },
+    meta: { requiresAuth: true, subject: 'info' }
+  },
+  {
+    path: '/student/programming',
+    name: 'StudentProgramming',
+    component: ComingSoon,
+    props: { subjectName: 'Программирование' },
+    meta: { requiresAuth: true, subject: 'programming' }
+  }
+];
+
+// Учительские заглушки (пока не используются)
+const placeholderTeacherRoutes = [
+  {
+    path: '/teacher/math',
+    name: 'TeacherMath',
+    component: ComingSoon,
+    props: { subjectName: 'Математика (учитель)' },
+    meta: { requiresAuth: true, role: 'teacher', subject: 'math' }
+  },
+  {
+    path: '/teacher/physics',
+    name: 'TeacherPhysics',
+    component: ComingSoon,
+    props: { subjectName: 'Физика (учитель)' },
+    meta: { requiresAuth: true, role: 'teacher', subject: 'physics' }
+  },
+  {
+    path: '/teacher/info',
+    name: 'TeacherInfo',
+    component: ComingSoon,
+    props: { subjectName: 'Информатика (учитель)' },
+    meta: { requiresAuth: true, role: 'teacher', subject: 'info' }
+  }
+];
+
 const router = createRouter({
   history: createWebHistory(),
-  routes: [...globalRoutes, ...socialRoutes, ...chineseRoutes]
+  routes: [
+    ...globalRoutes,
+    ...socialRoutes,
+    ...chineseRoutes,
+    ...englishRoutes,
+    ...placeholderStudentRoutes,
+    ...placeholderTeacherRoutes
+  ]
 });
 
 router.beforeEach(globalGuard);
-
 export default router;

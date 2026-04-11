@@ -141,7 +141,7 @@
                 <div v-if="item.type === 'text_analysis'" class="text-analysis-grade">
                   <div class="grade-question">
                     <strong>Задания 17-20 (работа с текстом)</strong>
-                    <span class="max-score">(макс. {{ item.maxScore * 4 }} баллов)</span>
+                    <span class="max-score">(макс. {{ item.maxScore }} баллов)</span>
                     <button class="toggle-text-btn" @click="toggleText(item.questionId)">
                       {{ showText[item.questionId] ? 'Скрыть текст' : 'Показать текст' }}
                     </button>
@@ -158,14 +158,14 @@
                     </div>
                     <div class="user-answer">
                       <strong>Ответ ученика:</strong>
-                      <pre>{{ item.userAnswer?.[17] || 'Нет ответа' }}</pre>
+                      <pre>{{ formatAnswer(item.userAnswer?.[17], 'short') || 'Нет ответа' }}</pre>
                     </div>
                     <div class="grade-controls">
                       <div class="score-field">
-                        <label>Баллы (макс. {{ item.maxScore }}):</label>
+                        <label>Баллы (макс. {{ item.subMaxScores?.[17] || 2 }}):</label>
                         <CustomSelect
                           v-model="part2Scores[`${item.questionId}_17`]"
-                          :options="scoreOptions(item.maxScore)"
+                          :options="scoreOptions(item.subMaxScores?.[17] || 2)"
                           placeholder="0"
                         />
                       </div>
@@ -184,14 +184,14 @@
                     </div>
                     <div class="user-answer">
                       <strong>Ответ ученика:</strong>
-                      <pre>{{ item.userAnswer?.[18] || 'Нет ответа' }}</pre>
+                      <pre>{{ formatAnswer(item.userAnswer?.[18], 'short') || 'Нет ответа' }}</pre>
                     </div>
                     <div class="grade-controls">
                       <div class="score-field">
-                        <label>Баллы (макс. {{ item.maxScore }}):</label>
+                        <label>Баллы (макс. {{ item.subMaxScores?.[18] || 2 }}):</label>
                         <CustomSelect
                           v-model="part2Scores[`${item.questionId}_18`]"
-                          :options="scoreOptions(item.maxScore)"
+                          :options="scoreOptions(item.subMaxScores?.[18] || 2)"
                           placeholder="0"
                         />
                       </div>
@@ -210,14 +210,14 @@
                     </div>
                     <div class="user-answer">
                       <strong>Ответ ученика:</strong>
-                      <pre>{{ item.userAnswer?.[19] || 'Нет ответа' }}</pre>
+                      <pre>{{ formatAnswer(item.userAnswer?.[19], 'short') || 'Нет ответа' }}</pre>
                     </div>
                     <div class="grade-controls">
                       <div class="score-field">
-                        <label>Баллы (макс. {{ item.maxScore }}):</label>
+                        <label>Баллы (макс. {{ item.subMaxScores?.[19] || 3 }}):</label>
                         <CustomSelect
                           v-model="part2Scores[`${item.questionId}_19`]"
-                          :options="scoreOptions(item.maxScore)"
+                          :options="scoreOptions(item.subMaxScores?.[19] || 3)"
                           placeholder="0"
                         />
                       </div>
@@ -236,14 +236,14 @@
                     </div>
                     <div class="user-answer">
                       <strong>Ответ ученика:</strong>
-                      <pre>{{ item.userAnswer?.[20] || 'Нет ответа' }}</pre>
+                      <pre>{{ formatAnswer(item.userAnswer?.[20], 'short') || 'Нет ответа' }}</pre>
                     </div>
                     <div class="grade-controls">
                       <div class="score-field">
-                        <label>Баллы (макс. {{ item.maxScore }}):</label>
+                        <label>Баллы (макс. {{ item.subMaxScores?.[20] || 3 }}):</label>
                         <CustomSelect
                           v-model="part2Scores[`${item.questionId}_20`]"
-                          :options="scoreOptions(item.maxScore)"
+                          :options="scoreOptions(item.subMaxScores?.[20] || 3)"
                           placeholder="0"
                         />
                       </div>
@@ -424,7 +424,6 @@ const totalScore = computed(() => {
         score += item.isCorrect ? 1 : 0;
       }
     } else if (item.part === 2) {
-      // Для text_analysis суммируем баллы по 4 подвопросам
       if (item.type === 'text_analysis') {
         for (let i = 17; i <= 20; i++) {
           score += part2Scores.value[`${item.questionId}_${i}`] || 0;
@@ -443,7 +442,6 @@ const totalMaxScore = computed(() => {
     if (item.part === 1) {
       max += 1;
     } else if (item.part === 2) {
-      // Для text_analysis суммируем максимальные баллы по 4 подвопросам
       if (item.type === 'text_analysis') {
         for (let i = 17; i <= 20; i++) {
           max += item.subMaxScores?.[i] || 2;
@@ -570,6 +568,44 @@ const filteredSubmissions = computed(() => {
   return result;
 });
 
+// ИСПРАВЛЕННАЯ функция formatAnswer
+const formatAnswer = (answer, type) => {
+  if (!answer) return 'Нет ответа';
+  
+  if (type === 'choice') {
+    if (Array.isArray(answer)) {
+      return answer.map(i => i + 1).join(', ');
+    }
+    if (typeof answer === 'number') {
+      return String(answer + 1);
+    }
+    return String(answer);
+  }
+  
+  if (type === 'match') {
+    if (Array.isArray(answer)) return answer.join(', ');
+    if (typeof answer === 'object') return Object.values(answer).join(', ');
+    return String(answer);
+  }
+  
+  if (type === 'short') {
+    return String(answer);
+  }
+  
+  if (typeof answer === 'object') {
+    if (answer.text) return answer.text;
+    if (answer.fileUrl) return `[Прикреплён файл] ${answer.fileUrl}`;
+    return JSON.stringify(answer);
+  }
+  return String(answer);
+};
+
+// ИСПРАВЛЕННАЯ функция formatPreviewAnswer
+const formatPreviewAnswer = (q, answer) => {
+  if (!answer) return 'Нет ответа';
+  return formatAnswer(answer, q.type);
+};
+
 const loadData = async () => {
   if (!teacherUid) return;
   loading.value = true;
@@ -621,24 +657,6 @@ const closePreviewModal = () => {
   showPreviewModal.value = false;
   previewSubmission.value = null;
   previewQuestions.value = [];
-};
-
-const formatPreviewAnswer = (q, answer) => {
-  if (!answer) return 'Нет ответа';
-  if (q.type === 'choice') {
-    if (Array.isArray(answer)) return answer.map(i => i+1).join(', ');
-    if (typeof answer === 'number') return String(answer+1);
-    return String(answer);
-  }
-  if (q.type === 'match') {
-    if (Array.isArray(answer)) return answer.join(', ');
-    if (typeof answer === 'object') return Object.values(answer).join(', ');
-    return answer;
-  }
-  if (typeof answer === 'object') {
-    return answer.text || JSON.stringify(answer);
-  }
-  return String(answer);
 };
 
 const openGradeModal = async (submission) => {
@@ -720,7 +738,7 @@ const openGradeModal = async (submission) => {
           subQuestions: q.subQuestions || {},
           subMaxScores: q.subMaxScores || { 17: 2, 18: 2, 19: 3, 20: 3 },
           userAnswer: userAnswer || {},
-          maxScore: 2 + 2 + 3 + 3 // 10 баллов всего
+          maxScore: 2 + 2 + 3 + 3
         });
       } else {
         items.push({
@@ -747,7 +765,6 @@ const openGradeModal = async (submission) => {
   items.forEach(item => {
     if (item.part === 2) {
       if (item.type === 'text_analysis') {
-        // Для text_analysis инициализируем баллы для 4 подвопросов
         for (let i = 17; i <= 20; i++) {
           part2Scores.value[`${item.questionId}_${i}`] = 0;
           part2Feedback.value[`${item.questionId}_${i}`] = '';
@@ -779,28 +796,6 @@ const toggleQuestionText = (questionId) => {
   showQuestionText.value = { ...showQuestionText.value, [questionId]: !showQuestionText.value[questionId] };
 };
 
-const formatAnswer = (item) => {
-  const answer = item.userAnswer;
-  if (!answer) return 'Нет ответа';
-  
-  if (item.type === 'choice') {
-    if (Array.isArray(answer)) {
-      return answer.map(i => i + 1).join(', ');
-    }
-    if (typeof answer === 'number') {
-      return String(answer + 1);
-    }
-    return String(answer);
-  }
-  
-  if (typeof answer === 'object') {
-    if (answer.text) return answer.text;
-    if (answer.fileUrl) return `[Прикреплён файл] ${answer.fileUrl}`;
-    return JSON.stringify(answer);
-  }
-  return String(answer);
-};
-
 const submitGrade = async () => {
   if (!currentSubmission.value) return;
 
@@ -818,7 +813,6 @@ const submitGrade = async () => {
       }
     } else if (item.part === 2) {
       if (item.type === 'text_analysis') {
-        // Для text_analysis суммируем баллы по 4 подвопросам
         let subTotal = 0;
         let subMax = 0;
         for (let i = 17; i <= 20; i++) {
@@ -836,7 +830,6 @@ const submitGrade = async () => {
 
   const percentage = Math.round((finalTotalScore / finalMaxScore) * 100);
 
-  // Сохраняем баллы для text_analysis в специальном формате
   const textAnalysisScores = {};
   const textAnalysisFeedback = {};
   gradeItems.value.forEach(item => {
@@ -1255,6 +1248,8 @@ onUnmounted(() => {});
   white-space: pre-wrap;
   font-family: inherit;
   font-size: 0.85rem;
+  max-height: 200px;
+  overflow-y: auto;
 }
 .grade-controls {
   display: flex;
@@ -1289,7 +1284,39 @@ onUnmounted(() => {});
   border-radius: 0.5rem;
   font-family: inherit;
   resize: none;
+}
+.feedback-field textarea {
+  height: 60px;
+}
+.general-feedback-section textarea {
   height: 80px;
+}
+.sub-question {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--gray-300);
+}
+.sub-question-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.sub-q-num {
+  width: 28px;
+  height: 28px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.sub-q-text {
+  font-weight: 500;
+  color: var(--secondary);
 }
 .final-grade-info {
   display: flex;
@@ -1467,6 +1494,8 @@ onUnmounted(() => {});
   font-family: inherit;
   font-size: 0.85rem;
   margin-top: 0.25rem;
+  max-height: 150px;
+  overflow-y: auto;
 }
 .preview-correct-answer {
   margin-top: 0.5rem;
@@ -1527,6 +1556,9 @@ body.dark-theme .preview-correct-answer {
   background: rgba(16,185,129,0.2);
 }
 body.dark-theme .score-summary {
+  color: var(--gray-300);
+}
+body.dark-theme .sub-q-text {
   color: var(--gray-300);
 }
 </style>
