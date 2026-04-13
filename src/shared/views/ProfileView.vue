@@ -180,7 +180,7 @@
       </div>
     </div>
 
-    <!-- Модалка выбора предметов -->
+    <!-- Модалка выбора предметов (только v-model, без @save) -->
     <Modal 
       :isOpen="showSubjectModal" 
       title="Выберите предметы" 
@@ -190,7 +190,6 @@
       <SubjectSelector
         v-model="selectedSubjects"
         :showActions="true"
-        @save="saveSubjects"
         @cancel="showSubjectModal = false"
       />
     </Modal>
@@ -230,20 +229,20 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { auth, db } from '@core/services/firebase';
 import { signOut, updatePassword as firebaseUpdatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import Modal from '@shared/components/Modal.vue';
 import SubjectSelector from '@shared/components/SubjectSelector.vue';
 import { SUBJECTS_LIST, getSubjectById } from '@core/constants/subjects';
 import { useTheme } from '@core/composables/useTheme';
-import { useToast } from '@core/composables/useToast';
+import { useAppStore } from '@core/stores/appStore';
 
 const router = useRouter();
+const appStore = useAppStore();
 const { currentTheme, setTheme } = useTheme();
-const { success, error: toastError } = useToast();
 
 // Данные пользователя
 const userLogin = ref('');
@@ -333,24 +332,27 @@ const openSubjectSelector = () => {
   showSubjectModal.value = true;
 };
 
-const saveSubjects = async (subjects) => {
-  try {
-    const user = auth.currentUser;
-    if (!user) return;
-    
-    await updateDoc(doc(db, 'users', user.uid), {
-      subjects: subjects,
-      updatedAt: new Date()
-    });
-    
-    selectedSubjects.value = subjects;
-    showSubjectModal.value = false;
-    success('Предметы успешно обновлены');
-  } catch (err) {
-    console.error('Error saving subjects:', err);
-    toastError('Ошибка сохранения предметов');
-  }
-};
+// Автоматическое сохранение предметов при изменении (через watch)
+let saveTimeout = null;
+watch(selectedSubjects, async (newSubjects) => {
+  const user = auth.currentUser;
+  if (!user) return;
+  
+  // Дебаунс, чтобы не сохранять при каждом клике
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(async () => {
+    try {
+      await setDoc(doc(db, 'users', user.uid), {
+        subjects: newSubjects,
+        updatedAt: new Date()
+      }, { merge: true });
+      appStore.showToast('Предметы сохранены', 'success');
+    } catch (err) {
+      console.error('Error saving subjects:', err);
+      appStore.showToast('Ошибка сохранения предметов', 'error');
+    }
+  }, 500);
+}, { deep: true });
 
 const changePassword = () => {
   showPasswordModal.value = true;
@@ -361,11 +363,8 @@ const updatePassword = async () => {
     const user = auth.currentUser;
     if (!user || !user.email) return;
     
-    // Переаутентификация
     const credential = EmailAuthProvider.credential(user.email, oldPassword.value);
     await reauthenticateWithCredential(user, credential);
-    
-    // Смена пароля
     await firebaseUpdatePassword(user, newPassword.value);
     
     showPasswordModal.value = false;
@@ -373,13 +372,13 @@ const updatePassword = async () => {
     newPassword.value = '';
     confirmPassword.value = '';
     
-    success('Пароль успешно изменён');
+    appStore.showToast('Пароль успешно изменён', 'success');
   } catch (err) {
     console.error('Error changing password:', err);
     if (err.code === 'auth/wrong-password') {
-      toastError('Неверный текущий пароль');
+      appStore.showToast('Неверный текущий пароль', 'error');
     } else {
-      toastError('Ошибка смены пароля');
+      appStore.showToast('Ошибка смены пароля', 'error');
     }
   }
 };

@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { SUBJECTS_LIST, getSubjectsByCategory } from '@core/constants/subjects';
+import { SUBJECTS_LIST, getSubjectsByCategory, getActiveSubjects } from '@core/constants/subjects';
 
 const props = defineProps({
   modelValue: {
@@ -51,6 +51,10 @@ const props = defineProps({
   showActions: {
     type: Boolean,
     default: true
+  },
+  filterPlanned: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -59,11 +63,16 @@ const emit = defineEmits(['update:modelValue', 'save', 'cancel']);
 const selectedSubjects = ref([...props.modelValue]);
 const activeCategory = ref('all');
 
+// Фильтруем предметы в зависимости от filterPlanned
+const availableSubjects = computed(() => {
+  if (props.filterPlanned) {
+    return getActiveSubjects();
+  }
+  return SUBJECTS_LIST;
+});
+
 const categories = computed(() => {
   const cats = [{ id: 'all', name: 'Все', icon: '📚' }];
-  const grouped = getSubjectsByCategory('ege') ? { ege: 'ЕГЭ', chinese: 'Китайский', english: 'Английский', programming: 'Программирование' } : {};
-  
-  // Категории
   const catsMap = {
     ege: { id: 'ege', name: 'ЕГЭ', icon: '🎓' },
     chinese: { id: 'chinese', name: 'Китайский', icon: '🐉' },
@@ -72,7 +81,7 @@ const categories = computed(() => {
   };
   
   Object.values(catsMap).forEach(cat => {
-    if (SUBJECTS_LIST.some(s => s.category === cat.id)) {
+    if (availableSubjects.value.some(s => s.category === cat.id)) {
       cats.push(cat);
     }
   });
@@ -82,9 +91,9 @@ const categories = computed(() => {
 
 const filteredSubjects = computed(() => {
   if (activeCategory.value === 'all') {
-    return SUBJECTS_LIST;
+    return availableSubjects.value;
   }
-  return SUBJECTS_LIST.filter(s => s.category === activeCategory.value);
+  return availableSubjects.value.filter(s => s.category === activeCategory.value);
 });
 
 const isSelected = (subjectId) => {

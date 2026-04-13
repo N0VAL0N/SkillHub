@@ -7,7 +7,6 @@
       </div>
       <div class="question-text">{{ question.text }}</div>
       
-      <!-- График/диаграмма для задания 9 -->
       <div v-if="question.data" class="chart-container">
         <div v-if="question.data.type === 'table'" class="table-container">
           <table class="data-table">
@@ -67,7 +66,7 @@
       </div>
     </div>
 
-    <!-- СООТВЕТСТВИЕ (3,6,13,15) -->
+    <!-- СООТВЕТСТВИЕ (3,6,13,15) с валидацией -->
     <div v-else-if="question.type === 'match'">
       <div class="question-badge-wrapper">
         <span class="question-badge">Задание {{ question.ege_num }}</span>
@@ -108,6 +107,7 @@
           </div>
         </div>
         <div class="match-answer-hint">Введите цифры в указанном порядке (например: 31232)</div>
+        <div v-if="matchValidationError" class="input-error">{{ matchValidationError }}</div>
       </div>
     </div>
 
@@ -508,9 +508,10 @@ const toggleTextContent = (num) => {
   }
 }
 
-// ========== MATCH ==========
+// ========== MATCH с валидацией ==========
 const leftItems = computed(() => props.question.leftItems || [])
 const matchAnswerSequence = ref([])
+const matchValidationError = ref('')
 
 watch(() => props.modelValue, (val) => {
   const length = leftItems.value.length
@@ -545,6 +546,7 @@ watch(() => props.modelValue, (val) => {
   } else {
     matchAnswerSequence.value = new Array(length).fill('')
   }
+  matchValidationError.value = ''
 }, { immediate: true, deep: true })
 
 const updateMatchAnswerSequence = (index, value) => {
@@ -555,14 +557,33 @@ const updateMatchAnswerSequence = (index, value) => {
   } else if (lastChar === '') {
     newSeq[index] = ''
   }
+  
+  // Валидация: проверяем, что все цифры в допустимом диапазоне
+  const maxDigit = props.question.optionsList?.length || 9
+  let hasInvalid = false
+  for (let i = 0; i < newSeq.length; i++) {
+    const digit = newSeq[i]
+    if (digit && (parseInt(digit) < 1 || parseInt(digit) > maxDigit)) {
+      hasInvalid = true
+      matchValidationError.value = `Допустимые цифры от 1 до ${maxDigit}`
+      break
+    }
+  }
+  if (!hasInvalid) {
+    matchValidationError.value = ''
+  }
+  
   matchAnswerSequence.value = newSeq
   
-  const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е']
-  const obj = {}
-  for (let i = 0; i < newSeq.length; i++) {
-    if (newSeq[i] && newSeq[i] !== '') obj[letters[i]] = newSeq[i]
+  // Сохраняем только если нет ошибок валидации
+  if (!hasInvalid) {
+    const letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е']
+    const obj = {}
+    for (let i = 0; i < newSeq.length; i++) {
+      if (newSeq[i] && newSeq[i] !== '') obj[letters[i]] = newSeq[i]
+    }
+    emit('update:modelValue', obj)
   }
-  emit('update:modelValue', obj)
 }
 
 const getLetter = (index) => String.fromCharCode(65 + index)

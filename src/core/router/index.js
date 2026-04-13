@@ -2,15 +2,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { globalGuard } from './guards';
 
-// Импортируем маршруты модулей
 import socialRoutes from '@/modules/social/router';
 import chineseRoutes from '@/modules/chinese/router';
 import englishRoutes from '@/modules/english/router';
 
-// Компонент-заглушка
 import ComingSoon from '@/shared/components/ComingSoon.vue';
 
-// Глобальные маршруты
 const globalRoutes = [
   {
     path: '/',
@@ -33,7 +30,6 @@ const globalRoutes = [
   }
 ];
 
-// Студенческие заглушки для новых предметов (planned)
 const placeholderStudentRoutes = [
   {
     path: '/student/math',
@@ -65,7 +61,6 @@ const placeholderStudentRoutes = [
   }
 ];
 
-// Учительские заглушки (пока не используются)
 const placeholderTeacherRoutes = [
   {
     path: '/teacher/math',

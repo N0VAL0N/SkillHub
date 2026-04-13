@@ -43,7 +43,6 @@ const clearSessionAndRedirect = async (next) => {
 export async function globalGuard(to, from, next) {
   const user = auth.currentUser;
 
-  // Страницы для гостей
   if (to.meta.requiresGuest) {
     if (user) {
       const role = await getUserRole(user.uid);
@@ -62,7 +61,6 @@ export async function globalGuard(to, from, next) {
     return;
   }
 
-  // Страницы, требующие авторизации
   if (to.meta.requiresAuth) {
     if (!user) {
       next('/login');
@@ -81,7 +79,6 @@ export async function globalGuard(to, from, next) {
       return;
     }
 
-    // Проверка предметной принадлежности (если указана)
     const subject = to.meta.subject;
     if (subject === 'social') {
       if (to.path.startsWith('/teacher') && role !== 'teacher') {

@@ -713,6 +713,7 @@ const beforeUnloadHandler = (e) => {
 };
 
 onMounted(() => {
+  document.body.classList.add('hide-student-layout');
   const savedIndex = localStorage.getItem(`task_index_${taskId}`);
   if (savedIndex) {
     currentIndex.value = parseInt(savedIndex);
@@ -765,6 +766,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  document.body.classList.remove('hide-student-layout');
   localStorage.setItem(`task_index_${taskId}`, currentIndex.value);
   saveToLocalStorage();
   window.removeEventListener('beforeunload', beforeUnloadHandler);

@@ -2,8 +2,6 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
-    
     function isAuthenticated() {
       return request.auth != null;
     }
@@ -25,12 +23,22 @@ service cloud.firestore {
       return isAuthenticated() && getUserRole() == 'student';
     }
     
+    function isTeacherOfClass(classId) {
+      let classData = get(/databases/$(database)/documents/classes/$(classId)).data;
+      return classData.teacherId == request.auth.uid;
+    }
+    
     // ========== КОЛЛЕКЦИЯ USERS ==========
     match /users/{userId} {
       allow read: if true;
       allow create: if request.resource.data.uid == request.auth.uid;
       allow update: if isUser(userId) || isTeacher();
       allow delete: if false;
+    }
+
+    // ========== ИГРОВАЯ СТАТИСТИКА ==========
+    match /gameStats/{userId} {
+      allow read, write: if isUser(userId);
     }
     
     // ========== КОЛЛЕКЦИЯ CLASSES ==========
@@ -39,7 +47,7 @@ service cloud.firestore {
       allow create, update, delete: if isTeacher();
     }
     
-    // ========== КОЛЛЕКЦИЯ EXAMS ==========
+    // ========== КОЛЛЕКЦИЯ EXAMS (исправлено) ==========
     match /exams/{examId} {
       allow read: if isAuthenticated();
       allow create, update, delete: if isTeacher();
@@ -57,7 +65,11 @@ service cloud.firestore {
     match /submissions/{submissionId} {
       allow read: if isTeacher() || (isStudent() && resource.data.studentId == request.auth.uid);
       allow create: if isStudent() && request.resource.data.studentId == request.auth.uid;
-      allow update: if (isStudent() && resource.data.studentId == request.auth.uid && resource.data.status == 'pending') || isTeacher();
+      allow update: if (isStudent() && 
+                        resource.data.studentId == request.auth.uid && 
+                        resource.data.status == 'pending' &&
+                        !request.resource.data.keys().hasAny(['teacherGrade', 'status'])) 
+                      || isTeacher();
       allow delete: if isTeacher();
     }
     
@@ -88,8 +100,8 @@ service cloud.firestore {
     
     // ========== КОЛЛЕКЦИЯ AGGREGATED_STATS ==========
     match /aggregatedStats/{statId} {
-      allow read: if isTeacher();
-      allow create, update: if isTeacher();
+      allow read: if isTeacher() && isTeacherOfClass(statId);
+      allow create, update: if isTeacher() && isTeacherOfClass(statId);
       allow delete: if false;
     }
     

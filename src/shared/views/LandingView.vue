@@ -14,7 +14,6 @@
       <div class="subjects-preview">
         <span class="subject-tag">📐 Математика</span>
         <span class="subject-tag">⚖️ Обществознание</span>
-        <span class="subject-tag">💻 Информатика</span>
         <span class="subject-tag">⚛️ Физика</span>
         <span class="subject-tag">🇬🇧 Английский</span>
         <span class="subject-tag">🐉 Китайский</span>

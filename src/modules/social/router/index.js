@@ -109,5 +109,17 @@ export default [
     name: 'SocialTeacherExamCreate',
     component: () => import('@/modules/social/views/teacher/ExamEditor.vue'),
     meta: { requiresAuth: true, subject: 'social', role: 'teacher' }
-  }
+  },
+  {
+  path: '/student/games',
+  name: 'SocialStudentGames',
+  component: () => import('@/modules/social/views/student/GamesView.vue'),
+  meta: { requiresAuth: true, subject: 'social', role: 'student' }
+},
+{
+  path: '/student/game/crocodile',
+  name: 'SocialStudentGameCrocodile',
+  component: () => import('@/modules/social/views/student/GameCrocodile.vue'),
+  meta: { requiresAuth: true, subject: 'social', role: 'student' }
+}
 ];

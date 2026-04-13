@@ -1,4 +1,3 @@
-<!-- components/ui/PublishModal.vue -->
 <template>
   <div class="modal" @click.self="close">
     <div class="modal-content">
@@ -20,7 +19,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { db } from '@/services/firebase';
+import { db } from '@core/services/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
 const props = defineProps({

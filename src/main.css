@@ -518,3 +518,14 @@ body.dark-theme .toast {
   scrollbar-width: auto;
   scrollbar-color: var(--primary) #ffe8d6;
 }
+
+/* Скрытие сайдбара и футера для полноэкранных режимов */
+body.hide-student-layout .student-layout .sidebar,
+body.hide-student-layout .student-layout .footer {
+  display: none;
+}
+body.hide-student-layout .student-layout .main-content {
+  margin-left: 0;
+  padding: 0;
+}
+

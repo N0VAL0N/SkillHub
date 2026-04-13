@@ -112,7 +112,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import { useQuestionGenerator } from '@/modules/social/stores/questionGenerator';
 import StudentLayout from '@core/layouts/StudentLayout.vue';
 import QuestionRenderer from '@/modules/social/components/QuestionRenderer.vue';
@@ -161,10 +161,14 @@ const getTypeLabel = (type) => {
   return labels[type] || type;
 };
 
-const generateQuestions = () => {
+const generateQuestions = async () => {
   if (!selectedTopicId.value) return;
   loading.value = true;
 
+  // Используем nextTick для асинхронной генерации
+  await nextTick();
+  
+  // Имитация асинхронной генерации (на самом деле генератор синхронный, но мы даём браузеру время)
   setTimeout(() => {
     const topic = topicsList.value.find(t => t.id === selectedTopicId.value);
     currentTopicName.value = topic?.name || '';
@@ -184,7 +188,7 @@ const generateQuestions = () => {
     showMistakes.value = false;
     correctCount.value = 0;
     loading.value = false;
-  }, 300);
+  }, 50);
 };
 
 const checkAnswers = () => {
@@ -202,7 +206,6 @@ const checkAnswers = () => {
         if (answer === q.correct) correct++;
       }
     } else if (q.type === 'match') {
-      // Новый формат проверки для match заданий
       const correctAnswersStr = q.correctAnswers;
       let userAnswersStr = '';
       const leftItems = q.leftItems || [];
@@ -309,7 +312,6 @@ const getCorrectAnswer = (q) => {
     return q.options[q.correct];
   }
   if (q.type === 'match') {
-    // Новый формат
     if (q.correctAnswers && q.leftItems && q.optionsList) {
       const correctNums = q.correctAnswers.split('');
       return q.leftItems.map((left, idx) => {

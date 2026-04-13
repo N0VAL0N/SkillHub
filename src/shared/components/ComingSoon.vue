@@ -1,10 +1,9 @@
-<!-- src/shared/components/ComingSoon.vue -->
 <template>
   <div class="coming-soon">
     <div class="icon">🚧</div>
     <h2>В разработке</h2>
     <p>Модуль «{{ subjectName }}» скоро появится</p>
-    <button @click="goBack" class="btn-back">Назад</button>
+    <button @click="goHome" class="btn-back">На главную</button>
   </div>
 </template>
 
@@ -19,7 +18,7 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const goBack = () => router.back();
+const goHome = () => router.push('/');
 </script>
 
 <style scoped>

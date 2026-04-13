@@ -72,7 +72,6 @@
           :disabled="loading"
         />
 
-        <!-- КАСТОМНЫЙ ВЫБОР ПРЕДМЕТОВ -->
         <div v-if="!isLogin" class="subjects-selection">
           <label class="subjects-label">Выберите предметы, которые изучаете:</label>
           <SubjectSelector
@@ -123,8 +122,7 @@ import {
   createUserWithEmailAndPassword,
   setPersistence,
   browserLocalPersistence,
-  browserSessionPersistence,
-  sendEmailVerification
+  browserSessionPersistence
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc } from 'firebase/firestore';
 import MigrationModal from '@shared/components/MigrationModal.vue';
@@ -135,7 +133,6 @@ import { useAppStore } from '@core/stores/appStore';
 const router = useRouter();
 const appStore = useAppStore();
 
-// Код учителя читаем из .env
 const TEACHER_INVITE_CODE = import.meta.env.VITE_TEACHER_INVITE_CODE || 'TEACHER2026';
 
 const isLogin = ref(true);
@@ -156,7 +153,6 @@ const currentUserId = ref('');
 const currentUserData = ref({});
 const missingFields = ref([]);
 
-// Поиск пользователя по email или login
 const findUser = async (value) => {
   const searchValue = value.trim().toLowerCase();
   const emailQuery = query(collection(db, 'users'), where('email', '==', searchValue));
@@ -168,7 +164,6 @@ const findUser = async (value) => {
   return null;
 };
 
-// Проверка недостающих полей
 const checkMissingFields = (userData) => {
   const missing = [];
   if (!userData.email) missing.push('email');
@@ -177,7 +172,6 @@ const checkMissingFields = (userData) => {
   return missing;
 };
 
-// Авто-заполнение дефолтных значений
 const autoFillDefaults = async (userId, userData) => {
   const updateData = {};
   let needsUpdate = false;
@@ -283,8 +277,6 @@ const handleSubmit = async () => {
   error.value = '';
 
   try {
-    await setPersistence(auth, rememberMe.value ? browserLocalPersistence : browserSessionPersistence);
-
     if (isLogin.value) {
       // ВХОД
       const userDoc = await findUser(loginOrEmail.value.trim());
@@ -294,12 +286,7 @@ const handleSubmit = async () => {
       if (!userEmail) throw new Error('У пользователя нет email');
       await signInWithEmailAndPassword(auth, userEmail, password.value);
       const user = auth.currentUser;
-      if (user && !user.emailVerified) {
-        error.value = 'Пожалуйста, подтвердите email. Проверьте почту.';
-        appStore.showToast(error.value, 'error');
-        loading.value = false;
-        return;
-      }
+      // Проверка email удалена
       await updateDoc(doc(db, 'users', user.uid), { lastLoginAt: new Date(), updatedAt: new Date() });
       let freshUserData = await autoFillDefaults(user.uid, userData);
       currentUserId.value = user.uid;
@@ -322,14 +309,13 @@ const handleSubmit = async () => {
       const emailSnapshot = await getDocs(emailQuery);
       if (!emailSnapshot.empty) throw new Error('Email уже используется');
       
-      // Проверка кода учителя
       if (selectedRole.value === 'teacher' && inviteCode.value !== TEACHER_INVITE_CODE) {
         throw new Error('Неверный код доступа для учителя');
       }
       
       const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
       const user = userCredential.user;
-      await sendEmailVerification(user);
+      // Отправка подтверждения email удалена
       await setDoc(doc(db, 'users', user.uid), {
         uid: user.uid,
         login: loginName,
@@ -345,7 +331,7 @@ const handleSubmit = async () => {
         settings: { theme: 'light', fontSize: 16, notifications: true },
         stats: { totalTasks: 0, correctAnswers: 0, streak: 0, lastActive: new Date() }
       });
-      appStore.showToast('Регистрация прошла успешно! Проверьте почту для подтверждения.', 'success');
+      appStore.showToast('Регистрация прошла успешно!', 'success');
       if (selectedRole.value === 'teacher') router.push('/teacher');
       else router.push('/student');
     }

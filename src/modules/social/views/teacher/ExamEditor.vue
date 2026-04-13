@@ -322,7 +322,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { db, auth } from '@core/services/firebase';
 import { collection, getDocs, addDoc, updateDoc, doc, getDoc } from 'firebase/firestore';
@@ -343,7 +343,6 @@ const examId = ref(null);
 const mode = ref(route.query.type === 'homework' ? 'homework' : 'exam');
 const isMounted = ref(true);
 
-// Опции предметов
 const subjectOptions = computed(() => {
   return SUBJECTS_LIST.map(s => ({ value: s.id, label: s.name, icon: s.icon }));
 });
@@ -423,6 +422,45 @@ const showToast = (type, message) => {
   setTimeout(() => {
     if (isMounted.value) toast.value.visible = false;
   }, 3000);
+};
+
+// Функция очистки форм
+const resetForms = () => {
+  exam.value = {
+    title: '',
+    subject: 'social',
+    classId: '',
+    blockId: 1,
+    deadline: null,
+    enableTimer: false,
+    timerMinutes: 210,
+    part2: {
+      text: { enabled: false, value: '' },
+      plan: { enabled: false, value: '' },
+      task: { enabled: false, value: '' },
+      lawTask: { enabled: false, value: '' },
+      essay: { enabled: false, value: '' },
+      graph: { enabled: false, value: '' }
+    }
+  };
+  
+  homework.value = {
+    title: '',
+    subject: 'social',
+    classId: '',
+    topicId: '',
+    deadline: null,
+    types: {
+      choice: { enabled: true, count: 2 },
+      match: { enabled: true, count: 1 },
+      short: { enabled: true, count: 1 },
+      essay: { enabled: true, count: 1, topicId: '' }
+    }
+  };
+  
+  currentQuestions.value = [];
+  generatedExam.value = null;
+  generatedHomework.value = null;
 };
 
 const getTypeLabel = (type) => {
@@ -713,6 +751,29 @@ const loadExam = async () => {
   }
 };
 
+const sanitizeForFirestore = (data) => {
+  if (data === null || data === undefined) return data;
+  if (Array.isArray(data)) {
+    const hasNestedArray = data.some(item => Array.isArray(item));
+    if (hasNestedArray) {
+      return data.map(item => {
+        if (Array.isArray(item)) return JSON.stringify(item);
+        if (typeof item === 'object' && item !== null) return sanitizeForFirestore(item);
+        return item;
+      });
+    }
+    return data;
+  }
+  if (typeof data === 'object' && data !== null) {
+    const cleaned = {};
+    for (const [key, value] of Object.entries(data)) {
+      cleaned[key] = sanitizeForFirestore(value);
+    }
+    return cleaned;
+  }
+  return data;
+};
+
 const saveExam = async () => {
   if (currentQuestions.value.length === 0) {
     showToast('error', 'Нет заданий для сохранения');
@@ -723,32 +784,6 @@ const saveExam = async () => {
     showToast('error', 'Вы не авторизованы');
     return;
   }
-
-  // Функция для очистки данных от вложенных массивов
-  const sanitizeForFirestore = (data) => {
-    if (data === null || data === undefined) return data;
-    if (Array.isArray(data)) {
-      // Проверяем, есть ли внутри массива другие массивы
-      const hasNestedArray = data.some(item => Array.isArray(item));
-      if (hasNestedArray) {
-        // Преобразуем вложенные массивы в строки JSON
-        return data.map(item => {
-          if (Array.isArray(item)) return JSON.stringify(item);
-          if (typeof item === 'object' && item !== null) return sanitizeForFirestore(item);
-          return item;
-        });
-      }
-      return data;
-    }
-    if (typeof data === 'object' && data !== null) {
-      const cleaned = {};
-      for (const [key, value] of Object.entries(data)) {
-        cleaned[key] = sanitizeForFirestore(value);
-      }
-      return cleaned;
-    }
-    return data;
-  };
 
   const baseData = {
     title: (mode.value === 'exam' ? exam.value.title : homework.value.title) || 'Без названия',
@@ -775,7 +810,6 @@ const saveExam = async () => {
     if (homework.value.topicId && homework.value.topicId !== '') baseData.topicId = homework.value.topicId;
   }
 
-  // Удаляем undefined поля
   const cleanedData = {};
   for (const [key, value] of Object.entries(baseData)) {
     if (value !== undefined && value !== null && value !== '') {
@@ -796,11 +830,32 @@ const saveExam = async () => {
     } else {
       await addDoc(collection(db, 'exams'), cleanedData);
       showToast('success', 'Задание создано');
+      // Очищаем формы только при создании нового задания (не при редактировании)
+      resetForms();
     }
     router.push('/teacher/exams');
   } catch (error) {
     console.error('Ошибка сохранения:', error);
     showToast('error', error.message || 'Не удалось сохранить задание');
+  }
+};
+
+const duplicateItem = async (item) => {
+  try {
+    const { id, published, createdAt, updatedAt, ...rest } = item;
+    const newTitle = `${item.title} (копия)`;
+    // Сбрасываем публикацию и дедлайн
+    await addDoc(collection(db, 'exams'), { 
+      ...rest, 
+      title: newTitle, 
+      published: false,
+      deadline: null,
+      createdAt: new Date() 
+    });
+    showToast('success', 'Задание продублировано');
+    loadData();
+  } catch (error) {
+    showToast('error', 'Ошибка дублирования');
   }
 };
 

@@ -45,6 +45,10 @@
               <span class="nav-icon">📈</span>
               <span class="nav-text">Статистика</span>
             </router-link>
+            <router-link to="/student/games" class="nav-item">
+              <span class="nav-icon">🎮</span>
+              <span class="nav-text">Игры</span>
+            </router-link>
           </template>
 
           <!-- Меню для китайского HSK -->

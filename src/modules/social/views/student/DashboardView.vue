@@ -42,7 +42,6 @@
         </div>
       </div>
 
-      <!-- Информация о классе и одноклассниках -->
       <div class="class-info-section" v-if="myClass">
         <div class="class-header">
           <h2>Мой класс: {{ myClass.name }}</h2>
@@ -55,7 +54,6 @@
         </p>
       </div>
 
-      <!-- Модалка со списком одноклассников -->
       <div v-if="showClassmatesModal" class="modal" @click.self="showClassmatesModal = false">
         <div class="modal-content">
           <h2>Одноклассники</h2>
@@ -151,7 +149,9 @@ const recentActivities = ref([]);
 const refreshing = ref(false);
 let isMounted = true;
 
-// Функция для автоматического создания прогресса пользователя
+// Функция для получения ключа кэша с userId
+const getCacheKey = (userId) => `student_dashboard_${userId}`;
+
 const ensureStudentProgress = async (userId) => {
   try {
     const progressRef = doc(db, 'studentProgress', userId);
@@ -201,17 +201,14 @@ const refreshFromFirestore = async () => {
   if (!user || !isMounted) return;
 
   try {
-    // Загружаем данные пользователя
     const userDoc = await getDoc(doc(db, 'users', user.uid));
     if (!userDoc.exists() || !isMounted) return;
     
     const userData = userDoc.data();
     studentLogin.value = userData.login || user.email;
 
-    // Создаем запись прогресса если её нет
     await ensureStudentProgress(user.uid);
 
-    // Загружаем класс ученика
     const classId = userData.classId;
     if (classId && isMounted) {
       try {
@@ -223,9 +220,7 @@ const refreshFromFirestore = async () => {
             try {
               const teacherDoc = await getDoc(doc(db, 'users', classData.teacherId));
               teacherName = teacherDoc.exists() ? teacherDoc.data().login : '';
-            } catch (e) {
-              // Игнорируем
-            }
+            } catch (e) {}
           }
 
           try {
@@ -253,7 +248,6 @@ const refreshFromFirestore = async () => {
       myClass.value = null;
     }
 
-    // Загружаем прогресс тем из studentProgress
     try {
       const progressDoc = await getDoc(doc(db, 'studentProgress', user.uid));
       if (progressDoc.exists() && isMounted) {
@@ -266,7 +260,6 @@ const refreshFromFirestore = async () => {
       topicsCompleted.value = 0;
     }
 
-    // Загружаем отправленные работы из submissions
     try {
       const submissionsSnap = await getDocs(
         query(collection(db, 'submissions'), where('studentId', '==', user.uid))
@@ -313,7 +306,6 @@ const refreshFromFirestore = async () => {
       recentActivities.value = [];
     }
 
-    // Рекомендованные темы (статические)
     const topicsList = [
       { id: '1.1', title: 'Биосоциальная сущность человека', description: 'Индивид, индивидуальность, личность' },
       { id: '2.4', title: 'Рыночный механизм', description: 'Спрос, предложение, равновесная цена' },
@@ -321,9 +313,8 @@ const refreshFromFirestore = async () => {
     ];
     recommendedTopics.value = topicsList;
 
-    // Кэшируем данные
     if (isMounted) {
-      setCachedData('student_dashboard', {
+      setCachedData(getCacheKey(user.uid), {
         studentLogin: studentLogin.value,
         topicsCompleted: topicsCompleted.value,
         tasksCompleted: tasksCompleted.value,
@@ -340,7 +331,10 @@ const refreshFromFirestore = async () => {
 };
 
 const loadDashboard = () => {
-  const cached = getCachedData('student_dashboard');
+  const user = auth.currentUser;
+  if (!user) return;
+  
+  const cached = getCachedData(getCacheKey(user.uid));
   if (cached) {
     studentLogin.value = cached.studentLogin;
     topicsCompleted.value = cached.topicsCompleted;

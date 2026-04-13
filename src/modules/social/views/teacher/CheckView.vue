@@ -155,6 +155,7 @@
                     <div class="sub-question-header">
                       <span class="sub-q-num">17</span>
                       <span class="sub-q-text">{{ item.subQuestions?.[17]?.text || 'Задание 17' }}</span>
+                      <span class="sub-q-max">(макс. {{ item.subMaxScores?.[17] || 2 }} баллов)</span>
                     </div>
                     <div class="user-answer">
                       <strong>Ответ ученика:</strong>
@@ -162,7 +163,7 @@
                     </div>
                     <div class="grade-controls">
                       <div class="score-field">
-                        <label>Баллы (макс. {{ item.subMaxScores?.[17] || 2 }}):</label>
+                        <label>Баллы:</label>
                         <CustomSelect
                           v-model="part2Scores[`${item.questionId}_17`]"
                           :options="scoreOptions(item.subMaxScores?.[17] || 2)"
@@ -181,6 +182,7 @@
                     <div class="sub-question-header">
                       <span class="sub-q-num">18</span>
                       <span class="sub-q-text">{{ item.subQuestions?.[18]?.text || 'Задание 18' }}</span>
+                      <span class="sub-q-max">(макс. {{ item.subMaxScores?.[18] || 2 }} баллов)</span>
                     </div>
                     <div class="user-answer">
                       <strong>Ответ ученика:</strong>
@@ -188,7 +190,7 @@
                     </div>
                     <div class="grade-controls">
                       <div class="score-field">
-                        <label>Баллы (макс. {{ item.subMaxScores?.[18] || 2 }}):</label>
+                        <label>Баллы:</label>
                         <CustomSelect
                           v-model="part2Scores[`${item.questionId}_18`]"
                           :options="scoreOptions(item.subMaxScores?.[18] || 2)"
@@ -207,6 +209,7 @@
                     <div class="sub-question-header">
                       <span class="sub-q-num">19</span>
                       <span class="sub-q-text">{{ item.subQuestions?.[19]?.text || 'Задание 19' }}</span>
+                      <span class="sub-q-max">(макс. {{ item.subMaxScores?.[19] || 3 }} баллов)</span>
                     </div>
                     <div class="user-answer">
                       <strong>Ответ ученика:</strong>
@@ -214,7 +217,7 @@
                     </div>
                     <div class="grade-controls">
                       <div class="score-field">
-                        <label>Баллы (макс. {{ item.subMaxScores?.[19] || 3 }}):</label>
+                        <label>Баллы:</label>
                         <CustomSelect
                           v-model="part2Scores[`${item.questionId}_19`]"
                           :options="scoreOptions(item.subMaxScores?.[19] || 3)"
@@ -233,6 +236,7 @@
                     <div class="sub-question-header">
                       <span class="sub-q-num">20</span>
                       <span class="sub-q-text">{{ item.subQuestions?.[20]?.text || 'Задание 20' }}</span>
+                      <span class="sub-q-max">(макс. {{ item.subMaxScores?.[20] || 3 }} баллов)</span>
                     </div>
                     <div class="user-answer">
                       <strong>Ответ ученика:</strong>
@@ -240,7 +244,7 @@
                     </div>
                     <div class="grade-controls">
                       <div class="score-field">
-                        <label>Баллы (макс. {{ item.subMaxScores?.[20] || 3 }}):</label>
+                        <label>Баллы:</label>
                         <CustomSelect
                           v-model="part2Scores[`${item.questionId}_20`]"
                           :options="scoreOptions(item.subMaxScores?.[20] || 3)"
@@ -412,7 +416,6 @@ const selectedStudent = ref('all');
 const selectedClass = ref('all');
 const toast = ref({ visible: false, type: 'success', message: '' });
 
-// Вычисляемые значения для итоговой оценки
 const totalScore = computed(() => {
   let score = 0;
   gradeItems.value.forEach(item => {
@@ -568,7 +571,6 @@ const filteredSubmissions = computed(() => {
   return result;
 });
 
-// ИСПРАВЛЕННАЯ функция formatAnswer
 const formatAnswer = (answer, type) => {
   if (!answer) return 'Нет ответа';
   
@@ -600,7 +602,6 @@ const formatAnswer = (answer, type) => {
   return String(answer);
 };
 
-// ИСПРАВЛЕННАЯ функция formatPreviewAnswer
 const formatPreviewAnswer = (q, answer) => {
   if (!answer) return 'Нет ответа';
   return formatAnswer(answer, q.type);
@@ -727,7 +728,6 @@ const openGradeModal = async (submission) => {
         else if (q.type === 'graph_analysis') maxScore = 2;
       }
 
-      // Для text_analysis создаём специальный объект с подвопросами
       if (q.type === 'text_analysis' && q.subQuestions) {
         items.push({
           questionId: q.id,

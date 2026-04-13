@@ -256,10 +256,18 @@ const duplicateItem = async (item) => {
   try {
     const { id, published, createdAt, updatedAt, ...rest } = item;
     const newTitle = `${item.title} (копия)`;
-    await addDoc(collection(db, 'exams'), { ...rest, title: newTitle, published: false, createdAt: new Date() });
+    // Сбрасываем публикацию и дедлайн
+    await addDoc(collection(db, 'exams'), { 
+      ...rest, 
+      title: newTitle, 
+      published: false,
+      deadline: null,
+      createdAt: new Date() 
+    });
     showToast('success', 'Задание продублировано');
     loadData();
   } catch (error) {
+    console.error('Ошибка дублирования:', error);
     showToast('error', 'Ошибка дублирования');
   }
 };

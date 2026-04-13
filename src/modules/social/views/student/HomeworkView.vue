@@ -141,7 +141,6 @@ const loadTasks = async () => {
   if (!currentUser || !isMounted) return;
 
   try {
-    // Получаем данные ученика
     const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
     if (!userDoc.exists() || !isMounted) return;
     
@@ -149,17 +148,20 @@ const loadTasks = async () => {
     const studentClass = userData.className;
     const studentId = currentUser.uid;
 
-    console.log('Student class:', studentClass);
-    console.log('Student ID:', studentId);
-
-    // Загружаем все опубликованные экзамены
-    const examsRef = collection(db, 'exams');
-    const q = query(examsRef, where('published', '==', true));
-    const examsSnap = await getDocs(q);
+    // Загружаем ВСЕ экзамены, затем фильтруем на клиенте
+    let examsSnap = { docs: [] };
+    try {
+      const examsRef = collection(db, 'exams');
+      examsSnap = await getDocs(examsRef);
+    } catch (error) {
+      console.error('Ошибка загрузки экзаменов:', error);
+      if (isMounted) {
+        tasks.value = [];
+      }
+      return;
+    }
     
     if (!isMounted) return;
-    
-    console.log('All exams loaded:', examsSnap.docs.length);
 
     // Загружаем отправленные работы ученика
     let submissionsSnap;
@@ -167,7 +169,6 @@ const loadTasks = async () => {
       submissionsSnap = await getDocs(
         query(collection(db, 'submissions'), where('studentId', '==', studentId))
       );
-      console.log('Submissions loaded:', submissionsSnap.docs.length);
     } catch (e) {
       console.warn('Не удалось загрузить отправленные работы:', e.message);
       submissionsSnap = { docs: [] };
@@ -186,6 +187,10 @@ const loadTasks = async () => {
     for (const examDoc of examsSnap.docs) {
       const exam = examDoc.data();
       const examId = examDoc.id;
+      
+      // Пропускаем черновики
+      if (!exam.published) continue;
+      
       const submission = submissionsMap.get(examId);
       
       // Фильтруем на клиенте: только те, которые опубликованы для ученика
@@ -200,8 +205,6 @@ const loadTasks = async () => {
       }
       
       if (!canSee) continue;
-      
-      console.log(`Exam ${exam.title} is for this student`);
       
       const isLocallyStarted = localStorage.getItem(`task_started_${examId}`) === 'true';
       
@@ -239,8 +242,6 @@ const loadTasks = async () => {
       });
     }
     
-    console.log('Filtered tasks count:', loadedTasks.length);
-    
     if (isMounted) {
       tasks.value = loadedTasks;
       try {
@@ -258,10 +259,7 @@ const loadTasks = async () => {
 const continueTask = (task) => {
   if (isExpired(task)) return;
   
-  // Сохраняем экзамен в localStorage ПЕРЕД переходом
   localStorage.setItem(`exam_data_${task.id}`, JSON.stringify(task));
-  console.log('[HomeworkView] Сохранён экзамен в localStorage:', task.id);
-  
   router.push(`/student/task/${task.id}`);
 };
 

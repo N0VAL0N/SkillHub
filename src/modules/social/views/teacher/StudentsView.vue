@@ -66,11 +66,7 @@
                 <path d="M12 15V21M8 18H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
             </button>
-            <button @click="openDeleteModal(student)" class="icon-btn danger" title="Удалить">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M4 7H20M10 11V16M14 11V16M6 7L7 19C7 19.5304 7.21071 20.0391 7.58579 20.4142C7.96086 20.7893 8.46957 21 9 21H15C15.5304 21 16.0391 20.7893 16.4142 20.4142C16.7893 20.0391 17 19.5304 17 19L18 7M9 7V4C9 3.73478 9.10536 3.48043 9.29289 3.29289C9.48043 3.10536 9.73478 3 10 3H14C14.2652 3 14.5196 3.10536 14.7071 3.29289C14.8946 3.48043 15 3.73478 15 4V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </button>
+            <!-- Кнопка удаления удалена -->
           </div>
         </div>
       </div>
@@ -78,7 +74,7 @@
       <div v-if="filteredStudents.length === 0" class="empty-state">
         <div class="empty-icon">👥</div>
         <h3>Нет учеников</h3>
-        <p>Добавьте первого ученика</p>
+        <p>Ученики появятся после самостоятельной регистрации</p>
       </div>
 
       <div class="add-student-section">
@@ -162,20 +158,6 @@
         </div>
       </div>
 
-      <!-- Модалка подтверждения удаления -->
-      <div v-if="showDeleteModal" class="modal" @click.self="closeDeleteModal">
-        <div class="modal-content delete-modal">
-          <div class="delete-icon">⚠️</div>
-          <h2>Подтверждение удаления</h2>
-          <p>Вы действительно хотите удалить ученика <strong>{{ getDisplayName(studentToDelete) }}</strong>?</p>
-          <p class="delete-warning">Это действие нельзя отменить. Все данные ученика будут потеряны.</p>
-          <div class="modal-actions">
-            <button @click="confirmDelete" class="btn-danger">Удалить</button>
-            <button @click="closeDeleteModal" class="btn-secondary">Отмена</button>
-          </div>
-        </div>
-      </div>
-
       <!-- Тост -->
       <div v-if="toast.visible" class="custom-toast" :class="toast.type">
         <div class="toast-icon">
@@ -198,9 +180,8 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { auth, db } from '@core/services/firebase'
-import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where } from 'firebase/firestore'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { db, auth } from '@core/services/firebase'
+import { collection, getDocs, addDoc, doc, updateDoc, query, where } from 'firebase/firestore'
 import TeacherLayout from '@core/layouts/TeacherLayout.vue'
 import CustomSelect from '@shared/components/CustomSelect.vue'
 import { useLocalStudentName } from '@core/composables/useLocalStudentName'
@@ -210,16 +191,12 @@ const students = ref([])
 const classes = ref([])
 const loading = ref(false)
 const showEditNameModal = ref(false)
-const showAddModal = ref(false)
 const showClassModal = ref(false)
 const showCreateClassModal = ref(false)
-const showDeleteModal = ref(false)
 const editingStudent = ref(null)
 const editingDisplayName = ref('')
-const studentToDelete = ref(null)
 const selectedStudent = ref(null)
 const selectedClassName = ref('')
-const studentForm = ref({ login: '', password: '', className: '' })
 const classFilter = ref('all')
 const sortBy = ref('displayName')
 const sortOrder = ref('asc')
@@ -310,8 +287,6 @@ const toggleSortOrder = () => {
   sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
 }
 
-const generateFakeEmail = () => `user_${Date.now()}_${Math.random().toString(36).substring(2, 10)}@egepro.local`
-
 const loadStudents = async () => {
   loading.value = true
   try {
@@ -356,16 +331,6 @@ const saveDisplayName = () => {
   }
 }
 
-const openAddModal = () => {
-  studentForm.value = { login: '', password: '', className: '' }
-  showAddModal.value = true
-}
-
-const closeAddModal = () => {
-  showAddModal.value = false
-  studentForm.value = { login: '', password: '', className: '' }
-}
-
 const openClassModal = (student) => {
   selectedStudent.value = student
   selectedClassName.value = student.className || ''
@@ -388,74 +353,6 @@ const closeCreateClassModal = () => {
   showCreateClassModal.value = false
   newClassNumber.value = ''
   newClassLetter.value = ''
-}
-
-const openDeleteModal = (student) => {
-  studentToDelete.value = student
-  showDeleteModal.value = true
-}
-
-const closeDeleteModal = () => {
-  showDeleteModal.value = false
-  studentToDelete.value = null
-}
-
-const confirmDelete = async () => {
-  if (!studentToDelete.value) return
-  try {
-    await deleteDoc(doc(db, 'users', studentToDelete.value.id))
-    showToast('success', 'Успешно', `Ученик удалён`)
-    closeDeleteModal()
-    await loadStudents()
-  } catch (error) {
-    console.error('Ошибка удаления:', error)
-    showToast('error', 'Ошибка', 'Не удалось удалить ученика')
-  }
-}
-
-const saveStudent = async () => {
-  if (!studentForm.value.login.trim()) {
-    showToast('error', 'Ошибка', 'Введите логин')
-    return
-  }
-  if (studentForm.value.login.length < 3) {
-    showToast('error', 'Ошибка', 'Логин должен быть не менее 3 символов')
-    return
-  }
-  if (studentForm.value.password.length < 6) {
-    showToast('error', 'Ошибка', 'Пароль должен быть не менее 6 символов')
-    return
-  }
-
-  try {
-    const q = query(collection(db, 'users'), where('login', '==', studentForm.value.login.trim()))
-    const existing = await getDocs(q)
-    if (!existing.empty) {
-      showToast('error', 'Ошибка', 'Логин уже занят')
-      return
-    }
-
-    const fakeEmail = generateFakeEmail()
-    const userCredential = await createUserWithEmailAndPassword(auth, fakeEmail, studentForm.value.password)
-    const uid = userCredential.user.uid
-
-    await addDoc(collection(db, 'users'), {
-      uid,
-      login: studentForm.value.login.trim(),
-      role: 'student',
-      className: studentForm.value.className || null,
-      classId: studentForm.value.className ? classes.value.find(c => c.name === studentForm.value.className)?.id : null,
-      createdAt: new Date()
-    })
-
-    showToast('success', 'Успешно', `Ученик ${studentForm.value.login} добавлен`)
-    closeAddModal()
-    await loadStudents()
-    await loadClasses()
-  } catch (error) {
-    console.error('Ошибка:', error)
-    showToast('error', 'Ошибка', error.message)
-  }
 }
 
 const moveToClass = async () => {
