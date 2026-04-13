@@ -14,6 +14,8 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
   const completedLessons = ref([]);
   const learnedWords = ref([]);
   const packsProgress = ref({});
+  const passedExams = ref([]);
+  const stats = ref({ totalExercises: 0, correctExercises: 0 });
   const loaded = ref(false);
   const lastUpdated = ref(null);
   let migrationDone = false;
@@ -22,7 +24,7 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
   const getUserDocPath = (uid) => `english/${uid}`;
   const getPackPath = (uid, packId) => `english/${uid}/packs/${packId}`;
 
-  // Сохранение кэша
+  // ========== КЭШИРОВАНИЕ ==========
   function saveToCache(uid, data) {
     try {
       const cacheData = {
@@ -30,6 +32,8 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
         completedLessons: data.completedLessons,
         learnedWords: data.learnedWords,
         packs: data.packs,
+        passedExams: data.passedExams,
+        stats: data.stats,
         timestamp: Date.now()
       };
       localStorage.setItem(`${CACHE_KEY}_${uid}`, JSON.stringify(cacheData));
@@ -38,20 +42,16 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
     }
   }
 
-  // Загрузка из кэша
   function loadFromCache(uid) {
     const cached = localStorage.getItem(`${CACHE_KEY}_${uid}`);
     if (!cached) return null;
     try {
       const data = JSON.parse(cached);
-      if (Date.now() - data.timestamp < CACHE_TTL) {
-        return data;
-      }
+      if (Date.now() - data.timestamp < CACHE_TTL) return data;
     } catch (e) {}
     return null;
   }
 
-  // Принудительное обновление из Firestore
   async function refreshFromFirestore(uid) {
     const docRef = doc(db, getUserDocPath(uid));
     const docSnap = await getDoc(docRef);
@@ -60,6 +60,8 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
       completedLessons: [],
       learnedWords: [],
       packs: {},
+      passedExams: [],
+      stats: { totalExercises: 0, correctExercises: 0 },
       updatedAt: new Date()
     };
     
@@ -68,89 +70,28 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
       progressData.completedLessons = data.completedLessons || [];
       progressData.learnedWords = data.learnedWords || [];
       progressData.packs = data.packs || {};
+      progressData.passedExams = data.passedExams || [];
+      progressData.stats = data.stats || { totalExercises: 0, correctExercises: 0 };
     }
     
     completedLessons.value = progressData.completedLessons;
     learnedWords.value = progressData.learnedWords;
     packsProgress.value = progressData.packs;
+    passedExams.value = progressData.passedExams;
+    stats.value = progressData.stats;
     lastUpdated.value = Date.now();
     
     saveToCache(uid, progressData);
     return progressData;
   }
 
-  function getLessonWords(lessonId) {
-    const lessonNum = parseInt(lessonId.replace('lesson_', ''));
-    const lesson = lessonsData.lessons.find(l => l.lesson_id === lessonNum);
-    if (!lesson || !lesson.new_vocabulary_ids) return [];
-    
-    const words = [];
-    for (const wid of lesson.new_vocabulary_ids) {
-      const word = vocabularyData.find(w => w.id === wid);
-      if (word) {
-        words.push({
-          id: word.id,           // <-- ID из vocabulary (v1, v2, v3...)
-          front: word.word,
-          back: word.translation,
-          wordId: word.id,       // <-- дублируем для удобства
-          level: lesson.level,
-          example: word.example || ''
-        });
-      }
-    }
-    return words;
-  }
+  // ========== ПАКИ ИЗ УРОКОВ (ТОЛЬКО ДЛЯ ПРОЙДЕННЫХ) – УДАЛЕНО, ТЕПЕРЬ В PACK STORE ==========
+  // Функция ensurePackForLessonIfCompleted была перенесена в englishPackStore
+  // и вызывается оттуда с кэшированием.
 
-  async function ensurePackFromLesson(uid, lessonId) {
-    const lessonNum = parseInt(lessonId.replace('lesson_', ''));
-    const lesson = lessonsData.lessons.find(l => l.lesson_id === lessonNum);
-    if (!lesson) return null;
-    
-    const packName = `${lesson.title} (урок ${lesson.lesson_id})`;
-    const packsCol = collection(db, getPackPath(uid, '').replace(/\/[^/]+$/, ''));
-    const packsSnap = await getDocs(packsCol);
-    const existingPack = packsSnap.docs.find(doc => doc.data().name === packName);
-    
-    if (existingPack) return existingPack.id;
-    
-    const words = getLessonWords(lessonId);
-    if (words.length === 0) return null;
-    
-    const packId = `pack_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const newPack = {
-      name: packName,
-      level: lesson.level,
-      cards: words,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    const packRef = doc(db, getPackPath(uid, packId));
-    await setDoc(packRef, newPack);
-    return packId;
-  }
-
-  async function syncPacksWithLessons(uid) {
-    const packsCol = collection(db, getPackPath(uid, '').replace(/\/[^/]+$/, ''));
-    const packsSnap = await getDocs(packsCol);
-    const existingPackNames = new Set(packsSnap.docs.map(doc => doc.data().name));
-    
-    for (const lessonId of completedLessons.value) {
-      const lessonNum = parseInt(lessonId.replace('lesson_', ''));
-      const lesson = lessonsData.lessons.find(l => l.lesson_id === lessonNum);
-      if (lesson) {
-        const packName = `${lesson.title} (урок ${lesson.lesson_id})`;
-        if (!existingPackNames.has(packName)) {
-          await ensurePackFromLesson(uid, lessonId);
-        }
-      }
-    }
-  }
-
-  // Миграция старых данных
+  // ========== МИГРАЦИЯ СТАРЫХ ДАННЫХ ==========
   async function migrateIfNeeded(uid) {
     if (migrationDone) return false;
-    
     try {
       const newDocRef = doc(db, getUserDocPath(uid));
       const newDocSnap = await getDoc(newDocRef);
@@ -169,6 +110,8 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
         completedLessons: [],
         learnedWords: [],
         packs: {},
+        passedExams: [],
+        stats: { totalExercises: 0, correctExercises: 0 },
         updatedAt: new Date()
       };
       
@@ -177,6 +120,8 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
         progressData.completedLessons = oldData.completedLessons || [];
         progressData.learnedWords = oldData.learnedWords || [];
         progressData.packs = oldData.packs || {};
+        progressData.passedExams = oldData.passedExams || [];
+        progressData.stats = oldData.stats || { totalExercises: 0, correctExercises: 0 };
       }
       
       const batch = writeBatch(db);
@@ -194,8 +139,8 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
       completedLessons.value = progressData.completedLessons;
       learnedWords.value = progressData.learnedWords;
       packsProgress.value = progressData.packs;
-      
-      await syncPacksWithLessons(uid);
+      passedExams.value = progressData.passedExams;
+      stats.value = progressData.stats;
       
       migrationDone = true;
       return true;
@@ -205,6 +150,7 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
     }
   }
 
+  // ========== ОСНОВНАЯ ЗАГРУЗКА ==========
   async function loadProgress() {
     const uid = getUserId();
     if (!uid) {
@@ -218,6 +164,8 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
         completedLessons.value = cached.completedLessons || [];
         learnedWords.value = cached.learnedWords || [];
         packsProgress.value = cached.packs || {};
+        passedExams.value = cached.passedExams || [];
+        stats.value = cached.stats || { totalExercises: 0, correctExercises: 0 };
         loaded.value = true;
         lastUpdated.value = cached.timestamp;
       }
@@ -246,8 +194,18 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
                   }
                 }
               }
+              if (op.data.passedExams) {
+                for (const exam of op.data.passedExams) {
+                  if (!passedExams.value.includes(exam)) {
+                    passedExams.value.push(exam);
+                  }
+                }
+              }
             }
             if (op.operation === 'update') {
+              if (op.data.stats) {
+                stats.value = op.data.stats;
+              }
               Object.assign(packsProgress.value, op.data);
             }
           }
@@ -265,9 +223,10 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
     const uid = getUserId();
     if (!uid) return;
     await refreshFromFirestore(uid);
-    await syncPacksWithLessons(uid);
+    // УДАЛЁН блок создания паков – теперь это делает englishPackStore
   }
 
+  // ========== МЕТОДЫ ДЛЯ ИЗМЕНЕНИЯ ДАННЫХ ==========
   async function addCompletedLesson(lessonId) {
     if (completedLessons.value.includes(lessonId)) return;
     completedLessons.value.push(lessonId);
@@ -276,11 +235,12 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
       await enqueueOperation('englishProgress', uid, {
         completedLessons: [lessonId]
       }, 'arrayUnion');
-      await ensurePackFromLesson(uid, lessonId);
       saveToCache(uid, {
         completedLessons: completedLessons.value,
         learnedWords: learnedWords.value,
-        packs: packsProgress.value
+        packs: packsProgress.value,
+        passedExams: passedExams.value,
+        stats: stats.value
       });
     }
   }
@@ -296,7 +256,9 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
       saveToCache(uid, {
         completedLessons: completedLessons.value,
         learnedWords: learnedWords.value,
-        packs: packsProgress.value
+        packs: packsProgress.value,
+        passedExams: passedExams.value,
+        stats: stats.value
       });
     }
   }
@@ -311,7 +273,57 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
       saveToCache(uid, {
         completedLessons: completedLessons.value,
         learnedWords: learnedWords.value,
-        packs: packsProgress.value
+        packs: packsProgress.value,
+        passedExams: passedExams.value,
+        stats: stats.value
+      });
+    }
+  }
+
+  async function addPassedExam(level) {
+    if (passedExams.value.includes(level)) return;
+    passedExams.value.push(level);
+    const uid = getUserId();
+    if (uid) {
+      await enqueueOperation('englishProgress', uid, {
+        passedExams: [level]
+      }, 'arrayUnion');
+      
+      const levelLessons = lessonsData.lessons.filter(l => l.level === level);
+      for (const lesson of levelLessons) {
+        const lessonId = `lesson_${lesson.lesson_id}`;
+        if (!completedLessons.value.includes(lessonId)) {
+          completedLessons.value.push(lessonId);
+          await enqueueOperation('englishProgress', uid, {
+            completedLessons: [lessonId]
+          }, 'arrayUnion');
+        }
+      }
+      
+      saveToCache(uid, {
+        completedLessons: completedLessons.value,
+        learnedWords: learnedWords.value,
+        packs: packsProgress.value,
+        passedExams: passedExams.value,
+        stats: stats.value
+      });
+    }
+  }
+
+  async function updateStats(isCorrect) {
+    stats.value.totalExercises++;
+    if (isCorrect) stats.value.correctExercises++;
+    const uid = getUserId();
+    if (uid) {
+      await enqueueOperation('englishProgress', uid, {
+        stats: stats.value
+      }, 'update');
+      saveToCache(uid, {
+        completedLessons: completedLessons.value,
+        learnedWords: learnedWords.value,
+        packs: packsProgress.value,
+        passedExams: passedExams.value,
+        stats: stats.value
       });
     }
   }
@@ -329,7 +341,9 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
       saveToCache(uid, {
         completedLessons: completedLessons.value,
         learnedWords: learnedWords.value,
-        packs: packsProgress.value
+        packs: packsProgress.value,
+        passedExams: passedExams.value,
+        stats: stats.value
       });
     }
   }
@@ -351,6 +365,8 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
     completedLessons.value = [];
     learnedWords.value = [];
     packsProgress.value = {};
+    passedExams.value = [];
+    stats.value = { totalExercises: 0, correctExercises: 0 };
     loaded.value = false;
     migrationDone = false;
     lastUpdated.value = null;
@@ -364,13 +380,18 @@ export const useEnglishProgressFirestore = defineStore('englishProgressFirestore
     completedLessons,
     learnedWords,
     packsProgress,
+    passedExams,
+    stats,
     loaded,
     lastUpdated,
+    getUserId,
     loadProgress,
     refresh,
     addCompletedLesson,
     addLearnedWord,
     removeLearnedWord,
+    addPassedExam,
+    updateStats,
     updatePackProgress,
     getPackProgress,
     isWordLearned,

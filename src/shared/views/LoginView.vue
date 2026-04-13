@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-card">
-      <h1>ЕГЭ‑ПРО</h1>
+      <h1>SkillHub</h1>
       <p>{{ isLogin ? 'Войдите в аккаунт' : 'Создайте аккаунт' }}</p>
 
       <form @submit.prevent="handleSubmit">
@@ -55,11 +55,11 @@
         <div v-if="!isLogin" class="role-selector">
           <label class="role-option">
             <input type="radio" v-model="selectedRole" value="student" />
-            <span>👨‍🎓 Ученик</span>
+            <span> Ученик</span>
           </label>
           <label class="role-option">
             <input type="radio" v-model="selectedRole" value="teacher" />
-            <span>👨‍🏫 Учитель</span>
+            <span>Учитель</span>
           </label>
         </div>
 

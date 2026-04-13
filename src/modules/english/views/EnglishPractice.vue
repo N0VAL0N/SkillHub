@@ -6,7 +6,6 @@
         <p class="subtitle">Выберите тип контента, уровни и режим</p>
       </div>
 
-      <!-- Выбор типа контента (несколько) -->
       <div class="content-type-selector">
         <span class="type-label">Тип контента:</span>
         <div class="type-buttons">
@@ -22,7 +21,6 @@
         </div>
       </div>
 
-      <!-- Мультивыбор уровней -->
       <div class="level-selector multi">
         <span class="level-label">Уровни:</span>
         <button
@@ -38,7 +36,6 @@
         <button class="level-btn reset-btn" @click="resetLevels">Сбросить</button>
       </div>
 
-      <!-- Количество заданий -->
       <div class="questions-count-selector">
         <span class="count-label">Количество заданий:</span>
         <div class="count-control">
@@ -48,14 +45,12 @@
         </div>
       </div>
 
-      <!-- Старт -->
       <div class="start-section" v-if="showModeSelect">
         <button class="btn-start" :disabled="selectedLevels.length === 0 || selectedContentTypes.length === 0 || loading" @click="startPractice">
           {{ loading ? 'Загрузка...' : 'Начать тренировку' }}
         </button>
       </div>
 
-      <!-- Сама тренировка -->
       <div v-if="exercises.length > 0 && !showModeSelect" class="exercise-container">
         <div class="progress-bar custom-progress">
           <div class="progress-fill" :style="{ width: progressPercent + '%' }"></div>
@@ -67,8 +62,8 @@
             <span class="exercise-type">{{ getTypeLabel(currentExercise?.type) }}</span>
           </div>
 
-          <!-- Multiple Choice (выбор перевода) -->
-          <div v-if="currentExercise?.type === 'multiple-choice'" class="multiple-choice">
+          <!-- Multiple Choice (включая перевод) -->
+          <div v-if="currentExercise?.type === 'multiple-choice' || currentExercise?.type === 'translation'" class="multiple-choice">
             <div class="question-word">{{ currentExercise.question }}</div>
             <div class="options">
               <button
@@ -84,7 +79,7 @@
             </div>
           </div>
 
-          <!-- Matching (сопоставление) – без кнопки проверки, автоматически -->
+          <!-- Matching -->
           <div v-else-if="currentExercise?.type === 'matching'" class="matching">
             <div class="matching-container">
               <div class="matching-column">
@@ -114,14 +109,32 @@
                 </div>
               </div>
             </div>
+
+            <!-- Блок сопоставленных пар -->
+            <div v-if="matchedPairs.length > 0" class="matching-matched">
+              <h4>✓ Сопоставленные пары</h4>
+              <div class="matched-pairs">
+                <div v-for="pair in matchedPairs" :key="pair.enId" class="matched-pair">
+                  <span>{{ pair.en }}</span>
+                  <span class="pair-arrow">→</span>
+                  <span>{{ pair.ru }}</span>
+                </div>
+              </div>
+            </div>
+
             <div v-if="showResult" class="result-area">
               <div class="result-message" :class="{ correct: isAnswerCorrect, wrong: !isAnswerCorrect }">
                 {{ isAnswerCorrect ? '✅ Правильно!' : '❌ Неправильно!' }}
               </div>
+              <div v-if="!isAnswerCorrect" class="correct-answer">
+                Правильные пары показаны выше.
+              </div>
+              <button class="btn-next" @click="nextExercise">
+                {{ isLast ? 'Завершить' : 'Следующее →' }}
+              </button>
             </div>
           </div>
 
-          <!-- Результат (для non-matching) -->
           <div v-if="showResult && currentExercise?.type !== 'matching'" class="result-area">
             <div class="result-message" :class="{ correct: isAnswerCorrect, wrong: !isAnswerCorrect }">
               {{ isAnswerCorrect ? '✅ Правильно!' : '❌ Неправильно!' }}
@@ -134,7 +147,6 @@
             </button>
           </div>
 
-          <!-- Навигация для matching после завершения -->
           <div v-if="currentExercise?.type === 'matching' && showResult" class="nav-buttons">
             <button class="btn-next" @click="nextExercise">
               {{ isLast ? 'Завершить' : 'Следующее →' }}
@@ -152,7 +164,6 @@
         </div>
       </div>
 
-      <!-- Модалка результатов -->
       <div v-if="showResultsModal" class="modal-overlay" @click.self="showResultsModal = false">
         <div class="modal results-modal">
           <h2>Результаты тренировки</h2>
@@ -175,7 +186,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import StudentLayout from '@core/layouts/StudentLayout.vue';
-import { useEnglishProgressStore } from '../stores/englishProgressStore';
+import { useEnglishProgressFirestore } from '../stores/englishProgressFirestore';
 import { useAppStore } from '@core/stores/appStore';
 import vocabularyData from '../data/vocabulary.json';
 import grammarData from '../data/grammar.json';
@@ -184,7 +195,7 @@ import phrasalVerbs from '../data/phrasal_verbs.json';
 import idiomsData from '../data/idioms.json';
 import collocationsData from '../data/collocations.json';
 
-const progressStore = useEnglishProgressStore();
+const progressFirestore = useEnglishProgressFirestore();
 const appStore = useAppStore();
 
 const levels = ['A0', 'A1', 'A2', 'B1', 'B2'];
@@ -194,7 +205,7 @@ const loading = ref(false);
 const showModeSelect = ref(true);
 const exercises = ref([]);
 const currentIndex = ref(0);
-const userAnswers = ref({}); // сохраняем ответы пользователя по индексу упражнения
+const userAnswers = ref({});
 const showResult = ref(false);
 const isAnswerCorrect = ref(false);
 const stats = ref({ total: 0, correct: 0 });
@@ -205,11 +216,12 @@ const finalPercentage = ref(0);
 const questionsCount = ref(10);
 const wrongItemsIds = ref([]);
 
-// Для matching
+// Matching state
 const selectedLeft = ref(null);
 const selectedRight = ref(null);
 const matchedLeftIndices = ref([]);
 const matchedRightIndices = ref([]);
+const matchedPairs = ref([]);
 const shuffledLeft = ref([]);
 const shuffledRight = ref([]);
 
@@ -302,30 +314,66 @@ function generateMultipleChoice(item) {
   };
 }
 
+// Перевод теперь тоже с вариантами (multiple-choice)
+function generateTranslation(item) {
+  const allData = getDataByTypes();
+  const translation = getItemTranslation(item);
+  const text = getItemText(item);
+  const wrongItems = allData.filter(i => i.id !== item.id && getItemTranslation(i) !== translation).sort(() => 0.5 - Math.random()).slice(0, 3);
+  const wrongTranslations = wrongItems.map(i => getItemTranslation(i));
+  const options = [translation, ...wrongTranslations].sort(() => 0.5 - Math.random());
+  return {
+    id: `tr_${item.id}_${item._sourceType}`,
+    type: 'translation',
+    itemId: item.id,
+    sourceType: item._sourceType,
+    question: `Переведите "${text}" на русский:`,
+    options,
+    correctAnswer: options.indexOf(translation),
+    correctAnswerText: translation
+  };
+}
+
 function generateMatching(items) {
   const shuffled = [...items].sort(() => 0.5 - Math.random()).slice(0, 6);
   const leftItems = shuffled.map(item => ({ id: item.id, english: getItemText(item) }));
-  const rightItems = shuffled.map(item => ({ id: item.id, russian: getItemTranslation(item) }));
+  const rightItems = [...shuffled.map(item => ({ id: item.id, russian: getItemTranslation(item) }))];
+  for (let i = rightItems.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [rightItems[i], rightItems[j]] = [rightItems[j], rightItems[i]];
+  }
   return {
     id: `match_${Date.now()}`,
     type: 'matching',
     itemIds: shuffled.map(i => i.id),
     sourceTypes: [...new Set(shuffled.map(i => i._sourceType))],
     leftItems: leftItems,
-    rightItems: rightItems
+    rightItems: rightItems,
+    correctMap: Object.fromEntries(shuffled.map(item => [item.id, getItemTranslation(item)]))
   };
+}
+
+function shuffleArray(arr) {
+  const array = [...arr];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
 function generateExercises() {
   const allItems = getDataByTypes();
-  const shuffled = [...allItems].sort(() => 0.5 - Math.random());
+  const shuffled = shuffleArray([...allItems]);
   const newExercises = [];
   for (const item of shuffled) {
     if (newExercises.length >= questionsCount.value) break;
     const rand = Math.random();
     let exercise = null;
-    if (rand < 0.7) {
+    if (rand < 0.6) {
       exercise = generateMultipleChoice(item);
+    } else if (rand < 0.8) {
+      exercise = generateTranslation(item);
     } else if (newExercises.length + 4 <= questionsCount.value) {
       const matchingItems = shuffled.slice(0, Math.min(6, shuffled.length));
       if (matchingItems.length >= 2) {
@@ -348,32 +396,32 @@ function resetMatchingState() {
   selectedRight.value = null;
   matchedLeftIndices.value = [];
   matchedRightIndices.value = [];
+  matchedPairs.value = [];
   if (currentExercise.value?.type === 'matching') {
-    shuffledLeft.value = [...currentExercise.value.leftItems].sort(() => 0.5 - Math.random());
-    shuffledRight.value = [...currentExercise.value.rightItems].sort(() => 0.5 - Math.random());
+    shuffledLeft.value = [...currentExercise.value.leftItems];
+    shuffledRight.value = [...currentExercise.value.rightItems];
   }
 }
 
-function selectAnswer(idx) {
+async function selectAnswer(idx) {
   if (showResult.value) return;
   userAnswers.value[currentIndex.value] = idx;
-  // Автоматическая проверка
   const isCorrect = idx === currentExercise.value.correctAnswer;
   isAnswerCorrect.value = isCorrect;
   showResult.value = true;
+  
+  await progressFirestore.updateStats(isCorrect);
+  
   if (isCorrect) {
     stats.value.correct++;
-    progressStore.addPracticeResult(true);
   } else {
-    stats.value.total++;
-    progressStore.addPracticeResult(false);
     if (currentExercise.value.itemId && !wrongItemsIds.value.includes(currentExercise.value.itemId)) {
       wrongItemsIds.value.push(currentExercise.value.itemId);
     }
     appStore.showToast('Неправильно!', 'error');
   }
   stats.value.total++;
-  // Автоматический переход через 1 секунду (кроме последнего вопроса)
+  
   if (!isLast.value) {
     setTimeout(() => {
       nextExercise();
@@ -381,10 +429,12 @@ function selectAnswer(idx) {
   }
 }
 
-function selectLeft(idx) {
+// Matching функции (с async)
+async function selectLeft(idx) {
   if (showResult.value) return;
   if (matchedLeftIndices.value.includes(idx)) return;
   if (selectedLeft.value !== null && selectedRight.value !== null) return;
+  
   if (selectedLeft.value === idx) {
     selectedLeft.value = null;
   } else if (selectedRight.value !== null) {
@@ -393,21 +443,21 @@ function selectLeft(idx) {
     if (leftItem.id === rightItem.id) {
       matchedLeftIndices.value.push(idx);
       matchedRightIndices.value.push(selectedRight.value);
-      // Проверяем, все ли сопоставлены
+      matchedPairs.value.push({
+        enId: leftItem.id,
+        ruId: rightItem.id,
+        en: leftItem.english,
+        ru: rightItem.russian
+      });
       if (matchedLeftIndices.value.length === shuffledLeft.value.length) {
-        // Автоматическая проверка
         isAnswerCorrect.value = true;
         showResult.value = true;
+        await progressFirestore.updateStats(true);
         stats.value.correct++;
-        progressStore.addPracticeResult(true);
         stats.value.total++;
-        // Автоматический переход
-        setTimeout(() => {
-          nextExercise();
-        }, 1000);
       }
     } else {
-      appStore.showToast('Неверное сопоставление!', 'error');
+      appStore.showToast('❌ Неверное сопоставление!', 'error');
     }
     selectedLeft.value = null;
     selectedRight.value = null;
@@ -416,10 +466,11 @@ function selectLeft(idx) {
   }
 }
 
-function selectRight(idx) {
+async function selectRight(idx) {
   if (showResult.value) return;
   if (matchedRightIndices.value.includes(idx)) return;
   if (selectedLeft.value !== null && selectedRight.value !== null) return;
+  
   if (selectedRight.value === idx) {
     selectedRight.value = null;
   } else if (selectedLeft.value !== null) {
@@ -428,18 +479,21 @@ function selectRight(idx) {
     if (leftItem.id === rightItem.id) {
       matchedLeftIndices.value.push(selectedLeft.value);
       matchedRightIndices.value.push(idx);
+      matchedPairs.value.push({
+        enId: leftItem.id,
+        ruId: rightItem.id,
+        en: leftItem.english,
+        ru: rightItem.russian
+      });
       if (matchedLeftIndices.value.length === shuffledLeft.value.length) {
         isAnswerCorrect.value = true;
         showResult.value = true;
+        await progressFirestore.updateStats(true);
         stats.value.correct++;
-        progressStore.addPracticeResult(true);
         stats.value.total++;
-        setTimeout(() => {
-          nextExercise();
-        }, 1000);
       }
     } else {
-      appStore.showToast('Неверное сопоставление!', 'error');
+      appStore.showToast('❌ Неверное сопоставление!', 'error');
     }
     selectedLeft.value = null;
     selectedRight.value = null;
@@ -504,6 +558,7 @@ function retryMistakes() {
   exercises.value = newExercises;
   currentIndex.value = 0;
   userAnswers.value = {};
+  showResult.value = false;
   stats.value = { total: 0, correct: 0 };
   wrongItemsIds.value = [];
   showResultsModal.value = false;
@@ -527,18 +582,19 @@ const accuracy = computed(() => {
 function getTypeLabel(type) {
   const labels = {
     'multiple-choice': 'Выберите перевод',
+    'translation': 'Переведите',
     'matching': 'Сопоставьте'
   };
   return labels[type] || type;
 }
 
 onMounted(async () => {
-  await progressStore.loadProgress();
+  await progressFirestore.loadProgress();
 });
 </script>
 
 <style scoped>
-/* стили как в предыдущей версии, без жизней, с автоматическим переходом */
+/* Все стили остаются как в исходном файле – они уже были даны ранее */
 .practice-view {
   max-width: 800px;
   margin: 0 auto;
@@ -693,14 +749,7 @@ onMounted(async () => {
 .custom-progress .progress-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--primary), var(--primary-hover));
-  background-size: 200% 100%;
-  border-radius: 4px;
-  animation: progressShimmer 1.5s ease infinite;
   transition: width 0.3s;
-}
-@keyframes progressShimmer {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 200% 0%; }
 }
 .exercise-card {
   background: white;
@@ -801,6 +850,28 @@ onMounted(async () => {
   color: white;
   opacity: 0.7;
   cursor: default;
+}
+.matching-matched {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-200);
+}
+.matched-pairs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.matched-pair {
+  background: rgba(16, 185, 129, 0.15);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.pair-arrow {
+  color: var(--gray-500);
 }
 .result-area {
   text-align: center;
@@ -906,6 +977,20 @@ onMounted(async () => {
   justify-content: center;
   margin-top: 1rem;
   flex-wrap: wrap;
+}
+.btn-primary, .btn-outline {
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--gray-300);
 }
 body.dark-theme .exercise-card {
   background: var(--gray-800);

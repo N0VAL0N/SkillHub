@@ -1,0 +1,87 @@
+{
+  "exam_id": "exam_b2",
+  "level": "B2",
+  "title": "B2 Level Final Exam",
+  "description": "Test your knowledge of advanced tenses (Past Perfect Continuous, Future Perfect Continuous), Mixed Conditionals, Passive with modals, Inversion, Participle clauses, Ellipsis, Subjunctive, Perfect infinitive/gerund, Complex conjunctions, Modal verbs in the past (advanced), Causative (advanced), Formal vs informal, Emphatic structures (advanced), Concessive clauses (advanced), Preferences (advanced), Advanced phrasal verbs, Advanced vocabulary",
+  "passing_score": 75,
+  "exercises": [
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the past perfect continuous form.",
+      "items": [
+        { "sentence": "She ___ (work) for that company for 20 years when she retired.", "correct": "had been working" }
+      ]
+    },
+    {
+      "type": "fill_gap_multiple",
+      "instruction": "Fill in the mixed conditional forms.",
+      "items": [
+        { "sentence": "If I ___ (study) harder, I would have a better job now.", "correct_answers": ["had studied"] }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Rewrite the sentence using inversion.",
+      "items": [
+        { "sentence": "If you should need any assistance, contact us. → Should ___", "correct": "you need any assistance, contact us" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Complete the sentence using the subjunctive form.",
+      "items": [
+        { "sentence": "It is essential that he ___ (arrive) on time.", "correct": "arrive" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the perfect infinitive or perfect gerund.",
+      "items": [
+        { "sentence": "She denied ___ (steal) the money.", "correct": "having stolen" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the correct conjunction.",
+      "items": [
+        { "sentence": "He loves sports, ___ his wife prefers reading.", "correct": "whereas" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Rewrite the sentence in a formal style.",
+      "items": [
+        { "sentence": "I need your help. → I ___ your assistance.", "correct": "require" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the correct phrasal verb.",
+      "items": [
+        { "sentence": "I can't ___ up with this noise any longer!", "correct": "put" },
+        { "sentence": "She ___ up with a brilliant idea.", "correct": "came" },
+        { "sentence": "He ___ away with cheating on the test.", "correct": "got" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Complete the sentence with the correct word (B2 vocabulary).",
+      "items": [
+        { "sentence": "The crew had to ___ the sinking ship.", "correct": "abandon" },
+        { "sentence": "Plants ___ nutrients from the soil.", "correct": "absorb" },
+        { "sentence": "The restaurant serves ___ Italian cuisine.", "correct": "authentic" },
+        { "sentence": "She is a leading ___ on climate change.", "correct": "authority" }
+      ]
+    },
+    {
+      "type": "translation",
+      "instruction": "Translate into English.",
+      "items": [
+        { "source": "К следующему месяцу я проработаю здесь 10 лет.", "target": "By next month, I will have been working here for 10 years." },
+        { "source": "Что бы ни случилось, не теряй надежды.", "target": "Whatever happens, don't lose hope." },
+        { "source": "Мне требуется ваша помощь.", "target": "I require your assistance." },
+        { "source": "Она придумала блестящую идею.", "target": "She came up with a brilliant idea." }
+      ]
+    }
+  ]
+}

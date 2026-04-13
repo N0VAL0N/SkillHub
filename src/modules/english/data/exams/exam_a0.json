@@ -1,0 +1,102 @@
+{
+  "exam_id": "exam_a0",
+  "level": "A0",
+  "title": "A0 Level Final Exam",
+  "description": "Test your knowledge of greetings, verb 'to be', family, numbers, colours, food, house, actions, daily routine",
+  "passing_score": 70,
+  "exercises": [
+    {
+      "type": "fill_gap",
+      "instruction": "Complete the sentences with the correct form of 'to be' (am/is/are).",
+      "items": [
+        { "sentence": "I ___ a student.", "correct": "am" },
+        { "sentence": "She ___ my sister.", "correct": "is" },
+        { "sentence": "They ___ friends.", "correct": "are" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the correct pronoun (I, you, he, she, it, we, they).",
+      "items": [
+        { "sentence": "___ am from Russia. (я)", "correct": "I" },
+        { "sentence": "___ is a doctor. (она)", "correct": "She" },
+        { "sentence": "___ are teachers. (они)", "correct": "They" }
+      ]
+    },
+    {
+      "type": "match_words",
+      "instruction": "Match the English word with its Russian translation.",
+      "items": [
+        { "en": "mother", "ru": "мать" },
+        { "en": "father", "ru": "отец" },
+        { "en": "brother", "ru": "брат" },
+        { "en": "sister", "ru": "сестра" },
+        { "en": "family", "ru": "семья" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in this, that, these, or those.",
+      "items": [
+        { "sentence": "___ is my book. (near)", "correct": "This" },
+        { "sentence": "___ car is far away.", "correct": "That" },
+        { "sentence": "___ are my keys. (near)", "correct": "These" },
+        { "sentence": "___ houses are old. (far)", "correct": "Those" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in a or an.",
+      "items": [
+        { "sentence": "She is ___ doctor.", "correct": "a" },
+        { "sentence": "He is ___ engineer.", "correct": "an" },
+        { "sentence": "I have ___ apple.", "correct": "an" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the correct colour.",
+      "items": [
+        { "sentence": "The sky is ___.", "correct": "blue" },
+        { "sentence": "Grass is ___.", "correct": "green" },
+        { "sentence": "Snow is ___.", "correct": "white" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in have or has.",
+      "items": [
+        { "sentence": "I ___ a cat.", "correct": "have" },
+        { "sentence": "She ___ a dog.", "correct": "has" },
+        { "sentence": "They ___ a house.", "correct": "have" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the correct preposition (in, on, under, next to).",
+      "items": [
+        { "sentence": "The book is ___ the table.", "correct": "on" },
+        { "sentence": "The cat is ___ the chair.", "correct": "under" },
+        { "sentence": "The pen is ___ the bag.", "correct": "in" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in can or can't.",
+      "items": [
+        { "sentence": "I ___ swim.", "correct": "can" },
+        { "sentence": "She ___ speak French. (she doesn't know it)", "correct": "can't" }
+      ]
+    },
+    {
+      "type": "translation",
+      "instruction": "Translate into English.",
+      "items": [
+        { "source": "Как дела?", "target": "How are you?" },
+        { "source": "Приятно познакомиться", "target": "Nice to meet you" },
+        { "source": "До свидания", "target": "Goodbye" },
+        { "source": "Я не учитель", "target": "I am not a teacher" }
+      ]
+    }
+  ]
+}

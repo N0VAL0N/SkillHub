@@ -2,7 +2,7 @@
   <div class="teacher-layout">
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h2>ЕГЭ‑ПРО</h2>
+        <h2>SkillHub</h2>
         <span class="role-badge">Учитель</span>
       </div>
 
@@ -478,8 +478,7 @@ onUnmounted(() => {
   background: white;
   border-radius: 1rem;
   padding: 1.5rem;
-  max-width: 400px;
-  width: 90%;
+  width: 100%;
 }
 .modal-content h2 {
   margin: 0 0 1rem;
@@ -534,8 +533,7 @@ onUnmounted(() => {
 .contacts-modal, .support-modal {
   background: white;
   border-radius: 1.5rem;
-  width: 90%;
-  max-width: 480px;
+  width: 100%;
   max-height: 85vh;
   overflow-y: auto;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);

@@ -1,0 +1,98 @@
+{
+  "exam_id": "exam_a2",
+  "level": "A2",
+  "title": "A2 Level Final Exam",
+  "description": "Test your knowledge of Present Perfect vs Past Simple, Present Perfect Continuous, Past Perfect, Future Continuous, Future Perfect, Conditionals Type 2/3, Reported Speech, Passive all tenses, Relative clauses, Gerunds vs Infinitives, Used to vs Be used to",
+  "passing_score": 70,
+  "exercises": [
+    {
+      "type": "fill_gap",
+      "instruction": "Choose Past Simple or Present Perfect.",
+      "items": [
+        { "sentence": "I ___ (see) that movie yesterday.", "correct": "saw" },
+        { "sentence": "I ___ (see) that movie. (experience)", "correct": "have seen" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the present perfect continuous form.",
+      "items": [
+        { "sentence": "I ___ (work) here for five years.", "correct": "have been working" },
+        { "sentence": "It ___ (rain) since morning.", "correct": "has been raining" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the past perfect form.",
+      "items": [
+        { "sentence": "The film ___ (already start) when we arrived.", "correct": "had already started" },
+        { "sentence": "I realized that I ___ (forget) my keys.", "correct": "had forgotten" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the future continuous or future perfect.",
+      "items": [
+        { "sentence": "This time tomorrow, I ___ (fly) to Paris.", "correct": "will be flying" },
+        { "sentence": "By next year, I ___ (finish) my degree.", "correct": "will have finished" }
+      ]
+    },
+    {
+      "type": "fill_gap_multiple",
+      "instruction": "Fill in the correct forms (second/third conditional).",
+      "items": [
+        { "sentence": "If I ___ (have) a million dollars, I ___ (travel) around the world.", "correct_answers": ["had", "would travel"] },
+        { "sentence": "If you ___ (call) me, I ___ (help) you.", "correct_answers": ["had called", "would have helped"] }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Change to reported speech (possible variants: with or without 'that').",
+      "items": [
+        { "sentence": "He said, 'I am tired.' → He said ___", "correct": "he was tired", "alternatives": ["that he was tired"] },
+        { "sentence": "She asked, 'Where did you buy that dress?' → She asked ___", "correct": "where I had bought that dress" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Change to passive voice.",
+      "items": [
+        { "sentence": "They are building a new hotel. → A new hotel ___", "correct": "is being built" },
+        { "sentence": "They will announce the results tomorrow. → The results ___", "correct": "will be announced tomorrow" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in who, which, that, or where.",
+      "items": [
+        { "sentence": "The woman ___ lives next door is a doctor.", "correct": "who" },
+        { "sentence": "This is the house ___ I grew up.", "correct": "where" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the gerund or infinitive.",
+      "items": [
+        { "sentence": "I remember ___ (lock) the door. (I have a memory)", "correct": "locking" },
+        { "sentence": "I remembered ___ (lock) the door. (I didn't forget)", "correct": "to lock" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in used to or be used to.",
+      "items": [
+        { "sentence": "I ___ play the piano when I was a child.", "correct": "used to" },
+        { "sentence": "I ___ getting up early. (accustomed)", "correct": "am used to" }
+      ]
+    },
+    {
+      "type": "translation",
+      "instruction": "Translate into English.",
+      "items": [
+        { "source": "Я работаю здесь пять лет.", "target": "I have been working here for five years." },
+        { "source": "Если бы у меня была машина, я бы ездил на работу.", "target": "If I had a car, I would drive to work." },
+        { "source": "Он сказал, что устал.", "target": "He said that he was tired." }
+      ]
+    }
+  ]
+}

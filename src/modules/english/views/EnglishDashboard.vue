@@ -34,15 +34,15 @@
         <div class="stat-card">
           <div class="stat-icon">📝</div>
           <div class="stat-info">
-            <h3>{{ practiceStats.total }}</h3>
+            <h3>{{ totalExercises }}</h3>
             <p>Упражнений</p>
           </div>
         </div>
         <div class="stat-card">
           <div class="stat-icon">🎯</div>
           <div class="stat-info">
-            <h3>{{ practiceAccuracy }}%</h3>
-            <p>Точность</p>
+            <h3>{{ overallAccuracy }}%</h3>
+            <p>Общая точность</p>
           </div>
         </div>
       </div>
@@ -52,18 +52,19 @@
         <div class="level-progress">
           <div v-for="(level, idx) in levels" :key="level" class="level-progress-item">
             <span class="level-name">{{ level }}</span>
-            <div class="progress-bar">
+            <div class="progress-bar" @click="openLevelStatsModal(level)">
               <div class="progress-fill" :style="{ width: getLevelProgress(level) + '%' }"></div>
             </div>
             <span class="level-percent">{{ getLevelProgress(level) }}%</span>
+
             <button 
-              v-if="idx > 0 && !isLevelCompleted(level)" 
+              v-if="canTakeExam(level) && !isExamPassed(level)" 
               class="level-exam-btn" 
-              @click="openExamModal(levels[idx-1])"
+              @click="router.push(`/english/exam/${level}`)"
             >
-              🎓 Сдать экзамен на {{ levels[idx-1] }}
+              🎓 Сдать экзамен на {{ level }}
             </button>
-            <span v-if="isLevelCompleted(level)" class="level-completed">✅ Открыт</span>
+            <span v-if="isExamPassed(level)" class="level-completed">✅ Экзамен сдан</span>
           </div>
         </div>
       </div>
@@ -94,58 +95,26 @@
         </div>
       </div>
 
-      <!-- Модалка экзамена -->
-      <div v-if="examModalOpen" class="modal-overlay" @click.self="examModalOpen = false">
-        <div class="modal exam-modal">
-          <div class="modal-header">
-            <h3>🎓 Экзамен на уровень {{ examLevel }}</h3>
-            <button class="close-btn custom-close" @click="examModalOpen = false">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M15 9L9 15M9 9L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </button>
+
+      <!-- Добавить в шаблон, например, после quick-actions -->
+      <div class="repeat-section" v-if="dueWordsCount > 0">
+        <h2>🔄 Повторение слов</h2>
+        <div class="repeat-card" @click="goToRepeat">
+          <div class="repeat-icon">🔁</div>
+          <div class="repeat-info">
+            <h3>{{ dueWordsCount }} слов ждут повторения</h3>
+            <p>По интервальной системе (SM-2)</p>
           </div>
-          <div class="modal-body">
-            <div class="exam-info">
-              <div class="exam-icon">📝</div>
-              <p class="exam-description">
-                Экзамен проверит ваши знания по уровню <strong>{{ examLevel }}</strong>.
-                Для успешной сдачи необходимо набрать <strong>70%</strong> правильных ответов.
-              </p>
-              <div class="exam-stats">
-                <div class="stat-item">
-                  <span class="stat-value">{{ examTotalQuestions }}</span>
-                  <span class="stat-label">вопросов</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-value">45</span>
-                  <span class="stat-label">минут</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-value">70%</span>
-                  <span class="stat-label">для сдачи</span>
-                </div>
-              </div>
-            </div>
-            <div class="exam-warning">
-              <span class="warning-icon">⚠️</span>
-              <span>После сдачи экзамена уровень {{ examLevel }} будет считаться пройденным, и откроется следующий уровень</span>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn-primary" @click="startExam">Начать экзамен</button>
-            <button class="btn-outline" @click="examModalOpen = false">Отмена</button>
-          </div>
+          <button class="repeat-btn">Повторить →</button>
         </div>
       </div>
 
-      <!-- Модалка результатов -->
-      <div v-if="examResultModal" class="modal-overlay" @click.self="examResultModal = false">
-        <div class="modal exam-result-modal">
+      <!-- Модалка статистики уровня -->
+      <div v-if="levelStatsModal.open" class="modal-overlay" @click.self="levelStatsModal.open = false">
+        <div class="modal stats-modal">
           <div class="modal-header">
-            <h3>Результаты экзамена</h3>
-            <button class="close-btn custom-close" @click="examResultModal = false">
+            <h3>Уровень {{ levelStatsModal.level }}</h3>
+            <button class="close-btn custom-close" @click="levelStatsModal.open = false">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
                 <path d="M15 9L9 15M9 9L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -153,17 +122,29 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="exam-result-icon" :class="{ passed: examResultPassed }">
-              {{ examResultPassed ? '🎉' : '😢' }}
+            <div class="stats-detail">
+              <div class="stats-item">
+                <span class="stats-label">📖 Слова:</span>
+                <span class="stats-value">{{ levelStatsModal.learnedWords }} / {{ levelStatsModal.totalWords }} ({{ levelStatsModal.wordsPercent }}%)</span>
+              </div>
+              <div class="stats-item">
+                <span class="stats-label">📚 Уроки:</span>
+                <span class="stats-value">{{ levelStatsModal.completedLessons }} / {{ levelStatsModal.totalLessons }} ({{ levelStatsModal.lessonsPercent }}%)</span>
+              </div>
+              <div class="stats-item">
+                <span class="stats-label">🎯 Для открытия следующего уровня:</span>
+                <span class="stats-value">Выучить {{ levelStatsModal.wordsNeeded }} слов (70% от всех слов уровня)</span>
+              </div>
+              <div class="stats-progress">
+                <div class="progress-bar big">
+                  <div class="progress-fill" :style="{ width: levelStatsModal.overallPercent + '%' }"></div>
+                </div>
+                <p>Общий прогресс: {{ levelStatsModal.overallPercent }}%</p>
+              </div>
             </div>
-            <h2>{{ examResultPassed ? 'Поздравляем!' : 'К сожалению...' }}</h2>
-            <p class="exam-result-score">Ваш результат: <strong>{{ examResultScore }}%</strong> ({{ examResultCorrect }} из {{ examResultTotal }})</p>
-            <p v-if="examResultPassed">Уровень {{ examResultLevel }} успешно пройден! Теперь вам доступен следующий уровень.</p>
-            <p v-else>Для прохождения уровня {{ examResultLevel }} нужно набрать 70%. Попробуйте ещё раз после подготовки.</p>
-            <div class="modal-actions">
-              <button class="btn-primary" @click="examResultModal = false">Закрыть</button>
-              <button v-if="!examResultPassed" class="btn-outline" @click="retryExam">Попробовать снова</button>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-primary" @click="levelStatsModal.open = false">Закрыть</button>
           </div>
         </div>
       </div>
@@ -177,58 +158,52 @@ import { useRouter } from 'vue-router';
 import StudentLayout from '@core/layouts/StudentLayout.vue';
 import { useEnglishProgressFirestore } from '../stores/englishProgressFirestore';
 import { useEnglishPackStore } from '../stores/englishPackStore';
+import { useEnglishSm2Store } from '../stores/englishSm2Store';
 import { useAppStore } from '@core/stores/appStore';
 import { auth, db } from '@core/services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { refreshAllData } from '@core/services/globalSync';
 import vocabularyData from '../data/vocabulary.json';
-import grammarData from '../data/grammar.json';
-import irregularVerbs from '../data/irregular_verbs.json';
-import phrasalVerbs from '../data/phrasal_verbs.json';
+import lessonsData from '../data/lessons.json';
 
 const router = useRouter();
 const progressFirestore = useEnglishProgressFirestore();
 const packStore = useEnglishPackStore();
+const sm2Store = useEnglishSm2Store();
 const appStore = useAppStore();
 
 const studentDisplayName = ref('Ученик');
 const currentLevel = ref('A0');
 const levels = ['A0', 'A1', 'A2', 'B1', 'B2'];
 const wordsByLevel = ref({});
-const examModalOpen = ref(false);
-const examLevel = ref('');
-const examResultModal = ref(false);
-const examResultScore = ref(0);
-const examResultCorrect = ref(0);
-const examResultTotal = ref(0);
-const examResultPassed = ref(false);
-const examResultLevel = ref('');
+const lessonsByLevel = ref({});
 const refreshing = ref(false);
+const dueWordsCount = ref(0);
 
-const examQuestions = ref([]);
-const examAnswers = ref([]);
-const examTotalQuestions = ref(0);
+const levelStatsModal = ref({
+  open: false,
+  level: '',
+  learnedWords: 0,
+  totalWords: 0,
+  completedLessons: 0,
+  totalLessons: 0,
+  wordsPercent: 0,
+  lessonsPercent: 0,
+  overallPercent: 0,
+  wordsNeeded: 0
+});
 
-async function refreshAllData() {
+async function refreshAllDataLocal() {
   refreshing.value = true;
-  appStore.showToast('Обновление данных...', 'info');
-  try {
-    const { flushQueue } = await import('@/modules/english/services/syncService');
-    await flushQueue();
-    await progressFirestore.refresh();
-    await packStore.refreshPacks();
-    appStore.showToast('Данные обновлены', 'success');
-  } catch (err) {
-    console.error('Ошибка обновления:', err);
-    appStore.showToast('Ошибка обновления данных', 'error');
-  } finally {
-    refreshing.value = false;
-  }
+  await refreshAllData(appStore);
+  refreshing.value = false;
 }
 
 onMounted(async () => {
   await progressFirestore.loadProgress();
   await packStore.loadPacks();
-  
+  await sm2Store.loadSm2Data();
+
   const user = auth.currentUser;
   if (user) {
     const userDoc = await getDoc(doc(db, 'users', user.uid));
@@ -236,18 +211,27 @@ onMounted(async () => {
       studentDisplayName.value = userDoc.data().displayName || userDoc.data().login || 'Ученик';
     }
   }
-  
+
   for (const level of levels) {
     wordsByLevel.value[level] = vocabularyData.filter(w => w.level === level).length;
+    lessonsByLevel.value[level] = lessonsData.lessons.filter(l => l.level === level).length;
   }
   const savedLevel = localStorage.getItem('englishCurrentLevel');
   if (savedLevel && levels.includes(savedLevel)) currentLevel.value = savedLevel;
+
+  const learned = progressFirestore.learnedWords || [];
+  dueWordsCount.value = sm2Store.getDueWords(learned).length;
 });
 
 const learnedWordsCount = computed(() => progressFirestore.learnedWords?.length || 0);
 const completedLessonsCount = computed(() => progressFirestore.completedLessons?.length || 0);
-const practiceStats = computed(() => ({ total: 0, correct: 0 }));
-const practiceAccuracy = computed(() => 0);
+const passedExams = computed(() => progressFirestore.passedExams || []);
+const totalExercises = computed(() => progressFirestore.stats?.totalExercises || 0);
+const correctExercises = computed(() => progressFirestore.stats?.correctExercises || 0);
+const overallAccuracy = computed(() => {
+  if (totalExercises.value === 0) return 0;
+  return Math.round((correctExercises.value / totalExercises.value) * 100);
+});
 
 function getLevelProgress(level) {
   const totalWords = wordsByLevel.value[level] || 1;
@@ -255,221 +239,75 @@ function getLevelProgress(level) {
     const word = vocabularyData.find(w => w.id === wordId);
     return word && word.level === level;
   }).length || 0;
-  return Math.round((learnedInLevel / totalWords) * 100);
+  const totalLessons = lessonsByLevel.value[level] || 0;
+  const completedInLevel = progressFirestore.completedLessons.filter(lessonId => {
+    const lessonNum = parseInt(lessonId.replace('lesson_', ''));
+    const lesson = lessonsData.lessons.find(l => l.lesson_id === lessonNum);
+    return lesson && lesson.level === level;
+  }).length;
+
+  if (learnedInLevel >= totalWords * 0.7 && completedInLevel === totalLessons) {
+    return 100;
+  }
+  const wordProgress = Math.min(100, (learnedInLevel / (totalWords * 0.7)) * 100);
+  const lessonProgress = totalLessons === 0 ? 100 : (completedInLevel / totalLessons) * 100;
+  return Math.round((wordProgress + lessonProgress) / 2);
 }
 
-function isLevelCompleted(level) {
-  const completedLevels = JSON.parse(localStorage.getItem('englishCompletedLevels') || '[]');
-  return completedLevels.includes(level);
+function isExamPassed(level) {
+  return passedExams.value.includes(level);
 }
 
-function getAccumulatedLevels(targetLevel) {
-  const idx = levels.indexOf(targetLevel);
-  return levels.slice(0, idx + 1);
+function canTakeExam(level) {
+  const levelIndex = levels.indexOf(level);
+  if (levelIndex === 0) return true;
+  const prevLevel = levels[levelIndex - 1];
+  return isExamPassed(prevLevel);
 }
 
-function getMaxQuestionsPerType(targetLevel) {
-  const levelIndex = levels.indexOf(targetLevel);
-  const maxWords = [100, 200, 400, 800, 1600];
-  const maxOthers = [30, 40, 60, 80, 100];
-  return {
-    words: maxWords[levelIndex],
-    grammar: maxOthers[levelIndex],
-    irregular: maxOthers[levelIndex],
-    phrasal: maxOthers[levelIndex]
+function openLevelStatsModal(level) {
+  const totalWords = wordsByLevel.value[level] || 1;
+  const learnedInLevel = progressFirestore.learnedWords?.filter(wordId => {
+    const word = vocabularyData.find(w => w.id === wordId);
+    return word && word.level === level;
+  }).length || 0;
+  const wordsPercent = Math.round((learnedInLevel / totalWords) * 100);
+
+  const totalLessons = lessonsByLevel.value[level] || 0;
+  const completedInLevel = progressFirestore.completedLessons.filter(lessonId => {
+    const lessonNum = parseInt(lessonId.replace('lesson_', ''));
+    const lesson = lessonsData.lessons.find(l => l.lesson_id === lessonNum);
+    return lesson && lesson.level === level;
+  }).length;
+  const lessonsPercent = totalLessons === 0 ? 0 : Math.round((completedInLevel / totalLessons) * 100);
+
+  let overallPercent = 0;
+  if (learnedInLevel >= totalWords * 0.7 && completedInLevel === totalLessons) {
+    overallPercent = 100;
+  } else {
+    const wordProgress = Math.min(100, (learnedInLevel / (totalWords * 0.7)) * 100);
+    const lessonProgress = totalLessons === 0 ? 100 : (completedInLevel / totalLessons) * 100;
+    overallPercent = Math.round((wordProgress + lessonProgress) / 2);
+  }
+
+  const wordsNeeded = Math.max(0, Math.ceil(totalWords * 0.7) - learnedInLevel);
+
+  levelStatsModal.value = {
+    open: true,
+    level,
+    learnedWords: learnedInLevel,
+    totalWords,
+    completedLessons: completedInLevel,
+    totalLessons,
+    wordsPercent,
+    lessonsPercent,
+    overallPercent,
+    wordsNeeded
   };
 }
 
-function shuffleArray(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-function generateExamQuestions(targetLevel) {
-  const accumulatedLevels = getAccumulatedLevels(targetLevel);
-  const maxPerType = getMaxQuestionsPerType(targetLevel);
-  
-  let words = [];
-  let grammar = [];
-  let irregular = [];
-  let phrasal = [];
-  
-  for (const lvl of accumulatedLevels) {
-    words.push(...vocabularyData.filter(w => w.level === lvl));
-    grammar.push(...grammarData.filter(g => g.level === lvl));
-    irregular.push(...irregularVerbs.filter(v => v.level === lvl));
-    phrasal.push(...phrasalVerbs.filter(p => p.level === lvl));
-  }
-  
-  words = [...new Map(words.map(w => [w.id, w])).values()];
-  grammar = [...new Map(grammar.map(g => [g.rule_id, g])).values()];
-  irregular = [...new Map(irregular.map(v => [v.id, v])).values()];
-  phrasal = [...new Map(phrasal.map(p => [p.id, p])).values()];
-  
-  const questions = [];
-  
-  let wordsCount = Math.min(words.length, maxPerType.words);
-  const shuffledWords = shuffleArray([...words]);
-  for (let i = 0; i < wordsCount; i++) {
-    const word = shuffledWords[i];
-    const wrongOptions = words.filter(w => w.id !== word.id).sort(() => 0.5 - Math.random()).slice(0, 3);
-    const options = [word.translation, ...wrongOptions.map(w => w.translation)].sort(() => 0.5 - Math.random());
-    questions.push({
-      type: 'word',
-      text: `Что означает слово "${word.word}"?`,
-      options,
-      correct: options.indexOf(word.translation),
-      correctText: word.translation
-    });
-  }
-  
-  let grammarCount = Math.min(grammar.length, maxPerType.grammar);
-  const shuffledGrammar = shuffleArray([...grammar]);
-  for (let i = 0; i < grammarCount; i++) {
-    const g = shuffledGrammar[i];
-    const example = g.examples?.[0];
-    if (example) {
-      const sentenceWords = example.sentence.split(' ');
-      const blankIndex = Math.floor(Math.random() * sentenceWords.length);
-      const correctWord = sentenceWords[blankIndex];
-      const sentenceWithBlank = sentenceWords.map((w, idx) => idx === blankIndex ? '______' : w).join(' ');
-      const wrongWords = ['am', 'is', 'are', 'was', 'were', 'have', 'has', 'do', 'does', 'did'].filter(w => w !== correctWord).slice(0, 3);
-      const options = [correctWord, ...wrongWords].sort(() => 0.5 - Math.random());
-      questions.push({
-        type: 'grammar',
-        text: `Заполните пропуск: ${sentenceWithBlank}`,
-        options,
-        correct: options.indexOf(correctWord),
-        correctText: correctWord
-      });
-    }
-  }
-  
-  let irregularCount = Math.min(irregular.length, maxPerType.irregular);
-  const shuffledIrregular = shuffleArray([...irregular]);
-  for (let i = 0; i < irregularCount; i++) {
-    const v = shuffledIrregular[i];
-    const wrongForms = irregular.filter(iv => iv.id !== v.id).sort(() => 0.5 - Math.random()).slice(0, 3).map(iv => iv.past_simple);
-    const options = [v.past_simple, ...wrongForms].sort(() => 0.5 - Math.random());
-    questions.push({
-      type: 'irregular',
-      text: `Какая форма прошедшего времени (Past Simple) у глагола "${v.base}"?`,
-      options,
-      correct: options.indexOf(v.past_simple),
-      correctText: v.past_simple
-    });
-  }
-  
-  let phrasalCount = Math.min(phrasal.length, maxPerType.phrasal);
-  const shuffledPhrasal = shuffleArray([...phrasal]);
-  for (let i = 0; i < phrasalCount; i++) {
-    const p = shuffledPhrasal[i];
-    const wrongOptions = phrasal.filter(pv => pv.id !== p.id).sort(() => 0.5 - Math.random()).slice(0, 3).map(pv => pv.translation);
-    const options = [p.translation, ...wrongOptions].sort(() => 0.5 - Math.random());
-    questions.push({
-      type: 'phrasal',
-      text: `Что означает фразовый глагол "${p.verb}"?`,
-      options,
-      correct: options.indexOf(p.translation),
-      correctText: p.translation
-    });
-  }
-  
-  examQuestions.value = shuffleArray(questions);
-  examTotalQuestions.value = examQuestions.value.length;
-  examAnswers.value = new Array(examTotalQuestions.value).fill(null);
-}
-
-function openExamModal(level) {
-  examLevel.value = level;
-  generateExamQuestions(level);
-  examModalOpen.value = true;
-}
-
-function startExam() {
-  examModalOpen.value = false;
-  showExamQuestionsModal();
-}
-
-function showExamQuestionsModal() {
-  const modal = document.createElement('div');
-  modal.className = 'exam-questions-modal modal-overlay';
-  modal.innerHTML = `
-    <div class="modal exam-questions">
-      <div class="modal-header">
-        <h3>Экзамен на уровень ${examLevel.value}</h3>
-        <button class="close-btn custom-close" id="closeExam">✕</button>
-      </div>
-      <div class="modal-body" id="examQuestionsBody"></div>
-      <div class="modal-footer">
-        <button class="btn-primary" id="submitExam">Завершить экзамен</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-  
-  const body = modal.querySelector('#examQuestionsBody');
-  examQuestions.value.forEach((q, idx) => {
-    const questionDiv = document.createElement('div');
-    questionDiv.className = 'exam-question';
-    questionDiv.innerHTML = `
-      <p class="question-text">${idx + 1}. ${q.text}</p>
-      <div class="options" id="q-${idx}"></div>
-    `;
-    const optionsDiv = questionDiv.querySelector('.options');
-    q.options.forEach((opt, optIdx) => {
-      const btn = document.createElement('button');
-      btn.className = 'option-btn';
-      btn.textContent = opt;
-      btn.onclick = () => {
-        examAnswers.value[idx] = optIdx;
-        document.querySelectorAll(`#q-${idx} .option-btn`).forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-      };
-      optionsDiv.appendChild(btn);
-    });
-    body.appendChild(questionDiv);
-  });
-  
-  modal.querySelector('#closeExam').onclick = () => {
-    modal.remove();
-  };
-  
-  modal.querySelector('#submitExam').onclick = () => {
-    let correct = 0;
-    examAnswers.value.forEach((ans, idx) => {
-      if (ans === examQuestions.value[idx].correct) correct++;
-    });
-    const score = Math.round((correct / examQuestions.value.length) * 100);
-    examResultScore.value = score;
-    examResultCorrect.value = correct;
-    examResultTotal.value = examQuestions.value.length;
-    examResultPassed.value = score >= 70;
-    examResultLevel.value = examLevel.value;
-    modal.remove();
-    
-    if (examResultPassed.value) {
-      const completedLevels = JSON.parse(localStorage.getItem('englishCompletedLevels') || '[]');
-      if (!completedLevels.includes(examLevel.value)) {
-        completedLevels.push(examLevel.value);
-        localStorage.setItem('englishCompletedLevels', JSON.stringify(completedLevels));
-      }
-      const currentIdx = levels.indexOf(examLevel.value);
-      const nextLevel = levels[currentIdx + 1];
-      currentLevel.value = nextLevel || examLevel.value;
-      localStorage.setItem('englishCurrentLevel', currentLevel.value);
-    }
-    examResultModal.value = true;
-  };
-}
-
-function retryExam() {
-  examResultModal.value = false;
-  generateExamQuestions(examLevel.value);
-  showExamQuestionsModal();
+function goToRepeat() {
+  router.push('/english/repeat');
 }
 </script>
 
@@ -582,6 +420,7 @@ function retryExam() {
   background: var(--gray-200);
   border-radius: 4px;
   overflow: hidden;
+  cursor: pointer;
 }
 .progress-fill {
   height: 100%;
@@ -674,9 +513,6 @@ function retryExam() {
   display: flex;
   flex-direction: column;
 }
-.exam-questions {
-  max-width: 700px;
-}
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -706,38 +542,40 @@ function retryExam() {
   overflow-y: auto;
   padding: 1.5rem;
 }
-.exam-question {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--gray-200);
-}
-.question-text {
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-.options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.option-btn {
-  padding: 0.4rem 0.8rem;
-  background: var(--gray-100);
-  border: 1px solid var(--gray-200);
-  border-radius: 2rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.option-btn.selected {
-  background: var(--primary);
-  color: white;
-}
 .modal-footer {
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--gray-200);
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
+}
+.stats-modal .stats-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.stats-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+.stats-label {
+  font-weight: 500;
+  color: var(--gray-700);
+}
+.stats-value {
+  color: var(--primary);
+  font-weight: 600;
+}
+.stats-progress {
+  margin-top: 1rem;
+  text-align: center;
+}
+.progress-bar.big {
+  height: 12px;
+  margin: 0.5rem 0;
 }
 .btn-primary, .btn-outline {
   padding: 0.5rem 1.2rem;
@@ -753,21 +591,6 @@ function retryExam() {
   background: transparent;
   border: 1px solid var(--gray-300);
 }
-.exam-result-icon {
-  font-size: 4rem;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-.exam-result-score {
-  font-size: 1.2rem;
-  margin: 1rem 0;
-}
-.modal-actions {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  margin-top: 1rem;
-}
 body.dark-theme .stat-card,
 body.dark-theme .level-progress-section,
 body.dark-theme .action-card,
@@ -780,5 +603,11 @@ body.dark-theme .level-progress-section h2,
 body.dark-theme .quick-actions h2,
 body.dark-theme .action-card h3 {
   color: white;
+}
+body.dark-theme .stats-item {
+  border-bottom-color: var(--gray-700);
+}
+body.dark-theme .stats-label {
+  color: var(--gray-300);
 }
 </style>

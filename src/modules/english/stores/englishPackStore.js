@@ -2,12 +2,14 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { auth, db } from '@core/services/firebase';
-import { doc, setDoc, deleteDoc, collection, getDocs, updateDoc, arrayRemove } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc, collection, getDocs, updateDoc, writeBatch } from 'firebase/firestore';
 import { useEnglishProgressFirestore } from './englishProgressFirestore';
 import vocabularyData from '../data/vocabulary.json';
+import lessonsData from '../data/lessons.json';
 
 const CACHE_KEY_PACKS = 'english_packs_cache';
 const CACHE_TTL = 12 * 60 * 60 * 1000;
+const LAST_PACK_CHECK_KEY = 'last_pack_check';
 
 export const useEnglishPackStore = defineStore('englishPack', () => {
   const packs = ref([]);
@@ -42,31 +44,7 @@ export const useEnglishPackStore = defineStore('englishPack', () => {
     return null;
   }
 
-  // Миграция старых паков (обновление ID карточек)
-  async function migrateOldPack(pack) {
-    let updated = false;
-    const newCards = pack.cards.map(card => {
-      const word = vocabularyData.find(w => w.word === card.front);
-      if (word && (!card.wordId || card.id !== word.id)) {
-        updated = true;
-        return {
-          ...card,
-          id: word.id,
-          wordId: word.id
-        };
-      }
-      return card;
-    });
-    
-    if (updated) {
-      await updatePack(pack.id, { cards: newCards });
-      console.log(`[Migration] Обновлён пак: ${pack.name}`);
-      return true;
-    }
-    return false;
-  }
-
-  // Автоматическая миграция всех паков при загрузке
+  // ========== BATCH-МИГРАЦИЯ (один запрос для всех паков) ==========
   async function migrateAllPacksIfNeeded() {
     const uid = getUserId();
     if (!uid) return;
@@ -75,19 +53,137 @@ export const useEnglishPackStore = defineStore('englishPack', () => {
     if (migrationFlag === 'true') return;
     
     console.log('[Migration] Проверка паков на наличие старых ID...');
-    let anyMigrated = false;
     
+    const packsToUpdate = [];
     for (const pack of packs.value) {
-      const migrated = await migrateOldPack(pack);
-      if (migrated) anyMigrated = true;
+      let updated = false;
+      const newCards = pack.cards.map(card => {
+        const word = vocabularyData.find(w => w.word === card.front);
+        if (word && (!card.wordId || card.id !== word.id)) {
+          updated = true;
+          return {
+            ...card,
+            id: word.id,
+            wordId: word.id
+          };
+        }
+        return card;
+      });
+      if (updated) {
+        packsToUpdate.push({ id: pack.id, cards: newCards, name: pack.name, level: pack.level });
+      }
     }
     
-    if (anyMigrated) {
-      await loadPacks(true); // перезагружаем обновлённые паки
-      console.log('[Migration] Миграция паков завершена');
+    if (packsToUpdate.length === 0) {
+      localStorage.setItem(`packs_migrated_${uid}`, 'true');
+      return;
     }
     
+    const batch = writeBatch(db);
+    for (const p of packsToUpdate) {
+      const packRef = doc(db, getPacksCollectionPath(uid), p.id);
+      batch.update(packRef, { cards: p.cards, updatedAt: new Date() });
+    }
+    await batch.commit();
+    
+    // Обновляем локальные данные
+    for (const updatedPack of packsToUpdate) {
+      const index = packs.value.findIndex(p => p.id === updatedPack.id);
+      if (index !== -1) {
+        packs.value[index].cards = updatedPack.cards;
+        packs.value[index].updatedAt = new Date();
+      }
+    }
+    savePacksToCache(uid, packs.value);
+    
+    console.log(`[Migration] Обновлено ${packsToUpdate.length} паков`);
     localStorage.setItem(`packs_migrated_${uid}`, 'true');
+  }
+
+  // ========== Автосоздание паков для пройденных уроков ==========
+  async function ensurePacksForCompletedLessons(force = false) {
+    const uid = getUserId();
+    if (!uid) return;
+    
+    const lastCheckKey = `${LAST_PACK_CHECK_KEY}_${uid}`;
+    const lastCheck = localStorage.getItem(lastCheckKey);
+    const now = Date.now();
+    
+    if (!force && lastCheck && (now - parseInt(lastCheck) < CACHE_TTL)) {
+      return;
+    }
+    
+    const completedLessons = progressFirestore.completedLessons;
+    if (!completedLessons.length) return;
+    
+    console.log('[PackStore] Проверка паков для пройденных уроков...');
+    let createdCount = 0;
+    const newPacks = [];
+    
+    for (const lessonId of completedLessons) {
+      const lessonNum = parseInt(lessonId.replace('lesson_', ''));
+      const lesson = lessonsData.lessons.find(l => l.lesson_id === lessonNum);
+      if (!lesson) continue;
+      
+      const packName = `${lesson.title} (урок ${lesson.lesson_id})`;
+      const existingPack = packs.value.find(p => p.name === packName);
+      if (!existingPack) {
+        const words = [];
+        for (const wid of lesson.new_vocabulary_ids || []) {
+          const word = vocabularyData.find(w => w.id === wid);
+          if (word) {
+            words.push({
+              front: word.word,
+              back: word.translation,
+              level: lesson.level,
+              example: word.example || ''
+            });
+          }
+        }
+        if (words.length) {
+          const packId = `pack_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+          const newPack = {
+            id: packId,
+            name: packName,
+            level: lesson.level,
+            cards: words,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          };
+          newPacks.push(newPack);
+          createdCount++;
+        }
+      }
+    }
+    
+    if (createdCount > 0) {
+      // Создаём все паки одним batch-запросом
+      const batch = writeBatch(db);
+      for (const newPack of newPacks) {
+        const packRef = doc(db, getPacksCollectionPath(uid), newPack.id);
+        batch.set(packRef, {
+          name: newPack.name,
+          level: newPack.level,
+          cards: newPack.cards,
+          createdAt: newPack.createdAt,
+          updatedAt: newPack.updatedAt
+        });
+      }
+      await batch.commit();
+      
+      // Добавляем в локальный массив
+      packs.value.push(...newPacks);
+      savePacksToCache(uid, packs.value);
+      
+      // Создаём прогресс для новых паков
+      for (const newPack of newPacks) {
+        await progressFirestore.updatePackProgress(newPack.id, []);
+      }
+      
+      console.log(`[PackStore] Создано ${createdCount} новых паков для пройденных уроков`);
+    }
+    
+    localStorage.setItem(lastCheckKey, now.toString());
   }
 
   async function loadPacks(forceRefresh = false) {
@@ -104,6 +200,7 @@ export const useEnglishPackStore = defineStore('englishPack', () => {
           packs.value = cached;
           loaded.value = true;
           await migrateAllPacksIfNeeded();
+          await ensurePacksForCompletedLessons(false);
           return;
         }
       }
@@ -114,6 +211,7 @@ export const useEnglishPackStore = defineStore('englishPack', () => {
       savePacksToCache(uid, packsData);
       loaded.value = true;
       await migrateAllPacksIfNeeded();
+      await ensurePacksForCompletedLessons(false);
     } catch (err) {
       console.error('Ошибка загрузки паков:', err);
       packs.value = [];
@@ -123,6 +221,7 @@ export const useEnglishPackStore = defineStore('englishPack', () => {
 
   async function refreshPacks() {
     await loadPacks(true);
+    await ensurePacksForCompletedLessons(true);
   }
 
   async function createPack(packData) {

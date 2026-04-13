@@ -2,7 +2,7 @@
   <div class="student-layout">
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h2>ЕГЭ‑ПРО</h2>
+        <h2>SkillHub</h2>
         <span class="role-badge">Ученик</span>
       </div>
 
@@ -458,16 +458,12 @@ const switchSubject = (subjectId) => {
 // Навигация
 const goToProfile = () => router.push('/profile');
 
+// В StudentLayout.vue
 const logout = async () => {
   isMounted = false;
   if (unsubscribeUser) unsubscribeUser();
   if (unsubscribeHomework) unsubscribeHomework();
   if (homeworkInterval) clearInterval(homeworkInterval);
-  
-  // Очищаем английский прогресс и паки
-  englishProgress.reset();
-  englishPackStore.packs = [];
-  englishPackStore.loaded = false;
   
   await signOut(auth);
   router.push('/');
@@ -851,6 +847,7 @@ onUnmounted(() => {
 .btn-close:hover {
   background: var(--secondary-dark);
 }
+/* Центрирование модалок контактов и поддержки */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -865,15 +862,17 @@ onUnmounted(() => {
   z-index: 1000;
   animation: fadeIn 0.2s ease;
 }
-.contacts-modal, .support-modal {
+
+.contacts-modal, 
+.support-modal {
   background: white;
   border-radius: 1.5rem;
-  width: 90%;
-  max-width: 480px;
+  width: 100%;
   max-height: 85vh;
   overflow-y: auto;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   animation: slideUp 0.3s ease;
+  /* Центрирование по вертикали и горизонтали обеспечивается родителем .modal-overlay */
 }
 .modal-header {
   display: flex;

@@ -122,6 +122,11 @@ service cloud.firestore {
         allow read: if isUser(userId) || isTeacher();
         allow write: if isUser(userId);
       }
+      
+      match /sm2/{docId} {
+        allow read: if isUser(userId) || isTeacher();
+        allow write: if isUser(userId);
+      }
     }
   }
 }

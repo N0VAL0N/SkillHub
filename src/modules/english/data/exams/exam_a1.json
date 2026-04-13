@@ -1,0 +1,117 @@
+{
+  "exam_id": "exam_a1",
+  "level": "A1",
+  "title": "A1 Level Final Exam",
+  "description": "Test your knowledge of Past Simple, Future, Comparatives, Modal verbs, Present Perfect, Past Continuous, Conditionals Type 0/1, Passive Voice, Gerunds, Used to",
+  "passing_score": 70,
+  "exercises": [
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the past simple form (regular and irregular).",
+      "items": [
+        { "sentence": "I ___ (go) to the cinema yesterday.", "correct": "went" },
+        { "sentence": "She ___ (work) in a bank last year.", "correct": "worked" },
+        { "sentence": "They ___ (be) at home last night.", "correct": "were" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in 'will' or 'going to'.",
+      "items": [
+        { "sentence": "I promise I ___ call you.", "correct": "will" },
+        { "sentence": "Look at those clouds! It ___ rain.", "correct": "is going to" },
+        { "sentence": "I ___ buy a new car next year. (plan)", "correct": "am going to" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Write the comparative form.",
+      "items": [
+        { "sentence": "big → ___", "correct": "bigger" },
+        { "sentence": "interesting → ___", "correct": "more interesting" },
+        { "sentence": "good → ___", "correct": "better" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in must, mustn't, should, shouldn't, have to.",
+      "items": [
+        { "sentence": "You ___ stop at a red light.", "correct": "must" },
+        { "sentence": "You ___ smoke here. It's forbidden.", "correct": "mustn't" },
+        { "sentence": "You ___ see a doctor. You look ill.", "correct": "should" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the present perfect form.",
+      "items": [
+        { "sentence": "I ___ (visit) Paris twice.", "correct": "have visited" },
+        { "sentence": "She ___ (never eat) sushi.", "correct": "has never eaten" }
+      ]
+    },
+    {
+      "type": "fill_gap_multiple",
+      "instruction": "Fill in the two missing words.",
+      "items": [
+        { "sentence": "___ you ever ___ (be) to London?", "correct_answers": ["Have", "been"] }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in for or since.",
+      "items": [
+        { "sentence": "I have lived here ___ five years.", "correct": "for" },
+        { "sentence": "She has been ill ___ Monday.", "correct": "since" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the past continuous form.",
+      "items": [
+        { "sentence": "I ___ (watch) TV when you called.", "correct": "was watching" },
+        { "sentence": "She ___ (walk) home when it started to rain.", "correct": "was walking" }
+      ]
+    },
+    {
+      "type": "fill_gap_multiple",
+      "instruction": "Fill in the correct forms (first conditional).",
+      "items": [
+        { "sentence": "If it ___ (rain) tomorrow, we ___ (stay) at home.", "correct_answers": ["rains", "will stay"] },
+        { "sentence": "If you ___ (study) hard, you ___ (pass) the exam.", "correct_answers": ["study", "will pass"] }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Change to passive voice.",
+      "items": [
+        { "sentence": "People speak English. → English ___", "correct": "is spoken" },
+        { "sentence": "They built the Eiffel Tower in 1889. → The Eiffel Tower ___", "correct": "was built in 1889" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the gerund or infinitive.",
+      "items": [
+        { "sentence": "I enjoy ___ (read) books.", "correct": "reading" },
+        { "sentence": "She wants ___ (buy) a car.", "correct": "to buy" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in used to or didn't use to.",
+      "items": [
+        { "sentence": "I ___ play the piano when I was a child.", "correct": "used to" },
+        { "sentence": "She ___ like coffee, but now she loves it.", "correct": "didn't use to" }
+      ]
+    },
+    {
+      "type": "translation",
+      "instruction": "Translate into English.",
+      "items": [
+        { "source": "Я был в Лондоне два раза.", "target": "I have been to London twice." },
+        { "source": "Я смотрел телевизор, когда ты позвонил.", "target": "I was watching TV when you called." },
+        { "source": "Если завтра пойдёт дождь, я останусь дома.", "target": "If it rains tomorrow, I will stay at home." }
+      ]
+    }
+  ]
+}

@@ -40,7 +40,13 @@
         <button class="btn-primary create-btn large" @click="createNewPack">Создать первый пак</button>
       </div>
       <div v-else class="packs-grid">
-        <div v-for="pack in filteredAndSortedPacks" :key="pack.id" class="pack-card" @click="openPackMenu(pack)">
+        <div
+          v-for="pack in filteredAndSortedPacks"
+          :key="pack.id"
+          class="pack-card"
+          :class="{ 'fully-learned': getLearnedCount(pack) === (pack.cards?.length || 0) && pack.cards?.length > 0 }"
+          @click="openPackMenu(pack)"
+        >
           <div class="pack-cover">
             <span class="pack-initial">{{ pack.name.charAt(0).toUpperCase() }}</span>
           </div>
@@ -111,18 +117,22 @@
             </button>
           </div>
           <div class="modal-body">
-            <button class="action-btn" @click="studyPack(selectedPack.id, 'all')">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 6V12L15 15M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/>
-              </svg>
-              Учить все слова
-            </button>
-            <button class="action-btn" @click="studyPack(selectedPack.id, 'unlearned')">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 12H15M12 9V15M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/>
-              </svg>
-              Учить только невыученные
-            </button>
+            <template v-if="getLearnedCount(selectedPack) < (selectedPack.cards?.length || 0)">
+              <button class="action-btn" @click="studyPack(selectedPack.id, 'unlearned')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 12H15M12 9V15M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/>
+                </svg>
+                Учить невыученные слова
+              </button>
+            </template>
+            <template v-else>
+              <button class="action-btn" @click="studyPack(selectedPack.id, 'review')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 6V12L15 15M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/>
+                </svg>
+                Повторение
+              </button>
+            </template>
             <button class="action-btn" @click="editPack(selectedPack.id)">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M17 3L21 7L7 21H3V17L17 3Z"/>
@@ -161,6 +171,7 @@ import StudentLayout from '@core/layouts/StudentLayout.vue';
 import { useEnglishPackStore } from '../stores/englishPackStore';
 import { useEnglishProgressFirestore } from '../stores/englishProgressFirestore';
 import { useAppStore } from '@core/stores/appStore';
+import { refreshAllData } from '@core/services/globalSync';
 
 const router = useRouter();
 const packStore = useEnglishPackStore();
@@ -197,61 +208,33 @@ async function loadPacks() {
   loading.value = false;
 }
 
-// Синхронизация выученных слов с паками
+async function refreshAllDataLocal() {
+  refreshing.value = true;
+  await refreshAllData(appStore);
+  refreshing.value = false;
+}
+
 async function syncLearnedWordsToPacks() {
   const learnedWordsSet = new Set(progressFirestore.learnedWords);
   let syncedCount = 0;
-  
+
   for (const pack of packStore.packs) {
-    // Находим ID карточек, у которых wordId есть в learnedWords
     const learnedCardIds = pack.cards
       .filter(card => card.wordId && learnedWordsSet.has(card.wordId))
       .map(card => card.id);
-    
+
     const currentProgress = progressFirestore.getPackProgress(pack.id);
     const currentLearned = currentProgress.learnedCardIds || [];
-    
-    // Проверяем, нужно ли обновлять
+
     const needsUpdate = learnedCardIds.length !== currentLearned.length ||
       !learnedCardIds.every(id => currentLearned.includes(id));
-    
+
     if (needsUpdate && learnedCardIds.length > 0) {
       await progressFirestore.updatePackProgress(pack.id, learnedCardIds);
       syncedCount++;
-      console.log(`[Sync] Пак "${pack.name}": обновлено ${learnedCardIds.length} выученных слов`);
     }
   }
-  
   return syncedCount;
-}
-
-async function refreshAllData() {
-  refreshing.value = true;
-  appStore.showToast('Обновление данных...', 'info');
-  try {
-    // 1. Отправляем очередь в Firestore
-    const { flushQueue } = await import('@/modules/english/services/syncService');
-    await flushQueue();
-    
-    // 2. Обновляем прогресс из Firestore
-    await progressFirestore.refresh();
-    
-    // 3. Обновляем паки из Firestore
-    await packStore.refreshPacks();
-    
-    // 4. Синхронизируем выученные слова с паками
-    const syncedCount = await syncLearnedWordsToPacks();
-    
-    // 5. Перезагружаем отображение
-    await packStore.refreshPacks();
-    
-    appStore.showToast(`Данные обновлены${syncedCount > 0 ? `, синхронизировано ${syncedCount} паков` : ''}`, 'success');
-  } catch (err) {
-    console.error('Ошибка обновления:', err);
-    appStore.showToast('Ошибка обновления данных', 'error');
-  } finally {
-    refreshing.value = false;
-  }
 }
 
 function getLearnedCount(pack) {
@@ -369,7 +352,6 @@ async function deletePack() {
 </script>
 
 <style scoped>
-/* стили как в предыдущей версии */
 .packs-view {
   max-width: 1000px;
   margin: 0 auto;
@@ -409,7 +391,6 @@ async function deletePack() {
   transition: all 0.2s;
 }
 .refresh-btn:hover {
-  background: wheat;
   transform: translateY(-1px);
 }
 .refresh-btn:disabled {
@@ -505,6 +486,12 @@ async function deletePack() {
 .pack-card:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
+}
+/* Стиль для полностью выученного пака */
+.pack-card.fully-learned {
+  border: 2px solid var(--success);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+  background: linear-gradient(145deg, white, var(--success-light));
 }
 .pack-cover {
   width: 100%;
@@ -743,10 +730,14 @@ async function deletePack() {
   font-size: 3rem;
   margin-bottom: 1rem;
 }
+/* Тёмная тема */
 body.dark-theme .pack-card,
 body.dark-theme .modal {
   background: var(--gray-800);
   border-color: var(--gray-700);
+}
+body.dark-theme .pack-card.fully-learned {
+  background: linear-gradient(145deg, var(--gray-800), rgba(16, 185, 129, 0.1));
 }
 body.dark-theme .pack-info h3 {
   color: white;

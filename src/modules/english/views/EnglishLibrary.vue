@@ -498,6 +498,7 @@ import StudentLayout from '@core/layouts/StudentLayout.vue';
 import { useEnglishProgressFirestore } from '../stores/englishProgressFirestore';
 import { useEnglishPackStore } from '../stores/englishPackStore';
 import { useAppStore } from '@core/stores/appStore';
+import { refreshAllData } from '@core/services/globalSync';
 import { speak } from '@core/services/tts';
 import vocabularyData from '../data/vocabulary.json';
 import grammarData from '../data/grammar.json';
@@ -528,22 +529,10 @@ const selectedReading = ref(null);
 const readingAnswers = ref({});
 const readingResults = ref({});
 
-// Функция обновления всех данных
-async function refreshAllData() {
+async function refreshAllDataLocal() {
   refreshing.value = true;
-  appStore.showToast('Обновление данных...', 'info');
-  try {
-    const { flushQueue } = await import('@/modules/english/services/syncService');
-    await flushQueue();
-    await progressFirestore.refresh();
-    await packStore.refreshPacks();
-    appStore.showToast('Данные обновлены', 'success');
-  } catch (err) {
-    console.error('Ошибка обновления:', err);
-    appStore.showToast('Ошибка обновления данных', 'error');
-  } finally {
-    refreshing.value = false;
-  }
+  await refreshAllData(appStore);
+  refreshing.value = false;
 }
 
 function toggleLevel(level) {
@@ -608,10 +597,7 @@ async function playAudio(text) {
 }
 
 async function markAsLearned(wordId) {
-  // Добавляем в глобальный список выученных слов
   await progressFirestore.addLearnedWord(wordId);
-  
-  // Также обновляем прогресс во всех паках, где есть это слово
   const word = vocabularyData.find(w => w.id === wordId);
   if (word) {
     for (const pack of packStore.packs) {
@@ -626,7 +612,6 @@ async function markAsLearned(wordId) {
       }
     }
   }
-  
   appStore.showToast('Слово отмечено выученным!', 'success');
 }
 

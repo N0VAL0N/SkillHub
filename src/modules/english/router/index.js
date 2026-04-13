@@ -59,5 +59,17 @@ export default [
     name: 'EnglishStats',
     component: () => import('../views/EnglishStats.vue'),
     meta: { requiresAuth: true, subject: 'english_ielts' }
-  }
+  },
+  {
+    path: '/english/exam/:level',
+    name: 'EnglishExam',
+    component: () => import('../views/EnglishExam.vue'),
+    meta: { requiresAuth: true, subject: 'english_ielts', layout: 'blank' }
+  },
+  {
+  path: '/english/repeat',
+  name: 'EnglishRepeat',
+  component: () => import('../views/EnglishRepeat.vue'),
+  meta: { requiresAuth: true, subject: 'english_ielts' }
+}
 ];

@@ -10,7 +10,6 @@ async function sendOperation(op) {
   
   let docRef;
   
-  // Новая структура
   if (op.collection === 'englishProgress') {
     docRef = doc(db, 'english', op.docId);
   } else if (op.collection === 'englishPacks') {
@@ -87,33 +86,32 @@ export async function flushQueue() {
   let operations = await getAllPendingOperations();
   if (operations.length === 0) return;
   
-  // Очищаем устаревшие операции
-  let cleanedCount = 0;
+  // Группируем операции по ключу collection+docId, оставляем только последнюю по timestamp
+  const latestOps = new Map();
   for (const op of operations) {
-    if (op.collection === 'englishProgress' && op.operation !== 'set') {
-      const newDocRef = doc(db, 'english', op.docId);
-      const newDocSnap = await getDoc(newDocRef);
-      if (!newDocSnap.exists()) {
-        await dequeueOperation(op.id);
-        cleanedCount++;
-      }
+    const key = `${op.collection}|${op.docId}`;
+    const existing = latestOps.get(key);
+    if (!existing || op.timestamp > existing.timestamp) {
+      latestOps.set(key, op);
     }
   }
   
-  if (cleanedCount > 0) {
-    console.log(`[Sync] Удалено ${cleanedCount} устаревших операций`);
-    operations = await getAllPendingOperations();
-    if (operations.length === 0) return;
-  }
-  
-  console.log(`[Sync] Отправка ${operations.length} операций...`);
+  const uniqueOperations = Array.from(latestOps.values());
+  console.log(`[Sync] Отправка ${uniqueOperations.length} операций (из ${operations.length} уникальных)...`);
   
   let successCount = 0;
-  for (const op of operations) {
+  for (const op of uniqueOperations) {
     const success = await sendOperation(op);
     if (success) {
       await dequeueOperation(op.id);
       successCount++;
+    }
+  }
+  
+  // Удаляем все старые операции, которые не вошли в uniqueOperations
+  for (const op of operations) {
+    if (!uniqueOperations.includes(op)) {
+      await dequeueOperation(op.id);
     }
   }
   

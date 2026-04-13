@@ -1,0 +1,116 @@
+{
+  "exam_id": "exam_b1",
+  "level": "B1",
+  "title": "B1 Level Final Exam",
+  "description": "Test your knowledge of Past Perfect Continuous, Future Perfect Continuous, Mixed Conditionals, Passive with modals, Inversion, Participle clauses, Ellipsis, Subjunctive, Perfect infinitive/gerund, Complex conjunctions, Modal verbs in the past, Causative, Emphatic structures, Concessive clauses, Future in the past, Preferences, Phrasal verbs",
+  "passing_score": 70,
+  "exercises": [
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the past perfect continuous form.",
+      "items": [
+        { "sentence": "She ___ (work) for 20 years when she retired.", "correct": "had been working" },
+        { "sentence": "The ground was wet because it ___ (rain) all night.", "correct": "had been raining" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the future perfect continuous form.",
+      "items": [
+        { "sentence": "By next month, I ___ (work) here for 10 years.", "correct": "will have been working" }
+      ]
+    },
+    {
+      "type": "fill_gap_multiple",
+      "instruction": "Fill in the mixed conditional forms.",
+      "items": [
+        { "sentence": "If I ___ (study) harder at university, I ___ (have) a better job now.", "correct_answers": ["had studied", "would have"] }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the passive form with the modal.",
+      "items": [
+        { "sentence": "This report must ___ (finish) by Friday.", "correct": "be finished" },
+        { "sentence": "The car might ___ (steal).", "correct": "have been stolen" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Rewrite the sentence using inversion.",
+      "items": [
+        { "sentence": "If I had known, I would have come. → Had ___", "correct": "I known, I would have come" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Rewrite the sentence using a participle clause.",
+      "items": [
+        { "sentence": "While I was walking down the street, I met an old friend. → ___ down the street, I met an old friend.", "correct": "Walking" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Complete the sentence using the subjunctive form.",
+      "items": [
+        { "sentence": "I suggest that she ___ (be) present.", "correct": "be" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the perfect infinitive or perfect gerund.",
+      "items": [
+        { "sentence": "She seems ___ (forget) about the meeting.", "correct": "to have forgotten" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the correct conjunction.",
+      "items": [
+        { "sentence": "You can go out ___ you finish your homework.", "correct": "provided that" },
+        { "sentence": "I won't go ___ you come with me.", "correct": "unless" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the correct modal + have + V3.",
+      "items": [
+        { "sentence": "You ___ (help) me! Why didn't you?", "correct": "could have helped" },
+        { "sentence": "I ___ (study) harder for the exam.", "correct": "should have studied" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the causative form (have/get something done).",
+      "items": [
+        { "sentence": "I ___ my hair cut yesterday.", "correct": "had" }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Rewrite the sentence using the emphatic structure.",
+      "items": [
+        { "sentence": "I need a long holiday. (What...) → ___", "correct": "What I need is a long holiday." }
+      ]
+    },
+    {
+      "type": "fill_gap",
+      "instruction": "Fill in the correct phrasal verb.",
+      "items": [
+        { "sentence": "My car ___ down.", "correct": "broke" },
+        { "sentence": "I ___ up smoking.", "correct": "gave" },
+        { "sentence": "I can't ___ up with this noise.", "correct": "put" }
+      ]
+    },
+    {
+      "type": "translation",
+      "instruction": "Translate into English.",
+      "items": [
+        { "source": "Я работаю здесь 10 лет.", "target": "I have been working here for 10 years." },
+        { "source": "Если бы я знал, я бы пришёл.", "target": "Had I known, I would have come." },
+        { "source": "Я предлагаю, чтобы она присутствовала.", "target": "I suggest that she be present." },
+        { "source": "Я не могу мириться с этим шумом.", "target": "I can't put up with this noise." }
+      ]
+    }
+  ]
+}
