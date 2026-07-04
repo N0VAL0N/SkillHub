@@ -21,6 +21,7 @@
             <div>
               <h3>{{ task.title }}</h3>
               <span class="task-type" :class="task.type">{{ task.type === 'exam' ? 'Экзамен' : 'Домашнее задание' }}</span>
+              <span v-if="task.createdByMe" class="self-created-badge">📝 Создан мной</span>
               <span v-if="task.status === 'archived'" class="archived-badge">📦 Просрочено</span>
             </div>
             <span class="task-status" :class="task.status">
@@ -82,7 +83,7 @@
       <div v-else class="empty-state">
         <div class="empty-icon">📚</div>
         <h3>Нет заданий</h3>
-        <p>Здесь будут отображаться задания, назначенные вашим учителем</p>
+        <p>Здесь будут отображаться задания, назначенные вашим учителем, или созданные вами экзамены</p>
       </div>
     </div>
   </StudentLayout>
@@ -92,7 +93,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { db, auth } from '@core/services/firebase';
-import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import StudentLayout from '@core/layouts/StudentLayout.vue';
 import { getCachedData, setCachedData } from '@core/services/storage';
 import { formatDateTime } from '@core/utils/dateHelpers';
@@ -148,26 +149,31 @@ const loadTasks = async () => {
     const studentClass = userData.className;
     const studentId = currentUser.uid;
 
-    // Загружаем ВСЕ экзамены, затем фильтруем на клиенте
-    let examsSnap = { docs: [] };
-    try {
-      const examsRef = collection(db, 'exams');
-      examsSnap = await getDocs(examsRef);
-    } catch (error) {
-      console.error('Ошибка загрузки экзаменов:', error);
-      if (isMounted) {
-        tasks.value = [];
-      }
-      return;
-    }
-    
+    // Загружаем ВСЕ экзамены
+    const examsSnap = await getDocs(collection(db, 'exams'));
+    const allExams = examsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    // Фильтруем на клиенте:
+    // 1. Опубликованные для ученика (publishedForType)
+    // 2. ИЛИ созданные самим учеником (createdBy === studentId)
+    const visibleExams = allExams.filter(exam => {
+      // Свои экзамены всегда видны (даже если не опубликованы официально)
+      if (exam.createdBy === studentId) return true;
+      // Остальные только если опубликованы
+      if (!exam.published) return false;
+      if (exam.publishedForType === 'all') return true;
+      if (exam.publishedForType === 'class' && exam.publishedForClassName === studentClass) return true;
+      if (exam.publishedForType === 'student' && exam.publishedForStudentId === studentId) return true;
+      return false;
+    });
+
     if (!isMounted) return;
 
     // Загружаем отправленные работы ученика
     let submissionsSnap;
     try {
       submissionsSnap = await getDocs(
-        query(collection(db, 'submissions'), where('studentId', '==', studentId))
+        collection(db, 'submissions')
       );
     } catch (e) {
       console.warn('Не удалось загрузить отправленные работы:', e.message);
@@ -179,32 +185,16 @@ const loadTasks = async () => {
     const submissionsMap = new Map();
     submissionsSnap.docs.forEach(doc => {
       const data = doc.data();
-      submissionsMap.set(data.examId, { id: doc.id, ...data });
+      if (data.studentId === studentId) {
+        submissionsMap.set(data.examId, { id: doc.id, ...data });
+      }
     });
 
     const loadedTasks = [];
     
-    for (const examDoc of examsSnap.docs) {
-      const exam = examDoc.data();
-      const examId = examDoc.id;
-      
-      // Пропускаем черновики
-      if (!exam.published) continue;
-      
+    for (const exam of visibleExams) {
+      const examId = exam.id;
       const submission = submissionsMap.get(examId);
-      
-      // Фильтруем на клиенте: только те, которые опубликованы для ученика
-      let canSee = false;
-      
-      if (exam.publishedForType === 'all') {
-        canSee = true;
-      } else if (exam.publishedForType === 'class') {
-        canSee = exam.publishedForClassName === studentClass;
-      } else if (exam.publishedForType === 'student') {
-        canSee = exam.publishedForStudentId === studentId;
-      }
-      
-      if (!canSee) continue;
       
       const isLocallyStarted = localStorage.getItem(`task_started_${examId}`) === 'true';
       
@@ -238,7 +228,8 @@ const loadTasks = async () => {
         status,
         grade,
         submissionId: submission?.id,
-        answers: submission?.answers
+        answers: submission?.answers,
+        createdByMe: exam.createdBy === studentId
       });
     }
     
@@ -381,6 +372,14 @@ onUnmounted(() => {
 .task-type.homework {
   background: #10b981;
   color: white;
+}
+.self-created-badge {
+  background: var(--info);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+  margin-left: 0.5rem;
 }
 .archived-badge {
   background: var(--gray-500);

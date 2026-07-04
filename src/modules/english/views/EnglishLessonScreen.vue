@@ -23,302 +23,320 @@
       <span v-for="i in maxLives" :key="i" class="heart" :class="{ lost: i > lives }">❤️</span>
     </div>
 
-    <div class="lesson-content" v-if="lesson && currentPageData">
-      <!-- Титульная страница -->
-      <div v-if="currentPageData.type === 'title'" class="title-page centered">
-        <div class="title-icon">📖</div>
-        <h2>{{ currentPageData.title }}</h2>
-        <p class="description">{{ currentPageData.description }}</p>
-        <button class="btn-start" @click="nextPage">Начать урок →</button>
-      </div>
-
-      <!-- Карточка слова -->
-      <div v-else-if="currentPageData.type === 'word'" class="word-page">
-        <div class="card-flip" @click="flipCard" :class="{ flipped: isFlipped }">
-          <div class="card-front">
-            <span class="word">{{ currentPageData.word.word }}</span>
-            <span class="transcription">{{ currentPageData.word.transcription }}</span>
+    <!-- SWIPER КОНТЕЙНЕР -->
+    <swiper
+      v-if="pages.length > 0"
+      :modules="[Pagination]"
+      :slides-per-view="1"
+      :pagination="{ clickable: true, dynamicBullets: true }"
+      :space-between="20"
+      :threshold="10"
+      :touch-ratio="0.8"
+      :resistance-ratio="0.85"
+      @swiper="onSwiper"
+      @slide-change="onSlideChange"
+      :allow-touch-move="isMobile"
+      class="lesson-swiper"
+    >
+      <swiper-slide v-for="(page, idx) in pages" :key="idx">
+        <div class="slide-content">
+          <!-- Титульная страница -->
+          <div v-if="page.type === 'title'" class="title-page centered">
+            <div class="title-icon">📖</div>
+            <h2>{{ page.title }}</h2>
+            <p class="description">{{ page.description }}</p>
+            <button class="btn-start" @click="nextPageFromSwiper">Начать урок →</button>
           </div>
-          <div class="card-back">
-            <span class="translation">{{ currentPageData.word.translation }}</span>
-            <div class="example" v-if="currentPageData.word.example">{{ currentPageData.word.example }}</div>
-          </div>
-        </div>
-        <div class="word-actions">
-          <button class="btn-primary audio-btn" @click="playAudio(currentPageData.word.word)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2C10.8954 2 10 2.89543 10 4V12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12V4C14 2.89543 13.1046 2 12 2Z"/>
-              <path d="M19 10V12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12V10"/>
-              <path d="M12 19V22"/>
-            </svg>
-            Прослушать
-          </button>
-          <button class="btn-outline" @click="skipWord">⏭️ Пропустить</button>
-        </div>
-        <p class="flip-hint">👆 Нажми на карточку, чтобы увидеть перевод</p>
-      </div>
 
-      <!-- Грамматика -->
-      <div v-else-if="currentPageData.type === 'grammar'" class="grammar-page">
-        <div class="grammar-header">
-          <span class="grammar-icon">📐</span>
-          <h3>{{ currentPageData.grammar.title }}</h3>
-        </div>
-        <div class="grammar-content">
-          <div class="theory">{{ currentPageData.grammar.theory }}</div>
-          <div class="examples-section">
-            <h4>📝 Примеры:</h4>
-            <ul class="examples-list">
-              <li v-for="(ex, idx) in currentPageData.grammar.examples" :key="idx">
-                <div class="example-sentence">
-                  <span>{{ ex.sentence }}</span>
-                  <button class="audio-btn-small" @click="playAudio(ex.sentence)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M12 2C10.8954 2 10 2.89543 10 4V12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12V4C14 2.89543 13.1046 2 12 2Z"/>
-                      <path d="M19 10V12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12V10"/>
-                      <path d="M12 19V22"/>
+          <!-- Карточка слова -->
+          <div v-else-if="page.type === 'word'" class="word-page">
+            <div class="card-flip" @click="flipCard" :class="{ flipped: isFlipped }">
+              <div class="card-front">
+                <span class="word">{{ page.word.word }}</span>
+                <span class="transcription">{{ page.word.transcription }}</span>
+              </div>
+              <div class="card-back">
+                <span class="translation">{{ page.word.translation }}</span>
+                <div class="example" v-if="page.word.example">{{ page.word.example }}</div>
+              </div>
+            </div>
+            <div class="word-actions">
+              <button class="btn-primary audio-btn" @click="playAudio(page.word.word)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2C10.8954 2 10 2.89543 10 4V12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12V4C14 2.89543 13.1046 2 12 2Z"/>
+                  <path d="M19 10V12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12V10"/>
+                  <path d="M12 19V22"/>
+                </svg>
+                Прослушать
+              </button>
+              <button class="btn-outline" @click="skipWord">⏭️ Пропустить</button>
+            </div>
+            <p class="flip-hint">👆 Нажми на карточку, чтобы увидеть перевод</p>
+          </div>
+
+          <!-- Грамматика -->
+          <div v-else-if="page.type === 'grammar'" class="grammar-page">
+            <div class="grammar-header">
+              <span class="grammar-icon">📐</span>
+              <h3>{{ page.grammar.title }}</h3>
+            </div>
+            <div class="grammar-content">
+              <div class="theory">{{ page.grammar.theory }}</div>
+              <div class="examples-section">
+                <h4>📝 Примеры:</h4>
+                <ul class="examples-list">
+                  <li v-for="(ex, exIdx) in page.grammar.examples" :key="exIdx">
+                    <div class="example-sentence">
+                      <span>{{ ex.sentence }}</span>
+                      <button class="audio-btn-small" @click="playAudio(ex.sentence)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M12 2C10.8954 2 10 2.89543 10 4V12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12V4C14 2.89543 13.1046 2 12 2Z"/>
+                          <path d="M19 10V12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12V10"/>
+                          <path d="M12 19V22"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="example-translation" v-if="showTranslations[exIdx]">{{ ex.translation }}</div>
+                    <button class="show-translation-btn" @click="toggleTranslation(exIdx)">
+                      <svg v-if="showTranslations[exIdx]" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        <line x1="3" y1="3" x2="21" y2="21"/>
+                      </svg>
+                      <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                      </svg>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Диалог -->
+          <div v-else-if="page.type === 'dialogue'" class="dialogue-page">
+            <div class="dialogue-header">
+              <span class="dialogue-icon">💬</span>
+              <h3>{{ page.dialogue.title }}</h3>
+              <button class="hint-btn" @click="showExerciseHint = true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 8V12M12 16H12.01"/>
+                </svg>
+              </button>
+            </div>
+            <div class="dialogue-container" v-if="page.dialogue.lines && page.dialogue.lines.length">
+              <div v-for="(line, lineIdx) in page.dialogue.lines" :key="lineIdx" class="dialogue-line" :class="line.speaker.toLowerCase()">
+                <div class="speaker">
+                  <span class="speaker-name">{{ line.speaker }}</span>
+                </div>
+                <div class="dialogue-content">
+                  <div class="english-row">
+                    {{ line.text }}
+                    <button class="audio-btn-small" @click="playAudio(line.text)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2C10.8954 2 10 2.89543 10 4V12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12V4C14 2.89543 13.1046 2 12 2Z"/>
+                        <path d="M19 10V12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12V10"/>
+                        <path d="M12 19V22"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="translation" v-if="dialogueTranslations[lineIdx]">{{ line.translation }}</div>
+                  <button class="show-translation-btn" @click="toggleDialogueTranslation(lineIdx)">
+                    <svg v-if="dialogueTranslations[lineIdx]" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                      <line x1="3" y1="3" x2="21" y2="21"/>
+                    </svg>
+                    <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z"/>
+                      <circle cx="12" cy="12" r="3"/>
                     </svg>
                   </button>
                 </div>
-                <div class="example-translation" v-if="showTranslations[idx]">{{ ex.translation }}</div>
-                <button class="show-translation-btn" @click="toggleTranslation(idx)">
-                  <svg v-if="showTranslations[idx]" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z"/>
-                    <circle cx="12" cy="12" r="3"/>
-                    <line x1="3" y1="3" x2="21" y2="21"/>
-                  </svg>
-                  <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z"/>
-                    <circle cx="12" cy="12" r="3"/>
-                  </svg>
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Диалог + вопросы -->
-      <div v-else-if="currentPageData.type === 'dialogue'" class="dialogue-page">
-        <div class="dialogue-header">
-          <span class="dialogue-icon">💬</span>
-          <h3>{{ currentPageData.dialogue.title }}</h3>
-          <button class="hint-btn" @click="showExerciseHint = true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 8V12M12 16H12.01"/>
-            </svg>
-          </button>
-        </div>
-        <div class="dialogue-container" v-if="currentPageData.dialogue.lines && currentPageData.dialogue.lines.length">
-          <div v-for="(line, idx) in currentPageData.dialogue.lines" :key="idx" class="dialogue-line" :class="line.speaker.toLowerCase()">
-            <div class="speaker">
-              <span class="speaker-name">{{ line.speaker }}</span>
-            </div>
-            <div class="dialogue-content">
-              <div class="english-row">
-                {{ line.text }}
-                <button class="audio-btn-small" @click="playAudio(line.text)">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2C10.8954 2 10 2.89543 10 4V12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12V4C14 2.89543 13.1046 2 12 2Z"/>
-                    <path d="M19 10V12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12V10"/>
-                    <path d="M12 19V22"/>
-                  </svg>
-                </button>
               </div>
-              <div class="translation" v-if="dialogueTranslations[idx]">{{ line.translation }}</div>
-              <button class="show-translation-btn" @click="toggleDialogueTranslation(idx)">
-                <svg v-if="dialogueTranslations[idx]" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z"/>
-                  <circle cx="12" cy="12" r="3"/>
-                  <line x1="3" y1="3" x2="21" y2="21"/>
-                </svg>
-                <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z"/>
-                  <circle cx="12" cy="12" r="3"/>
+            </div>
+            <div v-if="page.dialogue.comprehension_questions && page.dialogue.comprehension_questions.length" class="dialogue-questions">
+              <h4>📝 Вопросы по диалогу</h4>
+              <div v-for="(q, qIdx) in page.dialogue.comprehension_questions" :key="qIdx" class="comprehension-item">
+                <p class="question">{{ q.question }}</p>
+                <input
+                  v-model="comprehensionAnswers[qIdx]"
+                  type="text"
+                  class="answer-input small"
+                  placeholder="Введите ответ..."
+                  :disabled="comprehensionAnswered[qIdx]"
+                  @keyup.enter="checkComprehensionAnswer(qIdx, q.correct)"
+                />
+                <button v-if="!comprehensionAnswered[qIdx]" class="btn-check" @click="checkComprehensionAnswer(qIdx, q.correct)">Проверить</button>
+                <div v-if="comprehensionAnswered[qIdx]" class="answer-feedback" :class="{ correct: comprehensionResults[qIdx], wrong: !comprehensionResults[qIdx] }">
+                  <span v-if="comprehensionResults[qIdx]">✅ Верно!</span>
+                  <span v-else>❌ Неверно. Правильный ответ: {{ q.correct }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fill Gap -->
+          <div v-else-if="page.type === 'fill_gap'" class="exercise-page">
+            <div class="exercise-header">
+              <span class="exercise-icon">✏️</span>
+              <h3>{{ page.instruction || 'Заполните пропуск' }}</h3>
+              <button class="hint-btn" @click="showExerciseHint = true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 8V12M12 16H12.01"/>
                 </svg>
               </button>
             </div>
-          </div>
-        </div>
-        <div v-if="currentPageData.dialogue.comprehension_questions && currentPageData.dialogue.comprehension_questions.length" class="dialogue-questions">
-          <h4>📝 Вопросы по диалогу</h4>
-          <div v-for="(q, qIdx) in currentPageData.dialogue.comprehension_questions" :key="qIdx" class="comprehension-item">
-            <p class="question">{{ q.question }}</p>
-            <input
-              v-model="comprehensionAnswers[qIdx]"
-              type="text"
-              class="answer-input small"
-              placeholder="Введите ответ..."
-              :disabled="comprehensionAnswered[qIdx]"
-              @keyup.enter="checkComprehensionAnswer(qIdx, q.correct)"
-            />
-            <button v-if="!comprehensionAnswered[qIdx]" class="btn-check" @click="checkComprehensionAnswer(qIdx, q.correct)">Проверить</button>
-            <div v-if="comprehensionAnswered[qIdx]" class="answer-feedback" :class="{ correct: comprehensionResults[qIdx], wrong: !comprehensionResults[qIdx] }">
-              <span v-if="comprehensionResults[qIdx]">✅ Верно!</span>
-              <span v-else>❌ Неверно. Правильный ответ: {{ q.correct }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Fill Gap (всегда с кастомным селектором, options генерируются из всех correct) -->
-      <div v-else-if="currentPageData.type === 'fill_gap'" class="exercise-page">
-        <div class="exercise-header">
-          <span class="exercise-icon">✏️</span>
-          <h3>{{ currentPageData.instruction || 'Заполните пропуск' }}</h3>
-          <button class="hint-btn" @click="showExerciseHint = true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 8V12M12 16H12.01"/>
-            </svg>
-          </button>
-        </div>
-        <div v-for="(item, idx) in currentPageData.items" :key="idx" class="exercise-item">
-          <p class="sentence">{{ item.sentence }}</p>
-          <div class="custom-select">
-            <div class="select-trigger" @click.stop="toggleSelect(idx)">
-              <span>{{ selectedFillGap[idx] !== undefined ? currentPageData._optionsMap[idx][selectedFillGap[idx]] : 'Выберите ответ' }}</span>
-              <span class="select-arrow">▼</span>
-            </div>
-            <div class="select-dropdown" v-if="openSelectIdx === idx">
-              <div
-                v-for="(opt, optIdx) in currentPageData._optionsMap[idx]"
-                :key="optIdx"
-                class="select-option"
-                :class="{ selected: selectedFillGap[idx] === optIdx }"
-                @click.stop="selectFillGapOption(idx, optIdx, opt, item.correct)"
-              >
-                {{ opt }}
+            <div v-for="(item, itemIdx) in page.items" :key="itemIdx" class="exercise-item">
+              <p class="sentence">{{ item.sentence }}</p>
+              <div class="custom-select">
+                <div class="select-trigger" @click.stop="toggleSelect(itemIdx)">
+                  <span>{{ selectedFillGap[itemIdx] !== undefined ? page._optionsMap[itemIdx][selectedFillGap[itemIdx]] : 'Выберите ответ' }}</span>
+                  <span class="select-arrow">▼</span>
+                </div>
+                <div class="select-dropdown" v-if="openSelectIdx === itemIdx">
+                  <div
+                    v-for="(opt, optIdx) in page._optionsMap[itemIdx]"
+                    :key="optIdx"
+                    class="select-option"
+                    :class="{ selected: selectedFillGap[itemIdx] === optIdx }"
+                    @click.stop="selectFillGapOption(itemIdx, optIdx, opt, item.correct)"
+                  >
+                    {{ opt }}
+                  </div>
+                </div>
+              </div>
+              <div v-if="answeredFillGap[itemIdx]" class="answer-feedback" :class="{ correct: answerFillGapResults[itemIdx], wrong: !answerFillGapResults[itemIdx] }">
+                <span v-if="answerFillGapResults[itemIdx]">✅ Верно!</span>
+                <span v-else>❌ Неверно. Правильный ответ: {{ item.correct }}</span>
               </div>
             </div>
           </div>
-          <div v-if="answeredFillGap[idx]" class="answer-feedback" :class="{ correct: answerFillGapResults[idx], wrong: !answerFillGapResults[idx] }">
-            <span v-if="answerFillGapResults[idx]">✅ Верно!</span>
-            <span v-else>❌ Неверно. Правильный ответ: {{ item.correct }}</span>
-          </div>
-        </div>
-      </div>
 
-      <!-- Match Words -->
-      <div v-else-if="currentPageData.type === 'match_words'" class="exercise-page">
-        <div class="exercise-header">
-          <span class="exercise-icon">🔗</span>
-          <h3>{{ currentPageData.instruction || 'Сопоставьте слово с переводом' }}</h3>
-          <button class="hint-btn" @click="showExerciseHint = true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 8V12M12 16H12.01"/>
-            </svg>
-          </button>
-        </div>
-        <div class="matching-container">
-          <div class="matching-column">
-            <h4>🇬🇧 Английский</h4>
-            <div
-              v-for="item in filteredMatchLeft"
-              :key="'left-' + item.originalIndex"
-              class="match-card"
-              :class="{ selected: selectedMatchLeft === item.originalIndex }"
-              @click="selectMatchLeft(item.originalIndex)"
-            >
-              {{ item.data.en }}
-            </div>
-          </div>
-          <div class="matching-column">
-            <h4>🇷🇺 Русский</h4>
-            <div
-              v-for="item in filteredMatchRight"
-              :key="'right-' + item.originalIndex"
-              class="match-card"
-              :class="{ selected: selectedMatchRight === item.originalIndex }"
-              @click="selectMatchRight(item.originalIndex)"
-            >
-              {{ item.data.ru }}
-            </div>
-          </div>
-        </div>
-        <div v-if="matchCompleted" class="match-feedback correct">✅ Все слова сопоставлены верно!</div>
-        <div v-if="matchError" class="match-feedback wrong">❌ {{ matchError }}</div>
-        <div v-if="getMatchedPairsList().length > 0" class="matching-matched">
-          <h4>✓ Сопоставленные пары</h4>
-          <div class="matched-pairs">
-            <div v-for="pair in getMatchedPairsList()" :key="pair.en" class="matched-pair">
-              <span>{{ pair.en }}</span>
-              <span class="pair-arrow">→</span>
-              <span>{{ pair.ru }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Make Sentence -->
-      <div v-else-if="currentPageData.type === 'make_sentence'" class="exercise-page">
-        <div class="exercise-header">
-          <span class="exercise-icon">📝</span>
-          <h3>{{ currentPageData.instruction || 'Составьте предложение' }}</h3>
-          <button class="hint-btn" @click="showExerciseHint = true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 8V12M12 16H12.01"/>
-            </svg>
-          </button>
-        </div>
-        <div v-for="(item, qIdx) in currentPageData.items" :key="qIdx" class="exercise-item">
-          <div v-if="item.source" class="translation-source">
-            <strong>Переведите:</strong> {{ item.source }}
-          </div>
-          <div class="sentence-builder">
-            <div class="words-pool" v-if="item.words && item.words.length">
-              <div
-                v-for="(word, wordIdx) in getRemainingWords(qIdx)"
-                :key="wordIdx"
-                class="word-block"
-                @click="addWordToSentence(qIdx, word)"
-              >
-                {{ word }}
-              </div>
-            </div>
-            <div class="sentence-preview">
-              <span v-if="userSentence[qIdx] && userSentence[qIdx].length === 0" class="placeholder">Нажмите на слова, чтобы составить предложение...</span>
-              <template v-else>
-                <span v-for="(word, wIdx) in userSentence[qIdx]" :key="wIdx" class="sentence-word">
-                  {{ word }}
-                  <button class="remove-word" @click="removeWordFromSentence(qIdx, wIdx)">✕</button>
-                </span>
-              </template>
-            </div>
-            <div class="sentence-actions">
-              <button class="btn-outline small" @click="clearSentence(qIdx)">Очистить</button>
-              <button class="btn-check" @click="checkMakeSentence(qIdx, item.correct)" :disabled="answeredMakeSentence[qIdx]">
-                Проверить
+          <!-- Match Words -->
+          <div v-else-if="page.type === 'match_words'" class="exercise-page">
+            <div class="exercise-header">
+              <span class="exercise-icon">🔗</span>
+              <h3>{{ page.instruction || 'Сопоставьте слово с переводом' }}</h3>
+              <button class="hint-btn" @click="showExerciseHint = true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 8V12M12 16H12.01"/>
+                </svg>
               </button>
             </div>
+            <div class="matching-container">
+              <div class="matching-column">
+                <h4>🇬🇧 Английский</h4>
+                <div
+                  v-for="item in filteredMatchLeft"
+                  :key="'left-' + item.originalIndex"
+                  class="match-card"
+                  :class="{ selected: selectedMatchLeft === item.originalIndex }"
+                  @click="selectMatchLeft(item.originalIndex)"
+                >
+                  {{ item.data.en }}
+                </div>
+              </div>
+              <div class="matching-column">
+                <h4>🇷🇺 Русский</h4>
+                <div
+                  v-for="item in filteredMatchRight"
+                  :key="'right-' + item.originalIndex"
+                  class="match-card"
+                  :class="{ selected: selectedMatchRight === item.originalIndex }"
+                  @click="selectMatchRight(item.originalIndex)"
+                >
+                  {{ item.data.ru }}
+                </div>
+              </div>
+            </div>
+            <div v-if="matchCompleted" class="match-feedback correct">✅ Все слова сопоставлены верно!</div>
+            <div v-if="matchError" class="match-feedback wrong">❌ {{ matchError }}</div>
+            <div v-if="getMatchedPairsList().length > 0" class="matching-matched">
+              <h4>✓ Сопоставленные пары</h4>
+              <div class="matched-pairs">
+                <div v-for="pair in getMatchedPairsList()" :key="pair.en" class="matched-pair">
+                  <span>{{ pair.en }}</span>
+                  <span class="pair-arrow">→</span>
+                  <span>{{ pair.ru }}</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div v-if="answeredMakeSentence[qIdx]" class="answer-feedback" :class="{ correct: answerMakeSentenceResults[qIdx], wrong: !answerMakeSentenceResults[qIdx] }">
-            <span v-if="answerMakeSentenceResults[qIdx]">✅ Верно!</span>
-            <span v-else>❌ Неверно. Правильный ответ: {{ item.correct }}</span>
+
+          <!-- Make Sentence -->
+          <div v-else-if="page.type === 'make_sentence'" class="exercise-page">
+            <div class="exercise-header">
+              <span class="exercise-icon">📝</span>
+              <h3>{{ page.instruction || 'Составьте предложение' }}</h3>
+              <button class="hint-btn" @click="showExerciseHint = true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 8V12M12 16H12.01"/>
+                </svg>
+              </button>
+            </div>
+            <div v-for="(item, itemIdx) in page.items" :key="itemIdx" class="exercise-item">
+              <div v-if="item.source" class="translation-source">
+                <strong>Переведите:</strong> {{ item.source }}
+              </div>
+              <div class="sentence-builder">
+                <div class="words-pool" v-if="item.words && item.words.length">
+                  <div
+                    v-for="(word, wordIdx) in getRemainingWords(itemIdx)"
+                    :key="wordIdx"
+                    class="word-block"
+                    @click="addWordToSentence(itemIdx, word)"
+                  >
+                    {{ word }}
+                  </div>
+                </div>
+                <div class="sentence-preview">
+                  <span v-if="userSentence[itemIdx] && userSentence[itemIdx].length === 0" class="placeholder">Нажмите на слова, чтобы составить предложение...</span>
+                  <template v-else>
+                    <span v-for="(word, wIdx) in userSentence[itemIdx]" :key="wIdx" class="sentence-word">
+                      {{ word }}
+                      <button class="remove-word" @click="removeWordFromSentence(itemIdx, wIdx)">✕</button>
+                    </span>
+                  </template>
+                </div>
+                <div class="sentence-actions">
+                  <button class="btn-outline small" @click="clearSentence(itemIdx)">Очистить</button>
+                  <button class="btn-check" @click="checkMakeSentence(itemIdx, item.correct)" :disabled="answeredMakeSentence[itemIdx]">
+                    Проверить
+                  </button>
+                </div>
+              </div>
+              <div v-if="answeredMakeSentence[itemIdx]" class="answer-feedback" :class="{ correct: answerMakeSentenceResults[itemIdx], wrong: !answerMakeSentenceResults[itemIdx] }">
+                <span v-if="answerMakeSentenceResults[itemIdx]">✅ Верно!</span>
+                <span v-else>❌ Неверно. Правильный ответ: {{ item.correct }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Завершение -->
+          <div v-else-if="page.type === 'completion'" class="completion-page centered">
+            <div class="completion-icon">🎉</div>
+            <h2>Урок завершён!</h2>
+            <p>Отличная работа!</p>
+            <div class="completion-stats" v-if="mistakesCount > 0">
+              <p>⚠️ Допущено ошибок: {{ mistakesCount }}</p>
+              <p>💪 Жизней осталось: {{ lives }}</p>
+            </div>
+            <div class="completion-buttons">
+              <button class="btn-primary" @click="finishLesson">Завершить</button>
+              <button class="btn-outline" @click="restartLesson">Пройти заново</button>
+            </div>
           </div>
         </div>
-      </div>
+      </swiper-slide>
+    </swiper>
 
-      <!-- Завершение -->
-      <div v-else-if="currentPageData.type === 'completion'" class="completion-page centered">
-        <div class="completion-icon">🎉</div>
-        <h2>Урок завершён!</h2>
-        <p>Отличная работа!</p>
-        <div class="completion-stats" v-if="mistakesCount > 0">
-          <p>⚠️ Допущено ошибок: {{ mistakesCount }}</p>
-          <p>💪 Жизней осталось: {{ lives }}</p>
-        </div>
-        <div class="completion-buttons">
-          <button class="btn-primary" @click="finishLesson">Завершить</button>
-          <button class="btn-outline" @click="restartLesson">Пройти заново</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="lesson-footer" v-if="currentPageData && currentPageData.type !== 'completion'">
+    <div class="lesson-footer" v-if="!isMobile">
       <button class="nav-btn prev" :disabled="currentPage === 1" @click="prevPage">← Назад</button>
       <button class="nav-btn next" @click="nextPage" :disabled="!canGoNext">Далее →</button>
     </div>
@@ -384,13 +402,16 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { useEnglishProgressFirestore } from '../stores/englishProgressFirestore';
 import { useEnglishPackStore } from '../stores/englishPackStore';
 import { useAppStore } from '@core/stores/appStore';
 import { speak } from '@core/services/tts';
-import { normalizeAnswer } from '../utils/normalizeAnswer';
 import lessonsData from '../data/lessons.json';
 import vocabularyData from '../data/vocabulary.json';
 import grammarData from '../data/grammar.json';
@@ -417,6 +438,8 @@ const lives = ref(5);
 const showDeathModal = ref(false);
 const showResetConfirm = ref(false);
 const showExerciseHint = ref(false);
+const swiperInstance = ref(null);
+const isMobile = ref(window.innerWidth <= 768);
 
 // ========== ПОСТРАНИЧНОЕ ХРАНЕНИЕ СОСТОЯНИЯ ==========
 const pageStates = ref({});
@@ -452,95 +475,68 @@ const currentState = computed(() => {
 });
 
 // Прокси-свойства
-const selectedFillGap = computed({
-  get: () => currentState.value.selectedFillGap,
-  set: (val) => { currentState.value.selectedFillGap = val; saveState(); }
+const selectedFillGap = computed({ get: () => currentState.value.selectedFillGap, set: (val) => { currentState.value.selectedFillGap = val; saveState(); } });
+const openSelectIdx = computed({ get: () => currentState.value.openSelectIdx, set: (val) => { currentState.value.openSelectIdx = val; saveState(); } });
+const answeredFillGap = computed({ get: () => currentState.value.answeredFillGap, set: (val) => { currentState.value.answeredFillGap = val; saveState(); } });
+const answerFillGapResults = computed({ get: () => currentState.value.answerFillGapResults, set: (val) => { currentState.value.answerFillGapResults = val; saveState(); } });
+const matchLeftItems = computed({ get: () => currentState.value.matchLeftItems, set: (val) => { currentState.value.matchLeftItems = val; saveState(); } });
+const matchRightItems = computed({ get: () => currentState.value.matchRightItems, set: (val) => { currentState.value.matchRightItems = val; saveState(); } });
+const matchMatchedLeft = computed({ get: () => currentState.value.matchMatchedLeft, set: (val) => { currentState.value.matchMatchedLeft = val; saveState(); } });
+const matchMatchedRight = computed({ get: () => currentState.value.matchMatchedRight, set: (val) => { currentState.value.matchMatchedRight = val; saveState(); } });
+const selectedMatchLeft = computed({ get: () => currentState.value.selectedMatchLeft, set: (val) => { currentState.value.selectedMatchLeft = val; saveState(); } });
+const selectedMatchRight = computed({ get: () => currentState.value.selectedMatchRight, set: (val) => { currentState.value.selectedMatchRight = val; saveState(); } });
+const matchCompleted = computed({ get: () => currentState.value.matchCompleted, set: (val) => { currentState.value.matchCompleted = val; saveState(); } });
+const matchError = computed({ get: () => currentState.value.matchError, set: (val) => { currentState.value.matchError = val; saveState(); } });
+const userSentence = computed({ get: () => currentState.value.userSentence, set: (val) => { currentState.value.userSentence = val; saveState(); } });
+const remainingWords = computed({ get: () => currentState.value.remainingWords, set: (val) => { currentState.value.remainingWords = val; saveState(); } });
+const answeredMakeSentence = computed({ get: () => currentState.value.answeredMakeSentence, set: (val) => { currentState.value.answeredMakeSentence = val; saveState(); } });
+const answerMakeSentenceResults = computed({ get: () => currentState.value.answerMakeSentenceResults, set: (val) => { currentState.value.answerMakeSentenceResults = val; saveState(); } });
+const comprehensionAnswers = computed({ get: () => currentState.value.comprehensionAnswers, set: (val) => { currentState.value.comprehensionAnswers = val; saveState(); } });
+const comprehensionAnswered = computed({ get: () => currentState.value.comprehensionAnswered, set: (val) => { currentState.value.comprehensionAnswered = val; saveState(); } });
+const comprehensionResults = computed({ get: () => currentState.value.comprehensionResults, set: (val) => { currentState.value.comprehensionResults = val; saveState(); } });
+const dialogueTranslations = computed({ get: () => currentState.value.dialogueTranslations, set: (val) => { currentState.value.dialogueTranslations = val; saveState(); } });
+const showTranslations = computed({ get: () => currentState.value.showTranslations, set: (val) => { currentState.value.showTranslations = val; saveState(); } });
+
+// ========== ВЫЧИСЛЯЕМЫЕ ==========
+const totalPages = computed(() => pages.value.length);
+const currentPageData = computed(() => pages.value[currentPage.value - 1]);
+const progressPercent = computed(() => Math.min(100, (currentPage.value / totalPages.value) * 100));
+const mistakesCount = computed(() => {
+  let count = 0;
+  for (const pageIdx in pageStates.value) {
+    const state = pageStates.value[pageIdx];
+    if (state.answerFillGapResults) {
+      Object.values(state.answerFillGapResults).forEach(r => { if (r === false) count++; });
+    }
+    if (state.answerMakeSentenceResults) {
+      Object.values(state.answerMakeSentenceResults).forEach(r => { if (r === false) count++; });
+    }
+    if (state.comprehensionResults) {
+      Object.values(state.comprehensionResults).forEach(r => { if (r === false) count++; });
+    }
+  }
+  return count;
 });
-const openSelectIdx = computed({
-  get: () => currentState.value.openSelectIdx,
-  set: (val) => { currentState.value.openSelectIdx = val; saveState(); }
-});
-const answeredFillGap = computed({
-  get: () => currentState.value.answeredFillGap,
-  set: (val) => { currentState.value.answeredFillGap = val; saveState(); }
-});
-const answerFillGapResults = computed({
-  get: () => currentState.value.answerFillGapResults,
-  set: (val) => { currentState.value.answerFillGapResults = val; saveState(); }
+const isCompleted = computed(() => progressFirestore.completedLessons.includes(lessonId));
+
+const canGoNext = computed(() => {
+  const data = currentPageData.value;
+  if (!data) return false;
+  if (data.type === 'match_words') return matchCompleted.value;
+  if (data.type === 'fill_gap') {
+    const items = data.items || [];
+    return items.length > 0 && items.every((_, idx) => answeredFillGap.value[idx] === true);
+  }
+  if (data.type === 'make_sentence') {
+    const items = data.items || [];
+    return items.length > 0 && items.every((_, idx) => answeredMakeSentence.value[idx] === true);
+  }
+  if (data.type === 'dialogue' && data.dialogue.comprehension_questions && data.dialogue.comprehension_questions.length) {
+    return data.dialogue.comprehension_questions.every((_, idx) => comprehensionAnswered.value[idx] === true);
+  }
+  return true;
 });
 
-const matchLeftItems = computed({
-  get: () => currentState.value.matchLeftItems,
-  set: (val) => { currentState.value.matchLeftItems = val; saveState(); }
-});
-const matchRightItems = computed({
-  get: () => currentState.value.matchRightItems,
-  set: (val) => { currentState.value.matchRightItems = val; saveState(); }
-});
-const matchMatchedLeft = computed({
-  get: () => currentState.value.matchMatchedLeft,
-  set: (val) => { currentState.value.matchMatchedLeft = val; saveState(); }
-});
-const matchMatchedRight = computed({
-  get: () => currentState.value.matchMatchedRight,
-  set: (val) => { currentState.value.matchMatchedRight = val; saveState(); }
-});
-const selectedMatchLeft = computed({
-  get: () => currentState.value.selectedMatchLeft,
-  set: (val) => { currentState.value.selectedMatchLeft = val; saveState(); }
-});
-const selectedMatchRight = computed({
-  get: () => currentState.value.selectedMatchRight,
-  set: (val) => { currentState.value.selectedMatchRight = val; saveState(); }
-});
-const matchCompleted = computed({
-  get: () => currentState.value.matchCompleted,
-  set: (val) => { currentState.value.matchCompleted = val; saveState(); }
-});
-const matchError = computed({
-  get: () => currentState.value.matchError,
-  set: (val) => { currentState.value.matchError = val; saveState(); }
-});
-
-const userSentence = computed({
-  get: () => currentState.value.userSentence,
-  set: (val) => { currentState.value.userSentence = val; saveState(); }
-});
-const remainingWords = computed({
-  get: () => currentState.value.remainingWords,
-  set: (val) => { currentState.value.remainingWords = val; saveState(); }
-});
-const answeredMakeSentence = computed({
-  get: () => currentState.value.answeredMakeSentence,
-  set: (val) => { currentState.value.answeredMakeSentence = val; saveState(); }
-});
-const answerMakeSentenceResults = computed({
-  get: () => currentState.value.answerMakeSentenceResults,
-  set: (val) => { currentState.value.answerMakeSentenceResults = val; saveState(); }
-});
-
-const comprehensionAnswers = computed({
-  get: () => currentState.value.comprehensionAnswers,
-  set: (val) => { currentState.value.comprehensionAnswers = val; saveState(); }
-});
-const comprehensionAnswered = computed({
-  get: () => currentState.value.comprehensionAnswered,
-  set: (val) => { currentState.value.comprehensionAnswered = val; saveState(); }
-});
-const comprehensionResults = computed({
-  get: () => currentState.value.comprehensionResults,
-  set: (val) => { currentState.value.comprehensionResults = val; saveState(); }
-});
-const dialogueTranslations = computed({
-  get: () => currentState.value.dialogueTranslations,
-  set: (val) => { currentState.value.dialogueTranslations = val; saveState(); }
-});
-const showTranslations = computed({
-  get: () => currentState.value.showTranslations,
-  set: (val) => { currentState.value.showTranslations = val; saveState(); }
-});
-
-// ========== ВЫЧИСЛЯЕМЫЕ СВОЙСТВА ДЛЯ MATCH_WORDS ==========
 const filteredMatchLeft = computed(() => {
   const items = matchLeftItems.value;
   const matched = matchMatchedLeft.value;
@@ -585,13 +581,15 @@ function getMatchedPairsList() {
     const leftIdx = leftMatched[i];
     const rightIdx = rightMatched[i];
     if (leftIdx !== undefined && rightIdx !== undefined && leftItems[leftIdx] && rightItems[rightIdx]) {
-      pairs.push({
-        en: leftItems[leftIdx].en,
-        ru: rightItems[rightIdx].ru
-      });
+      pairs.push({ en: leftItems[leftIdx].en, ru: rightItems[rightIdx].ru });
     }
   }
   return pairs;
+}
+
+function generateFillGapOptions(items) {
+  const allCorrect = [...new Set(items.map(item => item.correct))];
+  return items.map(() => shuffleArray([...allCorrect]));
 }
 
 // ========== MATCH WORDS ==========
@@ -622,7 +620,7 @@ function selectMatchLeft(idx) {
       matchMatchedRight.value.push(selectedMatchRight.value);
       if (matchMatchedLeft.value.length === matchLeftItems.value.length) {
         matchCompleted.value = true;
-        setTimeout(() => nextPage(), 1000);
+        setTimeout(() => nextPageFromSwiper(), 1000);
       }
     } else {
       matchError.value = 'Неверное сопоставление!';
@@ -650,7 +648,7 @@ function selectMatchRight(idx) {
       matchMatchedRight.value.push(idx);
       if (matchMatchedLeft.value.length === matchLeftItems.value.length) {
         matchCompleted.value = true;
-        setTimeout(() => nextPage(), 1000);
+        setTimeout(() => nextPageFromSwiper(), 1000);
       }
     } else {
       matchError.value = 'Неверное сопоставление!';
@@ -664,15 +662,7 @@ function selectMatchRight(idx) {
   }
 }
 
-// ========== FILL GAP (всегда с селектором, options генерируются из всех correct) ==========
-function generateFillGapOptions(items) {
-  // Собираем уникальные правильные ответы из всех items
-  const allCorrect = [...new Set(items.map(item => item.correct))];
-  // Для каждого item создаём перемешанный массив options
-  const optionsMap = items.map(() => shuffleArray([...allCorrect]));
-  return optionsMap;
-}
-
+// ========== FILL GAP ==========
 function toggleSelect(idx) {
   if (answeredFillGap.value[idx]) return;
   openSelectIdx.value = openSelectIdx.value === idx ? null : idx;
@@ -687,7 +677,7 @@ function selectFillGapOption(idx, optIdx, optValue, correctValue) {
   answeredFillGap.value[idx] = true;
   progressFirestore.updateStats(isCorrect);
   if (isCorrect) {
-    if (allItemsAnsweredOnCurrentPage()) setTimeout(() => nextPage(), 1000);
+    if (allItemsAnsweredOnCurrentPage()) setTimeout(() => nextPageFromSwiper(), 1000);
   } else {
     handleMistake();
   }
@@ -742,7 +732,7 @@ async function checkMakeSentence(itemIdx, correct) {
   answeredMakeSentence.value[itemIdx] = true;
   await progressFirestore.updateStats(isCorrect);
   if (isCorrect) {
-    if (allItemsAnsweredOnCurrentPage()) setTimeout(() => nextPage(), 1000);
+    if (allItemsAnsweredOnCurrentPage()) setTimeout(() => nextPageFromSwiper(), 1000);
   } else {
     handleMistake();
   }
@@ -812,7 +802,7 @@ async function checkComprehensionAnswer(idx, correct) {
     handleMistake();
     appStore.showToast(`❌ Неправильно. Правильный ответ: ${correct}`, 'error');
   } else {
-    if (allItemsAnsweredOnCurrentPage()) setTimeout(() => nextPage(), 1000);
+    if (allItemsAnsweredOnCurrentPage()) setTimeout(() => nextPageFromSwiper(), 1000);
   }
 }
 
@@ -923,25 +913,12 @@ async function loadLesson() {
               wordsAndPunctuation.push(...subWords);
             }
           }
-          return {
-            words: wordsAndPunctuation,
-            correct: target,
-            source: item.source
-          };
+          return { words: wordsAndPunctuation, correct: target, source: item.source };
         });
-        newPages.push({
-          type: 'make_sentence',
-          instruction: ex.instruction || 'Составьте предложение, перетаскивая слова в правильном порядке',
-          items: makeSentenceItems.map(item => ({ ...item, _initialized: false }))
-        });
+        newPages.push({ type: 'make_sentence', instruction: ex.instruction || 'Составьте предложение, перетаскивая слова в правильном порядке', items: makeSentenceItems.map(item => ({ ...item, _initialized: false })) });
       } else if (ex.type === 'fill_gap') {
-        // Генерируем options для всех items на основе всех correct
         const optionsMap = generateFillGapOptions(ex.items);
-        newPages.push({ 
-          ...ex, 
-          _initialized: false,
-          _optionsMap: optionsMap 
-        });
+        newPages.push({ ...ex, _initialized: false, _optionsMap: optionsMap });
       } else {
         newPages.push({ ...ex });
       }
@@ -951,118 +928,62 @@ async function loadLesson() {
   pages.value = newPages;
 }
 
-// ========== ВЫЧИСЛЯЕМЫЕ ==========
-const totalPages = computed(() => pages.value.length);
-const currentPageData = computed(() => pages.value[currentPage.value - 1]);
-const progressPercent = computed(() => Math.min(100, (currentPage.value / totalPages.value) * 100));
-const mistakesCount = computed(() => {
-  let count = 0;
-  for (const pageIdx in pageStates.value) {
-    const state = pageStates.value[pageIdx];
-    if (state.answerFillGapResults) {
-      Object.values(state.answerFillGapResults).forEach(r => { if (r === false) count++; });
-    }
-    if (state.answerMakeSentenceResults) {
-      Object.values(state.answerMakeSentenceResults).forEach(r => { if (r === false) count++; });
-    }
-    if (state.comprehensionResults) {
-      Object.values(state.comprehensionResults).forEach(r => { if (r === false) count++; });
-    }
-  }
-  return count;
-});
-const isCompleted = computed(() => progressFirestore.completedLessons.includes(lessonId));
-
-const canGoNext = computed(() => {
-  const data = currentPageData.value;
-  if (!data) return false;
-  if (data.type === 'match_words') return matchCompleted.value;
-  if (data.type === 'fill_gap') {
-    const items = data.items || [];
-    return items.length > 0 && items.every((_, idx) => answeredFillGap.value[idx] === true);
-  }
-  if (data.type === 'make_sentence') {
-    const items = data.items || [];
-    return items.length > 0 && items.every((_, idx) => answeredMakeSentence.value[idx] === true);
-  }
-  if (data.type === 'dialogue' && data.dialogue.comprehension_questions && data.dialogue.comprehension_questions.length) {
-    return data.dialogue.comprehension_questions.every((_, idx) => comprehensionAnswered.value[idx] === true);
-  }
-  return true;
-});
-
 // ========== НАВИГАЦИЯ ==========
+function onSwiper(swiper) { swiperInstance.value = swiper; }
+function onSlideChange(swiper) {
+  currentPage.value = swiper.activeIndex + 1;
+  saveState();
+  initCurrentPageIfNeeded();
+}
+function nextPageFromSwiper() {
+  if (swiperInstance.value && canGoNext.value) {
+    swiperInstance.value.slideNext();
+  }
+}
 function nextPage() {
   if (currentPage.value < totalPages.value && canGoNext.value) {
     currentPage.value++;
+    if (swiperInstance.value) swiperInstance.value.slideTo(currentPage.value - 1);
     saveState();
-    if (!pageStates.value[currentPage.value]) {
-      pageStates.value[currentPage.value] = {
-        type: currentPageData.value?.type,
-        selectedFillGap: {},
-        openSelectIdx: null,
-        answeredFillGap: {},
-        answerFillGapResults: {},
-        matchLeftItems: [],
-        matchRightItems: [],
-        matchMatchedLeft: [],
-        matchMatchedRight: [],
-        selectedMatchLeft: null,
-        selectedMatchRight: null,
-        matchCompleted: false,
-        matchError: '',
-        userSentence: {},
-        remainingWords: {},
-        answeredMakeSentence: {},
-        answerMakeSentenceResults: {},
-        comprehensionAnswers: {},
-        comprehensionAnswered: {},
-        comprehensionResults: {},
-        dialogueTranslations: {},
-        showTranslations: {}
-      };
-    }
-    if (currentPageData.value?.type === 'match_words' && matchLeftItems.value.length === 0) {
-      initMatchItems(currentPageData.value.items);
-    }
-    if (currentPageData.value?.type === 'make_sentence') {
-      for (let idx = 0; idx < currentPageData.value.items.length; idx++) {
-        if (!currentPageData.value.items[idx]._initialized) {
-          initMakeSentence(idx, currentPageData.value.items[idx].words);
-          currentPageData.value.items[idx]._initialized = true;
-        }
-      }
-    }
+    initCurrentPageIfNeeded();
   } else if (currentPage.value === totalPages.value) {
     finishLesson();
   }
 }
-
 function prevPage() {
   if (currentPage.value > 1) {
     currentPage.value--;
+    if (swiperInstance.value) swiperInstance.value.slideTo(currentPage.value - 1);
     saveState();
-    if (currentPageData.value?.type === 'match_words' && matchLeftItems.value.length === 0) {
-      initMatchItems(currentPageData.value.items);
-    }
-    if (currentPageData.value?.type === 'make_sentence') {
-      for (let idx = 0; idx < currentPageData.value.items.length; idx++) {
-        if (!currentPageData.value.items[idx]._initialized) {
-          initMakeSentence(idx, currentPageData.value.items[idx].words);
-          currentPageData.value.items[idx]._initialized = true;
-        }
+    initCurrentPageIfNeeded();
+  }
+}
+function initCurrentPageIfNeeded() {
+  const data = currentPageData.value;
+  if (!data) return;
+  if (data.type === 'match_words' && matchLeftItems.value.length === 0) {
+    initMatchItems(data.items);
+  }
+  if (data.type === 'make_sentence') {
+    for (let idx = 0; idx < data.items.length; idx++) {
+      if (!data.items[idx]._initialized) {
+        initMakeSentence(idx, data.items[idx].words);
+        data.items[idx]._initialized = true;
       }
     }
   }
 }
-
 function skipWord() {
   const target = pages.value.findIndex(p => p.type !== 'word' && p.type !== 'title');
-  if (target !== -1) currentPage.value = target + 1;
-  else currentPage.value = totalPages.value;
-  saveState();
+  if (target !== -1) {
+    currentPage.value = target + 1;
+    if (swiperInstance.value) swiperInstance.value.slideTo(target);
+    saveState();
+  } else {
+    currentPage.value = totalPages.value;
+    if (swiperInstance.value) swiperInstance.value.slideTo(totalPages.value - 1);
+  }
 }
-
 function flipCard() { isFlipped.value = !isFlipped.value; }
 async function playAudio(text) { try { await speak(text, 'en-US'); } catch(e) {} }
 
@@ -1099,6 +1020,7 @@ function resetCurrentProgress() {
     return;
   }
   currentPage.value = 1;
+  if (swiperInstance.value) swiperInstance.value.slideTo(0);
   lives.value = maxLives;
   pageStates.value = {};
   for (let i = 0; i < pages.value.length; i++) {
@@ -1110,17 +1032,7 @@ function resetCurrentProgress() {
   }
   showResetConfirm.value = false;
   saveState();
-  if (currentPageData.value?.type === 'match_words') {
-    initMatchItems(currentPageData.value.items);
-  }
-  if (currentPageData.value?.type === 'make_sentence') {
-    for (let idx = 0; idx < currentPageData.value.items.length; idx++) {
-      if (!currentPageData.value.items[idx]._initialized) {
-        initMakeSentence(idx, currentPageData.value.items[idx].words);
-        currentPageData.value.items[idx]._initialized = true;
-      }
-    }
-  }
+  initCurrentPageIfNeeded();
   appStore.showToast('Прогресс урока сброшен', 'info');
 }
 
@@ -1146,20 +1058,11 @@ async function ensurePackFromLesson() {
   for (const wid of lesson.value.new_vocabulary_ids || []) {
     const word = vocabularyData.find(w => w.id === wid);
     if (word) {
-      words.push({
-        front: word.word,
-        back: word.translation,
-        level: lesson.value.level,
-        example: word.example || ''
-      });
+      words.push({ front: word.word, back: word.translation, level: lesson.value.level, example: word.example || '' });
     }
   }
   if (words.length > 0) {
-    await packStore.createPack({
-      name: packName,
-      level: lesson.value.level,
-      cards: words
-    });
+    await packStore.createPack({ name: packName, level: lesson.value.level, cards: words });
     await packStore.refreshPacks();
     appStore.showToast(`📦 Создан пак "${packName}"`, 'success');
   }
@@ -1182,7 +1085,6 @@ function goBack() {
 
 function confirmReset() { showResetConfirm.value = true; }
 
-// ========== ЗАКРЫТИЕ СЕЛЕКТА ПРИ КЛИКЕ ВНЕ ==========
 function handleClickOutside(event) {
   if (openSelectIdx.value !== null) {
     const selectElements = document.querySelectorAll('.custom-select');
@@ -1199,53 +1101,37 @@ function handleClickOutside(event) {
   }
 }
 
+function checkMobile() {
+  isMobile.value = window.innerWidth <= 768;
+}
+
 watch(lives, (newVal) => {
   if (!isCompleted.value && newVal <= 0) {
     showDeathModal.value = true;
   }
 });
 
-watch(currentPage, () => {
-  if (currentPageData.value?.type === 'make_sentence') {
-    for (let idx = 0; idx < currentPageData.value.items.length; idx++) {
-      if (!currentPageData.value.items[idx]._initialized) {
-        initMakeSentence(idx, currentPageData.value.items[idx].words);
-        currentPageData.value.items[idx]._initialized = true;
-      }
-    }
-  }
-  if (currentPageData.value?.type === 'match_words' && matchLeftItems.value.length === 0) {
-    initMatchItems(currentPageData.value.items);
-  }
-});
-
 onMounted(async () => {
   document.addEventListener('click', handleClickOutside);
+  window.addEventListener('resize', checkMobile);
+  checkMobile();
   await progressFirestore.loadProgress();
   await packStore.loadPacks();
   await loadLesson();
+  await nextTick();
   loadState();
-  if (currentPageData.value?.type === 'match_words' && matchLeftItems.value.length === 0) {
-    initMatchItems(currentPageData.value.items);
-  }
-  if (currentPageData.value?.type === 'make_sentence') {
-    for (let idx = 0; idx < currentPageData.value.items.length; idx++) {
-      if (!currentPageData.value.items[idx]._initialized) {
-        initMakeSentence(idx, currentPageData.value.items[idx].words);
-        currentPageData.value.items[idx]._initialized = true;
-      }
-    }
-  }
+  initCurrentPageIfNeeded();
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside);
+  window.removeEventListener('resize', checkMobile);
   saveState();
 });
 </script>
 
 <style scoped>
-/* Стили остаются без изменений (такие же, как у вас были) */
+/* ========== БАЗОВЫЕ СТИЛИ ========== */
 .lesson-screen {
   max-width: 800px;
   margin: 0 auto;
@@ -1253,10 +1139,12 @@ onBeforeUnmount(() => {
   min-height: 100vh;
   background: var(--gray-50);
 }
+
+/* ========== ХЕДЕР ========== */
 .lesson-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 1rem;
 }
 .back-btn {
@@ -1313,6 +1201,7 @@ onBeforeUnmount(() => {
   background: var(--gray-100);
   color: var(--warning);
 }
+
 .lives-indicator {
   text-align: center;
   margin-bottom: 1rem;
@@ -1325,6 +1214,27 @@ onBeforeUnmount(() => {
 .heart.lost {
   opacity: 0.3;
 }
+
+/* ========== SWIPER ========== */
+.lesson-swiper {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.slide-content {
+  min-height: 400px;
+}
+:deep(.swiper-pagination) {
+  position: relative;
+  margin-top: 1rem;
+}
+:deep(.swiper-pagination-bullet-active) {
+  background: var(--primary);
+}
+:deep(.swiper-pagination-bullet) {
+  background: var(--gray-400);
+}
+
+/* ========== ЦЕНТРИРОВАННЫЕ СТРАНИЦЫ ========== */
 .centered {
   text-align: center;
 }
@@ -1361,6 +1271,8 @@ onBeforeUnmount(() => {
   background: var(--primary-dark);
   transform: translateY(-2px);
 }
+
+/* ========== КАРТОЧКИ СЛОВ ========== */
 .word-page {
   display: flex;
   flex-direction: column;
@@ -1428,6 +1340,8 @@ onBeforeUnmount(() => {
   font-size: 0.8rem;
   color: var(--gray-400);
 }
+
+/* ========== ГРАММАТИКА ========== */
 .grammar-page {
   background: white;
   border-radius: 1rem;
@@ -1482,6 +1396,8 @@ onBeforeUnmount(() => {
   color: var(--gray-600);
   font-size: 0.85rem;
 }
+
+/* ========== ДИАЛОГ ========== */
 .dialogue-page {
   background: white;
   border-radius: 1rem;
@@ -1514,12 +1430,8 @@ onBeforeUnmount(() => {
   padding: 1rem;
   transition: all 0.2s;
 }
-.dialogue-line.anna {
-  border-left: 4px solid #e74c3c;
-}
-.dialogue-line.tom {
-  border-left: 4px solid #3498db;
-}
+.dialogue-line.anna { border-left: 4px solid #e74c3c; }
+.dialogue-line.tom { border-left: 4px solid #3498db; }
 .speaker {
   display: flex;
   align-items: center;
@@ -1562,20 +1474,8 @@ onBeforeUnmount(() => {
   font-weight: 500;
   margin-bottom: 0.5rem;
 }
-.show-translation-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 0.75rem;
-  color: var(--gray-500);
-  padding: 0.25rem 0.5rem;
-  border-radius: 1rem;
-  transition: all 0.2s;
-}
-.show-translation-btn:hover {
-  background: var(--gray-200);
-  color: var(--primary);
-}
+
+/* ========== УПРАЖНЕНИЯ ========== */
 .exercise-page {
   background: white;
   border-radius: 1rem;
@@ -1628,9 +1528,7 @@ onBeforeUnmount(() => {
   font-size: 1rem;
   margin-bottom: 0.75rem;
 }
-.answer-input.small {
-  width: 100%;
-}
+.answer-input.small { width: 100%; }
 .answer-input:focus {
   outline: none;
   border-color: var(--primary);
@@ -1661,6 +1559,8 @@ onBeforeUnmount(() => {
   background: rgba(239, 68, 68, 0.1);
   color: var(--danger);
 }
+
+/* ========== КАСТОМНЫЙ СЕЛЕКТ ========== */
 .custom-select {
   position: relative;
   width: 100%;
@@ -1706,14 +1606,18 @@ onBeforeUnmount(() => {
   background: var(--primary);
   color: white;
 }
+
+/* ========== MATCH WORDS ========== */
 .matching-container {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   justify-content: center;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 .matching-column {
   flex: 1;
+  min-width: 140px;
 }
 .matching-column h4 {
   text-align: center;
@@ -1780,6 +1684,8 @@ onBeforeUnmount(() => {
 .pair-arrow {
   color: var(--gray-500);
 }
+
+/* ========== MAKE SENTENCE ========== */
 .sentence-builder {
   background: var(--gray-50);
   border-radius: 1rem;
@@ -1859,6 +1765,16 @@ onBeforeUnmount(() => {
   padding: 0.3rem 0.8rem;
   font-size: 0.8rem;
 }
+.translation-source {
+  background: var(--primary-light);
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--secondary);
+}
+
+/* ========== ЗАВЕРШЕНИЕ ========== */
 .completion-page {
   padding: 2rem;
   background: linear-gradient(135deg, var(--success-light), white);
@@ -1883,6 +1799,8 @@ onBeforeUnmount(() => {
   justify-content: center;
   margin-top: 1.5rem;
 }
+
+/* ========== ФУТЕР (только десктоп) ========== */
 .lesson-footer {
   display: flex;
   gap: 1rem;
@@ -1912,6 +1830,8 @@ onBeforeUnmount(() => {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ========== МОДАЛКИ ========== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1937,9 +1857,7 @@ onBeforeUnmount(() => {
   max-width: 500px;
   text-align: left;
 }
-.hint-modal .modal-body {
-  text-align: left;
-}
+.hint-modal .modal-body { text-align: left; }
 .reset-modal .btn-danger {
   background: var(--danger);
   color: white;
@@ -2011,6 +1929,22 @@ onBeforeUnmount(() => {
 .audio-btn-small:hover {
   background: var(--gray-200);
 }
+.show-translation-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  transition: all 0.2s;
+}
+.show-translation-btn:hover {
+  background: var(--gray-200);
+  color: var(--primary);
+}
+
+/* ========== ТЁМНАЯ ТЕМА ========== */
 body.dark-theme .lesson-screen {
   background: var(--gray-900);
 }
@@ -2038,7 +1972,6 @@ body.dark-theme .word {
 body.dark-theme .back-btn:hover {
   background: var(--gray-700);
 }
-body.dark-theme .option-btn,
 body.dark-theme .match-card {
   background: var(--gray-700);
   border-color: var(--gray-600);
@@ -2055,12 +1988,43 @@ body.dark-theme .speaker-name {
 body.dark-theme .hint-btn {
   color: var(--primary-light);
 }
-.translation-source {
-  background: var(--primary-light);
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: var(--secondary);
+
+/* ========== АДАПТИВ ========== */
+@media (max-width: 768px) {
+  .lesson-screen {
+    padding: 0.75rem;
+  }
+  .title-page h2 {
+    font-size: 1.2rem;
+  }
+  .word {
+    font-size: 1.8rem;
+  }
+  .translation {
+    font-size: 1.2rem;
+  }
+  .card-front, .card-back {
+    padding: 1rem;
+  }
+  .grammar-page, .dialogue-page, .exercise-page {
+    padding: 1rem;
+  }
+  .matching-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .matching-column {
+    min-width: auto;
+  }
+  .word-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .word-actions button {
+    width: 100%;
+  }
+  .completion-buttons {
+    flex-direction: column;
+  }
 }
 </style>

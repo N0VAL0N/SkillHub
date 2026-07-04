@@ -135,6 +135,7 @@ import { doc, getDoc, collection, query, where, getDocs, setDoc } from 'firebase
 import StudentLayout from '@core/layouts/StudentLayout.vue';
 import { getCachedData, setCachedData } from '@core/services/storage';
 import { formatRelativeTime } from '@core/utils/dateHelpers';
+import { updateStreak, getCurrentStreak } from '@core/composables/useStreak';
 
 const studentLogin = ref('');
 const topicsCompleted = ref(0);
@@ -149,7 +150,6 @@ const recentActivities = ref([]);
 const refreshing = ref(false);
 let isMounted = true;
 
-// Функция для получения ключа кэша с userId
 const getCacheKey = (userId) => `student_dashboard_${userId}`;
 
 const ensureStudentProgress = async (userId) => {
@@ -163,7 +163,6 @@ const ensureStudentProgress = async (userId) => {
         createdAt: new Date(),
         updatedAt: new Date()
       });
-      console.log('Created studentProgress for user:', userId);
     }
     return true;
   } catch (error) {
@@ -172,35 +171,15 @@ const ensureStudentProgress = async (userId) => {
   }
 };
 
-const getStreak = () => {
-  const lastLogin = localStorage.getItem('lastLoginDate');
-  const today = new Date().toDateString();
-  let streakValue = parseInt(localStorage.getItem('streak') || '0');
-  
-  if (lastLogin !== today) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    
-    if (lastLogin === yesterday.toDateString()) {
-      streakValue++;
-    } else if (!lastLogin) {
-      streakValue = 1;
-    } else if (lastLogin !== yesterday.toDateString() && lastLogin !== today) {
-      streakValue = 1;
-    }
-    
-    localStorage.setItem('streak', streakValue);
-    localStorage.setItem('lastLoginDate', today);
-  }
-  
-  return streakValue;
-};
-
 const refreshFromFirestore = async () => {
   const user = auth.currentUser;
   if (!user || !isMounted) return;
 
   try {
+    // Обновляем streak
+    const newStreak = await updateStreak(user.uid);
+    streak.value = newStreak;
+
     const userDoc = await getDoc(doc(db, 'users', user.uid));
     if (!userDoc.exists() || !isMounted) return;
     
@@ -361,7 +340,6 @@ const refreshData = async () => {
 
 onMounted(() => {
   isMounted = true;
-  streak.value = getStreak();
   loadDashboard();
 });
 

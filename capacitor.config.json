@@ -1,0 +1,12 @@
+{
+  "appId": "com.skillhub.app",
+  "appName": "SkillHub",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "launchAutoHide": true,
+      "androidScaleType": "CENTER_CROP"
+    }
+  }
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="game-fullscreen">
+  <div class="game-fullscreen" @touchmove.prevent>
     <div class="game-header">
       <button @click="$router.push('/student/games')" class="btn-back">← Назад</button>
       <h1>🐊 Крокодил</h1>
@@ -19,10 +19,14 @@
           transform: `translateX(${dragOffset}px) rotate(${dragOffset * 0.2}deg)`,
           transition: isDragging ? 'none' : 'transform 0.3s ease'
         }"
+        @touchstart="startDrag"
+        @touchmove="onDrag"
+        @touchend="endDrag"
         @mousedown="startDrag"
         @mousemove="onDrag"
         @mouseup="endDrag"
         @mouseleave="endDrag"
+        @click="onCardClick"
         @dragstart.prevent
         @selectstart.prevent>
         <div class="timer" :class="{ warning: timeLeft <= 5 }">⏱️ {{ timeLeft }} сек</div>
@@ -69,12 +73,12 @@ const userId = auth.currentUser?.uid;
 // Drag & Drop
 const isDragging = ref(false);
 const dragOffset = ref(0);
-const startX = ref(0);
 const startOffset = ref(0);
 const dragHint = ref(null);
 const SWIPE_THRESHOLD = 80;
+let startClientX = 0;
 
-// Звук (Web Audio API)
+// Звук
 let audioCtx = null;
 const playBeep = () => {
   try {
@@ -91,26 +95,29 @@ const playBeep = () => {
     oscillator.start();
     gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 1);
     oscillator.stop(audioCtx.currentTime + 0.8);
-  } catch (e) {
-    console.warn('Web Audio API not supported');
-  }
+  } catch (e) {}
 };
 
 const startDrag = (e) => {
   if (showControls.value) return;
   isDragging.value = true;
-  startX.value = e.clientX;
+  const clientX = e.clientX ?? (e.touches && e.touches[0]?.clientX);
+  if (clientX) startClientX = clientX;
   startOffset.value = dragOffset.value;
   document.body.style.userSelect = 'none';
 };
+
 const onDrag = (e) => {
   if (!isDragging.value) return;
-  const delta = e.clientX - startX.value;
+  const clientX = e.clientX ?? (e.touches && e.touches[0]?.clientX);
+  if (clientX === undefined) return;
+  const delta = clientX - startClientX;
   dragOffset.value = startOffset.value + delta;
   if (dragOffset.value > 30) dragHint.value = 'correct';
   else if (dragOffset.value < -30) dragHint.value = 'incorrect';
   else dragHint.value = null;
 };
+
 const endDrag = () => {
   if (!isDragging.value) return;
   isDragging.value = false;
@@ -119,8 +126,13 @@ const endDrag = () => {
   dragOffset.value = 0;
   dragHint.value = null;
   if (Math.abs(finalOffset) > SWIPE_THRESHOLD) {
-    const isCorrectResult = finalOffset > 0;
-    handleResult(isCorrectResult);
+    handleResult(finalOffset > 0);
+  }
+};
+
+const onCardClick = () => {
+  if (showControls.value) {
+    handleResult(false);
   }
 };
 
@@ -153,17 +165,13 @@ const startTimer = () => {
       if (timeLeft.value === 0) {
         clearInterval(interval);
         showControls.value = true;
-        playBeep(); // звук при окончании времени
+        playBeep();
       }
     }
   }, 1000);
 };
 
 const handleResult = async (isCorrectResult) => {
-  if (showControls.value && isCorrectResult === undefined) {
-    // таймер истёк, пользователь кликнул на карточку – засчитываем как неверный ответ
-    isCorrectResult = false;
-  }
   if (interval) clearInterval(interval);
   const timeSpent = timeLimit.value - timeLeft.value;
   if (isCorrectResult) correct.value++;
@@ -217,7 +225,6 @@ const loadStats = async () => {
   }
 };
 
-// Скрытие лейаута
 const hideLayout = () => {
   document.body.classList.add('hide-student-layout');
 };
@@ -230,12 +237,6 @@ onMounted(async () => {
   loadTerms();
   await loadStats();
   nextTerm();
-  // Обработчик клика по карточке при истекшем времени
-  document.querySelector('.game-card')?.addEventListener('click', (e) => {
-    if (showControls.value && !isDragging.value) {
-      handleResult(false);
-    }
-  });
 });
 
 onUnmounted(() => {

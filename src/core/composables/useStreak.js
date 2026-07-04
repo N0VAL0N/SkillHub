@@ -1,6 +1,6 @@
 // src/core/composables/useStreak.js
-import { auth, db } from '@core/services/firebase';
-import { doc, runTransaction } from 'firebase/firestore';
+import { doc, getDoc, runTransaction } from 'firebase/firestore';
+import { db } from '@core/services/firebase';
 
 const getMoscowDate = () => {
   const now = new Date();
@@ -8,25 +8,30 @@ const getMoscowDate = () => {
   return moscowTime.toISOString().slice(0, 10);
 };
 
+/**
+ * Обновляет streak пользователя (вызывать при входе и после выполнения заданий)
+ */
 export async function updateStreak(userId) {
   if (!userId) return 0;
   try {
     const userRef = doc(db, 'users', userId);
+    let newStreak = 0;
     
-    const result = await runTransaction(db, async (transaction) => {
+    await runTransaction(db, async (transaction) => {
       const userSnap = await transaction.get(userRef);
-      if (!userSnap.exists()) return 0;
+      if (!userSnap.exists()) return;
       
-      const userData = userSnap.data();
-      const stats = userData.stats || {};
+      const data = userSnap.data();
+      const stats = data.stats || {};
       let currentStreak = stats.streak || 0;
-      const lastActiveDate = userData.lastActiveDate || null;
+      const lastActiveDate = data.lastActiveDate || null;
       const today = getMoscowDate();
 
       if (lastActiveDate !== today) {
         const yesterday = new Date(today);
         yesterday.setDate(yesterday.getDate() - 1);
         const yesterdayStr = yesterday.toISOString().slice(0, 10);
+        
         if (lastActiveDate === yesterdayStr) {
           currentStreak++;
         } else {
@@ -35,17 +40,33 @@ export async function updateStreak(userId) {
         
         transaction.update(userRef, {
           lastActiveDate: today,
-          stats: { streak: currentStreak },
+          'stats.streak': currentStreak,
           updatedAt: new Date()
         });
+        newStreak = currentStreak;
+      } else {
+        newStreak = currentStreak;
       }
-      
-      return currentStreak;
     });
-    
-    return result;
+    return newStreak;
   } catch (err) {
     console.error('updateStreak error:', err);
+    return 0;
+  }
+}
+
+/**
+ * Получить текущий streak без обновления
+ */
+export async function getCurrentStreak(userId) {
+  if (!userId) return 0;
+  try {
+    const userRef = doc(db, 'users', userId);
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) return 0;
+    return userSnap.data().stats?.streak || 0;
+  } catch (err) {
+    console.error('getCurrentStreak error:', err);
     return 0;
   }
 }

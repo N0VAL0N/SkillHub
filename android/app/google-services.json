@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "337454683229",
+    "project_id": "ege-teacher",
+    "storage_bucket": "ege-teacher.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337454683229:android:3f8c031f89d2fec77d69b4",
+        "android_client_info": {
+          "package_name": "com.skillhub.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUtZeDsQK_Eal1BDFpicrEpGX1DhB3dTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -17,6 +17,16 @@
           </div>
           <button class="btn-play">Играть →</button>
         </div>
+        <div class="game-card" @click="startGame('memory')">
+          <div class="game-icon">🧠</div>
+          <h3>Мемори: термины</h3>
+          <p>Найди пары терминов и определений</p>
+          <div class="game-stats" v-if="gameStats.memory">
+            <span>🏆 Лучшее: {{ gameStats.memory.bestAttempts || 0 }} попыток</span>
+            <span>⏱️ Лучшее время: {{ formatTime(gameStats.memory.bestTime) }}</span>
+          </div>
+          <button class="btn-play">Играть →</button>
+        </div>
 
         <div class="game-card coming-soon">
           <div class="game-icon">🔮</div>
@@ -39,9 +49,20 @@ import StudentLayout from '@core/layouts/StudentLayout.vue';
 const router = useRouter();
 const gameStats = ref({});
 
+// Функция форматирования времени
+const formatTime = (seconds) => {
+  if (!seconds && seconds !== 0) return '0:00';
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
+
 const startGame = (gameId) => {
   if (gameId === 'crocodile') {
     router.push('/student/game/crocodile');
+  }
+  if (gameId === 'memory') {
+    router.push('/student/game/memory');
   }
 };
 

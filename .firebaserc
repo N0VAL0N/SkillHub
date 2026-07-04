@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "ege-teacher"
-  }
+    "default": "skillhub-a73e8"
+  },
+  "targets": {},
+  "etags": {}
 }

@@ -121,5 +121,17 @@ export default [
   name: 'SocialStudentGameCrocodile',
   component: () => import('@/modules/social/views/student/GameCrocodile.vue'),
   meta: { requiresAuth: true, subject: 'social', role: 'student' }
+},
+{
+  path: '/support',
+  name: 'Support',
+  component: () => import('@/shared/views/SupportView.vue'),
+  meta: { requiresAuth: true }
+},
+{
+  path: '/student/game/memory',
+  name: 'SocialStudentGameMemory',
+  component: () => import('@/modules/social/views/student/MemoryGame.vue'),
+  meta: { requiresAuth: true, subject: 'social', role: 'student' }
 }
 ];

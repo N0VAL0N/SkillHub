@@ -27,6 +27,9 @@
         <button @click="generateQuestions" :disabled="!selectedTopicId || loading" class="btn-generate">
           {{ loading ? 'Генерация...' : 'Начать тренировку' }}
         </button>
+        <button @click="openExamCreator" class="btn-create-exam">
+          ➕ Создать экзамен
+        </button>
       </div>
 
       <div v-if="questions.length" class="questions-area">
@@ -107,18 +110,91 @@
         <h3>Выберите тему для тренировки</h3>
         <p>Выберите блок и тему из списка, затем нажмите "Начать тренировку"</p>
       </div>
+
+      <!-- Модалка создания экзамена -->
+      <div v-if="showExamModal" class="modal" @click.self="closeExamModal">
+        <div class="modal-content modal-large">
+          <div class="modal-header">
+            <h2>Создать экзамен</h2>
+            <button class="modal-close" @click="closeExamModal">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Название (опционально)</label>
+              <input v-model="newExam.title" type="text" placeholder="Например: Тренировочный экзамен" class="form-input" />
+            </div>
+            <div class="form-group">
+              <label>Таймер (минуты)</label>
+              <div class="custom-select-wrapper">
+                <CustomSelect
+                  v-model="newExam.timerMinutes"
+                  :options="timerOptions"
+                  placeholder="Без таймера"
+                  :showScrollbar="false"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Часть 2 (выберите типы заданий)</label>
+              <div class="part2-options">
+                <label class="custom-checkbox" :class="{ checked: newExam.part2.text.enabled }">
+                  <input type="checkbox" v-model="newExam.part2.text.enabled" />
+                  <span class="checkmark"></span>
+                  <span class="checkbox-label">Работа с текстом (17-20)</span>
+                </label>
+                <label class="custom-checkbox" :class="{ checked: newExam.part2.graph.enabled }">
+                  <input type="checkbox" v-model="newExam.part2.graph.enabled" />
+                  <span class="checkmark"></span>
+                  <span class="checkbox-label">График (21)</span>
+                </label>
+                <label class="custom-checkbox" :class="{ checked: newExam.part2.task.enabled }">
+                  <input type="checkbox" v-model="newExam.part2.task.enabled" />
+                  <span class="checkmark"></span>
+                  <span class="checkbox-label">Задача (22)</span>
+                </label>
+                <label class="custom-checkbox" :class="{ checked: newExam.part2.lawTask.enabled }">
+                  <input type="checkbox" v-model="newExam.part2.lawTask.enabled" />
+                  <span class="checkmark"></span>
+                  <span class="checkbox-label">Правовая задача (23)</span>
+                </label>
+                <label class="custom-checkbox" :class="{ checked: newExam.part2.plan.enabled }">
+                  <input type="checkbox" v-model="newExam.part2.plan.enabled" />
+                  <span class="checkmark"></span>
+                  <span class="checkbox-label">План (24)</span>
+                </label>
+                <label class="custom-checkbox" :class="{ checked: newExam.part2.essay.enabled }">
+                  <input type="checkbox" v-model="newExam.part2.essay.enabled" />
+                  <span class="checkmark"></span>
+                  <span class="checkbox-label">Эссе (25)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button @click="createExam" class="btn-primary" :disabled="creating">
+              {{ creating ? 'Создание...' : 'Создать и начать' }}
+            </button>
+            <button @click="closeExamModal" class="btn-secondary">Отмена</button>
+          </div>
+        </div>
+      </div>
     </div>
   </StudentLayout>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, nextTick } from 'vue';
+import { useRouter } from 'vue-router';
 import { useQuestionGenerator } from '@/modules/social/stores/questionGenerator';
 import StudentLayout from '@core/layouts/StudentLayout.vue';
 import QuestionRenderer from '@/modules/social/components/QuestionRenderer.vue';
 import CustomSelect from '@shared/components/CustomSelect.vue';
+import { useAppStore } from '@core/stores/appStore';
 
+const router = useRouter();
+const appStore = useAppStore();
 const questionGenerator = useQuestionGenerator();
+
 const topicsMap = ref(null);
 const topicsList = ref([]);
 const selectedBlock = ref(1);
@@ -131,12 +207,40 @@ const showMistakes = ref(false);
 const correctCount = ref(0);
 const loading = ref(false);
 
+// Модалка создания экзамена
+const showExamModal = ref(false);
+const creating = ref(false);
+const newExam = ref({
+  title: '',
+  timerMinutes: null,
+  part2: {
+    text: { enabled: false, value: '' },
+    graph: { enabled: false, value: '' },
+    task: { enabled: false, value: '' },
+    lawTask: { enabled: false, value: '' },
+    plan: { enabled: false, value: '' },
+    essay: { enabled: false, value: '' }
+  }
+});
+
 const blockOptions = [
   { value: 1, label: 'Блок 1. Человек и общество' },
   { value: 2, label: 'Блок 2. Экономика' },
   { value: 3, label: 'Блок 3. Социальные отношения' },
   { value: 4, label: 'Блок 4. Политика' },
-  { value: 5, label: 'Блок 5. Право' }
+  { value: 5, label: 'Блок 5. Право' },
+  { value: 'all', label: 'Реальный ЕГЭ (все блоки)' }
+];
+
+const timerOptions = [
+  { value: null, label: 'Без таймера' },
+  { value: 30, label: '30 минут' },
+  { value: 60, label: '1 час' },
+  { value: 90, label: '1.5 часа' },
+  { value: 120, label: '2 часа' },
+  { value: 150, label: '2.5 часа' },
+  { value: 180, label: '3 часа' },
+  { value: 210, label: '3.5 часа (ЕГЭ)' }
 ];
 
 const topicOptions = computed(() => {
@@ -164,11 +268,7 @@ const getTypeLabel = (type) => {
 const generateQuestions = async () => {
   if (!selectedTopicId.value) return;
   loading.value = true;
-
-  // Используем nextTick для асинхронной генерации
   await nextTick();
-  
-  // Имитация асинхронной генерации (на самом деле генератор синхронный, но мы даём браузеру время)
   setTimeout(() => {
     const topic = topicsList.value.find(t => t.id === selectedTopicId.value);
     currentTopicName.value = topic?.name || '';
@@ -337,6 +437,67 @@ const reviewMistakes = () => {
   showMistakes.value = true;
 };
 
+// Создание экзамена (без сохранения в БД)
+const openExamCreator = () => {
+  showExamModal.value = true;
+};
+
+const closeExamModal = () => {
+  showExamModal.value = false;
+  newExam.value = {
+    title: '',
+    timerMinutes: null,
+    part2: {
+      text: { enabled: false, value: '' },
+      graph: { enabled: false, value: '' },
+      task: { enabled: false, value: '' },
+      lawTask: { enabled: false, value: '' },
+      plan: { enabled: false, value: '' },
+      essay: { enabled: false, value: '' }
+    }
+  };
+};
+
+const createExam = async () => {
+  creating.value = true;
+  try {
+    // Генерируем экзамен через questionGenerator с выбранным блоком
+    const generated = questionGenerator.generateFullExam(
+      selectedBlock.value,   // используем выбранный блок (может быть 'all')
+      newExam.value.title || null,
+      null, // classId
+      null, // deadline
+      newExam.value.part2
+    );
+    if (!generated || !generated.questions || generated.questions.length === 0) {
+      throw new Error('Не удалось сгенерировать экзамен');
+    }
+
+    const examData = {
+      ...generated,
+      title: generated.title || newExam.value.title || 'Тренировочный экзамен',
+      type: 'exam',
+      enableTimer: !!newExam.value.timerMinutes,
+      timerMinutes: newExam.value.timerMinutes,
+      questions: generated.questions
+    };
+
+    // Сохраняем в localStorage и переходим к выполнению
+    const tempId = Date.now().toString();
+    localStorage.setItem(`exam_data_${tempId}`, JSON.stringify(examData));
+    localStorage.setItem(`task_started_${tempId}`, 'true');
+    
+    appStore.showToast('Экзамен создан', 'success');
+    closeExamModal();
+    router.push(`/student/task/${tempId}`);
+  } catch (err) {
+    console.error(err);
+    appStore.showToast(err.message || 'Ошибка создания экзамена', 'error');
+  } finally {
+    creating.value = false;
+  }
+};
+
 onMounted(() => {
   questionGenerator.initialize();
   if (questionGenerator.topicsMap) {
@@ -350,13 +511,11 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* ========== ОСНОВНОЙ КОНТЕЙНЕР ========== */
 .practice-view {
   max-width: 1000px;
   margin: 0 auto;
 }
 
-/* ========== ШАПКА ========== */
 .page-header {
   margin-bottom: 2rem;
 }
@@ -370,7 +529,6 @@ onMounted(() => {
   color: var(--gray-500);
 }
 
-/* ========== СЕЛЕКТОР ТЕМЫ ========== */
 .topic-selector {
   display: flex;
   gap: 1rem;
@@ -419,7 +577,24 @@ onMounted(() => {
   cursor: not-allowed;
 }
 
-/* ========== ОБЛАСТЬ ВОПРОСОВ ========== */
+.btn-create-exam {
+  padding: 0.6rem 1.2rem;
+  background: var(--success);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  margin-left: 0.5rem;
+  height: 42px;
+  align-self: center;
+}
+.btn-create-exam:hover {
+  background: #0e9f6e;
+  transform: translateY(-1px);
+}
+
 .questions-area {
   background: white;
   border-radius: 1rem;
@@ -448,7 +623,6 @@ onMounted(() => {
   border-radius: 2rem;
 }
 
-/* ========== СПИСОК ВОПРОСОВ ========== */
 .questions-list {
   display: flex;
   flex-direction: column;
@@ -502,7 +676,6 @@ onMounted(() => {
   color: var(--danger);
 }
 
-/* ========== КНОПКИ ДЕЙСТВИЙ ========== */
 .actions {
   display: flex;
   gap: 1rem;
@@ -546,7 +719,6 @@ onMounted(() => {
   transform: translateY(-1px);
 }
 
-/* ========== РЕЗУЛЬТАТ ========== */
 .result-card {
   margin-top: 1.5rem;
   padding: 1.5rem;
@@ -598,7 +770,6 @@ onMounted(() => {
   background: var(--secondary-dark);
 }
 
-/* ========== РАЗБОР ОШИБОК ========== */
 .mistakes-section {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
@@ -643,7 +814,6 @@ onMounted(() => {
   font-family: inherit;
 }
 
-/* ========== ПУСТОЕ СОСТОЯНИЕ ========== */
 .empty-state {
   text-align: center;
   padding: 3rem;
@@ -663,7 +833,156 @@ onMounted(() => {
   color: var(--gray-500);
 }
 
-/* ========== ТЁМНАЯ ТЕМА ========== */
+/* ========== МОДАЛКА ========== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.modal-large {
+  max-width: 700px;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--secondary);
+}
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--gray-500);
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+.form-input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+}
+.part2-options {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.custom-checkbox:hover {
+  background: var(--gray-100);
+}
+.custom-checkbox.checked {
+  background: rgba(230, 126, 34, 0.15);
+  border-left: 3px solid var(--primary);
+}
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkmark {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 2px solid var(--gray-400);
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.custom-checkbox input:checked ~ .checkmark {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.checkbox-label {
+  color: var(--gray-700);
+  font-size: 0.9rem;
+}
+.custom-select-wrapper {
+  width: 100%;
+}
+/* Убираем полосу прокрутки у кастомного селектора, если она есть */
+.custom-select-wrapper :deep(.select-dropdown) {
+  overflow-y: hidden !important;
+  max-height: none !important;
+}
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+.btn-primary, .btn-secondary {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+.btn-secondary {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  color: var(--gray-700);
+}
+
 body.dark-theme .topic-selector,
 body.dark-theme .questions-area,
 body.dark-theme .empty-state {
@@ -686,49 +1005,27 @@ body.dark-theme .your-answer {
 body.dark-theme .correct-answer {
   background: rgba(16, 185, 129, 0.2);
 }
-body.dark-theme .practice-view .question-container .question-text,
-body.dark-theme .practice-view .question-container .option-text,
-body.dark-theme .practice-view .question-container .match-left-item,
-body.dark-theme .practice-view .question-container .match-right-item span,
-body.dark-theme .practice-view .question-container .short-input,
-body.dark-theme .practice-view .question-container .essay-textarea,
-body.dark-theme .practice-view .question-container .custom-checkbox .option-text,
-body.dark-theme .practice-view .question-container .custom-radio .option-text {
-  color: #ffffff !important;
+body.dark-theme .modal-content {
+  background: var(--gray-800);
+  border: 1px solid var(--gray-700);
 }
-body.dark-theme .practice-view .question-container .short-input,
-body.dark-theme .practice-view .question-container .essay-textarea {
+body.dark-theme .form-group label,
+body.dark-theme .checkbox-label {
+  color: var(--gray-300);
+}
+body.dark-theme .form-input {
   background: var(--gray-700);
   border-color: var(--gray-600);
-}
-body.dark-theme .practice-view .topic-selector {
-  background: var(--gray-800);
-  border-color: var(--gray-700);
-}
-body.dark-theme .practice-view .filter-group label {
-  color: var(--gray-400);
-}
-body.dark-theme .practice-view .questions-header h2 {
-  color: var(--primary) !important;
-}
-body.dark-theme .practice-view .btn-check,
-body.dark-theme .practice-view .btn-regenerate {
-  background: var(--primary);
   color: white;
 }
-body.dark-theme .practice-view .btn-clear {
-  background: none;
-  border: 1px solid var(--danger);
-  color: var(--danger);
+body.dark-theme .custom-checkbox:hover {
+  background: var(--gray-700);
 }
-body.dark-theme .practice-view .btn-clear:hover {
-  background: rgba(239, 68, 68, 0.2);
+body.dark-theme .checkmark {
+  background: var(--gray-700);
+  border-color: var(--gray-500);
 }
-.q-type {
-  font-size: 0.7rem;
-  background: var(--gray-200);
-  padding: 0.2rem 0.6rem;
-  border-radius: 1rem;
-  color: var(--primary);
+body.dark-theme .custom-checkbox.checked {
+  background: rgba(230, 126, 34, 0.2);
 }
 </style>

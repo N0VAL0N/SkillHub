@@ -64,7 +64,7 @@
         </div>
       </div>
 
-      <!-- ИГРОВАЯ СТАТИСТИКА -->
+      <!-- ИГРОВАЯ СТАТИСТИКА: Крокодил -->
       <div class="game-stats-section" v-if="gameStats.crocodile">
         <h2>🎮 Статистика игры «Крокодил»</h2>
         <div class="game-stats-grid">
@@ -73,6 +73,37 @@
           <div class="game-stat-card">📊 Всего попыток: {{ gameStats.crocodile.total || 0 }}</div>
           <div class="game-stat-card">⏱️ Среднее время: {{ gameStats.crocodile.avgTime || 0 }} сек</div>
           <div class="game-stat-card">⚙️ Сложность: {{ gameStats.crocodile.difficulty || 'средняя' }}</div>
+        </div>
+      </div>
+      <!-- ИГРОВАЯ СТАТИСТИКА: Мемори (по уровням) -->
+      <div class="game-stats-section" v-if="gameStats.memory">
+        <h2>🧠 Статистика игры «Мемори»</h2>
+        
+        <div v-if="gameStats.memory.easy" class="difficulty-stats">
+          <h3>🟢 Лёгкий уровень (4x2)</h3>
+          <div class="game-stats-grid">
+            <div class="game-stat-card">🎮 Сыграно: {{ gameStats.memory.easy.gamesPlayed || 0 }}</div>
+            <div class="game-stat-card">🏆 Лучшее: {{ gameStats.memory.easy.bestAttempts || 0 }} попыток</div>
+            <div class="game-stat-card">⏱️ Лучшее время: {{ formatTime(gameStats.memory.easy.bestTime) }}</div>
+          </div>
+        </div>
+        
+        <div v-if="gameStats.memory.medium" class="difficulty-stats">
+          <h3>🟠 Средний уровень (4x4)</h3>
+          <div class="game-stats-grid">
+            <div class="game-stat-card">🎮 Сыграно: {{ gameStats.memory.medium.gamesPlayed || 0 }}</div>
+            <div class="game-stat-card">🏆 Лучшее: {{ gameStats.memory.medium.bestAttempts || 0 }} попыток</div>
+            <div class="game-stat-card">⏱️ Лучшее время: {{ formatTime(gameStats.memory.medium.bestTime) }}</div>
+          </div>
+        </div>
+        
+        <div v-if="gameStats.memory.hard" class="difficulty-stats">
+          <h3>🔴 Сложный уровень (4x6)</h3>
+          <div class="game-stats-grid">
+            <div class="game-stat-card">🎮 Сыграно: {{ gameStats.memory.hard.gamesPlayed || 0 }}</div>
+            <div class="game-stat-card">🏆 Лучшее: {{ gameStats.memory.hard.bestAttempts || 0 }} попыток</div>
+            <div class="game-stat-card">⏱️ Лучшее время: {{ formatTime(gameStats.memory.hard.bestTime) }}</div>
+          </div>
         </div>
       </div>
 
@@ -100,7 +131,7 @@
 import { ref, onMounted } from 'vue';
 import { auth, db } from '@core/services/firebase';
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
-import StudentLayout from '@core/layouts/StudentLayout.vue'
+import StudentLayout from '@core/layouts/StudentLayout.vue';
 import { Chart, registerables } from 'chart.js';
 import { getCachedData, setCachedData } from '@core/services/storage';
 
@@ -116,6 +147,13 @@ const gameStats = ref({});
 
 const chartCanvas = ref(null);
 let chart = null;
+
+const formatTime = (seconds) => {
+  if (!seconds) return '0:00';
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
 
 const getBarColor = (score) => {
   if (score >= 80) return 'var(--success)';
@@ -143,12 +181,54 @@ const loadStats = async () => {
       egePrediction.value = prediction;
     }
     
-    // Статистика по темам (упрощённо)
+    // Статистика по темам
     const topicScores = new Map();
     const topicNames = {
       '1.1': 'Биосоциальная сущность человека',
+      '1.2': 'Мировоззрение',
+      '1.3': 'Истина и её критерии',
+      '1.4': 'Наука',
+      '1.5': 'Религия',
+      '1.6': 'Искусство',
+      '1.7': 'Мораль',
+      '1.8': 'Общество и природа',
       '2.1': 'Экономика как наука',
-      // ... остальные можно оставить как есть или загружать из topics.json
+      '2.2': 'Экономические системы',
+      '2.3': 'Рынок',
+      '2.4': 'Спрос и предложение',
+      '2.5': 'Фирма',
+      '2.6': 'Издержки',
+      '2.7': 'Деньги и банки',
+      '2.8': 'Инфляция',
+      '2.9': 'Рынок труда',
+      '2.10': 'Экономический рост',
+      '3.1': 'Социальная стратификация',
+      '3.2': 'Социальная мобильность',
+      '3.3': 'Социальные группы',
+      '3.4': 'Социальные нормы',
+      '3.5': 'Семья и брак',
+      '3.6': 'Конфликт',
+      '4.1': 'Политическая система',
+      '4.2': 'Государство',
+      '4.3': 'Форма государства',
+      '4.4': 'Политические режимы',
+      '4.5': 'Демократия',
+      '4.6': 'Гражданское общество',
+      '4.7': 'Выборы',
+      '4.8': 'Политические партии',
+      '4.9': 'Политическая элита',
+      '4.10': 'Политическое лидерство',
+      '5.1': 'Право в системе норм',
+      '5.2': 'Конституция РФ',
+      '5.3': 'Права и свободы',
+      '5.4': 'Гражданство РФ',
+      '5.5': 'Органы власти',
+      '5.6': 'Правоохранительные органы',
+      '5.7': 'Гражданское право',
+      '5.8': 'Семейное право',
+      '5.9': 'Трудовое право',
+      '5.10': 'Уголовное право',
+      '5.11': 'Административное право'
     };
     
     gradedSubmissions.forEach(sub => {
@@ -488,6 +568,25 @@ body.dark-theme .recommendations h2 {
 body.dark-theme .rec-content p,
 body.dark-theme .topic-score,
 body.dark-theme .stat-info p {
+  color: var(--gray-400);
+}
+.difficulty-stats {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+.difficulty-stats h3 {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: var(--gray-600);
+}
+
+body.dark-theme .difficulty-stats {
+  border-top-color: var(--gray-700);
+}
+
+body.dark-theme .difficulty-stats h3 {
   color: var(--gray-400);
 }
 </style>

@@ -148,6 +148,11 @@
                   <span class="slider"></span>
                 </label>
               </label>
+              <div class="reminder-time" v-if="notifications.reminders">
+                <label>Время напоминания:</label>
+                <input type="time" v-model="reminderTime" class="time-input" />
+                <button class="save-reminder-btn" @click="saveReminderTime">Сохранить</button>
+              </div>
             </div>
           </div>
 
@@ -180,7 +185,7 @@
       </div>
     </div>
 
-    <!-- Модалка выбора предметов (только v-model, без @save) -->
+    <!-- Модалка выбора предметов -->
     <Modal 
       :isOpen="showSubjectModal" 
       title="Выберите предметы" 
@@ -239,6 +244,7 @@ import SubjectSelector from '@shared/components/SubjectSelector.vue';
 import { SUBJECTS_LIST, getSubjectById } from '@core/constants/subjects';
 import { useTheme } from '@core/composables/useTheme';
 import { useAppStore } from '@core/stores/appStore';
+import { scheduleDailyReminder, cancelReminder } from '@core/services/notifications';
 
 const router = useRouter();
 const appStore = useAppStore();
@@ -263,6 +269,7 @@ const notifications = ref({
   graded: true,
   reminders: true
 });
+const reminderTime = ref(localStorage.getItem('reminderTime') || '19:00');
 const selectedSubjects = ref([]);
 
 // Модалки
@@ -332,13 +339,12 @@ const openSubjectSelector = () => {
   showSubjectModal.value = true;
 };
 
-// Автоматическое сохранение предметов при изменении (через watch)
+// Автоматическое сохранение предметов при изменении
 let saveTimeout = null;
 watch(selectedSubjects, async (newSubjects) => {
   const user = auth.currentUser;
   if (!user) return;
   
-  // Дебаунс, чтобы не сохранять при каждом клике
   if (saveTimeout) clearTimeout(saveTimeout);
   saveTimeout = setTimeout(async () => {
     try {
@@ -353,6 +359,26 @@ watch(selectedSubjects, async (newSubjects) => {
     }
   }, 500);
 }, { deep: true });
+
+// Уведомления
+watch(() => notifications.value.reminders, async (enabled) => {
+  if (enabled) {
+    await scheduleDailyReminder(reminderTime.value);
+  } else {
+    await cancelReminder();
+  }
+});
+
+const saveReminderTime = async () => {
+  localStorage.setItem('reminderTime', reminderTime.value);
+  if (notifications.value.reminders) {
+    await cancelReminder();
+    await scheduleDailyReminder(reminderTime.value);
+    appStore.showToast(`Напоминания установлены на ${reminderTime.value}`, 'success');
+  } else {
+    appStore.showToast('Включите напоминания в настройках', 'info');
+  }
+};
 
 const changePassword = () => {
   showPasswordModal.value = true;
@@ -418,6 +444,10 @@ onMounted(async () => {
       reminders: data.settings?.notifications?.reminders ?? true
     };
   }
+  
+  // Загружаем сохранённое время напоминания
+  const savedTime = localStorage.getItem('reminderTime');
+  if (savedTime) reminderTime.value = savedTime;
   
   applyFontSize();
 });
@@ -798,6 +828,38 @@ input:checked + .slider:before {
   transform: translateX(20px);
 }
 
+.reminder-time {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.reminder-time label {
+  font-size: 0.75rem;
+  color: var(--gray-600);
+}
+
+.time-input {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.save-reminder-btn {
+  padding: 0.3rem 0.8rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
 .logout-section {
   margin-top: 2rem;
   text-align: center;
@@ -955,5 +1017,15 @@ body.dark-theme .btn-secondary {
 
 body.dark-theme .btn-secondary:hover {
   background: var(--gray-700);
+}
+
+body.dark-theme .reminder-time {
+  border-top-color: var(--gray-600);
+}
+
+body.dark-theme .time-input {
+  background: var(--gray-800);
+  border-color: var(--gray-600);
+  color: white;
 }
 </style>
